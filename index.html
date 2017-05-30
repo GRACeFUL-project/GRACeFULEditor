@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1">
+		<title>GRACeFUL</title>
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<!--Custom CSS -->
+		<link rel="stylesheet" href="css/style.css" type="text/css" />
+		<link rel="icon" href="images/favicon.ico" type="image/x-icon"/>
+		<!-- jQuery -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<!-- Bootstrap JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	</head>
+
+	<body>
+	<main>
+	
+	<nav class="navbar navbar-inverse">
+		    <div class="navbar-header">
+		      <!-- <a class="navbar-brand" href="#"> -->
+		      	<img id="log" class="img-responsive" src="images/logo.svg" alt="Graceful Logo" />
+		      <!-- </a> -->
+		    </div>
+
+		    <!-- Collect the nav links, forms, and other content for toggling -->
+		    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		      <ul class="nav navbar-nav">
+		        <li class="dropdown">
+		          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Create <span class="caret"></span></a>
+		          <ul class="dropdown-menu">
+		            <li><a href="#">Stakeholder List</a></li>
+		            <li><a href="#">Goal Tree</a></li>
+		            <li><a href="#">Causal Loop Diagram</a></li>
+		          </ul>
+		        </li>
+		        <li class="dropdown">
+		          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">File <span class="caret"></span></a>
+		          <ul class="dropdown-menu">
+		            <li><a href="#">Get Library</a></li>
+		            <li><a href="#">Send Model</a></li>
+		            <li><a href="#">Get Solution</a></li>
+		          </ul>
+		        </li>
+		        <li class="dropdown">
+		          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Options<span class="caret"></span></a>
+		          <ul class="dropdown-menu">
+		            <li><a href="#">One</a></li>
+		            <li role="separator" class="divider"></li>
+		            <li><a href="#">Two</a></li>
+		          </ul>
+		        </li>
+		      </ul>    
+		    </div>
+	</nav>
+
+	<div class="container-fluid">	
+		<div id="canvasArea">
+			<div id="library"></div>
+		</div>
+		
+		<aside id="sidebar">
+			<div class="controlsArea">
+			    <div class="panel-group" id="accordion">
+			        <div class="panel panel-default">
+			            <div class="panel-heading">
+			                <h4 class="panel-title">
+			                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Nodes</a>
+			                </h4>
+			            </div>
+			            <div id="collapseOne" class="panel-collapse collapse in">
+			                <div class="panel-body">
+			                    <form>
+								  <div class="form-group">
+								    <label for="formGroupExampleInput">Node name</label>
+								    <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Node name">
+								  </div>
+								  <div class="form-group">
+								    <label for="formGroupExampleInput2">Hover text</label>
+								    <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Hover text">
+								  </div>
+								</form>
+			                </div>
+			            </div>
+			        </div>
+			        <div class="panel panel-default">
+			            <div class="panel-heading">
+			                <h4 class="panel-title">
+			                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Ports</a>
+			                </h4>
+			            </div>
+			            <div id="collapseTwo" class="panel-collapse collapse">
+			                <div class="panel-body">
+			                    <form>
+								  <div class="form-group">
+								    <label for="formGroupExampleInput">Port name</label>
+								    <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Port name">
+								  </div>
+								  <div class="form-group">
+								    <label for="formGroupExampleInput2">Hover text</label>
+								    <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Hover text">
+								  </div>
+								</form>
+			                </div>
+			            </div>
+			        </div>
+			        <div class="panel panel-default">
+			            <div class="panel-heading">
+			                <h4 class="panel-title">
+			                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Settings</a>
+			                </h4>
+			            </div>
+			            <div id="collapseThree" class="panel-collapse collapse">
+			                <div class="panel-body">
+			                    <p style="color:#000;">The additional settings required for better view</p>
+			                </div>
+			            </div>
+			        </div>
+			    </div>
+			</div>
+		</aside>
+	</div>
+	</main>
+	<!-- D3 js-->
+	<script src="https://d3js.org/d3.v3.js" charset="utf-8"></script>
+	<!--Custom JavaScript -->
+	<script src="js/Graph.js"></script>
+	<script src="js/index.js"></script>
+	</body>
+</html>

@@ -1,0 +1,141 @@
+body {
+	background: #ececec;
+	height: 100%;
+	font-size: 14px;
+	font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+	line-height: 1;
+	margin: 0;
+	overflow: hidden;
+	padding: 0;
+	position: fixed;
+	width: 100%;
+}
+
+main {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	position: relative;
+	width: 100%;
+}
+
+.navbar {
+	margin-bottom: 0px;
+	border-radius: 0px;
+	border-width: 0px;
+	border-style: solid;
+	width: 100%;
+}
+
+.container-fluid {
+	position: relative;
+	padding-left: 0px;
+	padding-right: 0px;
+	min-width: 100%;
+	min-height: 100%;
+}
+
+#log {
+	position:relative;
+	max-width: 50%;
+	max-height: 50%;
+	border: none;
+}
+
+#canvasArea {
+	left: 0;
+	bottom: 0;
+	top: 0;
+	position: absolute;
+	margin: 0;
+	padding: 0;
+	width: 80%;
+	height: 100%;
+	overflow: hidden;
+}
+
+#library {
+	top: 0;
+	left: 0;
+	width: 60px;
+	height: 60px;
+	position: absolute;
+	border: 0.5px solid #EEEEEE;
+	border-radius: 5px
+	padding: 1px;
+	overflow: hidden;
+}
+
+.draggable {
+  fill: gray;
+}
+
+#sidebar {
+	top: 0;
+	right: 0;
+	bottom: 0;
+	position: absolute;
+	width: 20%;
+	height: 100%;
+	overflow: auto;
+	color: #fff;
+	background-color: rgb(34, 34, 34);
+	border-style: solid;
+	border-color: rgb(34, 34, 34);
+}
+
+.panel-body {
+	color:#000;
+}
+
+p{ 
+    text-align: center; 
+    overflow: overlay;
+    position: relative;
+}
+
+.conceptG text{
+	pointer-events: none;
+}
+
+marker{
+    fill: #333;
+}
+
+g.conceptG circle{
+    fill: #F6FBFF;
+    stroke: #333;
+    stroke-width: 2px;
+}
+
+g.conceptG:hover circle{
+    fill: rgb(200, 238, 241);
+    cursor: pointer;
+}
+
+g.selected circle{
+    fill: rgb(250, 232, 255);
+}
+g.selected:hover circle{
+    fill: rgb(250, 232, 255);
+}
+
+path.link {
+    fill: none;
+    stroke: #333;
+    stroke-width: 6px;
+    cursor: default;
+}
+
+path.link:hover{
+    stroke: rgb(94, 196, 204);
+    cursor: pointer;
+}
+
+path.link.hidden{
+    stroke-width: 0;
+}
+
+path.link.selected {
+    stroke: rgb(229, 172, 247);
+}
