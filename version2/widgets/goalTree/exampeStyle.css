@@ -13,11 +13,3 @@
     overflow: hidden;
     padding: 0;
 }
-
-#canvasArea svg.exampleC {
-    box-sizing: border-box;
-    margin: 0;
-    background: yellow;
-    overflow: hidden;
-    padding: 0;
-}

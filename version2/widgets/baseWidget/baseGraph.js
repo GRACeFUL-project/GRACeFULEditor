@@ -210,16 +210,20 @@ function BaseGraph(parentWidget) {
     };
 
 
+    this.createNode=function(parent){
+        return new BaseNode(parent);
+    };
+
     this.dblClick=function(){
         // console.log("A Double Click "+d3.event);
         // console.log("BaseGraph does not implement this");
         // console.log("Debugging ");
 
-        var aNode=new BaseNode(that);
-        aNode.sayHello();
+        var aNode=that.createNode(that);
         var grPos=getScreenCoords(d3.event.clientX,d3.event.clientY,that.translation,that.zoomFactor);
         aNode.x=grPos.x;
         aNode.y=grPos.y;
+
 
         that.nodeElementArray.push(aNode);
         that.clearRendering();

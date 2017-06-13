@@ -16,8 +16,8 @@ function BaseNode(graph) {
     this.hoverTextEnabled=true;
     var mouseEntered=false;
     var mouseButtonPressed=false;
-    var nodeElement=undefined;
-    var labelRenderingElement=undefined;
+    this.nodeElement=undefined;
+    this.labelRenderingElement=undefined;
     var fobj=undefined;
     var drX=50;
     var drY=0;
@@ -73,7 +73,7 @@ function BaseNode(graph) {
 
     /** DRAWING FUNCTIONS ------------------------------------------------- **/
     this.drawNode=function(){
-      nodeElement= that.rootNodeLayer.append('circle').attr("r", 50)
+      this.nodeElement= that.rootNodeLayer.append('circle').attr("r", 50)
             .classed("baseRoundNode",true);
 
         // add hover text if you want
@@ -81,7 +81,7 @@ function BaseNode(graph) {
             that.rootNodeLayer.append('title').text(that.hoverText);
 
         // add title
-        labelRenderingElement=  that.rootNodeLayer.append("text")
+        this.labelRenderingElement=  that.rootNodeLayer.append("text")
             .attr("text-anchor","middle")
             .text(that.label)
             .on("click",function(){
@@ -127,13 +127,13 @@ function BaseNode(graph) {
     };
 
     this.mouseDown=function(){
-        nodeElement.style("cursor","move");
-        nodeElement.classed("baseNodeHovered",true);
+        that.nodeElement.style("cursor","move");
+        that.nodeElement.classed("baseNodeHovered",true);
         mouseButtonPressed=true;
     };
 
     this.mouseUp=function(){
-        nodeElement.style("cursor","auto");
+        that.nodeElement.style("cursor","auto");
         mouseButtonPressed=false;
     };
 
@@ -147,7 +147,7 @@ function BaseNode(graph) {
         if (that.mouseEntered()) {
             return;
         }
-        nodeElement.classed("baseNodeHovered",true);
+        that.nodeElement.classed("baseNodeHovered",true);
         var selectedNode = that.rootElement.node(),
             nodeContainer = selectedNode.parentNode;
         nodeContainer.appendChild(selectedNode);
@@ -158,7 +158,7 @@ function BaseNode(graph) {
     this.onMouseOut=function(){
         if (mouseButtonPressed===true)
             return;
-        nodeElement.classed("baseNodeHovered",false);
+        that.nodeElement.classed("baseNodeHovered",false);
         that.mouseEntered(false);
     };
     this.onClicked=function(){
@@ -174,7 +174,7 @@ function BaseNode(graph) {
         if (fobj!=undefined){
             fobj.remove();
         }
-        labelRenderingElement.classed("hidden",true);
+        that.labelRenderingElement.classed("hidden",true);
         fobj= that.rootNodeLayer.append("foreignObject")
             .attr("x","-50")
             // .attr("y","-30")
@@ -210,7 +210,7 @@ function BaseNode(graph) {
             that.setLabelText(this.textContent);
             // remove the object and redraw the node;
             fobj.remove();
-            labelRenderingElement.classed("hidden",false);
+            that.labelRenderingElement.classed("hidden",false);
            // graph.forceRedrawContent();
 
 

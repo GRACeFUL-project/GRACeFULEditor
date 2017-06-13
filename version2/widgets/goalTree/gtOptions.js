@@ -1,4 +1,4 @@
-function BaseControls(parentWidget) {
+function GTControls(parentWidget) {
     // todo: think about a parent widget
     /** variable defs **/
 
@@ -31,7 +31,7 @@ function BaseControls(parentWidget) {
     this.sayHello=function(){
 
         var test=document.createElement("a");
-        test.innerHTML="Hello world from baseContors";
+        test.innerHTML="Hello world from GoalTree";
         that.divDrawThing.appendChild(test);
 
 
@@ -67,4 +67,4 @@ function BaseControls(parentWidget) {
     that.start()
 
 }
-BaseControls.prototype.constructor = BaseControls;
+GTControls.prototype.constructor = GTControls;

@@ -126,6 +126,8 @@ function BaseWidget(parentElement) {
         that.parentElement.widgetActivated(this);
         if (that.graphObject)
             that.graphObject.activateGraph(true);
+
+        console.log("does controls object exist?"+that.controlsObject);
         if (that.controlsObject)
             that.controlsObject.activateControls(true);
 

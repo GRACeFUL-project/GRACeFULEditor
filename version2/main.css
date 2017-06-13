@@ -62,6 +62,10 @@
 
 /*}*/
 
+#placeHolderElement{
+	height: 50px;
+}
+
 .tabHighlight{
 	background:  rgb(221, 221, 221);
 	color: rgb(0, 0, 0);

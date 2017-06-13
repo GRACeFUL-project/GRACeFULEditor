@@ -29,7 +29,8 @@
     };
 
     initializer.getOptionsArea=function(){
-        return d3.select("#controlsArea")
+        console.log("requesting controls Area"+d3.select("#controlsArea"));
+        return d3.select("#sidebar")
     };
 
     initializer.widgetActivated=function(widget){
@@ -104,8 +105,22 @@
             initializer.getOptionsArea() );
         exampleB.forceGraphCssStyle("exampleB");
         exampleB.widgetIsActivated();
+
+
+        var exampleC = new GTWidget(initializer);
+        exampleC.setTabTitle("GoalTree");
+        exampleC.setupGuiElements(initializer.getNavigationObject(),
+            initializer.getTabsObject(),
+            initializer.getCanvasArea(),
+            initializer.getOptionsArea() );
+        exampleC.forceGraphCssStyle("exampleC");
+        //exampleC.widgetIsActivated();
+
+
+
         widgetList.push(example);
         widgetList.push(exampleB);
+        widgetList.push(exampleC);
 
     };
 
