@@ -1,4 +1,4 @@
-function GTControls(parentWidget) {
+function CLDControls(parentWidget) {
     // todo: think about a parent widget
     /** variable defs **/
 
@@ -31,7 +31,7 @@ function GTControls(parentWidget) {
     this.sayHello=function(){
 
         var test=document.createElement("a");
-        test.innerHTML="Control Options for GoalTree";
+        test.innerHTML="Control Options for CLD";
         that.divDrawThing.appendChild(test);
 
 
@@ -67,4 +67,4 @@ function GTControls(parentWidget) {
     that.start()
 
 }
-GTControls.prototype.constructor = GTControls;
+CLDControls.prototype.constructor = CLDControls;

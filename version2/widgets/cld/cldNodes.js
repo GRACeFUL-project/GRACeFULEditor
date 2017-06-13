@@ -1,6 +1,6 @@
 
 
-function GTNode(graph) {
+function CLDNode(graph) {
     // todo: think about a parent widget
     /** variable defs **/
     var that = this;
@@ -10,11 +10,8 @@ function GTNode(graph) {
 
     this.drawNode=function(){
 
-        that.nodeElement= that.rootNodeLayer.append('rect')
-            .attr("x", -25)
-            .attr("y", -10)
-            .attr("width", 80)
-            .attr("height", 50)
+        that.nodeElement= that.rootNodeLayer.append('circle')
+            .attr("r", 40)
             .classed("baseRoundNode",true);
 
         // add hover text if you want
@@ -39,7 +36,7 @@ function GTNode(graph) {
 }
 
 
-GTNode.prototype = Object.create(BaseNode.prototype);
-GTNode.prototype.constructor = GTNode;
+CLDNode.prototype = Object.create(BaseNode.prototype);
+CLDNode.prototype.constructor = CLDNode;
 
 

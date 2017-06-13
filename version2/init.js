@@ -87,24 +87,24 @@
         console.log("CANVALS AREA "+width+"  "+height);
 
         // create an example widget;
-        var example = new ExampleWidget(initializer);
-        example.setTabTitle("Example A");
-        example.setupGuiElements(initializer.getNavigationObject(),
-                                 initializer.getTabsObject(),
-                                 initializer.getCanvasArea(),
-                                 initializer.getOptionsArea() );
+       //  var example = new ExampleWidget(initializer);
+       //  example.setTabTitle("Example A");
+       //  example.setupGuiElements(initializer.getNavigationObject(),
+       //                           initializer.getTabsObject(),
+       //                           initializer.getCanvasArea(),
+       //                           initializer.getOptionsArea() );
 
-        example.forceGraphCssStyle("exampleA");
-       // example.widgetIsActivated();
+       //  example.forceGraphCssStyle("exampleA");
+       // // example.widgetIsActivated();
 
-        var exampleB = new ExampleWidget(initializer);
-        exampleB.setTabTitle("Example B");
-        exampleB.setupGuiElements(initializer.getNavigationObject(),
-            initializer.getTabsObject(),
-            initializer.getCanvasArea(),
-            initializer.getOptionsArea() );
-        exampleB.forceGraphCssStyle("exampleB");
-        exampleB.widgetIsActivated();
+       //  var exampleB = new ExampleWidget(initializer);
+       //  exampleB.setTabTitle("Example B");
+       //  exampleB.setupGuiElements(initializer.getNavigationObject(),
+       //      initializer.getTabsObject(),
+       //      initializer.getCanvasArea(),
+       //      initializer.getOptionsArea() );
+       //  exampleB.forceGraphCssStyle("exampleB");
+       //  exampleB.widgetIsActivated();
 
 
         var exampleC = new GTWidget(initializer);
@@ -114,13 +114,20 @@
             initializer.getCanvasArea(),
             initializer.getOptionsArea() );
         exampleC.forceGraphCssStyle("exampleC");
-        //exampleC.widgetIsActivated();
+        exampleC.widgetIsActivated();
 
+        var exampleD = new CLDWidget(initializer);
+        exampleD.setTabTitle("Causal Loop Diagram");
+        exampleD.setupGuiElements(initializer.getNavigationObject(),
+            initializer.getTabsObject(),
+            initializer.getCanvasArea(),
+            initializer.getOptionsArea() );
+        exampleD.forceGraphCssStyle("exampleD");
 
-
-        widgetList.push(example);
-        widgetList.push(exampleB);
+        // widgetList.push(example);
+        // widgetList.push(exampleB);
         widgetList.push(exampleC);
+        widgetList.push(exampleD);
 
     };
 

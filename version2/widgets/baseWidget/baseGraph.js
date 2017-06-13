@@ -71,7 +71,6 @@ function BaseGraph(parentWidget) {
         // per default hidden
         that.svgElement.classed("hidden",true);
 
-
         // layer generations;
 
         // generate the graph rendering layer
@@ -84,7 +83,6 @@ function BaseGraph(parentWidget) {
         this.draggerLayer = that.graphRenderingSvg.append("g");
         this.pathLayer    = that.graphRenderingSvg.append("g");
         this.nodeLayer    = that.graphRenderingSvg.append("g");
-
 
 
         // add the dragger element
@@ -244,11 +242,10 @@ function BaseGraph(parentWidget) {
     this.clearRendering=function(){
         // clear the graph
         that.graphRenderingSvg.selectAll('*').remove();
+        
         that.draggerLayer=that.graphRenderingSvg.append('g');
         that.pathLayer=that.graphRenderingSvg.append('g');
-        that.nodeLayer=that.graphRenderingSvg.append('g');
-
-
+        that.nodeLayer=that.graphRenderingSvg.append('g');        
 
         this.draggerElement=new BaseDragger(that);
         that.draggerElement.svgRoot(that.draggerLayer);
