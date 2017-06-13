@@ -15,6 +15,12 @@ function BaseWidget(parentElement) {
     this.parentElement=parentElement;
 
 
+    this.getOptionsArea=function(){
+      return parentElement.getOptionsArea();
+
+    };
+
+
     this.setupGuiElements=function(navigation,tabs,canvas,controls){
         console.log("Setting up the widget Gui");
         //tells this widget where to find the dom of the homepage.
@@ -25,8 +31,7 @@ function BaseWidget(parentElement) {
         // setup the visualizations
          that.setupWidget();
          that.setupMyGraphAndControls();
-        //that.setupGraph();
-        //that.setupControls();
+
     };
 
     this.getCanvasArea=function(){
@@ -66,6 +71,11 @@ function BaseWidget(parentElement) {
         // MUST BE OVERWRITTEN BU THE WIDGET
     };
 
+
+    this.setupControls=function(){
+        console.log("Base class does not implement this");
+
+    };
 
 
     this.setClassName = function (uniqueClassName) {

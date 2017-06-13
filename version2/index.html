@@ -5,6 +5,11 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1">
     <title>GRACeFUL</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
+    <!--Custom CSS -->
+    <link rel="stylesheet" href="css/style.css" type="text/css" />
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon"/>
     <link rel="stylesheet" type="text/css" href="main.css"/>
     <script src="lib/jquery-3.2.1.min.js"></script>
 		<!-- Bootstrap JavaScript -->
@@ -13,14 +18,55 @@
 
 <body>
 <main>
-    <nav id="navigationArea">
-        <div id="navBar"> Hello Navigation </div>
+    <!--<nav  id="navigationArea">-->
+        <!--&lt;!&ndash;<div class="navbar-header">&ndash;&gt;-->
+             <!--<a class="navbar-brand" href="#">-->
+            <!--<img id="log" class="img-responsive" src="images/logo.svg" alt="Graceful Logo" />-->
+             <!--</a>-->
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--</nav>-->
+
+    <nav class="navbar navbar-inverse" id="tabWidgetNavigation">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+
+
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://www.graceful-project.eu/" target="_blank">
+                <img id="log" class="img-responsive" src="images/logo.svg" alt="Graceful Logo"/>
+            </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul id="tabsMenu" class="nav navbar-nav">
+                <!--<li class="active"><a href="#" id="stakeholder">StakeHolder List</a></li>-->
+                <!--<li><a href="#" id="goals">Goal Tree</a></li>-->
+                <!--<li><a href="#" id="cld">Causal Loop Diagram</a></li>-->
+            </ul>
+        </div>
     </nav>
 
-    <nav ondragstart="return false;" id="tabWidgetNavigation">
-        <ul id="tabsMenu">
-        </ul>
-    </nav>
+    <!--<nav ondragstart="return false;" id="tabWidgetNavigation" class="navbar navbar-invers">-->
+        <!--<div id="logoElement" class="navbar-header">-->
+            <!--<a class="navbar-brand" href="#">-->
+            <!--<img id="log" class="img-responsive" src="images/logo.svg" alt="Graceful Logo" />-->
+            <!--</a>-->
+        <!--</div>-->
+        <!--<ul id="tabsMenu" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">-->
+        <!--</ul>-->
+        <!--<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">-->
+            <!--<ul class="nav navbar-nav">-->
+                <!--<li class="active"><a href="#" id="stakeholder">StakeHolder List</a></li>-->
+                <!--<li><a href="#" id="goals">Goal Tree</a></li>-->
+                <!--<li><a href="#" id="cld">Causal Loop Diagram</a></li>-->
+            <!--</ul>-->
+        <!--</div>-->
+
+    <!--</nav>-->
 
 
     <section id="canvasArea">
@@ -49,6 +95,7 @@
 <script src="widgets/baseWidget/baseNodes.js" charset="utf-8"></script>
 <script src="widgets/baseWidget/baseDragger.js" charset="utf-8"></script>
 <script src="widgets/baseWidget/baseLinks.js" charset="utf-8"></script>
+<script src="widgets/baseWidget/baseOptions.js" charset="utf-8"></script>
 <link rel="stylesheet" type="text/css" href="widgets/baseWidget/baseStyle.css"/>
 
 

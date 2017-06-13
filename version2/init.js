@@ -15,6 +15,11 @@
         return d3.select("#navBar");
     };
 
+    initializer.getLogDiv=function () {
+        return d3.select("#logoElement");
+
+    };
+
     initializer.getTabsObject=function(){
         return d3.select("#tabsMenu");
     };
@@ -40,8 +45,40 @@
         previousSelectedWidget=widget;
     };
 
+    initializer.initTabMenu=function(){
+        // console.log("initalizing the logo");
+        // var tabMenu=initializer.getLogDiv();
+        // var tabWidgetHolder=tabMenu.node();
+        //
+        // var listItem = document.createElement('li');
+        // tabWidgetHolder.appendChild(listItem);
+        //
+        // var linkItem=document.createElement('a');
+        // listItem.appendChild(linkItem);
+        //
+        // linkItem.class="navbar-brand";
+        // listItem.href="#";
+        // var image=document.createElement('image');
+        // linkItem.appendChild(image);
+        //
+        // image.id="log";
+        // image.class="img-responsive";
+        // image.src="images/logo.svg";
+        // image.alt="Graceful Logo";
+
+
+        
+        
+        
+
+
+
+    };
+
 
     initializer.initializeWidgets=function() {
+
+        initializer.initTabMenu();
 
         var width = document.getElementById('canvasArea').getBoundingClientRect().width;
         var height = document.getElementById('canvasArea').getBoundingClientRect().height;

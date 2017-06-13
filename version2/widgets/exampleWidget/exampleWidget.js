@@ -2,10 +2,10 @@
 function ExampleWidget(){
     BaseWidget.apply(this,arguments);
 
-    this.setClassName("ExampleWidget"); // << needs to be unique for all widgets
+    this.setClassName("ExampleWidget");
 
     var that=this;
-    var magic=23;
+
 
 
 
@@ -13,6 +13,9 @@ function ExampleWidget(){
         // required overwritten function
         // since each widget generates its own graph,options, etc
         that.setupGraph();
+
+        // next step
+        that.setupControls();
     };
 
 
@@ -20,7 +23,13 @@ function ExampleWidget(){
       console.log("Setting up my own graph");
       this.graphObject=new ExampleGraph(that);
       that.graphObject.initializeGraph();
+    };
 
+    this.setupControls=function(){
+        console.log("test oA");
+        console.log("oA:"+that.getOptionsArea());
+
+        this.controlsObject=new BaseControls(that);
     };
 
 
