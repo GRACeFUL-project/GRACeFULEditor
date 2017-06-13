@@ -16,5 +16,8 @@ document.onload = (function(d3, saveAs, Blob, undefined){
 	};
 
 	var graph = new GraphCreator(svg);
+	graph.initialize();
+
+	controlWidget(graph);
 
 })(window.d3, window.saveAs, window.Blob);
