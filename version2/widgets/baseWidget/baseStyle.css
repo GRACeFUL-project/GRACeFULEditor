@@ -1,0 +1,36 @@
+.baseRoundNode{
+    fill: #F6FBFF;
+    stroke: #333;
+    stroke-width: 2px;
+}
+
+.baseNodeHovered{
+    fill: #Ff0000;
+    stroke: #000;
+    stroke-width: 2px;
+}
+
+
+.editOverlay{
+
+
+}
+
+
+
+p[contenteditable]:active {
+    border  :none;
+}
+
+p[contenteditable]:focus {
+    background: white;
+
+border : none;
+}
+
+
+.baseDragPath{
+    stroke: #00f;
+    stroke-width: 5px;
+
+}

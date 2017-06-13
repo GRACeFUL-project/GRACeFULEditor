@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1">
+    <title>GRACeFUL</title>
+    <link rel="stylesheet" type="text/css" href="main.css"/>
+    <script src="lib/jquery-3.2.1.min.js"></script>
+		<!-- Bootstrap JavaScript -->
+		<script src="lib/bootstrap.min.js"></script>
+</head>
+
+<body>
+<main>
+    <nav id="navigationArea">
+        <div id="navBar"> Hello Navigation </div>
+    </nav>
+
+    <nav ondragstart="return false;" id="tabWidgetNavigation">
+        <ul id="tabsMenu">
+        </ul>
+    </nav>
+
+
+    <section id="canvasArea">
+    </section>
+
+
+
+    <aside id="controlsArea">
+        <div > Hello Controls </div>
+    </aside>
+
+</main>
+
+<!--Provide all Scripts here -->
+<!--IMPORTANT: ODER IF SCRIPT CALLING IS IMPORTANT-->
+
+<!--Main Scripts -->
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
+<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>-->
+<script src="lib/d3.v3.js" charset="utf-8"></script>
+
+<!--Widget Scripts-->
+<!--CLD WIDGET -->
+<script src="widgets/baseWidget/baseWidget.js" charset="utf-8"></script>
+<script src="widgets/baseWidget/baseGraph.js" charset="utf-8"></script>
+<script src="widgets/baseWidget/baseNodes.js" charset="utf-8"></script>
+<script src="widgets/baseWidget/baseDragger.js" charset="utf-8"></script>
+<script src="widgets/baseWidget/baseLinks.js" charset="utf-8"></script>
+<link rel="stylesheet" type="text/css" href="widgets/baseWidget/baseStyle.css"/>
+
+
+
+<script src="widgets/exampleWidget/exampleWidget.js" charset="utf-8"></script>
+<script src="widgets/exampleWidget/exampleGraph.js" charset="utf-8"></script>
+
+<link rel="stylesheet" type="text/css" href="widgets/exampleWidget/exampeStyle.css"/>
+
+
+<script src="init.js" charset="utf-8"></script>
+
+</body>
