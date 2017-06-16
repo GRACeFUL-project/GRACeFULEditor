@@ -28,15 +28,6 @@ function GTControls(parentWidget) {
         that.generateControls();
     };
 
-    this.sayHello=function(){
-
-        var test=document.createElement("a");
-        test.innerHTML="Control Options for GoalTree";
-        that.divDrawThing.appendChild(test);
-
-
-    };
-
     this.activateControls=function(val){
 
         if (that.divDrawThing===undefined){
@@ -52,6 +43,9 @@ function GTControls(parentWidget) {
 
         // eg
         // that.addButton(divDrawThing,"text",style,onClick,updateLevel)
+        var test=document.createElement("a");
+        test.innerHTML="Control Options for GoalTree";
+        that.divDrawThing.appendChild(test);
 
 
 
@@ -61,7 +55,6 @@ function GTControls(parentWidget) {
     this.start=function(){
         console.log("Calling Start of options -----------------------------------------------------------------------")
         that.initControls();
-        that.sayHello();
     };
 
     that.start()

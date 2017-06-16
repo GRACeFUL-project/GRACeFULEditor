@@ -16,7 +16,7 @@ function BaseGraph(parentWidget) {
     this.maxZoomFactor=3;
 
     this.horizontalOffset=-5;
-    this.verticalOffset=-65;
+    this.verticalOffset=-45;
     this.hasDoubleClickEvent=true;// TODO:  // default has no doublClick Event
 
 
@@ -40,14 +40,14 @@ function BaseGraph(parentWidget) {
     this.updateSvgSize=function(){
         var drawArea=this.parentWidget.getCanvasArea();
         var w = drawArea.node().getBoundingClientRect().width;
-        var h= window.innerHeight + that.verticalOffset;
+        var h= window.innerHeight ;
         console.log("size:"+w+" "+h );
         if (that.svgElement)
             that.svgElement.attr("width", w).attr("height", h);
     };
 
     this.activateGraph=function(val){
-        console.log("A graph wants to be rendered "+ val);
+        // console.log("A graph wants to be rendered "+ val);
         if (val===true)
             this.svgElement.classed("hidden",false);
         else
@@ -59,11 +59,11 @@ function BaseGraph(parentWidget) {
     this.initializeGraph=function(){
         // generatges the svg element and adds this to the drawArea;
         var drawArea=parentWidget.getCanvasArea();
-        console.log("the draw area is "+drawArea);
+        // console.log("the draw area is "+drawArea);
         // todo: figure out why hight is not properly detected
         var w = drawArea.node().getBoundingClientRect().width;
         //var h= drawArea.node().getBoundingClientRect().height;
-        var h= window.innerHeight - 80;
+        var h= window.innerHeight ;
         this.svgElement= parentWidget.getCanvasArea().append("svg")
             .attr("width", w)
             .attr("height", h);
@@ -109,7 +109,7 @@ function BaseGraph(parentWidget) {
     };
 
     this.addMouseEvents=function(){
-        console.log("--------------Adding Mouse events--------------");
+        // console.log("--------------Adding Mouse events--------------");
         this.zoom = d3.behavior.zoom()
             .duration(150)
             .scaleExtent([that.minZoomFactor,that.maxZoomFactor])
@@ -218,7 +218,7 @@ function BaseGraph(parentWidget) {
         // console.log("Debugging ");
 
         var aNode=that.createNode(that);
-        var grPos=getScreenCoords(d3.event.clientX,d3.event.clientY,that.translation,that.zoomFactor);
+        var grPos=getScreenCoords(d3.event.clientX,d3.event.clientY+that.verticalOffset,that.translation,that.zoomFactor);
         aNode.x=grPos.x;
         aNode.y=grPos.y;
 
@@ -226,6 +226,7 @@ function BaseGraph(parentWidget) {
         that.nodeElementArray.push(aNode);
         that.clearRendering();
         that.redrawGraphContent();
+        aNode.editInitialText();
 
 
     };
@@ -346,10 +347,21 @@ function BaseGraph(parentWidget) {
 
 
     function getScreenCoords(x, y, translate, scale){
-        var xn=(x+that.horizontalOffset -translate[0])/scale;
-        var yn=(y+that.verticalOffset  - translate[1])/scale;
+        var xn=(x - translate[0])/scale;
+        var yn=(y - translate[1])/scale;
         return {x: xn, y: yn};
     }
+
+    // node and other element selections
+    this.selectNode=function(node){
+        // tell control widget that this node is selected
+        parentWidget.handleSelection(node);
+    };
+    this.unselectNode=function(node){
+        parentWidget.handleUnSelection(node);
+
+
+    };
 
 }
 

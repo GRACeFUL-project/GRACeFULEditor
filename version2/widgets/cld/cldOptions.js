@@ -1,70 +1,65 @@
 function CLDControls(parentWidget) {
-    // todo: think about a parent widget
-    /** variable defs **/
-
+    BaseControls.apply(this,arguments);
     var that = this;
-    // this.parentWidget=parentWidget; // tells the graph which widget it talks to
     this.parent=parentWidget;
+    var selectionNode,lineEditNode,commentNode;
 
-    this.cArea=undefined;
-    this.divDrawThing=undefined;
-    this.divDrawThingNode=undefined;
-    this.parentWidget=function(){
-        return this.parent;
-    };
-    this.initControls=function(){
-        this.cArea=that.parent.getOptionsArea();
-        this.divDrawThing=document.createElement('div');
-        this.divDrawThing.id=that.parent.getUniqueId()+"Opt";
-        that.cArea.node().appendChild(that.divDrawThing);
-
-        var idStr=that.parent.getUniqueId()+"Opt";
-        this.divDrawThingNode=d3.select("#"+idStr);
-
-
-        that.divDrawThingNode.classed("hidden",true);
-        // crate the place holder <div>
-        // generate own controls
-        that.generateControls();
-    };
-
-    this.sayHello=function(){
-
-        var test=document.createElement("a");
-        test.innerHTML="Control Options for CLD";
-        that.divDrawThing.appendChild(test);
-
-
-    };
-
-    this.activateControls=function(val){
-
-        if (that.divDrawThing===undefined){
-            console.log("nothing to do");
-        }
-
-        that.divDrawThingNode.classed("hidden",!val);
-
-    };
 
     this.generateControls=function(){
-        // add particular control elements
-
-        // eg
-        // that.addButton(divDrawThing,"text",style,onClick,updateLevel)
+        // testing stuff,
+        console.log("hello world");
 
 
+        var accordion= that.createAccordionGroup(that.divControlsGroupNode,"Nodes");
+        selectionNode = that.addSelectionOpts(accordion,"Class type",["Undefined","Factor", "Action", "Criteria"],that.onChangeNodeType);
+        lineEditNode  = that.addLineEdit(accordion,"Node name","",true,that.onChangeNodeName);
+        commentNode   = that.addTextEdit(accordion,"Comments","",true,that.onChangeNodeComment);
 
 
     };
 
-    this.start=function(){
-        console.log("Calling Start of options -----------------------------------------------------------------------")
-        that.initControls();
-        that.sayHello();
+    this.handleNodeSelection=function(node){
+        // should be overwritten by the real options thing
+        this.selectedNode=node;
+        // should be overwritten by the real options thing
+        lineEditNode.node().value=that.selectedNode.label;
+        lineEditNode.node().disabled=false;
+        commentNode.node().disabled=false;
+        commentNode.node().value=that.selectedNode.hoverText;
+
+        var selId=that.selectedNode.getTypeId();
+        console.log("The selectioon id is "+selId);
+
+        selectionNode.node().options[selId].selected="selected";
+
+
     };
 
-    that.start()
+
+    this.handleNodeUnSelection=function(node){
+        // should be overwritten by the real options thing
+
+    };
+
+    this.onChangeNodeType=function(selectionContainer){
+
+        var strUser = selectionContainer.options[selectionContainer.selectedIndex].value;
+        console.log(selectionContainer.selectedIndex+" the user string is "+strUser);
+        that.selectedNode.setType(selectionContainer.selectedIndex);
+
+    };
+    this.onChangeNodeName=function(){
+        that.selectedNode.setLabelText(lineEditNode.node().value);
+    };
+    this.onChangeNodeComment=function(){
+        that.selectedNode.setHoverText(commentNode.node().value);
+    };
+
+
+    this.start();
 
 }
+
+CLDControls.prototype = Object.create(BaseControls.prototype);
 CLDControls.prototype.constructor = CLDControls;
+

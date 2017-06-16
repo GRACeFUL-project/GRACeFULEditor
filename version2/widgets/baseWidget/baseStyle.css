@@ -20,12 +20,14 @@
 
 p[contenteditable]:active {
     border  :none;
+    color : #00ff00;
 }
 
 p[contenteditable]:focus {
     background: white;
+    border : none;
+    color : #2aabd2;
 
-border : none;
 }
 
 
@@ -33,4 +35,24 @@ border : none;
     stroke: #00f;
     stroke-width: 5px;
 
+}
+
+.group-title{
+    /*background: #f00;*/
+    cursor : pointer;
+}
+
+.focused{
+    stroke:#f0f;
+    stroke-width: 2px;
+}
+
+.nodeOptionA{
+    fill: #0f0
+}
+.nodeOptionB{
+    fill: #00f
+}
+.nodeOptionC{
+    fill: #ff0
 }

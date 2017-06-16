@@ -29,7 +29,6 @@
     };
 
     initializer.getOptionsArea=function(){
-        console.log("requesting controls Area"+d3.select("#controlsArea"));
         return d3.select("#sidebar")
     };
 
@@ -46,88 +45,53 @@
         previousSelectedWidget=widget;
     };
 
-    initializer.initTabMenu=function(){
-        // console.log("initalizing the logo");
-        // var tabMenu=initializer.getLogDiv();
-        // var tabWidgetHolder=tabMenu.node();
-        //
-        // var listItem = document.createElement('li');
-        // tabWidgetHolder.appendChild(listItem);
-        //
-        // var linkItem=document.createElement('a');
-        // listItem.appendChild(linkItem);
-        //
-        // linkItem.class="navbar-brand";
-        // listItem.href="#";
-        // var image=document.createElement('image');
-        // linkItem.appendChild(image);
-        //
-        // image.id="log";
-        // image.class="img-responsive";
-        // image.src="images/logo.svg";
-        // image.alt="Graceful Logo";
-
-
-        
-        
-        
-
-
-
-    };
-
-
     initializer.initializeWidgets=function() {
-
-        initializer.initTabMenu();
-
         var width = document.getElementById('canvasArea').getBoundingClientRect().width;
         var height = document.getElementById('canvasArea').getBoundingClientRect().height;
 
-        console.log("CANVALS AREA "+width+"  "+height);
+        // console.log("CANVALS AREA "+width+"  "+height);
 
         // create an example widget;
-       //  var example = new ExampleWidget(initializer);
-       //  example.setTabTitle("Example A");
-       //  example.setupGuiElements(initializer.getNavigationObject(),
-       //                           initializer.getTabsObject(),
-       //                           initializer.getCanvasArea(),
-       //                           initializer.getOptionsArea() );
-
-       //  example.forceGraphCssStyle("exampleA");
-       // // example.widgetIsActivated();
-
-       //  var exampleB = new ExampleWidget(initializer);
-       //  exampleB.setTabTitle("Example B");
-       //  exampleB.setupGuiElements(initializer.getNavigationObject(),
-       //      initializer.getTabsObject(),
-       //      initializer.getCanvasArea(),
-       //      initializer.getOptionsArea() );
-       //  exampleB.forceGraphCssStyle("exampleB");
-       //  exampleB.widgetIsActivated();
+        // keep it for debugging purpose.
+         var example = new ExampleWidget(initializer);
+         example.setTabTitle("Example A");
+         example.setupGuiElements(initializer.getNavigationObject(),
+                                  initializer.getTabsObject(),
+                                  initializer.getCanvasArea(),
+                                  initializer.getOptionsArea() );
+         example.forceGraphCssStyle("exampleA");
 
 
-        var exampleC = new GTWidget(initializer);
-        exampleC.setTabTitle("GoalTree");
-        exampleC.setupGuiElements(initializer.getNavigationObject(),
+        // widget generation
+        var gtw= new GTWidget(initializer);
+        gtw.setTabTitle("GoalTree");
+        gtw.setupGuiElements(initializer.getNavigationObject(),
             initializer.getTabsObject(),
             initializer.getCanvasArea(),
             initializer.getOptionsArea() );
-        exampleC.forceGraphCssStyle("exampleC");
-        exampleC.widgetIsActivated();
+        gtw.forceGraphCssStyle("goalTreeGraphStyle");
 
-        var exampleD = new CLDWidget(initializer);
-        exampleD.setTabTitle("Causal Loop Diagram");
-        exampleD.setupGuiElements(initializer.getNavigationObject(),
+
+        var cld= new CLDWidget(initializer);
+        cld.setTabTitle("Causal Loop Diagram");
+        cld.setupGuiElements(initializer.getNavigationObject(),
             initializer.getTabsObject(),
             initializer.getCanvasArea(),
             initializer.getOptionsArea() );
-        exampleD.forceGraphCssStyle("exampleD");
+        cld.forceGraphCssStyle("cldGraphStyle");
 
-        // widgetList.push(example);
-        // widgetList.push(exampleB);
-        widgetList.push(exampleC);
-        widgetList.push(exampleD);
+        // adding to widget list
+        widgetList.push(example);
+        widgetList.push(gtw);
+        widgetList.push(cld);
+
+
+        // set default tab
+        //gtw.widgetIsActivated();
+        //example.widgetIsActivated();
+        cld.widgetIsActivated();
+
+
 
     };
 
@@ -135,10 +99,6 @@
 
     // overwrite the window resize function
     window.onresize = function(){
-        var width = document.getElementById('canvasArea').getBoundingClientRect().width;
-        var height = document.getElementById('canvasArea').getBoundingClientRect().height;
-        console.log("CANVALS AREA "+width+"  "+height);
-
         for (var i=0;i<widgetList.length;i++) {
             if (widgetList[i].updateSvgSize) // check if function is implemented in widget
                 widgetList[i].updateSvgSize();

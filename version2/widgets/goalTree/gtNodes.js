@@ -4,6 +4,8 @@ function GTNode(graph) {
     // todo: think about a parent widget
     /** variable defs **/
     var that = this;
+    this.elementWidth=80;
+    this.elementHeight=50;
    // this.parentWidget=parentWidget; // tells the graph which widget it talks to
     BaseNode.apply(this,arguments);
 
@@ -11,10 +13,10 @@ function GTNode(graph) {
     this.drawNode=function(){
 
         that.nodeElement= that.rootNodeLayer.append('rect')
-            .attr("x", -25)
-            .attr("y", -10)
-            .attr("width", 80)
-            .attr("height", 50)
+            .attr("x", -0.5*that.elementWidth)
+            .attr("y", -0.5*that.elementHeight)
+            .attr("width", that.elementWidth)
+            .attr("height", that.elementHeight)
             .classed("baseRoundNode",true);
 
         // add hover text if you want
@@ -25,16 +27,7 @@ function GTNode(graph) {
         that.labelRenderingElement=  that.rootNodeLayer.append("text")
             .attr("text-anchor","middle")
             .text(that.label)
-            .on("click",function(){
-                console.log("Should pop up edit window");
-                d3.event.stopPropagation();
-                that.executeUserDblClick();
-            })
-            .on("focuslost",function(){
-                console.log("lost focusoO ");
-            })
-
-        ;
+            .style("cursor","default");
     }
 }
 

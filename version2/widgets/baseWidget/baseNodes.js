@@ -14,8 +14,9 @@ function BaseNode(graph) {
     this.rootNodeLayer=undefined;
     this.hoverText="HoverText of Node";
     this.hoverTextEnabled=true;
-    var mouseEntered=false;
-    var mouseButtonPressed=false;
+    this.mouseEntered=false;
+    this.mouseButtonPressed=false;
+    this.editingTextElement=false;
     this.nodeElement=undefined;
     this.labelRenderingElement=undefined;
     var fobj=undefined;
@@ -24,7 +25,9 @@ function BaseNode(graph) {
     var id;
     var type="Node";
     var assosiatedLinks=[];
-
+    var txtNode=undefined;
+    this.elementWidth=100; // 2*radius
+    this.nodeIsFocused=false;
 
     this.addLink=function(aLink){
         assosiatedLinks.push(aLink);
@@ -56,9 +59,15 @@ function BaseNode(graph) {
 
     this.setHoverText=function(val){
         this.hoverText=val;
+        if (that.rootNodeLayer){
+            that.rootNodeLayer.select("title").text(that.hoverText);
+        }
     };
     this.setLabelText=function(val){
         this.label=val;
+        if (this.labelRenderingElement){
+            this.labelRenderingElement.text(that.label);
+        }
     };
     this.enableHoverText=function(){
         this.hoverTextEnabled=true;
@@ -70,6 +79,11 @@ function BaseNode(graph) {
     };
 
 
+    this.setTestClass=function(cssName,value){
+        if (that.nodeElement){
+            that.nodeElement.classed(cssName,value);
+        }
+    };
 
     /** DRAWING FUNCTIONS ------------------------------------------------- **/
     this.drawNode=function(){
@@ -84,17 +98,7 @@ function BaseNode(graph) {
         this.labelRenderingElement=  that.rootNodeLayer.append("text")
             .attr("text-anchor","middle")
             .text(that.label)
-            .on("click",function(){
-                console.log("Should pop up edit window");
-                 d3.event.stopPropagation();
-                 that.executeUserDblClick();
-             })
-            .on("focuslost",function(){
-                console.log("lost focusoO ");
-            })
-
-        ;
-
+            .style("cursor","default");
     };
 
 
@@ -129,22 +133,23 @@ function BaseNode(graph) {
     this.mouseDown=function(){
         that.nodeElement.style("cursor","move");
         that.nodeElement.classed("baseNodeHovered",true);
-        mouseButtonPressed=true;
+        that.mouseButtonPressed=true;
     };
 
     this.mouseUp=function(){
         that.nodeElement.style("cursor","auto");
-        mouseButtonPressed=false;
+        that.mouseButtonPressed=false;
     };
 
 
-    this.mouseEntered=function(p){
-        if (!arguments.length) return mouseEntered;
-        mouseEntered = p;
+    this.mouseEnteredFunc=function(p){
+        if (!arguments.length) return that.mouseEntered;
+        that.mouseEntered = p;
         return this;
     };
     this.onMouseOver=function(){
-        if (that.mouseEntered()) {
+
+        if (that.mouseEnteredFunc() || that.editingTextElement===true) {
             return;
         }
         that.nodeElement.classed("baseNodeHovered",true);
@@ -152,20 +157,39 @@ function BaseNode(graph) {
             nodeContainer = selectedNode.parentNode;
         nodeContainer.appendChild(selectedNode);
 
-        that.mouseEntered(true);
+        that.mouseEnteredFunc(true);
 
     };
     this.onMouseOut=function(){
-        if (mouseButtonPressed===true)
+        if (that.mouseButtonPressed===true)
             return;
         that.nodeElement.classed("baseNodeHovered",false);
-        that.mouseEntered(false);
+        that.mouseEnteredFunc(false);
     };
     this.onClicked=function(){
         console.log("single click");
         graph.createDraggerElement(that);
+
+
         d3.event.stopPropagation();
-        // nodeElement.classed("focused",);
+
+        if (that.nodeIsFocused===false) {
+            that.nodeIsFocused=true;
+            that.nodeElement.classed("focused", true);
+            graph.selectNode(that);
+            console.log("this nice is focused?"+that.nodeIsFocused);
+            return;
+        }
+        if (that.nodeIsFocused===true) {
+            that.nodeIsFocused=false;
+            that.nodeElement.classed("focused", false);
+            graph.unselectNode(that);
+            console.log("this nice is focused?"+that.nodeIsFocused);
+            return;
+        }
+
+
+
     };
     this.executeUserDblClick=function(){
         // TODO: more things related to the positioning of the elements;
@@ -176,27 +200,18 @@ function BaseNode(graph) {
         }
         that.labelRenderingElement.classed("hidden",true);
         fobj= that.rootNodeLayer.append("foreignObject")
-            .attr("x","-50")
+            .attr("x",-0.5*that.elementWidth)
             // .attr("y","-30")
-            .attr("y","-10")
-            .attr("height", 100)
-            .attr("width", 100);
+            .attr("y","-12")
+            .attr("height", 200)
+            .attr("width", that.elementWidth);
         var editText=fobj.append("xhtml:p")
             .attr("id", that.id())
             .attr("align","center")
             .attr("contentEditable", "true")
             .text(that.label);
 
-        var txtNode=editText.node();
-        // var range = document.createRange();
-        // range.selectNodeContents(txtNode);
-        // var sel = window.getSelection();
-        // sel.removeAllRanges();
-        // sel.addRange(range);
-        txtNode.focus();
-        txtNode.click();
-       //.focus();
-        // /fobj.node().click();
+        txtNode=editText.node();
       // add some events that relate to this object
         editText.on("mousedown", function(){d3.event.stopPropagation();})
             .on("keydown", function(){
@@ -211,14 +226,37 @@ function BaseNode(graph) {
             // remove the object and redraw the node;
             fobj.remove();
             that.labelRenderingElement.classed("hidden",false);
-           // graph.forceRedrawContent();
-
+            graph.forceRedrawContent();
+            editText.remove();
+            that.editingTextElement=false;
 
         });
 
 
+        setTimeout(function() {
+            var range;
+            txtNode.focus();
+            if ( document.selection ) {
+                range = document.body.createTextRange();
+                range.moveToElementText( txtNode  );
+                range.select();
+            } else if ( window.getSelection ) {
+                range = document.createRange();
+                range.selectNodeContents( txtNode );
+                window.getSelection().removeAllRanges();
+                window.getSelection().addRange( range );
+                that.editingTextElement=true;
+            }
+        }, 0);
 
     };
+
+    this.editInitialText=function(){
+        if (!txtNode)
+            that.executeUserDblClick();
+
+
+    }
 
 }
 

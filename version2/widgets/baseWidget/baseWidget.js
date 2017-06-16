@@ -22,7 +22,7 @@ function BaseWidget(parentElement) {
 
 
     this.setupGuiElements=function(navigation,tabs,canvas,controls){
-        console.log("Setting up the widget Gui");
+        // console.log("Setting up the widget Gui");
         //tells this widget where to find the dom of the homepage.
         this.navMenu=navigation;
         this.tabMenu=tabs;
@@ -116,7 +116,7 @@ function BaseWidget(parentElement) {
     };
 
     this.widgetIsActivated=function(){
-        console.log(that.tabName+" is activated! ");
+        // console.log(that.tabName+" is activated! ");
         // get the d3 node and add a style
 
         var tabNode=d3.select("#"+that.getUniqueId());
@@ -127,12 +127,26 @@ function BaseWidget(parentElement) {
         if (that.graphObject)
             that.graphObject.activateGraph(true);
 
-        console.log("does controls object exist?"+that.controlsObject);
+        // console.log("does controls object exist?"+that.controlsObject);
         if (that.controlsObject)
             that.controlsObject.activateControls(true);
 
     };
 
+
+    // selection stuff;
+
+    this.handleUnSelection=function(node){
+        console.log("handling unSelection of a node");
+        that.controlsObject.handleNodeUnSelection(node);
+    };
+
+    this.handleSelection=function(node){
+        console.log("handling Selection of a node");
+
+        that.controlsObject.handleNodeSelection(node);
+
+    };
 
     
 /** -------------------------------------------------------------**/

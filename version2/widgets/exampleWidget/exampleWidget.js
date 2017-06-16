@@ -20,22 +20,22 @@ function ExampleWidget(){
 
 
     this.setupGraph=function(){
-      console.log("Setting up my own graph");
+      // console.log("Setting up my own graph");
       this.graphObject=new ExampleGraph(that);
       that.graphObject.initializeGraph();
     };
 
     this.setupControls=function(){
-        console.log("test oA");
-        console.log("oA:"+that.getOptionsArea());
+        // console.log("test oA");
+        // console.log("oA:"+that.getOptionsArea());
 
         this.controlsObject=new BaseControls(that);
     };
 
 
     this.sayHello=function(){
-        console.log("muahaha overwritten base class say hello function!"+this.tempVar);
-        console.log("Unique Identifyer "+this.getUniqueId());
+        // console.log("muahaha overwritten base class say hello function!"+this.tempVar);
+        // console.log("Unique Identifyer "+this.getUniqueId());
 
     }
 }

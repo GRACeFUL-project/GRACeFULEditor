@@ -10,9 +10,9 @@ function ExampleGraph(){
 
         // modify to you needs
         this.specialLayer= this.svgElement.append("g");
-        console.log("a graph has"+this.nodeLayer);
-        console.log("a graph has"+this.pathLayer);
-        console.log("a graph has"+this.specialLayer);
+        // console.log("a graph has"+this.nodeLayer);
+        // console.log("a graph has"+this.pathLayer);
+        // console.log("a graph has"+this.specialLayer);
 
         // setting the extent default(0.1,3)
         that.setZoomExtent(0.5,2);
