@@ -336,14 +336,6 @@ function BaseControls(parentWidget) {
 
     this.handleNodeSelection=function(node){
         // should be overwritten by the real options thing
-        this.selectedNode=node;
-        // should be overwritten by the real options thing
-        lineEditNode.node().value=that.selectedNode.label;
-        lineEditNode.node().disabled=false;
-        commentNode.node().disabled=false;
-        commentNode.node().value=that.selectedNode.hoverText;
-
-
     };
 
 
