@@ -15,7 +15,7 @@ function BaseLink(graph) {
         if (!arguments.length) {
             return id;
         }
-        this.nodeId=index;
+        id=index;
     };
 
     this.source=function(src){
@@ -40,7 +40,7 @@ function BaseLink(graph) {
     this.drawElement=function(){
         console.log("drawing a link ");
         var marker = that.rootElement.append("marker")
-                    .attr("id", "arrow")
+                    .attr("id", "arrow"+id)
                     .attr("markerHeight", 3)
                     .attr("markerWidth", 4)
                     .attr("markerUnits", "strokeWidth")
@@ -58,7 +58,7 @@ function BaseLink(graph) {
              .attr("y1", that.sourceNode.y)
              .attr("x2", that.targetNode.x)
              .attr("y2", that.targetNode.y)
-             .attr('marker-end', 'url(#arrow)');
+             .attr('marker-end', 'url(#arrow'+id+')');
     };
 
     this.updateElement=function(){
