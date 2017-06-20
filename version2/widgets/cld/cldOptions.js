@@ -60,6 +60,10 @@ function CLDControls(parentWidget) {
             linksGroup.expandBody();
 
             // todo overwrite the values;
+            var selId = that.selectedNode.getTypeId();
+            causalSelection.node().options[selId].selected="selected";
+            commentLink .node().disabled = false;
+            commentLink .node().value = that.selectedNode.hoverText;
 
         }
 
@@ -71,6 +75,9 @@ function CLDControls(parentWidget) {
 
     };
     this.onChangeLinkType=function (selectionContainer) {
+        var strUser = selectionContainer.options[selectionContainer.selectedIndex].value;
+        console.log(selectionContainer.selectedIndex+" the user string is "+strUser);
+        that.selectedNode.setCLDTypeString(selectionContainer.selectedIndex);
 
     };
 

@@ -15,14 +15,31 @@ function CLDLink(graph) {
     console.log("Generating a link with id "+that.id());
     var cldType="unknown";
     var cldTypeString="?";
-    var hoverText="Cuasal Relation: ?";
+    that.hoverText="notes";
 
     this.type=function(){
         return cldType;
     };
+    this.setSelectionStatus=function(val){
+        that.elementIsFocused=val;
+        that.pathElement.classed("cldLinkSelected", val);
+    };
+
+
+    this.getTypeId=function() {
+        if (cldTypeString === "?") return 0;
+        if (cldTypeString === "+") return 1;
+        if (cldTypeString === "-") return 2;
+    };
 
     this.setCLDTypeString=function(val){
-        cldTypeString=val;
+        if (val === 0) cldTypeString="?";
+        if (val === 1) cldTypeString="+";
+        if (val === 2) cldTypeString="-";
+
+        // update textRendering element
+        if (textRenderingElement)
+            textRenderingElement.text(cldTypeString);
     };
 
 
@@ -37,7 +54,7 @@ function CLDLink(graph) {
         addTypeString();
         // clds have no arrow tails
         // addArrowTail();
-        that.pathElement.append('title').text("narf");
+        that.pathElement.append('title').text(that.hoverText);
         that.addMouseEvents();
     };
 
@@ -185,22 +202,28 @@ function CLDLink(graph) {
         if (that.mouseEnteredFunc()) {
             return;
         }
-        that.pathElement.classed("cldLinkHovered", true);
+
+        if (that.getSelectionStatus()===true){
+            that.pathElement.classed("cldLinkSelected", true);
+        }else{
+            that.pathElement.classed("cldLinkSelected", false);
+            that.pathElement.classed("cldLinkHovered", true);
+        }
         // var selectedNode = that.rootElement.node(),
         //     nodeContainer = selectedNode.parentNode;
         // nodeContainer.appendChild(selectedNode);
-
         that.mouseEnteredFunc(true);
 
     };
     this.onMouseOut = function () {
         console.log("mouseOut");
+        if (that.elementIsFocused===true){
+            that.pathElement.classed("cldLinkSelected", true);
+        }else{
+            that.pathElement.classed("cldLinkSelected", false);
+        }
         that.pathElement.classed("cldLinkHovered", false);
         that.mouseEnteredFunc(false);
-    };
-    this.onClicked = function () {
-        console.log("link click");
-        graph.handleLinkSelection(that);
     };
 
 }

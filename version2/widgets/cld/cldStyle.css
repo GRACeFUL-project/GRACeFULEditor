@@ -29,3 +29,8 @@
      stroke: #000;
      stroke-width: 1;
  }
+
+.cldLinkSelected{
+    stroke: #0f0;
+    stroke-width: 4px;
+}

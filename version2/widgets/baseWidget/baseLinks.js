@@ -11,6 +11,17 @@ function BaseLink(graph) {
     this.pathElement = undefined;
     var id = linkId++;
     this.elementType="LinkElement";
+    this.hoverText="";
+    this.elementIsFocused=false;
+
+    this.getSelectionStatus=function(){
+        return that.elementIsFocused;
+    };
+    this.setSelectionStatus=function(val){
+        that.elementIsFocused=val;
+        that.pathElement.classed("LinkFocused", val);
+    };
+
 
     /** BASE HANDLING FUNCTIONS ------------------------------------------------- **/
     this.id = function (index) {
@@ -105,7 +116,20 @@ function BaseLink(graph) {
     };
     this.onClicked = function () {
         console.log("link click");
-        graph.handleLinkSelection(that);
+        if (that.elementIsFocused===false) {
+            that.elementIsFocused=true;
+            that.pathElement.classed("LinkFocused", true);
+            graph.handleLinkSelection(that);
+            return;
+        }
+        if (that.elementIsFocused===true) {
+            that.elementIsFocused=false;
+            that.pathElement.classed("LinkFocused", false);
+            graph.handleLinkSelection(undefined);
+        }
+
+        that.mouseEnteredFunc(false);
+        that.onMouseOver();
     };
 }
 

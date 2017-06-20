@@ -363,10 +363,26 @@ function BaseGraph(parentWidget) {
         return {x: xn, y: yn};
     }
 
+
+    this.deselectLastNode=function(){
+        if (that.prevSelectedNode!=undefined){
+            that.prevSelectedNode.setSelectionStatus(false);
+            parentWidget.handleSelection(undefined);
+            that.prevSelectedNode=undefined;
+        }
+    };
+    this.deselectLastLink=function(){
+        if (that.prevSelectedLink!=undefined){
+            that.prevSelectedLink.setSelectionStatus(false);
+            parentWidget.handleSelection(undefined);
+            that.prevSelectedLink=undefined;
+        }
+    };
+
     // node and other element selections
     this.selectNode=function(node){
         // graph handles node selection
-
+        that.deselectLastLink();
         console.log("handling selection stuff");
         if (node===undefined){
             console.log("branch1");
@@ -401,9 +417,11 @@ function BaseGraph(parentWidget) {
     };
 
     that.handleLinkSelection=function(link){
+        // deselect the selected node
+        that.deselectLastNode();
         console.log("handling selection stuff");
         if (link===undefined){
-            that.prevSelectedLink=undefined;
+            that.prevSelectcedLink=undefined;
             parentWidget.handleSelection(undefined);
             return;
         }
