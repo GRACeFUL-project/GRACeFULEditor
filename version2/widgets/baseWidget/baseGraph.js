@@ -15,6 +15,10 @@ function BaseGraph(parentWidget) {
     this.minZoomFactor=0.1;
     this.maxZoomFactor=3;
 
+
+    this.prevSelectedNode=undefined;
+    this.prevSelectedLink=undefined;
+
     this.horizontalOffset=-5;
     this.verticalOffset=-45;
     this.hasDoubleClickEvent=true;// TODO:  // default has no doublClick Event
@@ -163,7 +167,7 @@ function BaseGraph(parentWidget) {
                     if (targetNode) {
                         // console.log("Target node name" + targetNode.label);
                         // create a link between these;
-                        var aLink=new BaseLink(that);
+                        var aLink=that.createLink(that);
                         aLink.source(d.parentNode());
                         aLink.target(targetNode);
                         that.pathElementArray.push(aLink);
@@ -212,6 +216,13 @@ function BaseGraph(parentWidget) {
         return new BaseNode(parent);
     };
 
+
+    this.createLink=function(parent){
+        return new BaseLink(parent);
+    };
+
+
+
     this.dblClick=function(){
         // console.log("A Double Click "+d3.event);
         // console.log("BaseGraph does not implement this");
@@ -246,7 +257,7 @@ function BaseGraph(parentWidget) {
         
         that.draggerLayer=that.graphRenderingSvg.append('g');
         that.pathLayer=that.graphRenderingSvg.append('g');
-        that.nodeLayer=that.graphRenderingSvg.append('g');        
+        that.nodeLayer=that.graphRenderingSvg.append('g');
 
         this.draggerElement=new BaseDragger(that);
         that.draggerElement.svgRoot(that.draggerLayer);
@@ -354,14 +365,72 @@ function BaseGraph(parentWidget) {
 
     // node and other element selections
     this.selectNode=function(node){
+        // graph handles node selection
+
+        console.log("handling selection stuff");
+        if (node===undefined){
+            console.log("branch1");
+            that.prevSelectedNode=undefined;
+            parentWidget.handleSelection(undefined);
+            return;
+        }
         // tell control widget that this node is selected
+        if (that.prevSelectedNode===undefined){
+            console.log("branch2");
+            parentWidget.handleSelection(node);
+            that.prevSelectedNode=node;
+            return;
+        }
+
+        if (that.prevSelectedNode===node){
+            console.log("branch3.1");
+            // do an deselect
+            parentWidget.handleSelection(undefined);
+            that.prevSelectedNode=undefined;
+        }
+        else{
+            console.log("branch3.2");
+            that.prevSelectedNode.setSelectionStatus(false);
+            that.prevSelectedNode=node;
+            parentWidget.handleSelection(node);
+        }
+
+
+        // get current node status
         parentWidget.handleSelection(node);
     };
-    this.unselectNode=function(node){
-        parentWidget.handleUnSelection(node);
 
+    that.handleLinkSelection=function(link){
+        console.log("handling selection stuff");
+        if (link===undefined){
+            that.prevSelectedLink=undefined;
+            parentWidget.handleSelection(undefined);
+            return;
+        }
+        // tell control widget that this node is selected
+        if (that.prevSelectedLink===undefined){
+            console.log("branch2");
+            parentWidget.handleSelection(link);
+            that.prevSelectedLink=link;
+            return;
+        }
 
-    };
+        if (that.prevSelectedLink===link){
+            console.log("branch3.1");
+            // do an deselect
+            parentWidget.handleSelection(undefined);
+            that.prevSelectedLink=undefined;
+        }
+        else{
+            console.log("branch3.2");
+            that.prevSelectedLink.setSelectionStatus(false);
+            that.prevSelectedLink=link;
+            parentWidget.handleSelection(link);
+        }
+        parentWidget.handleSelection(link);
+
+    }
+
 
 }
 

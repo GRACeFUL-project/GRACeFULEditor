@@ -4,6 +4,7 @@ function CLDNode(graph) {
     // todo: think about a parent widget
     /** variable defs **/
     var that = this;
+    var defaultRadius=40;
    // this.parentWidget=parentWidget; // tells the graph which widget it talks to
     BaseNode.apply(this,arguments);
     var nodeClass="baseRoundNode";
@@ -16,7 +17,7 @@ function CLDNode(graph) {
     this.drawNode=function(){
 
         that.nodeElement= that.rootNodeLayer.append('circle')
-            .attr("r", 40)
+            .attr("r", that.getRadius())
             .classed("baseRoundNode",true)
             .classed(nodeClass,true);
 
@@ -31,7 +32,13 @@ function CLDNode(graph) {
             .style("cursor","default");
     };
 
-
+    // cldNodes are round so they have a radius
+    this.getRadius=function(){
+        return defaultRadius;
+    };
+    this.setRadius=function(val){
+        defaultRadius=val;
+    };
 
     this.onMouseOver=function(){
 

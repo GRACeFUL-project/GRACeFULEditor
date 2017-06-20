@@ -31,7 +31,11 @@ function BaseDragger(graph) {
 
     this.setParentNode=function(parentNode){
         this.parent=parentNode;
-        this.x=that.parent.x+50;
+        if (that.parent.getRadius && that.parent.getRadius()){
+            this.x=that.parent.x+10+that.parent.getRadius();
+        }else {
+            this.x = that.parent.x + 50;
+        }
         this.y=that.parent.y;
         this.updateElement();
     };

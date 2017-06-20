@@ -43,8 +43,14 @@ p[contenteditable]:focus {
 }
 
 .focused{
-    stroke:#f0f;
+    stroke:#f00;
     stroke-width: 2px;
+}
+
+.baseHoveredPath{
+    stroke:#f00;
+    stroke-width: 5px;
+
 }
 
 .nodeOptionA{

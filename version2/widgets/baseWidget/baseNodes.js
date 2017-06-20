@@ -7,6 +7,7 @@ function BaseNode(graph) {
    // this.parentWidget=parentWidget; // tells the graph which widget it talks to
 
     this.nodeId = nodeId++;
+    this.elementType="NodeElement";
     this.label = "empty";
     this.x = 0;
     this.y = 0;
@@ -29,6 +30,10 @@ function BaseNode(graph) {
     this.elementWidth=100; // 2*radius
     this.nodeIsFocused=false;
 
+    this.getElementType=function(){
+        return that.elementType;
+    };
+
     this.addLink=function(aLink){
         assosiatedLinks.push(aLink);
         console.log("adding a link to "+that.id());
@@ -38,6 +43,14 @@ function BaseNode(graph) {
         return type;
     };
 
+
+    this.getSelectionStatus=function(){
+        return that.nodeIsFocused;
+    };
+    this.setSelectionStatus=function(val){
+        that.nodeIsFocused=val;
+        that.nodeElement.classed("focused", val);
+    };
 
 /** BASE HANDLING FUNCTIONS ------------------------------------------------- **/
     this.id=function(index) {
@@ -177,15 +190,13 @@ function BaseNode(graph) {
             that.nodeIsFocused=true;
             that.nodeElement.classed("focused", true);
             graph.selectNode(that);
-            console.log("this nice is focused?"+that.nodeIsFocused);
+            console.log("this node is focused?"+that.nodeIsFocused);
             return;
         }
         if (that.nodeIsFocused===true) {
             that.nodeIsFocused=false;
             that.nodeElement.classed("focused", false);
-            graph.unselectNode(that);
-            console.log("this nice is focused?"+that.nodeIsFocused);
-            return;
+            graph.selectNode(undefined);
         }
 
 
@@ -229,6 +240,7 @@ function BaseNode(graph) {
             graph.forceRedrawContent();
             editText.remove();
             that.editingTextElement=false;
+            graph.selectNode(that);
 
         });
 

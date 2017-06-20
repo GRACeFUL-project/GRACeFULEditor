@@ -5,3 +5,27 @@
     overflow: hidden;
     padding: 0;
 }
+
+
+.cldLink{
+    stroke: #69c;
+    stroke-width: 4px;
+
+}
+
+.cldLinkHovered{
+    stroke: #f00;
+    stroke-width: 4px;
+
+}
+
+.cldArrowTailStyle{
+    fill: #fff;
+    stroke: #000;
+    stroke-width: 1;
+}
+.cldArrowHeadStyle{
+    fill: #fff;
+     stroke: #000;
+     stroke-width: 1;
+ }
