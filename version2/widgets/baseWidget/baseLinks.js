@@ -58,6 +58,13 @@ function BaseLink(graph) {
         that.rootElement = root;
     };
 
+    this.setHoverText=function(val){
+        this.hoverText=val;
+        if (that.rootElement){
+            that.rootElement.select("title").text(that.hoverText);
+        }
+    };
+
     this.drawElement = function () {
         that.pathElement = that.rootElement.append('line')
             .classed("baseDragPath", true);

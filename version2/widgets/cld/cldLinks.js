@@ -15,7 +15,7 @@ function CLDLink(graph) {
     console.log("Generating a link with id "+that.id());
     var cldType="unknown";
     var cldTypeString="?";
-    that.hoverText="notes";
+    that.hoverText="";
 
     this.type=function(){
         return cldType;

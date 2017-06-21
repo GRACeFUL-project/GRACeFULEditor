@@ -148,6 +148,14 @@ function BaseWidget(parentElement) {
 
     };
 
+    this.nodeDeletion = function(node) {
+        that.graphObject.handleNodeDeletion(node);
+    };
+
+    this.linkDeletion = function(link) {
+        that.graphObject.handleLinkDeletion(link);
+    };
+
     
 /** -------------------------------------------------------------**/
 }// end of baseWidget def

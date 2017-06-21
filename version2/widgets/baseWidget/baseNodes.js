@@ -13,7 +13,7 @@ function BaseNode(graph) {
     this.y = 0;
     this.rootElement=undefined;
     this.rootNodeLayer=undefined;
-    this.hoverText="HoverText of Node";
+    this.hoverText="";
     this.hoverTextEnabled=true;
     this.mouseEntered=false;
     this.mouseButtonPressed=false;

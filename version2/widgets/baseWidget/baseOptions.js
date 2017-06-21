@@ -145,6 +145,7 @@ function BaseControls(parentWidget) {
         thisDiv.appendChild(textEdit);
         var textEditNode=d3.select(textEdit);
         textEditNode.classed("form-control",true);
+        textEdit.placeholder = "notes";
         textEdit.disabled=!enabled;
         textEdit.value=defaultText;
         textEditNode.on("change",function(){onChangeFunction();});
@@ -174,6 +175,19 @@ function BaseControls(parentWidget) {
         leNode.on("change",function(){onChangeFunction();});
         return leNode;
     };
+
+    this.addButtons = function(parent, label, btnId, onClickFunction) {
+        var button = document.createElement('button');
+        button.type = "button";
+        button.id = btnId;
+        button.class = "btn btn-default btn-lg";
+        button.innerHTML = label;
+        parent.getBody().node().appendChild(button);
+
+        d3.select(button).on("click", function() {
+            onClickFunction();
+        });
+    }
 
     this.onLineEditChangeFunc=function(){
         console.log("Line edit change");

@@ -416,6 +416,40 @@ function BaseGraph(parentWidget) {
         parentWidget.handleSelection(node);
     };
 
+    this.handleNodeDeletion = function(node) {
+        console.log("node deleting button. Selected node is: "+node.nodeId);
+        that.nodeElementArray.splice(that.nodeElementArray.indexOf(node), 1);
+        //remove links associated with the node
+        var spliceLinks = that.pathElementArray.filter(function(l) {
+            return (l.sourceNode === node || l.targetNode === node);
+        });
+        spliceLinks.map(function(l) {
+            console.log("the index of links are: "+l.id());
+            that.pathElementArray.splice(that.pathElementArray.indexOf(l), 1);
+        });
+        //redraw the graph
+        that.forceRedrawContent();
+        that.removeDeletedElements();
+    };
+
+    this.handleLinkDeletion = function(link) {
+        console.log("link deleting button. Selected link is: "+link.id());
+        that.pathElementArray.splice(that.pathElementArray.indexOf(link), 1);
+        that.forceRedrawContent();
+        that.removeDeletedElements();
+    };
+
+    this.removeDeletedElements = function() {
+        that.nodeLayer.selectAll(".node")
+            .data(that.nodeElementArray)
+            .exit()
+            .remove();
+        that.pathLayer.selectAll(".path")
+            .data(that.pathElementArray)
+            .exit()
+            .remove();
+    }
+
     that.handleLinkSelection=function(link){
         // deselect the selected node
         that.deselectLastNode();

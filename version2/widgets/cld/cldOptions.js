@@ -7,6 +7,7 @@ function CLDControls(parentWidget) {
 
     var selectionNode,lineEditNode,commentNode;
     var causalSelection,commentLink;
+    var delNodeBtn, delLinkBtn;
 
 
     this.generateControls=function() {
@@ -15,11 +16,13 @@ function CLDControls(parentWidget) {
         selectionNode = that.addSelectionOpts(nodesGroup, "Class type", ["Undefined", "Factor", "Action", "Criteria"], that.onChangeNodeType);
         lineEditNode = that.addLineEdit(nodesGroup, "Node name", "", true, that.onChangeNodeName);
         commentNode = that.addTextEdit(nodesGroup, "Comments", "", true, that.onChangeNodeComment);
+        delNodeBtn = that.addButtons(nodesGroup, "Delete", "nodeDelete", that.deleteNodes);
 
 
         linksGroup = that.createAccordionGroup(that.divControlsGroupNode, "Links");
         causalSelection = that.addSelectionOpts(linksGroup, "Causal relation", ["?", "+", "-"], that.onChangeLinkType);
         commentLink = that.addTextEdit(linksGroup, "Comments", "Comment On Link", true, that.onChangeLinkComment);
+        delLinkBtn = that.addButtons(linksGroup, "Delete", "linkDelete", that.deleteLinks);
     };
 
     this.handleNodeSelection=function(node){
@@ -72,7 +75,7 @@ function CLDControls(parentWidget) {
 
 
     this.onChangeLinkComment=function(){
-
+        that.selectedNode.setHoverText(commentLink.node().value);
     };
     this.onChangeLinkType=function (selectionContainer) {
         var strUser = selectionContainer.options[selectionContainer.selectedIndex].value;
@@ -97,7 +100,16 @@ function CLDControls(parentWidget) {
         that.selectedNode.setHoverText(commentNode.node().value);
     };
 
+    this.deleteNodes = function() {
+        that.parent.nodeDeletion(that.selectedNode);
+        that.selectedNode = null;
+    };
 
+    this.deleteLinks = function() {
+        that.parent.linkDeletion(that.selectedNode);
+        that.selectedNode = null;
+    };
+    
     this.start();
 
 }
