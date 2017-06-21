@@ -16,6 +16,14 @@
 
 }
 
+.textStyleForCHeckBox{
+    border  :none;
+    color : #000000;
+    /*margin-top: -20px;*/
+
+    font-weight: 200;
+}
+
 
 
 p[contenteditable]:active {

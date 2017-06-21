@@ -187,7 +187,40 @@ function BaseControls(parentWidget) {
         d3.select(button).on("click", function() {
             onClickFunction();
         });
-    }
+    };
+
+
+    this.addCheckBox= function(parent, label, identifier, defaultValue, onClickFunction) {
+
+        // todo: align the text element with the checkbox element...
+
+        // var div_checkbox=  document.createElement("div");
+        // div_checkbox.id=identifier;
+        // parent.getBody().node().appendChild(div_checkbox);
+        var moduleOptionContainer = parent.getBody()
+            .append("div").classed("form-horizontal",true)
+                .append("div")
+                .classed("checkbox-inline", true);
+
+            var moduleCheckbox = moduleOptionContainer.append("input")
+              //  .classed("moduleCheckbox", true)
+
+                .attr("id", identifier + "ModuleCheckbox")
+                .attr("type", "checkbox")
+                .property("checked", defaultValue);
+
+            moduleCheckbox.on("click", function () {
+                var isEnabled = moduleCheckbox.property("checked");
+                onClickFunction(isEnabled);
+            });
+            moduleOptionContainer.append("label")
+                .attr("for", identifier + "ModuleCheckbox")
+                .classed("textStyleForCHeckBox",true)
+                .text(label);
+
+    };
+
+
 
     this.onLineEditChangeFunc=function(){
         console.log("Line edit change");
@@ -286,7 +319,7 @@ function BaseControls(parentWidget) {
             // create element for header and body
             var age = document.createElement('div');
             group.ageNode=d3.select(age);
-            pDOM.append(age);
+            pDOM.appendChild(age);
 
             // create header space
             var heading=document.createElement('div');
