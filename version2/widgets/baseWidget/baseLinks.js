@@ -84,6 +84,9 @@ function BaseLink(graph) {
                 .attr("x2", that.targetNode.x)
                 .attr("y2", that.targetNode.y);
         }
+        else{
+          console.log("link exists but not drawn");
+        }
 
     };
 

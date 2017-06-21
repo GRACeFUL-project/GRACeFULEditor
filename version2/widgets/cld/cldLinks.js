@@ -51,6 +51,7 @@ function CLDLink(graph) {
     this.drawElement=function(){
         that.pathElement = that.rootElement.append('line').classed("cldLink",true);
         addArrowHead();
+        // addArrowTail();
         addTypeString();
         // clds have no arrow tails
         // addArrowTail();

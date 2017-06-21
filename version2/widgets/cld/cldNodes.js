@@ -71,7 +71,7 @@ function CLDNode(graph) {
         // apply the classes ;
         if (that.nodeElement){
             for (var i=0;i<allPossibleClasses.length;i++){
-                console.log("dissableling :"+allPossibleClasses[i]);
+                console.log("disabling :"+allPossibleClasses[i]);
                 that.nodeElement.classed(allPossibleClasses[i],false);
             }
             console.log("Setting final class :"+nodeClass);

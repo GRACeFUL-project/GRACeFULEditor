@@ -58,6 +58,7 @@ function BaseWidget(parentElement) {
                 console.log("Oh oh a tab was clicked");
                 that.widgetIsActivated();
             };
+            widgetTabItem.ondragstart=function(){return false;}; // remove drag operations of tabs items
             listItem.appendChild(widgetTabItem);
             tabWidgetHolder.appendChild(listItem);
             var tabNode = d3.select("#" + that.getUniqueId());
@@ -135,15 +136,8 @@ function BaseWidget(parentElement) {
 
 
     // selection stuff;
-
-    this.handleUnSelection=function(node){
-        console.log("handling unSelection of a node");
-        that.controlsObject.handleNodeUnSelection(node);
-    };
-
     this.handleSelection=function(node){
-        console.log("handling Selection of a node");
-
+        // console.log("handling Selection of a node");
         that.controlsObject.handleNodeSelection(node);
 
     };

@@ -97,6 +97,7 @@
 
     initializer.initializeWidgets();
 
+
     // overwrite the window resize function
     window.onresize = function(){
         for (var i=0;i<widgetList.length;i++) {

@@ -33,6 +33,7 @@ function BaseGraph(parentWidget) {
     this.draggerElement=undefined;
     this.draggingObject=false;
 
+
     this.setZoomExtent=function(min,max){
       this.minZoomFactor=min;
       this.maxZoomFactor=max;
@@ -59,6 +60,12 @@ function BaseGraph(parentWidget) {
     };
 
 
+    this.simulateClickOnGraph=function(){
+        console.log("simulating click");
+      // todo : fix the operation when we are in an edit state of a node text, so we cant drag other nodes or
+      // todo : at least their position is than at the proper position
+
+    };
     // needs to be called by the derived graph itself!
     this.initializeGraph=function(){
         // generatges the svg element and adds this to the drawArea;
@@ -112,6 +119,7 @@ function BaseGraph(parentWidget) {
         return that.dragBehaviour;
     };
 
+
     this.addMouseEvents=function(){
         // console.log("--------------Adding Mouse events--------------");
         this.zoom = d3.behavior.zoom()
@@ -133,18 +141,29 @@ function BaseGraph(parentWidget) {
         // add node drag behavior
         this.dragBehaviour = d3.behavior.drag()
             .origin(function (d) {
-              return d;
+
+                console.log("origin"+d.x+"  "+d.y);
+                return d;
+
             })
             .on("dragstart", function (d) {
                 d3.event.sourceEvent.stopPropagation(); // Prevent panning
             })
             .on("drag", function (d) {
+                console.log(" prevented by drag?"+d3.event.sourceEvent.defaultPrevented);
+                var oldX=d.x;
+                var oldY=d.y;
                 d.x=d3.event.x;
                 d.y=d3.event.y;
+                console.log(d3.event);
                 if(d.type()==="Node") {
+
+                    // console.log("OLD:"+oldX+" "+oldY+"  - vs - "+d.x+" "+d.y);
                     d.updateElement();
-                    that.draggerElement.setParentNode(d);
-                    that.draggerElement.updateElement();
+                    if (d.getSelectionStatus()===true) {
+                        that.draggerElement.setParentNode(d);
+                        that.draggerElement.updateElement();
+                    }
                 }
                 if(d.type()==="Dragger") {
                     that.draggingObject=true;
@@ -228,6 +247,9 @@ function BaseGraph(parentWidget) {
         // console.log("BaseGraph does not implement this");
         // console.log("Debugging ");
 
+        that.deselectLastLink();
+        that.deselectLastNode();
+
         var aNode=that.createNode(that);
         var grPos=getScreenCoords(d3.event.clientX,d3.event.clientY+that.verticalOffset,that.translation,that.zoomFactor);
         aNode.x=grPos.x;
@@ -237,6 +259,8 @@ function BaseGraph(parentWidget) {
         that.nodeElementArray.push(aNode);
         that.clearRendering();
         that.redrawGraphContent();
+
+
         aNode.editInitialText();
 
 
@@ -351,9 +375,13 @@ function BaseGraph(parentWidget) {
 
     this.createDraggerElement=function(parentNode){
         // this should be cleared now;
+        console.log("parent node calls createor of drager element");
         this.draggerElement.setParentNode(parentNode);
         this.draggerLayer.classed("hidden",false);
 
+    };
+    this.hideDraggerElement=function(){
+        this.draggerLayer.classed("hidden",true);
     };
 
 
@@ -369,6 +397,7 @@ function BaseGraph(parentWidget) {
             that.prevSelectedNode.setSelectionStatus(false);
             parentWidget.handleSelection(undefined);
             that.prevSelectedNode=undefined;
+
         }
     };
     this.deselectLastLink=function(){
@@ -383,48 +412,42 @@ function BaseGraph(parentWidget) {
     this.selectNode=function(node){
         // graph handles node selection
         that.deselectLastLink();
-        console.log("handling selection stuff");
+        // console.log("handling selection stuff");
         if (node===undefined){
-            console.log("branch1");
+
             that.prevSelectedNode=undefined;
             parentWidget.handleSelection(undefined);
             return;
         }
         // tell control widget that this node is selected
         if (that.prevSelectedNode===undefined){
-            console.log("branch2");
+
             parentWidget.handleSelection(node);
             that.prevSelectedNode=node;
             return;
         }
 
         if (that.prevSelectedNode===node){
-            console.log("branch3.1");
-            // do an deselect
             parentWidget.handleSelection(undefined);
             that.prevSelectedNode=undefined;
         }
         else{
-            console.log("branch3.2");
             that.prevSelectedNode.setSelectionStatus(false);
             that.prevSelectedNode=node;
             parentWidget.handleSelection(node);
         }
 
-
-        // get current node status
-        parentWidget.handleSelection(node);
     };
 
     this.handleNodeDeletion = function(node) {
-        console.log("node deleting button. Selected node is: "+node.nodeId);
+        // console.log("node deleting button. Selected node is: "+node.nodeId);
         that.nodeElementArray.splice(that.nodeElementArray.indexOf(node), 1);
         //remove links associated with the node
         var spliceLinks = that.pathElementArray.filter(function(l) {
             return (l.sourceNode === node || l.targetNode === node);
         });
         spliceLinks.map(function(l) {
-            console.log("the index of links are: "+l.id());
+            // console.log("the index of links are: "+l.id());
             that.pathElementArray.splice(that.pathElementArray.indexOf(l), 1);
         });
         //redraw the graph
@@ -433,7 +456,7 @@ function BaseGraph(parentWidget) {
     };
 
     this.handleLinkDeletion = function(link) {
-        console.log("link deleting button. Selected link is: "+link.id());
+        // console.log("link deleting button. Selected link is: "+link.id());
         that.pathElementArray.splice(that.pathElementArray.indexOf(link), 1);
         that.forceRedrawContent();
         that.removeDeletedElements();
@@ -448,12 +471,12 @@ function BaseGraph(parentWidget) {
             .data(that.pathElementArray)
             .exit()
             .remove();
-    }
+    };
 
     that.handleLinkSelection=function(link){
         // deselect the selected node
         that.deselectLastNode();
-        console.log("handling selection stuff");
+        // console.log("handling selection stuff");
         if (link===undefined){
             that.prevSelectcedLink=undefined;
             parentWidget.handleSelection(undefined);
@@ -461,27 +484,27 @@ function BaseGraph(parentWidget) {
         }
         // tell control widget that this node is selected
         if (that.prevSelectedLink===undefined){
-            console.log("branch2");
+
             parentWidget.handleSelection(link);
             that.prevSelectedLink=link;
             return;
         }
 
         if (that.prevSelectedLink===link){
-            console.log("branch3.1");
+
             // do an deselect
             parentWidget.handleSelection(undefined);
             that.prevSelectedLink=undefined;
         }
         else{
-            console.log("branch3.2");
+
             that.prevSelectedLink.setSelectionStatus(false);
             that.prevSelectedLink=link;
             parentWidget.handleSelection(link);
         }
         parentWidget.handleSelection(link);
 
-    }
+    };
 
 
 }

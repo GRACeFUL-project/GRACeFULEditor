@@ -40,7 +40,7 @@ function CLDControls(parentWidget) {
         if (node.getElementType()==="NodeElement") {
 
             // should be overwritten by the real options thing
-            console.log("controls handle node operation" + node);
+            // console.log("controls handle node operation" + node);
             this.selectedNode = node;
                 nodesGroup.expandBody();
                 linksGroup.collapseBody();

@@ -50,6 +50,8 @@ function BaseNode(graph) {
     this.setSelectionStatus=function(val){
         that.nodeIsFocused=val;
         that.nodeElement.classed("focused", val);
+        if (val===false)
+            graph.hideDraggerElement();
     };
 
 /** BASE HANDLING FUNCTIONS ------------------------------------------------- **/
@@ -119,9 +121,22 @@ function BaseNode(graph) {
         that.rootElement.attr("transform", "translate(" + that.x + "," + that.y + ")");
 
         for (var i=0;i<assosiatedLinks.length;i++){
-            if (assosiatedLinks[i])
+            // if (assosiatedLinks[i])
                 assosiatedLinks[i].updateElement();
         }
+
+    };
+
+
+    this.updateAssisiatedLinks=function(){
+        var remainingLink=[];
+        for (var i=0;i<assosiatedLinks.length;i++){
+            console.log("assosiatedLinks: "+assosiatedLinks[i]);
+            if (assosiatedLinks[i])
+                remainingLink.push(assosiatedLinks[i]);
+        }
+
+        assosiatedLinks=remainingLink;
 
     };
 
@@ -180,16 +195,24 @@ function BaseNode(graph) {
         that.mouseEnteredFunc(false);
     };
     this.onClicked=function(){
-        console.log("single click");
-        graph.createDraggerElement(that);
+        console.log(d3.event);
+        console.log("single click: prevented by drag?"+d3.event.defaultPrevented);
+        if (d3.event.defaultPrevented) return;
+        //
+        // that.updateAssisiatedLinks();
+        // console.log("--------------------------number of assosiated links "+assosiatedLinks.length);
 
 
-        d3.event.stopPropagation();
+
+
+
+       // d3.event.stopPropagation();
 
         if (that.nodeIsFocused===false) {
             that.nodeIsFocused=true;
             that.nodeElement.classed("focused", true);
             graph.selectNode(that);
+            graph.createDraggerElement(that);
             console.log("this node is focused?"+that.nodeIsFocused);
             return;
         }
@@ -197,7 +220,10 @@ function BaseNode(graph) {
             that.nodeIsFocused=false;
             that.nodeElement.classed("focused", false);
             graph.selectNode(undefined);
+            graph.hideDraggerElement();
         }
+
+        // test
 
 
 
@@ -205,42 +231,60 @@ function BaseNode(graph) {
     this.executeUserDblClick=function(){
         // TODO: more things related to the positioning of the elements;
         d3.event.stopPropagation();
-
+        graph.hideDraggerElement();
+        graph.selectNode(undefined);
+        graph.selectNode(that);
+        that.nodeElement.classed("focused", true);
         if (fobj!=undefined){
-            fobj.remove();
+            that.rootNodeLayer.selectAll("foreignObject").remove();
         }
+        that.editingTextElement=true;
         that.labelRenderingElement.classed("hidden",true);
         fobj= that.rootNodeLayer.append("foreignObject")
             .attr("x",-0.5*that.elementWidth)
             // .attr("y","-30")
             .attr("y","-12")
             .attr("height", 200)
+            .on("dragstart",function(){return false;}) // remove drag operations of text element)
             .attr("width", that.elementWidth);
         var editText=fobj.append("xhtml:p")
             .attr("id", that.id())
             .attr("align","center")
             .attr("contentEditable", "true")
+            .on("dragstart",function(){return false;}) // remove drag operations of text element)
             .text(that.label);
 
         txtNode=editText.node();
       // add some events that relate to this object
-        editText.on("mousedown", function(){d3.event.stopPropagation();})
+        editText.on("mousedown", function(){
+            d3.event.stopPropagation();})
             .on("keydown", function(){
                 d3.event.stopPropagation();
                 if (d3.event.keyCode ==13){
                     this.blur();
-
+                    that.nodeElement.classed("focused", true);
+                    that.nodeIsFocused=true;
                  }
              })
         .on("blur", function(){
+            console.log("CALLING BLUR FUNCTION ----------------------"+d3.event);
+            txtNode.layerX=that.x;
+            txtNode.layerY=that.y;
             that.setLabelText(this.textContent);
             // remove the object and redraw the node;
-            fobj.remove();
+
+            that.rootNodeLayer.selectAll("foreignObject").remove();
             that.labelRenderingElement.classed("hidden",false);
+
+
             graph.forceRedrawContent();
-            editText.remove();
             that.editingTextElement=false;
-            graph.selectNode(that);
+
+            // pseude cklick on the graph
+            graph.simulateClickOnGraph();
+            console.log(d3.event);
+
+
 
         });
 
@@ -248,6 +292,8 @@ function BaseNode(graph) {
         setTimeout(function() {
             var range;
             txtNode.focus();
+            that.editingTextElement=true;
+            txtNode.ondragstart=function(){return false;};
             if ( document.selection ) {
                 range = document.body.createTextRange();
                 range.moveToElementText( txtNode  );
@@ -257,7 +303,6 @@ function BaseNode(graph) {
                 range.selectNodeContents( txtNode );
                 window.getSelection().removeAllRanges();
                 window.getSelection().addRange( range );
-                that.editingTextElement=true;
             }
         }, 0);
 
@@ -266,8 +311,6 @@ function BaseNode(graph) {
     this.editInitialText=function(){
         if (!txtNode)
             that.executeUserDblClick();
-
-
     }
 
 }
