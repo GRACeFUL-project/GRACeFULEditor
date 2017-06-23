@@ -76,3 +76,15 @@ p[contenteditable]:focus {
 .nodeOptionC{
     fill: #ff0
 }
+
+.goalOptionA {
+    fill: #E9967A;
+}
+
+.goalOptionB {
+    fill: #8FBC8F;
+}
+
+.goalOptionC {
+    fill: #483D8B;
+}

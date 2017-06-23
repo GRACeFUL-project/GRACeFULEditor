@@ -46,7 +46,7 @@ function BaseGraph(parentWidget) {
         var drawArea=this.parentWidget.getCanvasArea();
         var w = drawArea.node().getBoundingClientRect().width;
         var h= window.innerHeight ;
-        console.log("size:"+w+" "+h );
+        // console.log("size:"+w+" "+h );
         if (that.svgElement)
             that.svgElement.attr("width", w).attr("height", h);
     };
@@ -150,12 +150,12 @@ function BaseGraph(parentWidget) {
                 d3.event.sourceEvent.stopPropagation(); // Prevent panning
             })
             .on("drag", function (d) {
-                console.log(" prevented by drag?"+d3.event.sourceEvent.defaultPrevented);
+                // console.log(" prevented by drag?"+d3.event.sourceEvent.defaultPrevented);
                 var oldX=d.x;
                 var oldY=d.y;
                 d.x=d3.event.x;
                 d.y=d3.event.y;
-                console.log(d3.event);
+                // console.log(d3.event);
                 if(d.type()==="Node") {
 
                     // console.log("OLD:"+oldX+" "+oldY+"  - vs - "+d.x+" "+d.y);

@@ -53,13 +53,13 @@
 
         // create an example widget;
         // keep it for debugging purpose.
-         var example = new ExampleWidget(initializer);
-         example.setTabTitle("Example A");
-         example.setupGuiElements(initializer.getNavigationObject(),
-                                  initializer.getTabsObject(),
-                                  initializer.getCanvasArea(),
-                                  initializer.getOptionsArea() );
-         example.forceGraphCssStyle("exampleA");
+         // var example = new ExampleWidget(initializer);
+         // example.setTabTitle("Example A");
+         // example.setupGuiElements(initializer.getNavigationObject(),
+         //                          initializer.getTabsObject(),
+         //                          initializer.getCanvasArea(),
+         //                          initializer.getOptionsArea() );
+         // example.forceGraphCssStyle("exampleA");
 
 
         // widget generation
@@ -81,7 +81,7 @@
         cld.forceGraphCssStyle("cldGraphStyle");
 
         // adding to widget list
-        widgetList.push(example);
+        // widgetList.push(example);
         widgetList.push(gtw);
         widgetList.push(cld);
 
