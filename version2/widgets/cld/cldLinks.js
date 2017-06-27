@@ -137,9 +137,12 @@ function CLDLink(graph) {
                     .attr("y2", eY);
 
                 //update the delete icon
+                var iW=parseInt(that.rootElement.selectAll("image").attr("width"));
+                var iH=parseInt(that.rootElement.selectAll("image").attr("height"));
+
                 that.rootElement.selectAll("image")
-                    .attr("x", (sX+eX)*0.5)
-                    .attr("y", (sY+eY)*0.5);
+                    .attr("x", sX+0.5*(eX-sX)-0.5*iW)
+                    .attr("y", sY+0.5*(eY-sY)-0.5*iH);
             }else{
                 // this should not happen because than we have no path between two nodes;
                 console.log("well error !");
