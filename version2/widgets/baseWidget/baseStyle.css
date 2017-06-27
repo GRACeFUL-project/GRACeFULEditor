@@ -96,3 +96,7 @@ p[contenteditable]:focus {
 .goalOptionC {
     fill: #483D8B;
 }
+
+.externalFactors {
+    fill: #10843B;
+}

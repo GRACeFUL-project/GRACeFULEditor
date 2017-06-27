@@ -97,6 +97,10 @@ function CLDNode(graph) {
         }
 
     };
+
+    this.setExternalFactors = function() {
+        that.nodeElement.classed("externalFactors", true);
+    };
 }
 
 

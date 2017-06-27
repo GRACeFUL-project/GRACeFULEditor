@@ -23,6 +23,13 @@ function CLDWidget(){
         this.controlsObject=new CLDControls(that);
     };
 
+    this.identifyExtFact = function() {
+        this.graphObject.identifyExternalFactors();
+    };
+
+    this.identifyLoops = function() {
+        this.graphObject.identifyFeedbackLoops();
+    };
 }
 
 
