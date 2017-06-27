@@ -16,6 +16,9 @@ function CLDLink(graph) {
     var cldType="unknown";
     var cldTypeString="?";
     that.hoverText="";
+    var linkDir=[]; // normal vector;
+    var endPos=[]; // end position for the line
+    var dynamicLinkWidth=false;
 
     this.type=function(){
         return cldType;
@@ -141,6 +144,9 @@ function CLDLink(graph) {
                     .attr("x2", eX)
                     .attr("y2", eY);
 
+                endPos=[eX,eY];
+                linkDir=[nX,nY];
+
                 that.rootElement.selectAll("image")
                     .attr("x", that.sourceNode.x + 0.5*(dx)-0.5*17)
                     .attr("y", that.sourceNode.y + 0.5*(dy)-0.5*17);
@@ -221,34 +227,94 @@ function CLDLink(graph) {
     }
 
     this.onMouseOver = function () {
+
         if (that.mouseEnteredFunc()) {
             return;
         }
+        if (dynamicLinkWidth==false) {
+            if (that.getSelectionStatus() === true) {
+                that.pathElement.classed("cldLinkHovered",          false);
+                that.pathElement.classed("cldLinkSelected",         false);
+                that.pathElement.classed("cldLinkSelectedHovered",  true);
+            } else {
+                that.pathElement.classed("cldLinkSelected",         false);
+                that.pathElement.classed("cldLinkSelectedHovered",  false);
+                that.pathElement.classed("cldLinkHovered",          true);
 
-        if (that.getSelectionStatus()===true){
-            that.pathElement.classed("cldLinkSelected", true);
-        }else{
-            that.pathElement.classed("cldLinkSelected", false);
-            that.pathElement.classed("cldLinkHovered", true);
+            }
+            var newX = endPos[0] - linkDir[0] * 10;
+            var newY = endPos[1] - linkDir[1] * 10;
+            that.pathElement.attr("x2", newX).attr("y2", newY);
+        }else { // experimental code;
+            if (that.getSelectionStatus() === true) {
+                that.pathElement.classed("cldLinkSelected", false);
+                that.pathElement.classed("cldLinkSelectedHovered", false);
+                that.pathElement.classed("cldLinkHovered", false);
+                that.pathElement.classed("cldLinkHoveredDynamic", false);
+                that.pathElement.classed("cldLinkSelectedHoveredDynamic", true);
+
+            } else {
+                that.pathElement.classed("cldLinkSelected", false);
+                that.pathElement.classed("cldLinkSelectedHovered", false);
+                that.pathElement.classed("cldLinkSelectedHoveredDynamic", false);
+                that.pathElement.classed("cldLinkHovered", false);
+                that.pathElement.classed("cldLinkHoveredDynamic", true);
+            }
+            var defSize = 8;
+            var newX, newY;
+            var gZoom = graph.getZoomFactor();
+            if (gZoom > 1.0){
+                that.pathElement.style("stroke-width", defSize + "px");
+                newX = endPos[0] - linkDir[0] * 10;
+                newY = endPos[1] - linkDir[1] * 10;
+                that.pathElement.attr("x2", newX).attr("y2", newY);
+            } else{
+                if (gZoom<0.5) gZoom=0.5;
+                that.pathElement.style("stroke-width", defSize/gZoom + "px");
+                newX = endPos[0] - linkDir[0] * 11/gZoom;
+                newY = endPos[1] - linkDir[1] * 11/gZoom;
+                that.pathElement.attr("x2", newX).attr("y2", newY);
+            }
         }
-        // var selectedNode = that.rootElement.node(),
-        //     nodeContainer = selectedNode.parentNode;
-        // nodeContainer.appendChild(selectedNode);
+
         that.mouseEnteredFunc(true);
-        // that.rootElement.selectAll("image")
-        //     .attr("display", null);
     };
+
+
     this.onMouseOut = function () {
-        console.log("mouseOut");
-        if (that.elementIsFocused===true){
-            that.pathElement.classed("cldLinkSelected", true);
+        if (dynamicLinkWidth==false) {
+            if (that.getSelectionStatus() === true) {
+                that.pathElement.classed("cldLinkSelectedHovered", false);
+                that.pathElement.classed("cldLinkHovered", false);
+                that.pathElement.classed("cldLinkSelected", true);
+            } else {
+                that.pathElement.classed("cldLinkSelected",         false);
+                that.pathElement.classed("cldLinkSelectedHovered",  false);
+                that.pathElement.classed("cldLinkHovered",          false);
+            }
+
+
+            // restor old positions;
+            that.pathElement.attr("x2", endPos[0]).attr("y2", endPos[1]);
         }else{
-            that.pathElement.classed("cldLinkSelected", false);
+            if (that.getSelectionStatus() === true) {
+                that.pathElement.classed("cldLinkSelectedHovered"       , false);
+                that.pathElement.classed("cldLinkSelectedHoveredDynamic", false);
+                that.pathElement.classed("cldLinkHovered"               , false);
+                that.pathElement.classed("cldLinkHoveredDynamic"        , false);
+                that.pathElement.classed("cldLinkSelected"              , true);
+
+            } else {
+                that.pathElement.classed("cldLinkSelected"              , false);
+                that.pathElement.classed("cldLinkSelectedHovered"       , false);
+                that.pathElement.classed("cldLinkSelectedHoveredDynamic", false);
+                that.pathElement.classed("cldLinkHovered"               , false);
+                that.pathElement.classed("cldLinkHoveredDynamic"        , false);
+            }
+            that.pathElement.style("stroke-width","4px");
+            that.pathElement.attr("x2", endPos[0]).attr("y2", endPos[1]);
         }
-        that.pathElement.classed("cldLinkHovered", false);
         that.mouseEnteredFunc(false);
-        // that.rootElement.selectAll("image")
-        //     .attr("display", "none");
     };
 
 }

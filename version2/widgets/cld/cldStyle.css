@@ -16,6 +16,10 @@
     stroke: #f00;
     stroke-width: 8px;
 }
+.cldLinkHoveredDynamic{
+    stroke: #f00;
+}
+
 
 .cldArrowTailStyle{
     fill: #fff;
@@ -32,3 +36,12 @@
     stroke: #0f0;
     stroke-width: 4px;
 }
+.cldLinkSelectedHovered{
+    stroke: #0f0;
+    stroke-width: 8px;
+}
+
+.cldLinkSelectedHoveredDynamic{
+    stroke: #0f0;
+ }
+
