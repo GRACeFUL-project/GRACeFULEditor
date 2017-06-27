@@ -285,7 +285,7 @@ function CLDLink(graph) {
         if (dynamicLinkWidth==false) {
             if (that.getSelectionStatus() === true) {
                 that.pathElement.classed("cldLinkSelectedHovered", false);
-                that.pathElement.classed("cldLinkHovered", false);
+                that.pathElement.classed("cldLinkHovered",          false);
                 that.pathElement.classed("cldLinkSelected", true);
             } else {
                 that.pathElement.classed("cldLinkSelected",         false);
