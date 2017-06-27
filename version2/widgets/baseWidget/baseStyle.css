@@ -67,7 +67,6 @@ p[contenteditable]:focus {
 .baseHoveredPath{
     stroke:#f00;
     stroke-width: 5px;
-
 }
 
 .LinkFocused{

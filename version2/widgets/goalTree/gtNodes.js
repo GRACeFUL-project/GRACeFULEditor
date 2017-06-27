@@ -52,7 +52,21 @@ function GTNode(graph) {
             .attr("text-anchor","middle")
             .text(that.label)
             .style("cursor","default");
-    }
+
+        //add delete image
+        that.rootNodeLayer.append("image")
+            .attr("xlink:href", "images/delete.png")
+            .attr("display", "none")
+            .attr("x", 0.5*that.elementWidth-10)
+            .attr("y", -0.5*that.elementHeight)
+            .attr("width", 17)
+            .attr("height", 17)
+            .attr("cursor", "pointer")
+            .on('click', function() {
+                d3.event.stopPropagation();
+                graph.handleNodeDeletion(that);
+            });
+    };
 
     this.onMouseOver=function(){
         if (that.mouseEnteredFunc() || that.editingTextElement===true) {
@@ -66,6 +80,8 @@ function GTNode(graph) {
         nodeContainer.appendChild(selectedNode);
 
         that.mouseEnteredFunc(true);
+
+        d3.select(this).selectAll("image").attr("display", null);
     };
     this.onMouseOut=function(){
         if (that.mouseButtonPressed===true)
@@ -73,6 +89,8 @@ function GTNode(graph) {
         that.nodeElement.classed("baseNodeHovered",false);
         that.nodeElement.classed(goalClass,true);
         that.mouseEnteredFunc(false);
+
+        d3.select(this).selectAll("image").attr("display", "none");
     };
 }
 

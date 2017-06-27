@@ -26,6 +26,10 @@ function GTGraph(){
         return new GTNode(parent);
     };
 
+    this.createLink=function(parent){
+        return new GTLink(parent);
+    };
+
 }
 
 GTGraph.prototype = Object.create(BaseGraph.prototype);
