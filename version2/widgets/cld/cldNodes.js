@@ -4,7 +4,7 @@ function CLDNode(graph) {
     // todo: think about a parent widget
     /** variable defs **/
     var that = this;
-    var defaultRadius=40;
+    var defaultRadius=50;
    // this.parentWidget=parentWidget; // tells the graph which widget it talks to
     BaseNode.apply(this,arguments);
     var nodeClass="baseRoundNode";
@@ -30,6 +30,20 @@ function CLDNode(graph) {
             .attr("text-anchor","middle")
             .text(that.label)
             .style("cursor","default");
+
+        //add delete image
+        that.rootNodeLayer.append("image")
+            .attr("xlink:href", "images/delete.png")
+            .attr("display", "none")
+            .attr("x", that.getRadius()/2)
+            .attr("y", -(that.getRadius())+5)
+            .attr("width", 17)
+            .attr("height", 17)
+            .attr("cursor", "pointer")
+            .on('click', function() {
+                d3.event.stopPropagation();
+                graph.handleNodeDeletion(that);
+            });
     };
 
     // cldNodes are round so they have a radius
@@ -54,6 +68,8 @@ function CLDNode(graph) {
 
         that.mouseEnteredFunc(true);
 
+        d3.select(this).selectAll("image").attr("display", null);
+
     };
     this.onMouseOut=function(){
         if (that.mouseButtonPressed===true)
@@ -61,6 +77,8 @@ function CLDNode(graph) {
         that.nodeElement.classed("baseNodeHovered",false);
         that.nodeElement.classed(nodeClass,true);
         that.mouseEnteredFunc(false);
+
+        d3.select(this).selectAll("image").attr("display", "none");
     };
 
 
@@ -78,8 +96,7 @@ function CLDNode(graph) {
             that.nodeElement.classed(nodeClass,true);
         }
 
-    }
-
+    };
 }
 
 

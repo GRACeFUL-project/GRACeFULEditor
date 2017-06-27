@@ -130,12 +130,18 @@ function BaseLink(graph) {
             that.elementIsFocused=true;
             that.pathElement.classed("LinkFocused", true);
             graph.handleLinkSelection(that);
+            that.rootElement.selectAll("image")
+                .attr("display", null)
+                .attr("x", (that.sourceNode.x + that.targetNode.x)/2)
+                .attr("y", (that.sourceNode.y + that.targetNode.y)/2 - 10);
             return;
         }
         if (that.elementIsFocused===true) {
             that.elementIsFocused=false;
             that.pathElement.classed("LinkFocused", false);
             graph.handleLinkSelection(undefined);
+            that.rootElement.selectAll("image")
+                .attr("display", "none");
         }
 
         that.mouseEnteredFunc(false);

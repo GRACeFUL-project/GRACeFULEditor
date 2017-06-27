@@ -57,6 +57,18 @@ function CLDLink(graph) {
         // addArrowTail();
         that.pathElement.append('title').text(that.hoverText);
         that.addMouseEvents();
+        //add delete image
+        that.rootElement.append("image")
+            .attr("id", "linkDeleteIcon")
+            .attr("xlink:href", "images/delete.png")
+            .attr("display", "none")
+            .attr("width", 17)
+            .attr("height", 17)
+            .on('click', function() {
+                d3.event.stopPropagation();
+                console.log("This link has to be deleted: "+that.id());
+                graph.handleLinkDeletion(that);
+            });
     };
 
     function addTypeString(){
@@ -123,6 +135,11 @@ function CLDLink(graph) {
                     .attr("y1", sY)
                     .attr("x2", eX)
                     .attr("y2", eY);
+
+                //update the delete icon
+                that.rootElement.selectAll("image")
+                    .attr("x", (sX+eX)*0.5)
+                    .attr("y", (sY+eY)*0.5);
             }else{
                 // this should not happen because than we have no path between two nodes;
                 console.log("well error !");
@@ -214,7 +231,8 @@ function CLDLink(graph) {
         //     nodeContainer = selectedNode.parentNode;
         // nodeContainer.appendChild(selectedNode);
         that.mouseEnteredFunc(true);
-
+        // that.rootElement.selectAll("image")
+        //     .attr("display", null);
     };
     this.onMouseOut = function () {
         console.log("mouseOut");
@@ -225,6 +243,8 @@ function CLDLink(graph) {
         }
         that.pathElement.classed("cldLinkHovered", false);
         that.mouseEnteredFunc(false);
+        // that.rootElement.selectAll("image")
+        //     .attr("display", "none");
     };
 
 }
