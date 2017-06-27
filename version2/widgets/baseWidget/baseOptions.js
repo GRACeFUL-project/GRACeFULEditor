@@ -1,5 +1,5 @@
 var pannelControlId=0;
-
+var hrefButtonId=0;
 function BaseControls(parentWidget) {
     // todo: think about a parent widget
     /** variable defs **/
@@ -105,6 +105,28 @@ function BaseControls(parentWidget) {
         });
     };
 
+    this.addHrefButton = function(parent, label, onClickFunction,ownDiv) {
+        if (ownDiv===true){
+            var thisDiv=document.createElement('div');
+            parent.getBody().node().appendChild(thisDiv);
+            d3.select(thisDiv).classed("form-group",true);
+        }
+        var hButton=document.createElement('a');
+        hButton.innerHTML=label;
+        hButton.id=this.parent.getUniqueId()+"_Controls_hrefButton_"+hrefButtonId;
+        hButton.setAttribute("class", "hrefButton");
+        hButton.onclick=function(){
+            onClickFunction();
+        };
+        if (ownDiv===true){
+        thisDiv.appendChild(hButton);
+        }
+        else parent.getBody().node().appendChild(hButton);
+        hrefButtonId++;
+    };
+
+
+
 
     this.addCheckBox= function(parent, label, identifier, defaultValue, onClickFunction) {
 
@@ -133,6 +155,8 @@ function BaseControls(parentWidget) {
                 .attr("for", identifier + "ModuleCheckbox")
                 .classed("textStyleForCHeckBox",true)
                 .text(label);
+
+        parent.getBody().append("br")
 
     };
 
