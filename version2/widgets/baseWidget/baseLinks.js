@@ -134,8 +134,8 @@ function BaseLink(graph) {
             var iH=parseInt(that.rootElement.selectAll("image").attr("height"));
             that.rootElement.selectAll("image")
                 .attr("display", null)
-                .attr("x", (that.sourceNode.x + 0.5*(that.targetNode.x-that.sourceNode.x)-0.5*iW))
-                .attr("y", (that.sourceNode.y + 0.5*(that.targetNode.y-that.sourceNode.y)-0.5*iH));
+                .attr("x", that.sourceNode.x + 0.5*(that.targetNode.x-that.sourceNode.x)-0.5*iW)
+                .attr("y", that.sourceNode.y + 0.5*(that.targetNode.y-that.sourceNode.y)-0.5*iH);
 
             return;
         }

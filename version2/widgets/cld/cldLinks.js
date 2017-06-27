@@ -58,12 +58,18 @@ function CLDLink(graph) {
         that.pathElement.append('title').text(that.hoverText);
         that.addMouseEvents();
         //add delete image
+
+        var dx=that.targetNode.x-that.sourceNode.x;
+        var dy=that.targetNode.y-that.sourceNode.y;
+
         that.rootElement.append("image")
             .attr("id", "linkDeleteIcon")
             .attr("xlink:href", "images/delete.png")
             .attr("display", "none")
             .attr("width", 17)
             .attr("height", 17)
+            .attr("x", that.sourceNode.x + 0.5*(dx)-0.5*17)
+            .attr("y", that.sourceNode.y + 0.5*(dy)-0.5*17)
             .on('click', function() {
                 d3.event.stopPropagation();
                 console.log("This link has to be deleted: "+that.id());
@@ -113,9 +119,8 @@ function CLDLink(graph) {
 
 
                 // find center position of the element
-
-                var tdx=eX-sX;
-                var tdy=eY-sY;
+                var tdx=that.targetNode.x-that.sourceNode.x;
+                var tdy=that.targetNode.y-that.sourceNode.y;
                 var tnLen=Math.sqrt(tdx*tdx+tdy*tdy);
 
                 var tnX = tdx / tnLen;
@@ -126,7 +131,7 @@ function CLDLink(graph) {
                 var orthX=12* tnY;
                 var orthY=12*-tnX;
 
-                var offset=[sX+0.5*tnLen*tnX  + orthX,sY+0.5*tnLen*tnY +   orthY];
+                var offset=[that.sourceNode.x+0.5*tnLen*tnX  + orthX,that.sourceNode.y+0.5*tnLen*tnY +   orthY];
 
                 textRenderingElement.attr("transform", "translate(" + offset[0] + "," + offset[1]+ ")");
 
@@ -136,13 +141,9 @@ function CLDLink(graph) {
                     .attr("x2", eX)
                     .attr("y2", eY);
 
-                //update the delete icon
-                var iW=parseInt(that.rootElement.selectAll("image").attr("width"));
-                var iH=parseInt(that.rootElement.selectAll("image").attr("height"));
-
                 that.rootElement.selectAll("image")
-                    .attr("x", sX+0.5*(eX-sX)-0.5*iW)
-                    .attr("y", sY+0.5*(eY-sY)-0.5*iH);
+                    .attr("x", that.sourceNode.x + 0.5*(dx)-0.5*17)
+                    .attr("y", that.sourceNode.y + 0.5*(dy)-0.5*17);
             }else{
                 // this should not happen because than we have no path between two nodes;
                 console.log("well error !");
