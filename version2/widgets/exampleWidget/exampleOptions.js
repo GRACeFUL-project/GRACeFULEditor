@@ -30,7 +30,7 @@ function ExampleControls(parentWidget) {
         // simulate click event;
         console.log("hidden thing is clicked");
         hidden_solutionInput.click();
-
+        loaderSolutionPathNode.remove(loaderSolutionPathNode);
         // tell what to do when clicked
         loaderSolutionPathNode.on("input",function(){
             console.log("hidden thing is clicked");
@@ -53,8 +53,6 @@ function ExampleControls(parentWidget) {
                     that.parent.requestAction(action);
                     // kill the action object;
                     action=null;
-                    that.parent.debugAction(action);
-
                 };
             }
         });
@@ -63,6 +61,9 @@ function ExampleControls(parentWidget) {
 
     this.saveFunction=function(){
         console.log("saving was pressed");
+        var action={};
+        action.task="ACTION_SAVE_JSON";
+        that.parent.requestAction(action);
     };
 
 
@@ -80,11 +81,8 @@ function ExampleControls(parentWidget) {
         optionsGroup= that.createAccordionGroup(that.divControlsGroupNode, "Load/Save");
         that.addHrefButton(optionsGroup,"Load",that.loadFunction,false);
         that.addHrefButton(optionsGroup,"Save",that.saveFunction,false);
-
     };
 
-
-    
     this.start();
 
 

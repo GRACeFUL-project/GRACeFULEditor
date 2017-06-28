@@ -12,7 +12,13 @@ function BaseWidget(parentElement) {
     this.graphObject=undefined;
     this.controlsObject=undefined;
     this.graphCssStyle="";
+    this.graphSchema="default";
     this.parentElement=parentElement;
+
+
+    this.setCommunicationModule=function(mod){
+        this.communicationModule=mod;
+    };
 
 
     this.getOptionsArea=function(){
@@ -151,6 +157,65 @@ function BaseWidget(parentElement) {
     };
 
     
-/** -------------------------------------------------------------**/
+/** COMMUNICATION BASE WIDGET HANDLING  -------------------------------------------------------------**/
+    this.requestAction=function(action){
+        this.communicationModule.actionProcessing(that,action);
+    };
+
+
+    this.saveAsJSON=function(){
+        // request from the graph all graph data that can be accessed from it;
+        console.log("requesting save json for this widget");
+        var saveObj=that.graphObject.requestSaveDataAsJson();
+        console.log("text to write: "+saveObj);
+
+        // create a hidden wrapper for saving files;
+
+        var tempHref=document.createElement('a');
+        tempHref.type="submit";
+        tempHref.href="#";
+        tempHref.download="";
+        tempHref.innerHTML="Send Model";
+        tempHref.id="temporalHrefId";
+
+        //
+        // that.controlsObject.divControlsGroupNode.node().appendChild(tempHref);
+        // tempHref.href="data:text/json;charset=utf-8," + encodeURIComponent(saveObj);
+        // tempHref.download="someFileName.json";
+        // tempHref.click();
+        // // remove that thing
+        // d3.select("#TemporalDiv").remove();
+    };
+
+    // LOAD JSON ACTION
+    this.loadJSON=function(data){
+        this.graphObject.emptyGraphStructure(); //<< clears current graph structure
+        // we only nead this data temporary;
+        var jsonObj=JSON.parse(data);
+        that.parseJSON(jsonObj);
+        this.graphObject.forceRedrawContent(); //<< redraws the new graph structure
+    };
+
+    this.parseJSON=function(jsonObj){
+        console.log("Parsing Json obj"+jsonObj);
+        // you need to know the json structure that you are loading
+        // for each widget we will have to modify this functions;
+        var jsonTyp=jsonObj.type;
+        var nodes=jsonObj.nodes;
+        console.log("we have type:"+jsonTyp);
+        // usually  they are some how separated like in webvowl
+        // so we can here combine the classes and attributes or what ever
+        // and then give this to the graph object;
+        // for now only nodes are given;
+
+
+
+
+
+    };
+
+
+
+    /** -------------------------------------------------------------**/
 }// end of baseWidget def
 BaseWidget.prototype.constructor = BaseWidget;

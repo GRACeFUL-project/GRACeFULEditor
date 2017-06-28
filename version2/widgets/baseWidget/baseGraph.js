@@ -42,6 +42,31 @@ function BaseGraph(parentWidget) {
       }
     };
 
+    this.requestSaveDataAsJson=function(){
+      // THIS SHOULD BE OVERWRITTEN BY ALL GRAPHS!
+        var retObj={};
+        retObj.type="baseWidget";
+        retObj.nodes=[];
+
+        for (var i=0;i<that.nodeElementArray.length;i++){
+            var node=that.nodeElementArray[i];
+            var obj={};
+            obj.id=node.id();
+            obj.name="baseNode"+i;
+            obj.pos=[node.x,node.y];
+            retObj.nodes.push(obj);
+        }
+
+
+        return  JSON.stringify(retObj, null, '  ');
+
+    };
+
+    this.emptyGraphStructure=function(){
+        this.nodeElementArray=[];
+        this.pathElementArray=[];
+    };
+
     this.updateSvgSize=function(){
         var drawArea=this.parentWidget.getCanvasArea();
         var w = drawArea.node().getBoundingClientRect().width;
@@ -192,7 +217,6 @@ function BaseGraph(parentWidget) {
                         that.pathElementArray.push(aLink);
                         that.forceRedrawContent();
                     }
-
                 }
                 d3.event.sourceEvent.stopPropagation(); // Prevent panning
 
@@ -260,7 +284,6 @@ function BaseGraph(parentWidget) {
         that.clearRendering();
         that.redrawGraphContent();
 
-
         aNode.editInitialText();
 
 
@@ -283,15 +306,14 @@ function BaseGraph(parentWidget) {
         that.pathLayer=that.graphRenderingSvg.append('g');
         that.nodeLayer=that.graphRenderingSvg.append('g');
 
-        this.draggerElement=new BaseDragger(that);
+        this.draggerElement=that.createDraggerItem(that);
         that.draggerElement.svgRoot(that.draggerLayer);
-      //  that.draggerElement.drawNode();
         that.draggerLayer.classed("hidden",true);
         that.draggerObjectsArray.push(that.draggerElement);
+    };
 
-
-
-
+    this.createDraggerItem=function(parent){
+        return new BaseDragger(parent);
     };
 
     this.clearOverlayRendering=function(){
@@ -314,7 +336,6 @@ function BaseGraph(parentWidget) {
     this.forceRedrawContent=function(){
         that.clearRendering();
         that.redrawGraphContent();
-
     };
 
 

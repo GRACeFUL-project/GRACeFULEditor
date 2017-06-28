@@ -51,6 +51,9 @@
 
         // console.log("CANVALS AREA "+width+"  "+height);
 
+        // create communication module;
+        var com=commod.create();
+
         // create an example widget;
         // keep it for debugging purpose.
          var example = new ExampleWidget(initializer);
@@ -60,6 +63,7 @@
                                   initializer.getCanvasArea(),
                                   initializer.getOptionsArea() );
          example.forceGraphCssStyle("exampleA");
+         example.setCommunicationModule(com);
 
 
         // widget generation
@@ -70,6 +74,7 @@
             initializer.getCanvasArea(),
             initializer.getOptionsArea() );
         gtw.forceGraphCssStyle("goalTreeGraphStyle");
+        gtw.setCommunicationModule(com);
 
 
         var cld= new CLDWidget(initializer);
@@ -79,6 +84,7 @@
             initializer.getCanvasArea(),
             initializer.getOptionsArea() );
         cld.forceGraphCssStyle("cldGraphStyle");
+        cld.setCommunicationModule(com);
 
         // adding to widget list
         widgetList.push(example);
