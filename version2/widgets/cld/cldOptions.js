@@ -7,7 +7,7 @@ function CLDControls(parentWidget) {
 
     var selectionNode,lineEditNode,commentNode;
     var causalSelection,commentLink;
-    var delNodeBtn, delLinkBtn;
+    var delNodeBtn, delLinkBtn, extFactorBtn, loopBtn;
 
 
     this.generateControls=function() {
@@ -21,8 +21,13 @@ function CLDControls(parentWidget) {
 
         linksGroup = that.createAccordionGroup(that.divControlsGroupNode, "Links");
         causalSelection = that.addSelectionOpts(linksGroup, "Causal relation", ["?", "+", "-"], that.onChangeLinkType);
-        commentLink = that.addTextEdit(linksGroup, "Comments", "Comment On Link", true, that.onChangeLinkComment);
+        commentLink = that.addTextEdit(linksGroup, "Comments", "", true, that.onChangeLinkComment);
         delLinkBtn = that.addButtons(linksGroup, "Delete", "linkDelete", that.deleteLinks);
+
+        additionalSettings = that.createAccordionGroup(that.divControlsGroupNode, "Settings");
+        extFactorBtn = that.addButtons(additionalSettings, "Identify External Factors", "extF", that.identifyExtFact);
+
+        loopBtn = that.addButtons(additionalSettings, "Identify Feeback Loops", "loops", that.feedbackLoop);
     };
 
     this.handleNodeSelection=function(node){
@@ -109,6 +114,14 @@ function CLDControls(parentWidget) {
         that.parent.linkDeletion(that.selectedNode);
         that.selectedNode = null;
     };
+
+    this.identifyExtFact = function() {
+        that.parent.identifyExtFact();
+    };
+
+    this.feedbackLoop = function() {
+        that.parent.identifyLoops();
+    }
     
     this.start();
 

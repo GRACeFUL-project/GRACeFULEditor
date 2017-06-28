@@ -93,12 +93,16 @@ function BaseControls(parentWidget) {
     };
 
     this.addButtons = function(parent, label, btnId, onClickFunction) {
+        var thisDiv=document.createElement('div');
+        parent.getBody().node().appendChild(thisDiv);
+        d3.select(thisDiv).classed("form-group",true);
+        
         var button = document.createElement('button');
         button.type = "button";
         button.id = btnId;
         button.class = "btn btn-default btn-lg";
         button.innerHTML = label;
-        parent.getBody().node().appendChild(button);
+        thisDiv.appendChild(button);
 
         d3.select(button).on("click", function() {
             onClickFunction();

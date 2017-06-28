@@ -317,6 +317,10 @@ function CLDLink(graph) {
         that.mouseEnteredFunc(false);
     };
 
+    this.setLoopStyle = function() {
+        that.pathElement.classed("feedbackLoops", true);
+    };
+
 }
 
 CLDLink.prototype = Object.create(BaseLink.prototype);
