@@ -38,13 +38,14 @@ function CLDGraph(){
         console.log("Looking for External factors...");
         var factorNodes = that.nodeElementArray.filter(function(n) {
             //nodes whose type is Factor, which is equivalent to 1 in the selection type
-            return (n.getTypeId() === 1)
+            return (n.getTypeId() === 1 || n.getTypeId() === 4)
         });        
         console.log("number of factor nodes are: "+factorNodes.length);
 
         var externalFactorNodes = [];
         for(var i=0; i<factorNodes.length; i++) {
             console.log("The factor node id is: "+factorNodes[i].id());
+            factorNodes[i].setType(1);
             var extLinks = that.pathElementArray.filter( function(l) {
                 return (l.targetNode === factorNodes[i]) 
             });

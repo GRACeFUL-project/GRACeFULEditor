@@ -13,7 +13,9 @@ function CLDControls(parentWidget) {
     this.generateControls=function() {
         // testing stuff,
         nodesGroup = that.createAccordionGroup(that.divControlsGroupNode, "Nodes");
-        selectionNode = that.addSelectionOpts(nodesGroup, "Class type", ["Undefined", "Factor", "Action", "Criteria"], that.onChangeNodeType);
+        selectionNode = that.addSelectionOpts(nodesGroup, "Class type", ["Undefined", "Factor", "Action", "Criteria", "External Factor"], that.onChangeNodeType);
+        var hideClass = selectionNode.node().options[selectionNode.node().length - 1];
+        hideClass.hidden = true;
         lineEditNode = that.addLineEdit(nodesGroup, "Node name", "", true, that.onChangeNodeName);
         commentNode = that.addTextEdit(nodesGroup, "Comments", "", true, that.onChangeNodeComment);
         delNodeBtn = that.addButtons(nodesGroup, "Delete", "nodeDelete", that.deleteNodes);
