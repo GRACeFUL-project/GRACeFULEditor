@@ -32,6 +32,14 @@ function BaseGraph(parentWidget) {
     this.draggerObjectsArray=[];
     this.draggerElement=undefined;
     this.draggingObject=false;
+    this.needUpdateRedraw=false;
+
+
+    // some state of graph functionality
+    this.needsRedraw=function(val){
+        if (!arguments.length) return that.needUpdateRedraw;
+        else that.needUpdateRedraw=val;
+    };
 
 
     this.setZoomExtent=function(min,max){

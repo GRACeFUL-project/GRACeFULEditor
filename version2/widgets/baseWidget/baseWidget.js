@@ -162,6 +162,10 @@ function BaseWidget(parentElement) {
         this.communicationModule.actionProcessing(that,action);
     };
 
+    this.updateIfNeeded=function(){
+        if (that.graphObject.needsRedraw()===true)
+            that.graphObject.forceRedrawContent();
+    };
 
     this.saveAsJSON=function(){
         // request from the graph all graph data that can be accessed from it;
@@ -178,21 +182,18 @@ function BaseWidget(parentElement) {
         tempHref.innerHTML="Send Model";
         tempHref.id="temporalHrefId";
 
-        //
-        // that.controlsObject.divControlsGroupNode.node().appendChild(tempHref);
-        // tempHref.href="data:text/json;charset=utf-8," + encodeURIComponent(saveObj);
-        // tempHref.download="someFileName.json";
-        // tempHref.click();
-        // // remove that thing
-        // d3.select("#TemporalDiv").remove();
+        that.controlsObject.divControlsGroupNode.node().appendChild(tempHref);
+        tempHref.href="data:text/json;charset=utf-8," + encodeURIComponent(saveObj);
+        tempHref.download="someFileName.json";
+        tempHref.click();
+        // remove that thing
+        d3.select("#TemporalDiv").remove();
     };
 
     // LOAD JSON ACTION
-    this.loadJSON=function(data){
-        this.graphObject.emptyGraphStructure(); //<< clears current graph structure
-        // we only nead this data temporary;
-        var jsonObj=JSON.parse(data);
-        that.parseJSON(jsonObj);
+    this.loadJSON=function(jsonData){
+        // base widget does not load data it self;
+        that.graphObject.emptyGraphStructure(); //<< clears current graph structure
         this.graphObject.forceRedrawContent(); //<< redraws the new graph structure
     };
 

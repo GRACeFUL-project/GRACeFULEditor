@@ -57,7 +57,7 @@
         // create an example widget;
         // keep it for debugging purpose.
          var example = new ExampleWidget(initializer);
-         example.setTabTitle("Example A");
+         example.setTabTitle("Example B");
          example.setupGuiElements(initializer.getNavigationObject(),
                                   initializer.getTabsObject(),
                                   initializer.getCanvasArea(),

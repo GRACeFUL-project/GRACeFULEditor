@@ -62,6 +62,7 @@ function BaseNode(graph) {
         this.nodeId=index;
     };
 
+
     this.svgRoot=function(root){
         if (!arguments.length)
             return that.rootElement;
@@ -84,6 +85,12 @@ function BaseNode(graph) {
             this.labelRenderingElement.text(that.label);
         }
     };
+
+    this.setPosition=function(x,y){
+        that.x=x;
+        that.y=y;
+    };
+
     this.enableHoverText=function(){
         this.hoverTextEnabled=true;
         //graph.forceGraphRedraw();

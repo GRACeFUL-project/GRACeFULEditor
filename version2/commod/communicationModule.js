@@ -72,6 +72,8 @@
             // now we can delete the data;
             localAction=null;
 
+            widget.updateIfNeeded();
+
         };
         this.testAction=function(){
 

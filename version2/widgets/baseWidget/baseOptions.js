@@ -110,8 +110,9 @@ function BaseControls(parentWidget) {
     };
 
     this.addHrefButton = function(parent, label, onClickFunction,ownDiv) {
+        var thisDiv=undefined;
         if (ownDiv===true){
-            var thisDiv=document.createElement('div');
+            thisDiv=document.createElement('div');
             parent.getBody().node().appendChild(thisDiv);
             d3.select(thisDiv).classed("form-group",true);
         }
@@ -126,7 +127,9 @@ function BaseControls(parentWidget) {
         thisDiv.appendChild(hButton);
         }
         else parent.getBody().node().appendChild(hButton);
+
         hrefButtonId++;
+
     };
 
 

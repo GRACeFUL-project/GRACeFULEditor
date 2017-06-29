@@ -67,6 +67,17 @@ function ExampleControls(parentWidget) {
     };
 
 
+    this.serverRequest=function(){
+        // the action defines a request type which is send to com mod and that one does the work
+
+        var action={};
+        action.task="SERVER_REQUEST";
+        action.requestType="GET_LIBRARY"; // testing purpose
+        that.parent.requestAction(action);
+
+
+    };
+
 
     this.generateControls=function() {
         // testing stuff,
@@ -79,8 +90,10 @@ function ExampleControls(parentWidget) {
         that.addHrefButton(generationTest,"HrefButton",that.loadFunction,false);
 
         optionsGroup= that.createAccordionGroup(that.divControlsGroupNode, "Load/Save");
-        that.addHrefButton(optionsGroup,"Load",that.loadFunction,false);
-        that.addHrefButton(optionsGroup,"Save",that.saveFunction,false);
+        var container=that.addHrefButton(optionsGroup,"Load",that.loadFunction,true);
+        that.addHrefButton(optionsGroup,"Save",that.saveFunction,true);
+        that.addHrefButton(optionsGroup,"Re2Se",that.serverRequest,true);
+        generationTest.collapseBody();
     };
 
     this.start();
