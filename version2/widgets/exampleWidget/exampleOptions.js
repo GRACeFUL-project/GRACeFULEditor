@@ -69,13 +69,22 @@ function ExampleControls(parentWidget) {
 
     this.serverRequest=function(){
         // the action defines a request type which is send to com mod and that one does the work
-
+        console.log("requesting data from server : this example is library crud");
         var action={};
         action.task="SERVER_REQUEST";
         action.requestType="GET_LIBRARY"; // testing purpose
         that.parent.requestAction(action);
+    };
 
-
+    this.testSubmitModel=function(){
+        console.log("testing submit function of docker thingy");
+        var action={};
+        action.task="SERVER_REQUEST";
+        action.requestType="SEND_MODEL"; // testing purpose
+        // dummy data that should throw an exception .. dont know why exactly
+        // but shows the communication capacity of the new widget system
+        action.data='{"nodes": [{"name": "pump","parameters": [{"name": "capacity","type": "Float","value": 0}],"identity": 0,"interface": [{"name": "inflow","type": "Flow"},{"name": "outflow","type": "Flow","connection": [3,"inflow"]}]},{"name": "pump","parameters": [{"name": "capacity","type": "Float","value": 0}],"identity": 1,"interface": [{"name": "inflow","type": "Flow"},{"name": "outflow","type": "Flow"}]},{"name": "rain","parameters": [{"name": "amount","type": "Float","value": 0}],"identity": 2,"interface": [{"name": "rainfall","type": "Flow","connection": [0,"inflow"]}]},{"name": "runoffArea","parameters": [{"name": "storage capacity","type": "Float","value": 0}],"identity": 3,"interface": [{"name": "inflow","type": "Flow"},{"name": "outlet","type": "Flow","connection": [1,"outflow"]},{"name": "overflow","type": "Flow"}]}]}';
+        that.parent.requestAction(action);
     };
 
 
@@ -90,9 +99,10 @@ function ExampleControls(parentWidget) {
         that.addHrefButton(generationTest,"HrefButton",that.loadFunction,false);
 
         optionsGroup= that.createAccordionGroup(that.divControlsGroupNode, "Load/Save");
-        var container=that.addHrefButton(optionsGroup,"Load",that.loadFunction,true);
+        that.addHrefButton(optionsGroup,"Load",that.loadFunction,true);
         that.addHrefButton(optionsGroup,"Save",that.saveFunction,true);
-        that.addHrefButton(optionsGroup,"Re2Se",that.serverRequest,true);
+        that.addHrefButton(optionsGroup,"Get Lib",that.serverRequest,true);
+        that.addHrefButton(optionsGroup,"Send ",that.testSubmitModel,true);
         generationTest.collapseBody();
     };
 
