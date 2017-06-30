@@ -80,22 +80,36 @@
                 var modelText = localAction.data;
                 var libName=solverAddress+"/submit";
                 console.log("do we have a lib address:"+libName);
+
+                var formData = new FormData();
+                formData.append("", modelText);
                 var xhr = new XMLHttpRequest();
-                xhr.open("POST", '{"name":test}', true);
-                xhr.setRequestHeader("Content-type", "application/json");
 
-                xhr.onreadystatechange = function() {//Call a function when the state changes.
-                    console.log("ready! ");
-                    console.log("readyState: "+xhr.readyState);
-                    console.log("Status: "+xhr.status);
-                    console.log(xhr.responseText);
-                     if(xhr.readyState == 4 && xhr.status == 200) {
-                         console.log("Response" +xhr.responseText);
-                     }
-                 };
-                console.log("sending request "+xhr);
-                xhr.send();
+                xhr.open("POST", libName, true);
+                xhr.onload = function () {
+                    console.log("finished the xhr request with post");
+                };
+                xhr.send(formData);
 
+
+
+                //
+                // var xhr = new XMLHttpRequest();
+                // xhr.open("POST", '{"name":test}', true);
+                // xhr.setRequestHeader("Content-type", "application/json");
+                //
+                // xhr.onreadystatechange = function() {//Call a function when the state changes.
+                //     console.log("ready! ");
+                //     console.log("readyState: "+xhr.readyState);
+                //     console.log("Status: "+xhr.status);
+                //     console.log(xhr.responseText);
+                //      if(xhr.readyState == 4 && xhr.status == 200) {
+                //          console.log("Response" +xhr.responseText);
+                //      }
+                //  };
+                // console.log("sending request "+xhr);
+                // xhr.send();
+                //
                 //
                 // //
                 //  d3.text(libName)
