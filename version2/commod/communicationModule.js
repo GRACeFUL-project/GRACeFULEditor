@@ -86,6 +86,7 @@
                 var xhr = new XMLHttpRequest();
 
                 xhr.open("POST", libName, true);
+                xhr.setRequestHeader("Content-type", "application/json");
                 xhr.onload = function () {
                     console.log("finished the xhr request with post");
                 };
