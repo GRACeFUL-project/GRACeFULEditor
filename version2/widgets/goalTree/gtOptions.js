@@ -39,6 +39,15 @@ function GTControls(parentWidget) {
             var gtId = that.selectedNode.getTypeId();
             goalType.node().options[gtId].selected = "selected";
         }
+        var selectType = goalType.node().options[gtId].value;
+        if(selectType === "Criteria") {
+            d3.select(criteriaUnit.node().parentNode).classed("hidden", false);
+            d3.select(criteriaValue.node().parentNode).classed("hidden", false);
+        }
+        if(selectType !== "Criteria") {
+            d3.select(criteriaUnit.node().parentNode).classed("hidden", true);
+            d3.select(criteriaValue.node().parentNode).classed("hidden", true);
+        }
     };
 
     this.onChangeGoalName = function() {
