@@ -6,6 +6,7 @@ function GTNode(graph) {
     var that = this;
     this.elementWidth=80;
     this.elementHeight=50;
+    this.goalType = undefined;
    // this.parentWidget=parentWidget; // tells the graph which widget it talks to
     BaseNode.apply(this,arguments);
     var goalTypeId = 0;
@@ -16,9 +17,10 @@ function GTNode(graph) {
       return goalTypeId;
     };
 
-    this.setType=function(typeId){
+    this.setType=function(typeId, typeName){
         goalTypeId=typeId;
         goalClass=allGoalClasses[typeId];
+        that.goalType = typeName;
         console.log("Goal class is"+goalClass);
         // apply the classes ;
         if (that.nodeElement){

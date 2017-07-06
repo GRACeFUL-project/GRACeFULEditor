@@ -7,7 +7,7 @@ function GTControls(parentWidget) {
     // tells the graph which widget it talks to
     this.parent=parentWidget;
 
-    var goalsGroup, goalName, goalType, goalComment, delGoal, criteriaUnit, criteriaValue;
+    var goalsGroup, goalName, goalType, goalComment, delGoal, criteriaUnit, criteriaValue, additionalSettings, loadcld, saveCld;
 
     this.generateControls=function(){
         goalsGroup = that.createAccordionGroup(that.divControlsGroupNode, "Goals");
@@ -21,6 +21,16 @@ function GTControls(parentWidget) {
         d3.select(criteriaValue.node().parentNode).classed("hidden", true);
         delGoal = that.addButtons(goalsGroup, "Delete", "goalDelete", that.onDeleteGoal);
 
+        additionalSettings = that.createAccordionGroup(that.divControlsGroupNode, "Settings");
+        loadcld = that.addHrefButton(additionalSettings,"Load",that.loadFunction,true);
+        loadcld.setAttribute("class", "btn btn-default btn-sm");
+        loadcld.parentNode.setAttribute("id", "goalBasic");
+        loadcld.innerHTML = '<span class="glyphicon glyphicon-floppy-open"></span> Load Goal Tree';
+        
+        saveCld = that.addHrefButton(additionalSettings,"Save",that.saveFunction,false);
+        document.getElementById("goalBasic").appendChild(saveCld);
+        saveCld.setAttribute("class", "btn btn-default btn-sm pull-right");
+        saveCld.innerHTML = '<span class="glyphicon glyphicon-floppy-save"></span> Save Goal Tree';
     };
 
     this.handleNodeSelection = function(node) {
@@ -57,7 +67,7 @@ function GTControls(parentWidget) {
     this.onChangeGoalType = function(selectionContainer) {
         var selectType = selectionContainer.options[selectionContainer.selectedIndex].value;
         console.log(selectionContainer.selectedIndex+" the goal type is "+selectType);
-        that.selectedNode.setType(selectionContainer.selectedIndex);
+        that.selectedNode.setType(selectionContainer.selectedIndex, selectType);
         if(selectType === "Criteria") {
             d3.select(criteriaUnit.node().parentNode).classed("hidden", false);
             d3.select(criteriaValue.node().parentNode).classed("hidden", false);
@@ -83,6 +93,60 @@ function GTControls(parentWidget) {
 
     this.onChangeValue = function() {
         //TODO
+    };
+
+    this.saveFunction=function(){
+        console.log("saving was pressed");
+        var action={};
+        action.task="ACTION_SAVE_JSON";
+        that.parent.requestAction(action);
+    };
+
+    this.loadFunction=function(){
+        console.log("loading was pressed");
+        // create a temporary file loader
+        var hidden_solutionInput=document.createElement('input');
+        hidden_solutionInput.id="HIDDEN_SOLUTION_JSON_INPUT";
+        hidden_solutionInput.type="file";
+        //hidden_solutionInput.style.display="none";
+        hidden_solutionInput.autocomplete="off";
+        hidden_solutionInput.placeholder="load a json File";
+        hidden_solutionInput.setAttribute("class", "inputPath");
+        // hidden_solutionInput.style.display="none";
+        additionalSettings.getBody().node().appendChild(hidden_solutionInput);
+        var loaderSolutionPathNode=d3.select("#HIDDEN_SOLUTION_JSON_INPUT");
+        var fileElement;
+        var fileName;
+        var readText;
+        // simulate click event;
+        console.log("hidden thing is clicked");
+        hidden_solutionInput.click();
+        loaderSolutionPathNode.remove(loaderSolutionPathNode);
+        // tell what to do when clicked
+        loaderSolutionPathNode.on("input",function(){
+            console.log("hidden thing is clicked");
+            var files= loaderSolutionPathNode.property("files");
+            if (files.length>0){
+                console.log("file?"+files[0].name);
+                fileElement=files[0];
+                fileName=fileElement.name;
+                loaderSolutionPathNode.remove();
+
+                // read this file;
+                var reader = new FileReader();
+                reader.readAsText(fileElement);
+                reader.onload = function () {
+                    readText = reader.result;
+                    // the the communication module about this
+                    var action={};
+                    action.task="ACTION_LOAD_JSON";
+                    action.data=readText;
+                    that.parent.requestAction(action);
+                    // kill the action object;
+                    action=null;
+                };
+            }
+        });
     };
 
 

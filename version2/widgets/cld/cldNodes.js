@@ -9,6 +9,7 @@ function CLDNode(graph) {
     BaseNode.apply(this,arguments);
     var nodeClass="baseRoundNode";
     var selectedTypeId=0;
+    this.typeName = undefined;
     var allPossibleClasses=['undefined','nodeOptionA','nodeOptionB','nodeOptionC', 'externalFactors'];
     this.getTypeId=function(){
       return selectedTypeId;
@@ -82,9 +83,10 @@ function CLDNode(graph) {
     };
 
 
-    this.setType=function(typeId){
+    this.setType=function(typeId, typeName){
         selectedTypeId=typeId;
         nodeClass=allPossibleClasses[typeId];
+        that.typeName = typeName;
         console.log("Node class is"+nodeClass);
         // apply the classes ;
         if (that.nodeElement){
@@ -99,7 +101,7 @@ function CLDNode(graph) {
     };
 
     this.setExternalFactors = function() {
-        that.setType(allPossibleClasses.length - 1);
+        that.setType(allPossibleClasses.length - 1, "External Factor");
     };
 }
 

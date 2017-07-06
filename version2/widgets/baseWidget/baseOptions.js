@@ -100,7 +100,7 @@ function BaseControls(parentWidget) {
         var button = document.createElement('button');
         button.type = "button";
         button.id = btnId;
-        button.class = "btn btn-default btn-lg";
+        button.class = "btn btn-default btn-lg btn-block";
         button.innerHTML = label;
         thisDiv.appendChild(button);
 
@@ -129,7 +129,7 @@ function BaseControls(parentWidget) {
         else parent.getBody().node().appendChild(hButton);
 
         hrefButtonId++;
-
+        return hButton;
     };
 
 

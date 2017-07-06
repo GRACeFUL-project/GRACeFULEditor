@@ -3,11 +3,11 @@ function CLDControls(parentWidget) {
     var that = this;
     this.parent=parentWidget;
 
-    var nodesGroup,linksGroup ;
+    var nodesGroup,linksGroup, additionalSettings;
 
     var selectionNode,lineEditNode,commentNode;
     var causalSelection,commentLink;
-    var delNodeBtn, delLinkBtn, extFactorBtn, loopBtn;
+    var delNodeBtn, delLinkBtn, extFactorBtn, loopBtn, loadcld, saveCld, libCld, sendCld;
 
 
     this.generateControls=function() {
@@ -27,9 +27,31 @@ function CLDControls(parentWidget) {
         delLinkBtn = that.addButtons(linksGroup, "Delete", "linkDelete", that.deleteLinks);
 
         additionalSettings = that.createAccordionGroup(that.divControlsGroupNode, "Settings");
-        extFactorBtn = that.addButtons(additionalSettings, "Identify External Factors", "extF", that.identifyExtFact);
+        loadcld = that.addHrefButton(additionalSettings,"Load",that.loadFunction,true);
+        loadcld.setAttribute("class", "btn btn-default btn-sm");
+        loadcld.parentNode.setAttribute("id", "basic");
+        loadcld.innerHTML = '<span class="glyphicon glyphicon-floppy-open"></span> Load Model';
+        
+        saveCld = that.addHrefButton(additionalSettings,"Save",that.saveFunction,false);
+        document.getElementById("basic").appendChild(saveCld);
+        saveCld.setAttribute("class", "btn btn-default btn-sm pull-right");
+        saveCld.innerHTML = '<span class="glyphicon glyphicon-floppy-save"></span> Save Model';
 
-        loopBtn = that.addButtons(additionalSettings, "Identify Feeback Loops", "loops", that.feedbackLoop);
+        libCld = that.addHrefButton(additionalSettings,"Get Library",that.getLibrary,true);
+        libCld.setAttribute("class", "btn btn-default btn-sm");
+        libCld.parentNode.setAttribute("id", "basic1");
+        libCld.innerHTML = '<span class="glyphicon glyphicon-log-in"></span> Get Library';
+
+        sendCld = that.addHrefButton(additionalSettings,"Send Model",that.sendModel,false);
+        document.getElementById("basic1").appendChild(sendCld);
+        sendCld.setAttribute("class", "btn btn-default btn-sm pull-right");
+        sendCld.innerHTML = '<span class="glyphicon glyphicon-log-out"></span> Send Model';
+
+        extFactorBtn = that.addHrefButton(additionalSettings, "Identify External Factors", that.identifyExtFact, true);
+        extFactorBtn.setAttribute("class", "btn btn-default btn-sm btn-block");
+
+        loopBtn = that.addHrefButton(additionalSettings, "Identify Feeback Loops", that.feedbackLoop, true);
+        loopBtn.setAttribute("class", "btn btn-default btn-sm btn-block");
     };
 
     this.handleNodeSelection=function(node){
@@ -97,7 +119,7 @@ function CLDControls(parentWidget) {
 
         var strUser = selectionContainer.options[selectionContainer.selectedIndex].value;
         console.log(selectionContainer.selectedIndex+" the user string is "+strUser);
-        that.selectedNode.setType(selectionContainer.selectedIndex);
+        that.selectedNode.setType(selectionContainer.selectedIndex, strUser);
 
     };
     this.onChangeNodeName=function(){
@@ -123,7 +145,71 @@ function CLDControls(parentWidget) {
 
     this.feedbackLoop = function() {
         that.parent.identifyLoops();
-    }
+    };
+
+    this.saveFunction=function(){
+        console.log("saving was pressed");
+        var action={};
+        action.task="ACTION_SAVE_JSON";
+        that.parent.requestAction(action);
+    };
+
+    this.loadFunction=function(){
+        console.log("loading was pressed");
+        // create a temporary file loader
+        var hidden_solutionInput=document.createElement('input');
+        hidden_solutionInput.id="HIDDEN_SOLUTION_JSON_INPUT";
+        hidden_solutionInput.type="file";
+        //hidden_solutionInput.style.display="none";
+        hidden_solutionInput.autocomplete="off";
+        hidden_solutionInput.placeholder="load a json File";
+        hidden_solutionInput.setAttribute("class", "inputPath");
+        // hidden_solutionInput.style.display="none";
+        additionalSettings.getBody().node().appendChild(hidden_solutionInput);
+        var loaderSolutionPathNode=d3.select("#HIDDEN_SOLUTION_JSON_INPUT");
+        var fileElement;
+        var fileName;
+        var readText;
+        // simulate click event;
+        console.log("hidden thing is clicked");
+        hidden_solutionInput.click();
+        loaderSolutionPathNode.remove(loaderSolutionPathNode);
+        // tell what to do when clicked
+        loaderSolutionPathNode.on("input",function(){
+            console.log("hidden thing is clicked");
+            var files= loaderSolutionPathNode.property("files");
+            if (files.length>0){
+                console.log("file?"+files[0].name);
+                fileElement=files[0];
+                fileName=fileElement.name;
+                loaderSolutionPathNode.remove();
+
+                // read this file;
+                var reader = new FileReader();
+                reader.readAsText(fileElement);
+                reader.onload = function () {
+                    readText = reader.result;
+                    // the the communication module about this
+                    var action={};
+                    action.task="ACTION_LOAD_JSON";
+                    action.data=readText;
+                    that.parent.requestAction(action);
+                    // kill the action object;
+                    action=null;
+                };
+            }
+        });
+    };
+
+    this.sendModel = function() {
+        console.log("Send the model");
+        //TODO
+    };
+
+    this.getLibrary = function() {
+        console.log("Get Library");
+        //TODO
+    };
     
     this.start();
 

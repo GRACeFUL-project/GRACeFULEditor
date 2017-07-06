@@ -186,6 +186,7 @@ function BaseWidget(parentElement) {
         tempHref.href="data:text/json;charset=utf-8," + encodeURIComponent(saveObj);
         tempHref.download="someFileName.json";
         tempHref.click();
+        tempHref.hidden = true;
         // remove that thing
         d3.select("#TemporalDiv").remove();
     };
