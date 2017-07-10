@@ -50,6 +50,8 @@ function CLDGraph(){
             var linkObj={};
             linkObj.id=link.id();
             linkObj.source_target=[link.sourceNode.id(),link.targetNode.id()];
+            linkObj.linkTypeId = link.getTypeId();
+            linkObj.linkType = link.cldTypeString;
             retObj.links.push(linkObj);
         }
         return  JSON.stringify(retObj, null, '  ');
@@ -76,6 +78,7 @@ function CLDGraph(){
             var newLink=that.createLink(that);
             newLink.source(sourceNode);
             newLink.target(targetNode);
+            newLink.setCLDTypeString(jsonLink.linkTypeId);
             that.pathElementArray.push(newLink);
             that.needsRedraw(true);
         }
@@ -142,42 +145,71 @@ function CLDGraph(){
         }
     };
 
+    var adjacentNodes = [];
+    var allNodes = [];
+    
+    var visited = [];
+    var onStack = [];
+    var feedbackLoops = [];
+
     this.identifyFeedbackLoops = function() {
         console.log("Looking for feedback loops");
-        var feedbackLoops = [];
-        for(var i=0; i<that.pathElementArray.length; i++) {
-            var pathLoops = that.pathElementArray.filter(function(l) {
-                if(that.pathElementArray[i].id() !== l.id()) {
-                    return (l.sourceNode === that.pathElementArray[i].targetNode && l.targetNode === that.pathElementArray[i].sourceNode);
-                }
-            });
-            if(pathLoops.length !== 0)
-                feedbackLoops.push(that.pathElementArray[i]);
-        }
-        console.log("Number of feedback loops are: "+feedbackLoops.length);
-
-        for(var i=0; i<feedbackLoops.length; i++) {
-            console.log("The feedback loop id is: "+feedbackLoops[i].id());
-            feedbackLoops[i].setLoopStyle();
-        }
-        
-        // adjacentNodes = {};
-        // for(var i=0; i<that.nodeElementArray.length; i++) {
-        //     visited[i] = false;
-        //     adjNodes[i] = [];
-        //     adjLinks[i] = [];
-        //     var links = that.pathElementArray.filter(function(l) {
-        //         if(l.sourceNode === that.nodeElementArray[i]) {
-        //             adjNodes[i].push(l.targetNode.id());
-        //             return;
+        // var feedbackLoops = [];
+        // for(var i=0; i<that.pathElementArray.length; i++) {
+        //     var pathLoops = that.pathElementArray.filter(function(l) {
+        //         if(that.pathElementArray[i].id() !== l.id()) {
+        //             return (l.sourceNode === that.pathElementArray[i].targetNode && l.targetNode === that.pathElementArray[i].sourceNode);
         //         }
         //     });
-        //     adjLinks[i].push(links);
-        //     console.log("the adjacent nodes of "+that.nodeElementArray[i].id()+" is:"+adjNodes[i]);
-        //     if(!(adjacentNodes.hasOwnProperty(that.nodeElementArray[i].id())))
-        //         adjacentNodes[that.nodeElementArray[i].id()] = adjNodes[i];
+        //     if(pathLoops.length !== 0)
+        //         feedbackLoops.push(that.pathElementArray[i]);
         // }
-        // console.log("The Adjacent nodes of every node is: "+JSON.stringify(adjacentNodes));
+        // console.log("Number of feedback loops are: "+feedbackLoops.length);
+
+        // for(var i=0; i<feedbackLoops.length; i++) {
+        //     console.log("The feedback loop id is: "+feedbackLoops[i].id());
+        //     feedbackLoops[i].setLoopStyle();
+        // }
+        
+        var adjNodes = [];
+        var adjLinks = [];
+        adjacentNodes = [];
+        allNodes = [];
+    
+        visited = [];
+        onStack = [];
+        feedbackLoops = [];
+
+        for(var i=0; i<that.nodeElementArray.length; i++) {
+            visited[i] = false;
+            onStack[i] = false;
+            allNodes.push(that.nodeElementArray[i].id());
+            adjNodes[i] = [];
+            adjLinks[i] = [];
+            var links = that.pathElementArray.filter(function(l) {
+                if(l.sourceNode === that.nodeElementArray[i]) {
+                    adjNodes[i].push(l.targetNode.id());
+                    return;
+                }
+            });
+            adjLinks[i].push(links);
+            console.log("the adjacent nodes of "+that.nodeElementArray[i].id()+" is:"+adjNodes[i]);
+            if(!(adjacentNodes.hasOwnProperty(that.nodeElementArray[i].id())))
+                adjacentNodes.push(adjNodes[i]);
+        }
+        console.log("The Adjacent nodes of every node is: "+JSON.stringify(adjacentNodes));
+
+        for(var i=0; i<allNodes.length; i++) {
+            console.log("are u entering for loop");
+            var temp = [];
+            findCycle(i, temp);
+        }
+
+        console.log("The allNodes are: "+JSON.stringify(allNodes));
+        console.log("the feedbackLoops are: "+JSON.stringify(feedbackLoops));
+        console.log("The adjacentNodes are: "+JSON.stringify(adjacentNodes));
+        // console.log("The visited are: "+JSON.stringify(visited));
+        // console.log("The onStack are: "+JSON.stringify(onStack));
 
         // var adjNodes = [];
         // var adjLinks = [];
@@ -187,7 +219,7 @@ function CLDGraph(){
         // var feedbackLoops = [];
         
         // for(var i=0; i<that.nodeElementArray.length; i++) {
-        //     var j = that.nodeElementArray[i].id()
+        //     var j = that.nodeElementArray[i].id();
         //     adjNodes.push(j);
         //     loops[j] = 0;
         // }
@@ -226,6 +258,36 @@ function CLDGraph(){
         //     feedbackLoops[i].setLoopStyle();
         // }
     };
+
+    function findCycle(index, temp) {        
+        visited[index] = true;
+        onStack[index] = true;        
+        temp.push(allNodes[index]);
+        // console.log("For node: "+allNodes[index]+ ", the temp is: "+temp);
+        var w = adjacentNodes[index];
+        // console.log("The w is: "+w);
+        for(var j=0; j<w.length; j++) {            
+            var k = allNodes.indexOf(w[j]);
+            console.log("The index of "+w[j]+" is: "+k);
+            console.log("The visited are: "+JSON.stringify(visited));
+            console.log("The onStack are: "+JSON.stringify(onStack));
+
+            if(!visited[k])
+                findCycle(k, temp);
+            else if(onStack[k]) {
+                temp.push(allNodes[k]);
+                console.log("There is a loop "+k);
+                // var loppy = temp.slice(temp.indexOf(w[j]));
+                // loppy.push(w[j]);
+                feedbackLoops.push(temp);
+                // temp.pop();
+                onStack[index] = false;
+                return;
+            }
+        }
+        onStack[index] = false;
+        // temp.splice(temp.indexOf(allNodes[index]), 1);
+    }
 
     // function checkLoops(edges, loops, path, vertex) {
     //     loops[vertex] = 1;

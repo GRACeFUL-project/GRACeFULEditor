@@ -14,7 +14,7 @@ function CLDLink(graph) {
 
     console.log("Generating a link with id "+that.id());
     var cldType="unknown";
-    var cldTypeString="?";
+    this.cldTypeString="?";
     that.hoverText="";
     var linkDir=[]; // normal vector;
     var endPos=[]; // end position for the line
@@ -30,19 +30,19 @@ function CLDLink(graph) {
 
 
     this.getTypeId=function() {
-        if (cldTypeString === "?") return 0;
-        if (cldTypeString === "+") return 1;
-        if (cldTypeString === "-") return 2;
+        if (that.cldTypeString === "?") return 0;
+        if (that.cldTypeString === "+") return 1;
+        if (that.cldTypeString === "-") return 2;
     };
 
     this.setCLDTypeString=function(val){
-        if (val === 0) cldTypeString="?";
-        if (val === 1) cldTypeString="+";
-        if (val === 2) cldTypeString="-";
+        if (val === 0) that.cldTypeString="?";
+        if (val === 1) that.cldTypeString="+";
+        if (val === 2) that.cldTypeString="-";
 
         // update textRendering element
         if (textRenderingElement)
-            textRenderingElement.text(cldTypeString);
+            textRenderingElement.text(that.cldTypeString);
     };
 
 
@@ -85,7 +85,7 @@ function CLDLink(graph) {
             .classed("text", true)
             .attr("text-anchor", "middle")
             .attr("style", "fill: black")
-            .text(cldTypeString);
+            .text(that.cldTypeString);
     }
 
     this.updateElement=function(){
