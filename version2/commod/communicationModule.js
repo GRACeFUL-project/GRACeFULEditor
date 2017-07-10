@@ -78,59 +78,19 @@
                 // docker image name
                 // get the model
                 var modelText = localAction.data;
-                var libName=solverAddress+"/submit";
-                console.log("do we have a lib address:"+libName);
+                var solverAddress="http://localhost:4000";
+                var serverRequest=solverAddress+"/submit";
+                console.log("do we have a lib address:"+serverRequest);
 
-                var formData = new FormData();
-                formData.append("", modelText);
-                var xhr = new XMLHttpRequest();
-
-                xhr.open("POST", libName, true);
-                xhr.setRequestHeader("Content-type", "application/json");
-                xhr.onload = function () {
+                var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance
+                xmlhttp.open("POST", serverRequest);
+                xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                xmlhttp.send(modelText);
+                xmlhttp.onload = function () {
                     console.log("finished the xhr request with post");
+                    console.log("result:"+xmlhttp.responseText);
+                    console.log("response text needs to be transferred into json ")
                 };
-                xhr.send(formData);
-
-
-
-                //
-                // var xhr = new XMLHttpRequest();
-                // xhr.open("POST", '{"name":test}', true);
-                // xhr.setRequestHeader("Content-type", "application/json");
-                //
-                // xhr.onreadystatechange = function() {//Call a function when the state changes.
-                //     console.log("ready! ");
-                //     console.log("readyState: "+xhr.readyState);
-                //     console.log("Status: "+xhr.status);
-                //     console.log(xhr.responseText);
-                //      if(xhr.readyState == 4 && xhr.status == 200) {
-                //          console.log("Response" +xhr.responseText);
-                //      }
-                //  };
-                // console.log("sending request "+xhr);
-                // xhr.send();
-                //
-                //
-                // //
-                //  d3.text(libName)
-                //       .header("Content-Type", "application/json")
-                //       .post(modelText, function(error, text) { console.log(text); });
-
-                // var xhr = new XMLHttpRequest();
-                // xhr.onload = function () {
-                //     console.log("executing the docker request")
-                //     if (xhr.status === 200) {
-                //         console.log("Okay ---------------------------------------------------------");
-                //         console.log(xhr.responseText);
-                //
-                //     }
-                //
-                // };
-
-                // xhr.open("POST", libName, true);
-                // xhr.setRequestHeader('Content-type', 'application/json');
-                // xhr.send(modelText);
             }
 
 
