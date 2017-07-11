@@ -243,13 +243,6 @@ function CLDGraph(){
         }
     };
 
-    var adjacentNodes = [];
-    var allNodes = [];
-    
-    var visited = [];
-    var onStack = [];
-    var feedbackLoops = [];
-
     this.identifyFeedbackLoops = function() {
         console.log("Looking for feedback loops");
         // var feedbackLoops = [];
@@ -271,157 +264,94 @@ function CLDGraph(){
         
         var adjNodes = [];
         var adjLinks = [];
-        adjacentNodes = [];
-        allNodes = [];
-    
-        visited = [];
-        onStack = [];
-        feedbackLoops = [];
-
-        for(var i=0; i<that.nodeElementArray.length; i++) {
-            visited[i] = false;
-            onStack[i] = false;
-            allNodes.push(that.nodeElementArray[i].id());
-            adjNodes[i] = [];
-            adjLinks[i] = [];
-            var links = that.pathElementArray.filter(function(l) {
-                if(l.sourceNode === that.nodeElementArray[i]) {
-                    adjNodes[i].push(l.targetNode.id());
-                    return;
-                }
-            });
-            adjLinks[i].push(links);
-            console.log("the adjacent nodes of "+that.nodeElementArray[i].id()+" is:"+adjNodes[i]);
-            if(!(adjacentNodes.hasOwnProperty(that.nodeElementArray[i].id())))
-                adjacentNodes.push(adjNodes[i]);
-        }
-        console.log("The Adjacent nodes of every node is: "+JSON.stringify(adjacentNodes));
-
-        for(var i=0; i<allNodes.length; i++) {
-            console.log("are u entering for loop");
-            var temp = [];
-            findCycle(i, temp);
-        }
-
-        console.log("The allNodes are: "+JSON.stringify(allNodes));
-        console.log("the feedbackLoops are: "+JSON.stringify(feedbackLoops));
-        console.log("The adjacentNodes are: "+JSON.stringify(adjacentNodes));
-        // console.log("The visited are: "+JSON.stringify(visited));
-        // console.log("The onStack are: "+JSON.stringify(onStack));
-
-        // var adjNodes = [];
-        // var adjLinks = [];
-        // var loops = {};
-        // var path = [];
-        // var allTheLoops = [];
-        // var feedbackLoops = [];
+        var loops = {};
+        var path = [];
+        var allTheLoops = [];
+        var feedbackLoops = [];
         
-        // for(var i=0; i<that.nodeElementArray.length; i++) {
-        //     var j = that.nodeElementArray[i].id();
-        //     adjNodes.push(j);
-        //     loops[j] = 0;
-        // }
+        for(var i=0; i<that.nodeElementArray.length; i++) {
+            var j = that.nodeElementArray[i].id();
+            adjNodes.push(j);
+            loops[j] = 0;
+        }
 
-        // for(var i=0; i<that.pathElementArray.length; i++) {
-        //     var arr = [that.pathElementArray[i].sourceNode.id(), that.pathElementArray[i].targetNode.id()];
-        //     adjLinks.push(arr);
-        // }
-        // console.log("The nodes are: "+adjNodes);
-        // console.log("The links are: "+JSON.stringify(adjLinks));
+        for(var i=0; i<that.pathElementArray.length; i++) {
+            var arr = [that.pathElementArray[i].sourceNode.id(), that.pathElementArray[i].targetNode.id()];
+            adjLinks.push(arr);
+        }
+        console.log("The nodes are: "+adjNodes);
+        console.log("The links are: "+JSON.stringify(adjLinks));
 
-        // for (var i=0; i<adjNodes.length; ++i) {
-        //     var vertex = adjNodes[i];
-        //     if (loops[vertex] == 0) {
-        //         var result = checkLoops(adjLinks, loops, path, vertex)
-        //         if (result.hasLoop) {
-        //             allTheLoops.push(result.loop)
-        //         }
-        //     }
-        // }
-        // console.log("All the loops in a graph are: "+JSON.stringify(allTheLoops));
-        // for(var i=0; i<allTheLoops.length; i++) {
-        //     var tempLoop = allTheLoops[i];
-        //     for(var j=0; j<tempLoop.length; j++) {
-        //         for(var k=0; k<that.pathElementArray.length; k++) {
-        //             if(tempLoop[j+1] !== undefined) {
-        //                 if(tempLoop[j] === that.pathElementArray[k].sourceNode.id() && tempLoop[j+1] === that.pathElementArray[k].targetNode.id())
-        //                     feedbackLoops.push(that.pathElementArray[k]);
-        //             }                    
-        //         }                
-        //     }            
-        // }
-
-        // for(var i=0; i<feedbackLoops.length; i++) {
-        //     console.log("The feedback loop id is: "+feedbackLoops[i].id());
-        //     feedbackLoops[i].setLoopStyle();
-        // }
-    };
-
-    function findCycle(index, temp) {        
-        visited[index] = true;
-        onStack[index] = true;        
-        temp.push(allNodes[index]);
-        // console.log("For node: "+allNodes[index]+ ", the temp is: "+temp);
-        var w = adjacentNodes[index];
-        // console.log("The w is: "+w);
-        for(var j=0; j<w.length; j++) {            
-            var k = allNodes.indexOf(w[j]);
-            console.log("The index of "+w[j]+" is: "+k);
-            console.log("The visited are: "+JSON.stringify(visited));
-            console.log("The onStack are: "+JSON.stringify(onStack));
-
-            if(!visited[k])
-                findCycle(k, temp);
-            else if(onStack[k]) {
-                temp.push(allNodes[k]);
-                console.log("There is a loop "+k);
-                // var loppy = temp.slice(temp.indexOf(w[j]));
-                // loppy.push(w[j]);
-                feedbackLoops.push(temp);
-                // temp.pop();
-                onStack[index] = false;
-                return;
+        for (var i=0; i<adjNodes.length; ++i) {
+            var vertex = adjNodes[i];
+            console.log("**************************");
+            if (loops[vertex] == 0) {
+                var result = checkLoops(adjLinks, loops, path, vertex);
+                if (result.hasLoop) {
+                    allTheLoops.push(result.loop);
+                    path.pop();
+                }
             }
         }
-        onStack[index] = false;
-        // temp.splice(temp.indexOf(allNodes[index]), 1);
+        console.log("All the loops in a graph are: "+JSON.stringify(allTheLoops));
+        console.log("how is loops: "+JSON.stringify(loops));
+        for(var i=0; i<allTheLoops.length; i++) {
+            var tempLoop = allTheLoops[i];
+            for(var j=0; j<tempLoop.length; j++) {
+                for(var k=0; k<that.pathElementArray.length; k++) {
+                    if(tempLoop[j+1] !== undefined) {
+                        if(tempLoop[j] === that.pathElementArray[k].sourceNode.id() && tempLoop[j+1] === that.pathElementArray[k].targetNode.id())
+                            feedbackLoops.push(that.pathElementArray[k]);
+                    }                    
+                }                
+            }            
+        }
+
+        for(var i=0; i<feedbackLoops.length; i++) {
+            console.log("The feedback loop id is: "+feedbackLoops[i].id());
+            feedbackLoops[i].setLoopStyle();
+        }        
+    };
+    
+    //TODO: The algorithm is not efficient in finding loops when a node is involved in more then one cycle
+    function checkLoops(edges, loops, path, vertex) {
+        loops[vertex] = 1;
+        path.push(vertex);
+        console.log("This is vertex: "+vertex+" Path is: "+path);
+        var adjacentEdges = [];
+        for (var i=0; i<edges.length; ++i) {
+            var edge = edges[i];
+            if (edge[0] == vertex) {
+                adjacentEdges.push(edge);
+            }
+        }
+
+        for (var i=0; i<adjacentEdges.length; ++i) {
+            console.log("The adjacent edge of node: "+vertex+ " is: "+JSON.stringify(adjacentEdges));
+            var edge = adjacentEdges[i];
+            var adjVertex = edge[1];
+
+            if (loops[adjVertex] == 1) {      
+            console.log("The adjVertex "+adjVertex+" is 1");          
+                var loop = path.slice(path.indexOf(adjVertex));
+                loop.push(adjVertex);
+                console.log("The loop is: "+loop);
+                return { hasLoop: true, loop: loop };
+            }
+
+            if (loops[adjVertex] == 0) {
+                console.log("The adjVertex "+adjVertex+" is still 0");
+                var result = checkLoops(edges, loops, path, adjVertex);
+                if (result.hasLoop) {
+                    return result;
+                }
+            }
+        }
+        console.log("coloring vertex: "+vertex+" as black");
+        loops[vertex] = 2;
+        path.pop();
+        return { hasLoop: false };
     }
-
-    // function checkLoops(edges, loops, path, vertex) {
-    //     loops[vertex] = 1;
-    //     path.push(vertex);
-
-    //     var adjacentEdges = [];
-    //     for (var i=0; i<edges.length; ++i) {
-    //         var edge = edges[i];
-    //         if (edge[0] == vertex) {
-    //             adjacentEdges.push(edge);
-    //         }
-    //     }
-
-    //     for (var i=0; i<adjacentEdges.length; ++i) {
-    //         var edge = adjacentEdges[i];
-    //         var adjVertex = edge[1];
-
-    //         if (loops[adjVertex] == 1) {
-    //             var loop = path.slice(path.indexOf(adjVertex));
-    //             loop.push(adjVertex);
-    //             console.log("The loop is: "+loop);
-    //             return { hasLoop: true, loop: loop };
-    //         }
-
-    //         if (loops[adjVertex] == 0) {
-    //             var result = checkLoops(edges, loops, path, adjVertex);
-    //             if (result.hasLoop) {
-    //                 return result;
-    //             }
-    //         }
-    //     }
-
-    //     loops[vertex] = 2;
-    //     path.pop(vertex);
-    //     return { hasLoop: false };
-    // }
 }
 
 CLDGraph.prototype = Object.create(BaseGraph.prototype);
