@@ -10,6 +10,7 @@
 .cldLink{
     stroke: #69c;
     stroke-width: 4px;
+    fill:none;
 }
 
 .cldLinkHovered{

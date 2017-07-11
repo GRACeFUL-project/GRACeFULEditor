@@ -13,6 +13,7 @@
         var that = this;
 
         var registeredWidgets;
+        //http://localhost:4000/static/index.html
         var solverAddress="http://localhost:4000";
         var localAction;
         this.registerWidget=function(widgets){
@@ -81,17 +82,22 @@
                 var libName=solverAddress+"/submit";
                 console.log("do we have a lib address:"+libName);
 
-                var formData = new FormData();
-                formData.append("", modelText);
+
                 var xhr = new XMLHttpRequest();
 
                 xhr.open("POST", libName, true);
                 xhr.setRequestHeader("Content-type", "application/json");
+                console.log("that "+xhr);
+                console.log(xhr);
                 xhr.onload = function () {
-                    console.log("finished the xhr request with post");
-                };
-                xhr.send(formData);
 
+                    console.log("finished the xhr request with post");
+                    console.log(xhr);
+                };
+                xhr.send("{hello world}");
+                // after send
+                console.log("send request");
+                console.log(xhr);
 
 
                 //

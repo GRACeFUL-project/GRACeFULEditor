@@ -3,7 +3,8 @@ function ExampleControls(parentWidget) {
     var that = this;
     this.parent=parentWidget;
 
-    var  generationTest,optionsGroup;
+    var generationTest,optionsGroup, nodeGroup;
+    var nodeSelGroup;
 
     this.onChangeEmpty=function(x){
         // empty function does not do anything, used for debuging
@@ -88,6 +89,18 @@ function ExampleControls(parentWidget) {
     };
 
 
+    this.enableHUD=function(val){
+        that.parentWidget().enableHUD(val);
+    };
+
+
+    this.onChangeNodeType=function(selectionContainer){
+        var strUser = selectionContainer.options[selectionContainer.selectedIndex].value;
+        console.log(selectionContainer.selectedIndex+" the user string is "+strUser);
+        that.selectedNode.setType(selectionContainer.selectedIndex, strUser);
+    };
+
+
     this.generateControls=function() {
         // testing stuff,
         generationTest= that.createAccordionGroup(that.divControlsGroupNode, "GenerationTests");
@@ -104,9 +117,41 @@ function ExampleControls(parentWidget) {
         that.addHrefButton(optionsGroup,"Get Lib",that.serverRequest,true);
         that.addHrefButton(optionsGroup,"Send ",that.testSubmitModel,true);
         generationTest.collapseBody();
+
+
+        nodeGroup=that.createAccordionGroup(that.divControlsGroupNode,"Node Types");
+        nodeSelGroup= that.addSelectionOpts(nodeGroup, "Node type", ["Undefined", "A", "B"], that.onChangeNodeType);
+        that.addCheckBox(nodeGroup,"Show HUD","cb_test1",false,that.enableHUD);
     };
 
     this.start();
+
+
+
+    this.handleNodeSelection=function(node){
+        // should be overwritten by the real options thing
+
+
+        if (node === undefined) {
+            nodeGroup.collapseBody();
+            return;
+        }
+        console.log("node type "+ node.getElementType());
+        var selId;
+        if (node.getElementType()==="NodeElement") {
+
+            // should be overwritten by the real options thing
+            // console.log("controls handle node operation" + node);
+            this.selectedNode = node;
+            nodeGroup.expandBody();
+
+            // should be overwritten by the real options thing
+
+            selId = that.selectedNode.getTypeId();
+            nodeSelGroup.node().options[selId].selected = "selected";
+        }
+
+    };
 
 
 }

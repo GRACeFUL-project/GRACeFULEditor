@@ -6,6 +6,13 @@ function BaseNode(graph) {
     var that = this;
    // this.parentWidget=parentWidget; // tells the graph which widget it talks to
 
+    // some constants;
+
+    this.GRAPH_OBJECT_NODE="GraphObjectNode";
+    this.OVERLAY_OBJECT_NODE="OverlayNode";
+
+    this.nodeClass="baseRoundNode";
+
     this.nodeId = nodeId++;
     this.elementType="NodeElement";
     this.label = "empty";
@@ -29,6 +36,14 @@ function BaseNode(graph) {
     var txtNode=undefined;
     this.elementWidth=100; // 2*radius
     this.nodeIsFocused=false;
+    this.nodeObjectType=that.GRAPH_OBJECT_NODE;
+
+    this.getNodeObjectType=function(){
+        return that.nodeObjectType;
+    };
+    this.setNodeObjectTypeToOverlay=function(){
+        that.nodeObjectType=that.OVERLAY_OBJECT_NODE;
+    };
 
     this.getElementType=function(){
         return that.elementType;
@@ -49,9 +64,14 @@ function BaseNode(graph) {
     };
     this.setSelectionStatus=function(val){
         that.nodeIsFocused=val;
-        that.nodeElement.classed("focused", val);
-        if (val===false)
-            graph.hideDraggerElement();
+        if (that.getNodeObjectType()===that.GRAPH_OBJECT_NODE) {
+            that.nodeElement.classed("focused", val);
+            if (val === false)
+                graph.hideDraggerElement();
+        }
+        if (that.getNodeObjectType()===that.OVERLAY_OBJECT_NODE){
+            that.nodeElement.classed("overlayToggle", val);
+        }
     };
 
 /** BASE HANDLING FUNCTIONS ------------------------------------------------- **/
@@ -109,15 +129,15 @@ function BaseNode(graph) {
 
     /** DRAWING FUNCTIONS ------------------------------------------------- **/
     this.drawNode=function(){
-      this.nodeElement= that.rootNodeLayer.append('circle').attr("r", 50)
-            .classed("baseRoundNode",true);
+      that.nodeElement= that.rootNodeLayer.append('circle').attr("r", 50)
+            .classed(that.nodeClass,true);
 
         // add hover text if you want
         if (that.hoverTextEnabled===true)
             that.rootNodeLayer.append('title').text(that.hoverText);
 
         // add title
-        this.labelRenderingElement=  that.rootNodeLayer.append("text")
+        that.labelRenderingElement=  that.rootNodeLayer.append("text")
             .attr("text-anchor","middle")
             .text(that.label)
             .style("cursor","default");
@@ -187,6 +207,7 @@ function BaseNode(graph) {
         if (that.mouseEnteredFunc() || that.editingTextElement===true) {
             return;
         }
+        that.nodeElement.classed(that.nodeClass,false);
         that.nodeElement.classed("baseNodeHovered",true);
         var selectedNode = that.rootElement.node(),
             nodeContainer = selectedNode.parentNode;
@@ -199,11 +220,12 @@ function BaseNode(graph) {
         if (that.mouseButtonPressed===true)
             return;
         that.nodeElement.classed("baseNodeHovered",false);
+        that.nodeElement.classed(that.nodeClass,true);
         that.mouseEnteredFunc(false);
     };
     this.onClicked=function(){
-        console.log(d3.event);
-        console.log("single click: prevented by drag?"+d3.event.defaultPrevented);
+        // console.log(d3.event);
+        // console.log("single click: prevented by drag?"+d3.event.defaultPrevented);
         if (d3.event.defaultPrevented) return;
         //
         // that.updateAssisiatedLinks();
@@ -214,20 +236,33 @@ function BaseNode(graph) {
 
 
        // d3.event.stopPropagation();
-
-        if (that.nodeIsFocused===false) {
-            that.nodeIsFocused=true;
-            that.nodeElement.classed("focused", true);
-            graph.selectNode(that);
-            graph.createDraggerElement(that);
-            console.log("this node is focused?"+that.nodeIsFocused);
-            return;
+        if (that.getNodeObjectType()===that.GRAPH_OBJECT_NODE) {
+            if (that.nodeIsFocused === false) {
+                that.nodeIsFocused = true;
+                that.nodeElement.classed("focused", true);
+                graph.selectNode(that);
+                graph.createDraggerElement(that);
+         //       console.log("this node is focused?" + that.nodeIsFocused);
+                return;
+            }
+            if (that.nodeIsFocused === true) {
+                that.nodeIsFocused = false;
+                that.nodeElement.classed("focused", false);
+                graph.selectNode(undefined);
+                graph.hideDraggerElement();
+            }
         }
-        if (that.nodeIsFocused===true) {
-            that.nodeIsFocused=false;
-            that.nodeElement.classed("focused", false);
-            graph.selectNode(undefined);
-            graph.hideDraggerElement();
+        if (that.getNodeObjectType()===that.OVERLAY_OBJECT_NODE){
+        //    console.log("setting overlay Toggle class");
+            if (that.nodeIsFocused === false) {
+                that.nodeIsFocused = true;
+                that.nodeElement.classed("overlayToggle", true);
+                return;
+            }
+            if (that.nodeIsFocused === true) {
+                that.nodeIsFocused = false;
+                that.nodeElement.classed("overlayToggle", false);
+            }
         }
 
         // test
@@ -274,7 +309,7 @@ function BaseNode(graph) {
                  }
              })
         .on("blur", function(){
-            console.log("CALLING BLUR FUNCTION ----------------------"+d3.event);
+       //     console.log("CALLING BLUR FUNCTION ----------------------"+d3.event);
             txtNode.layerX=that.x;
             txtNode.layerY=that.y;
             that.setLabelText(this.textContent);

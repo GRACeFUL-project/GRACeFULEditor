@@ -12,6 +12,10 @@ function CLDLink(graph) {
     var that = this;
     BaseLink.apply(this,arguments);
 
+    // constants
+    var SINGLE_LINK=0;
+    var MULTI_LINK=1;
+
     console.log("Generating a link with id "+that.id());
     var cldType="unknown";
     this.cldTypeString="?";
@@ -19,6 +23,17 @@ function CLDLink(graph) {
     var linkDir=[]; // normal vector;
     var endPos=[]; // end position for the line
     var dynamicLinkWidth=false;
+    var linkType=SINGLE_LINK;
+
+    var startPoint,endPoint;
+
+    this.getLinkType=function () {
+        return linkType;
+    };
+    this.setLinkType=function(multilink){
+      linkType=multilink;
+    };
+
 
     this.type=function(){
         return cldType;
@@ -26,6 +41,16 @@ function CLDLink(graph) {
     this.setSelectionStatus=function(val){
         that.elementIsFocused=val;
         that.pathElement.classed("cldLinkSelected", val);
+
+        // remove the image element
+        if (that.rootElement.selectAll("image")!=null) {
+            if (val===true)
+                that.rootElement.selectAll("image").attr("display", null);
+            else{
+                that.rootElement.selectAll("image").attr("display", "none");
+            }
+        }
+
     };
 
 
@@ -51,8 +76,98 @@ function CLDLink(graph) {
     var arrowTail=undefined; // testing
     var textRenderingElement=undefined;
 
+
+    var lineFunction = d3.svg.line()
+        .x(function (d) {
+            return d.x;
+        })
+        .y(function (d) {
+            return d.y;
+        })
+        .interpolate("cardinal");
+
+
+    function calculateMultiLinkPath(start,end,hovered) {
+        // compute orthogonal vector;
+
+        var sX=start.x;
+        var sY=start.y;
+        var eX=end.x;
+        var eY=end.y;
+
+        // compute the distance
+
+        var dx=eX-sX;
+        var dy=eY-sY;
+        var len=Math.sqrt(dx*dx+dy*dy);
+
+        var nX=dx/len;
+        var nY=dy/len;
+
+        // compute center;
+        var cX=sX+0.5*len*nX;
+        var cY=sY+0.5*len*nY;
+
+        // compute orthogonal offset;
+
+        var minOffset=10;
+        var maxOffset=50;
+
+        // use half distance
+        var offset=0.10*len;
+
+        if (offset<minOffset) offset=minOffset;
+        if (offset>maxOffset) offset=maxOffset;
+
+        var fpX=cX+offset*nY;
+        var fpY=cY-offset*nX;
+
+        // console.log("fp1:" +start.x +" "+start.y );
+        // console.log("fp2:" +fpX +" "+fpY );
+        // console.log("fp3:" +end.x +" "+end.y );
+
+        // compute the starting point offset;
+        var soX=fpX-start.x;
+        var soY=fpY-start.y;
+        // normalize
+        var startOffsetLength=Math.sqrt(soX*soX+soY*soY);
+
+        var soXn=soX/startOffsetLength;
+        var soYn=soY/startOffsetLength;
+
+        var eoX=fpX-end.x;
+        var eoY=fpY-end.y;
+        // normalize
+        var endOffsetLength=Math.sqrt(eoX*eoX+eoY*eoY);
+        var eoXn=eoX/endOffsetLength;
+        var eoYn=eoY/endOffsetLength;
+
+        var arrowOffset=10;
+        var sourceRadius=that.sourceNode.getRadius();
+        if (hovered===true){
+            arrowOffset=20;
+        }
+
+
+        var targetRadius=that.targetNode.getRadius()+arrowOffset;
+
+        var fixPoint1 = {"x": start.x+sourceRadius* soXn, "y": start.y+sourceRadius*soYn},
+            fixPoint2 = {"x": fpX,      "y": fpY},
+            fixPoint3 = {"x": end.x+targetRadius*eoXn,    "y": end.y+targetRadius*eoYn };
+
+        return [fixPoint1, fixPoint2, fixPoint3];
+    }
+
+
+    function calculateSingleLinkPath(start,end) {
+        var fixPoint1 = {"x": start.x , "y": start.y},
+            fixPoint2 = {"x": end.x,    "y": end.y };
+        return [fixPoint1, fixPoint2];
+    }
+
+
     this.drawElement=function(){
-        that.pathElement = that.rootElement.append('line').classed("cldLink",true);
+        that.pathElement = that.rootElement.append('path').classed("cldLink",true);
         addArrowHead();
         // addArrowTail();
         addTypeString();
@@ -131,25 +246,57 @@ function CLDLink(graph) {
 
 
 
-                var orthX=12* tnY;
-                var orthY=12*-tnX;
+                var orthX=15* tnY;
+                var orthY=15*-tnX;
 
                 var offset=[that.sourceNode.x+0.5*tnLen*tnX  + orthX,that.sourceNode.y+0.5*tnLen*tnY +   orthY];
 
                 textRenderingElement.attr("transform", "translate(" + offset[0] + "," + offset[1]+ ")");
+                // use path calculations
 
 
-                that.pathElement.attr("x1", sX)
-                    .attr("y1", sY)
-                    .attr("x2", eX)
-                    .attr("y2", eY);
 
-                endPos=[eX,eY];
-                linkDir=[nX,nY];
+                // that.pathElement.attr("x1", sX)
+                //     .attr("y1", sY)
+                //     .attr("x2", eX)
+                //     .attr("y2", eY);
 
-                that.rootElement.selectAll("image")
-                    .attr("x", that.sourceNode.x + 0.5*(dx)-0.5*17)
-                    .attr("y", that.sourceNode.y + 0.5*(dy)-0.5*17);
+                startPoint={ x:sX, y:sY };
+                endPoint  ={ x:eX, y:eY };
+
+                if (that.getLinkType()===SINGLE_LINK) {
+                    that.pathElement.attr("d", lineFunction(calculateSingleLinkPath(startPoint, endPoint)));
+                    endPos = [eX, eY];
+                    linkDir = [nX, nY];
+
+                    that.rootElement.selectAll("image")
+                        .attr("x", that.sourceNode.x + 0.5 * (dx) - 0.5 * 17)
+                        .attr("y", that.sourceNode.y + 0.5 * (dy) - 0.5 * 17);
+                }
+                if (that.getLinkType()===MULTI_LINK){
+                    console.log("computing the multilink path");
+                    startPoint={ x:that.sourceNode.x, y:that.sourceNode.y };
+                    endPoint  ={ x:that.targetNode.x, y:that.targetNode.y };
+
+                    var controlPoints=calculateMultiLinkPath(startPoint, endPoint);
+                    console.log(controlPoints);
+
+                    that.pathElement.attr("d", lineFunction(controlPoints));
+                    endPos = [eX, eY];
+                    linkDir = [nX, nY];
+
+                    var orthX=15* tnY;
+                    var orthY=15*-tnX;
+                    var offset=[controlPoints[1].x+orthX,controlPoints[1].y+orthY];
+                    textRenderingElement.attr("transform", "translate(" + offset[0] + "," + offset[1]+ ")");
+
+
+
+                    that.rootElement.selectAll("image")
+                        .attr("x", controlPoints[1].x - 0.5 * 17)
+                        .attr("y", controlPoints[1].y - 0.5 * 17);
+
+                }
             }else{
                 // this should not happen because than we have no path between two nodes;
                 console.log("well error !");
@@ -158,6 +305,53 @@ function CLDLink(graph) {
         }
 
     };
+
+
+
+    this.onClicked = function () {
+        console.log("link click");
+        if (that.elementIsFocused===false) {
+            that.elementIsFocused=true;
+            that.pathElement.classed("LinkFocused", true);
+            graph.handleLinkSelection(that);
+            if (that.rootElement.selectAll("image")!=null) {
+                var iW = parseInt(that.rootElement.selectAll("image").attr("width"));
+                var iH = parseInt(that.rootElement.selectAll("image").attr("height"));
+                if (that.getLinkType()===SINGLE_LINK) {
+                    that.rootElement.selectAll("image")
+                        .attr("display", null)
+                        .attr("x", that.sourceNode.x + 0.5 * (that.targetNode.x - that.sourceNode.x) - 0.5 * iW)
+                        .attr("y", that.sourceNode.y + 0.5 * (that.targetNode.y - that.sourceNode.y) - 0.5 * iH);
+                    return;
+                }
+                if (that.getLinkType()===MULTI_LINK){
+
+                    var startPoint={ x:that.sourceNode.x, y:that.sourceNode.y };
+                    var endPoint  ={ x:that.targetNode.x, y:that.targetNode.y };
+
+                    var controlPoints=calculateMultiLinkPath(startPoint, endPoint);
+                    that.rootElement.selectAll("image")
+                        .attr("display", null)
+                        .attr("x", controlPoints[1].x - 0.5 * iW)
+                        .attr("y", controlPoints[1].y - 0.5 * iH);
+                    return;
+
+
+                    }
+            }
+        }
+        if (that.elementIsFocused===true) {
+            that.elementIsFocused=false;
+            that.pathElement.classed("LinkFocused", false);
+            graph.handleLinkSelection(undefined);
+            that.rootElement.selectAll("image")
+                .attr("display", "none");
+        }
+
+        that.mouseEnteredFunc(false);
+        that.onMouseOver();
+    };
+
 
     function addArrowHead(){
         if (that.pathElement) {
@@ -231,6 +425,11 @@ function CLDLink(graph) {
         if (that.mouseEnteredFunc()) {
             return;
         }
+        // pull this element ontop
+        var selectedNode = that.rootElement.node(),
+            nodeContainer = selectedNode.parentNode;
+        nodeContainer.appendChild(selectedNode);
+
         if (dynamicLinkWidth==false) {
             if (that.getSelectionStatus() === true) {
                 that.pathElement.classed("cldLinkHovered",          false);
@@ -244,37 +443,51 @@ function CLDLink(graph) {
             }
             var newX = endPos[0] - linkDir[0] * 10;
             var newY = endPos[1] - linkDir[1] * 10;
-            that.pathElement.attr("x2", newX).attr("y2", newY);
-        }else { // experimental code;
-            if (that.getSelectionStatus() === true) {
-                that.pathElement.classed("cldLinkSelected", false);
-                that.pathElement.classed("cldLinkSelectedHovered", false);
-                that.pathElement.classed("cldLinkHovered", false);
-                that.pathElement.classed("cldLinkHoveredDynamic", false);
-                that.pathElement.classed("cldLinkSelectedHoveredDynamic", true);
 
-            } else {
-                that.pathElement.classed("cldLinkSelected", false);
-                that.pathElement.classed("cldLinkSelectedHovered", false);
-                that.pathElement.classed("cldLinkSelectedHoveredDynamic", false);
-                that.pathElement.classed("cldLinkHovered", false);
-                that.pathElement.classed("cldLinkHoveredDynamic", true);
+            // need to fix this;
+            // check if path is a single one;
+            if (that.getLinkType()===SINGLE_LINK){
+                var controlPoints=calculateSingleLinkPath(startPoint, endPoint);
+                controlPoints[1].x=newX;
+                controlPoints[1].y=newY;
+                that.pathElement.attr("d", lineFunction(controlPoints));
             }
-            var defSize = 8;
-            var newX, newY;
-            var gZoom = graph.getZoomFactor();
-            if (gZoom > 1.0){
-                that.pathElement.style("stroke-width", defSize + "px");
-                newX = endPos[0] - linkDir[0] * 10;
-                newY = endPos[1] - linkDir[1] * 10;
-                that.pathElement.attr("x2", newX).attr("y2", newY);
-            } else{
-                if (gZoom<0.5) gZoom=0.5;
-                that.pathElement.style("stroke-width", defSize/gZoom + "px");
-                newX = endPos[0] - linkDir[0] * 11/gZoom;
-                newY = endPos[1] - linkDir[1] * 11/gZoom;
-                that.pathElement.attr("x2", newX).attr("y2", newY);
+            if (that.getLinkType()===MULTI_LINK){
+                var controlPoints=calculateMultiLinkPath(startPoint, endPoint,true);
+                that.pathElement.attr("d", lineFunction(controlPoints));
             }
+
+
+        }else { // experimental code;
+            // if (that.getSelectionStatus() === true) {
+            //     that.pathElement.classed("cldLinkSelected", false);
+            //     that.pathElement.classed("cldLinkSelectedHovered", false);
+            //     that.pathElement.classed("cldLinkHovered", false);
+            //     that.pathElement.classed("cldLinkHoveredDynamic", false);
+            //     that.pathElement.classed("cldLinkSelectedHoveredDynamic", true);
+            //
+            // } else {
+            //     that.pathElement.classed("cldLinkSelected", false);
+            //     that.pathElement.classed("cldLinkSelectedHovered", false);
+            //     that.pathElement.classed("cldLinkSelectedHoveredDynamic", false);
+            //     that.pathElement.classed("cldLinkHovered", false);
+            //     that.pathElement.classed("cldLinkHoveredDynamic", true);
+            // }
+            // var defSize = 8;
+            // var newX, newY;
+            // var gZoom = graph.getZoomFactor();
+            // if (gZoom > 1.0){
+            //     that.pathElement.style("stroke-width", defSize + "px");
+            //     newX = endPos[0] - linkDir[0] * 10;
+            //     newY = endPos[1] - linkDir[1] * 10;
+            //     that.pathElement.attr("x2", newX).attr("y2", newY);
+            // } else{
+            //     if (gZoom<0.5) gZoom=0.5;
+            //     that.pathElement.style("stroke-width", defSize/gZoom + "px");
+            //     newX = endPos[0] - linkDir[0] * 11/gZoom;
+            //     newY = endPos[1] - linkDir[1] * 11/gZoom;
+            //     that.pathElement.attr("x2", newX).attr("y2", newY);
+            // }
         }
 
         that.mouseEnteredFunc(true);
@@ -285,35 +498,41 @@ function CLDLink(graph) {
         if (dynamicLinkWidth==false) {
             if (that.getSelectionStatus() === true) {
                 that.pathElement.classed("cldLinkSelectedHovered", false);
-                that.pathElement.classed("cldLinkHovered",          false);
+                that.pathElement.classed("cldLinkHovered", false);
                 that.pathElement.classed("cldLinkSelected", true);
             } else {
-                that.pathElement.classed("cldLinkSelected",         false);
-                that.pathElement.classed("cldLinkSelectedHovered",  false);
-                that.pathElement.classed("cldLinkHovered",          false);
+                that.pathElement.classed("cldLinkSelected", false);
+                that.pathElement.classed("cldLinkSelectedHovered", false);
+                that.pathElement.classed("cldLinkHovered", false);
+            }
+            if (that.getLinkType() === SINGLE_LINK) {
+                that.pathElement.attr("d", lineFunction(calculateSingleLinkPath(startPoint, endPoint)));
+            }
+            if (that.getLinkType() === MULTI_LINK) {
+                that.pathElement.attr("d", lineFunction(calculateMultiLinkPath(startPoint, endPoint)));
             }
 
-
-            // restor old positions;
-            that.pathElement.attr("x2", endPos[0]).attr("y2", endPos[1]);
-        }else{
-            if (that.getSelectionStatus() === true) {
-                that.pathElement.classed("cldLinkSelectedHovered"       , false);
-                that.pathElement.classed("cldLinkSelectedHoveredDynamic", false);
-                that.pathElement.classed("cldLinkHovered"               , false);
-                that.pathElement.classed("cldLinkHoveredDynamic"        , false);
-                that.pathElement.classed("cldLinkSelected"              , true);
-
-            } else {
-                that.pathElement.classed("cldLinkSelected"              , false);
-                that.pathElement.classed("cldLinkSelectedHovered"       , false);
-                that.pathElement.classed("cldLinkSelectedHoveredDynamic", false);
-                that.pathElement.classed("cldLinkHovered"               , false);
-                that.pathElement.classed("cldLinkHoveredDynamic"        , false);
-            }
-            that.pathElement.style("stroke-width","4px");
-            that.pathElement.attr("x2", endPos[0]).attr("y2", endPos[1]);
         }
+        // }else{
+        //     if (that.getSelectionStatus() === true) {
+        //         that.pathElement.classed("cldLinkSelectedHovered"       , false);
+        //         that.pathElement.classed("cldLinkSelectedHoveredDynamic", false);
+        //         that.pathElement.classed("cldLinkHovered"               , false);
+        //         that.pathElement.classed("cldLinkHoveredDynamic"        , false);
+        //         that.pathElement.classed("cldLinkSelected"              , true);
+        //
+        //     } else {
+        //         that.pathElement.classed("cldLinkSelected"              , false);
+        //         that.pathElement.classed("cldLinkSelectedHovered"       , false);
+        //         that.pathElement.classed("cldLinkSelectedHoveredDynamic", false);
+        //         that.pathElement.classed("cldLinkHovered"               , false);
+        //         that.pathElement.classed("cldLinkHoveredDynamic"        , false);
+        //     }
+        //     that.pathElement.style("stroke-width","4px");
+        //     // restore position;
+        //
+        //
+        // }
         that.mouseEnteredFunc(false);
     };
 

@@ -112,6 +112,14 @@ function BaseWidget(parentElement) {
     };
 
 
+    this.enableHUD=function(val){
+        // enables HUD / legend for a graph object
+
+        if (that.graphObject.enableHUD) // check if this function exists;
+            that.graphObject.enableHUD(val);
+
+    };
+
     this.deactivateWidget=function () {
         var tabNode=d3.select("#"+that.getUniqueId());
         tabNode.classed("tabHighlight",false);
@@ -143,7 +151,7 @@ function BaseWidget(parentElement) {
 
     // selection stuff;
     this.handleSelection=function(node){
-        // console.log("handling Selection of a node");
+        console.log("handling Selection of a node");
         that.controlsObject.handleNodeSelection(node);
 
     };

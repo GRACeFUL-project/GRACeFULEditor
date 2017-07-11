@@ -210,29 +210,35 @@ function BaseGraph(parentWidget) {
             .on("dragend", function (d) {
                 // kill the dragger element on end
                 if (d.type()==="Dragger"){
-                    that.draggerLayer.classed("hidden",true);
-                    // check he the node stoped
-                    that.draggingObject=false;
-                    var draggeEndPos=[that.draggerElement.x, that.draggerElement.y];
-                    var targetNode=getTargetNode(draggeEndPos);
-                    // console.log("dragger End pos"+draggeEndPos);
-                    if (targetNode) {
-                        // console.log("Target node name" + targetNode.label);
-                        // create a link between these;
-                        var aLink=that.createLink(that);
-                        aLink.source(d.parentNode());
-                        aLink.target(targetNode);
-                        that.pathElementArray.push(aLink);
-                        that.forceRedrawContent();
-                    }
+                    that.draggerElementReleaseFunction(d);
                 }
                 d3.event.sourceEvent.stopPropagation(); // Prevent panning
-
+                console.log("dragger ended");
             })
 
     };
 
-    function getTargetNode(position) {
+    this.draggerElementReleaseFunction=function(d){
+        // overwrite if needed;
+
+        that.draggerLayer.classed("hidden",true);
+        // check he the node stoped
+        that.draggingObject=false;
+        var draggeEndPos=[that.draggerElement.x, that.draggerElement.y];
+        var targetNode=that.getTargetNode(draggeEndPos);
+        // console.log("dragger End pos"+draggeEndPos);
+        if (targetNode) {
+            // console.log("Target node name" + targetNode.label);
+            // create a link between these;
+            var aLink=that.createLink(that);
+            aLink.source(d.parentNode());
+            aLink.target(targetNode);
+            that.pathElementArray.push(aLink);
+            that.forceRedrawContent();
+        }
+    };
+
+    this.getTargetNode=function(position) {
         // computes the nearest node center to the given position;
         // todo : use kd-tree for node positions and optimizations;
         // todo: do we really need this;
@@ -314,7 +320,7 @@ function BaseGraph(parentWidget) {
         that.pathLayer=that.graphRenderingSvg.append('g');
         that.nodeLayer=that.graphRenderingSvg.append('g');
 
-        this.draggerElement=that.createDraggerItem(that);
+        that.draggerElement=that.createDraggerItem(that);
         that.draggerElement.svgRoot(that.draggerLayer);
         that.draggerLayer.classed("hidden",true);
         that.draggerObjectsArray.push(that.draggerElement);
@@ -441,7 +447,7 @@ function BaseGraph(parentWidget) {
     this.selectNode=function(node){
         // graph handles node selection
         that.deselectLastLink();
-        // console.log("handling selection stuff");
+         console.log("handling selection stuff");
         if (node===undefined){
 
             that.prevSelectedNode=undefined;

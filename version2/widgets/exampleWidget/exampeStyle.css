@@ -1,7 +1,7 @@
 #canvasArea svg.exampleA {
     box-sizing: border-box;
     margin: 0;
-    background: crimson;
+    background: darkgray;
     overflow: hidden;
     padding: 0;
 }
@@ -29,3 +29,58 @@
     overflow: hidden;
     padding: 0;
 }
+
+.exampleNodeA{
+    fill: #ff0
+}
+
+.exampleNodeB{
+    fill: #ff6200
+}
+
+.overlayAreaRect{
+    fill: #389c66
+}
+
+
+.overlayToggle{
+    stroke: red;
+    stroke-width: 5px;
+}
+
+.undefinedLink{
+    stroke: gray;
+    stroke-width: 5px;
+}
+
+.positiveLink{
+    stroke: #f00;
+    stroke-width: 8px;
+}
+.negativeLink{
+    stroke: #0ff;
+    stroke-width: 5px;
+}
+
+.overlayLinkElement{
+    fill   : #389c66;
+    stroke : black;
+    stroke-width: 2px;
+}
+
+.overlayLinkElementToggeled{
+    fill   : #2e2e2e;
+    stroke : red;
+    stroke-width: 5px;
+
+}
+
+.overlayLinkElementHovered{
+    fill   : red;
+    stroke : black;
+    stroke-width: 5px;
+}
+
+
+
+
