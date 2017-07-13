@@ -1,0 +1,79 @@
+{
+  "nodes": [
+    {
+      "name": "pump",
+      "parameters": [
+        {
+          "name": "capacity",
+          "type": "Float",
+          "value": 0
+        }
+      ],
+      "identity": 0,
+      "interface": [
+        {
+          "name": "inflow",
+          "type": "Flow",
+          "connection": [
+            2,
+            "outlet"
+          ]
+        },
+        {
+          "name": "outflow",
+          "type": "Flow",
+          "connection": []
+        }
+      ]
+    },
+    {
+      "name": "rain",
+      "parameters": [
+        {
+          "name": "amount",
+          "type": "Float",
+          "value": 0
+        }
+      ],
+      "identity": 1,
+      "interface": [
+        {
+          "name": "rainfall",
+          "type": "Flow",
+          "connection": [
+            2,
+            "inflow"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "runoffArea",
+      "parameters": [
+        {
+          "name": "storage capacity",
+          "type": "Float",
+          "value": 0
+        }
+      ],
+      "identity": 2,
+      "interface": [
+        {
+          "name": "inflow",
+          "type": "Flow",
+          "connection": []
+        },
+        {
+          "name": "outlet",
+          "type": "Flow",
+          "connection": []
+        },
+        {
+          "name": "overflow",
+          "type": "Flow",
+          "connection": []
+        }
+      ]
+    }
+  ]
+}

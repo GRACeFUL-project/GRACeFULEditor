@@ -1,0 +1,57 @@
+{
+	"header" :{
+		"title" : "Ninja Turtle Example",
+		"_comment" : "This is just a test example"
+	},
+	"classes": [{
+		"id": "classId0",
+		"type": "CLASS_NODE",
+		"imgURL": "./data/images/ninjaTurtle.png",
+		"className" : "Ninja Turtle"
+	},{
+		"id": "classId1",
+		"type": "CLASS_NODE",
+		"imgURL": "./data/images/splinter.png",
+		"className" : "Spliter"
+	},{
+		"id": "classId3",
+		"type": "CLASS_NODE",
+		"imgURL": "./data/images/april.png",
+		"className" : "April"
+	},{
+		"id": "classId4",
+		"type": "CLASS_NODE",
+		"imgURL": "./data/images/shreder.png",
+		"className" : "Shreder"
+	}
+	],
+	"ports":[
+		{
+			"id": "portId1",
+			"name": "SimplePoirt1",
+			"incomeAllow" : ["portId2"],
+			"imgURL" : "./data/portImg/port1.png"
+		},
+		{
+			"id": "portId2",
+			"name": "SimplePoirt2",
+			"incomeAllow" : ["portId1"],
+			"imgURL" : "./data/portImg/port2.png"
+		}
+	],
+	"classPorts":[
+		{
+			"instanceId" : "classId0",
+			"portIds": ["portId1"]
+		},
+		{
+			"instanceId" : "classId1",
+			"portIds": ["portId2"]
+		},
+		{
+			"instanceId" : "classId3",
+			"portIds": ["portId1","portId2"]
+		}
+	]
+
+}

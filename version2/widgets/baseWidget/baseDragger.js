@@ -13,16 +13,16 @@ function BaseDragger(graph) {
     this.y = 0;
     this.rootElement=undefined;
     this.rootNodeLayer=undefined;
-    var mouseEntered=false;
-    var mouseButtonPressed=false;
-    var nodeElement=undefined;
-    var pathElement=undefined;
+    this.mouseEnteredVar=false;
+    this.mouseButtonPressed=false;
+    this.nodeElement=undefined;
+    this.pathElement=undefined;
     var id;
-    var type="Dragger";
+    this.typus="Dragger";
 
 
     this.type=function(){
-        return type;
+        return this.typus;
     };
 
     this.parentNode=function(){
@@ -59,15 +59,15 @@ function BaseDragger(graph) {
 
     /** DRAWING FUNCTIONS ------------------------------------------------- **/
     this.drawNode=function(){
-        if (nodeElement===undefined) {
-            pathElement = that.rootNodeLayer.append('line')
+        if (that.nodeElement===undefined) {
+            that.pathElement = that.rootNodeLayer.append('line')
                 .classed("baseDragPath",true);
-            pathElement.attr("x1", 0)
+            that.pathElement.attr("x1", 0)
                 .attr("y1", 0)
                 .attr("x2", 0)
                 .attr("y2", 0);
 
-            nodeElement = that.rootNodeLayer.append('circle').attr("r", 20);
+            that.nodeElement = that.rootNodeLayer.append('circle').attr("r", 20);
         }
 
     };
@@ -75,8 +75,8 @@ function BaseDragger(graph) {
 
     this.updateElement=function(){
         that.rootElement.attr("transform", "translate(" + that.x + "," + that.y + ")");
-        if (pathElement) {
-            pathElement.attr("x1", 0)
+        if (that.pathElement) {
+            that.pathElement.attr("x1", 0)
                 .attr("y1", 0)
                 .attr("x2", that.parent.x - this.x)
                 .attr("y2", that.parent.y - this.y);
@@ -96,27 +96,27 @@ function BaseDragger(graph) {
     };
 
     this.mouseDown=function(){
-        nodeElement.style("cursor","move");
-        nodeElement.classed("baseNodeHovered",true);
-        mouseButtonPressed=true;
+        that.nodeElement.style("cursor","move");
+        that.nodeElement.classed("baseNodeHovered",true);
+        that.mouseButtonPressed=true;
     };
 
     this.mouseUp=function(){
-        nodeElement.style("cursor","auto");
-        mouseButtonPressed=false;
+        that.nodeElement.style("cursor","auto");
+        that.mouseButtonPressed=false;
     };
 
 
     this.mouseEntered=function(p){
-        if (!arguments.length) return mouseEntered;
-        mouseEntered = p;
+        if (!arguments.length) return that.mouseEnteredVar;
+        that.mouseEnteredVar = p;
         return this;
     };
     this.onMouseOver=function(){
         if (that.mouseEntered()) {
             return;
         }
-        nodeElement.classed("baseNodeHovered",true);
+        that.nodeElement.classed("baseNodeHovered",true);
         var selectedNode = that.rootElement.node(),
             nodeContainer = selectedNode.parentNode;
         nodeContainer.appendChild(selectedNode);
@@ -125,9 +125,9 @@ function BaseDragger(graph) {
 
     };
     this.onMouseOut=function(){
-        if (mouseButtonPressed===true)
+        if (that.mouseButtonPressed===true)
             return;
-        nodeElement.classed("baseNodeHovered",false);
+        that.nodeElement.classed("baseNodeHovered",false);
         that.mouseEntered(false);
     };
 

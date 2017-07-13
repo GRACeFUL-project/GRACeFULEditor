@@ -287,7 +287,6 @@ function BaseGraph(parentWidget) {
 
         that.deselectLastLink();
         that.deselectLastNode();
-
         var aNode=that.createNode(that);
         var grPos=getScreenCoords(d3.event.clientX,d3.event.clientY+that.verticalOffset,that.translation,that.zoomFactor);
         aNode.x=grPos.x;

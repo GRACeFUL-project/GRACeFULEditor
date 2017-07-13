@@ -86,15 +86,29 @@
         cld.forceGraphCssStyle("cldGraphStyle");
         cld.setCommunicationModule(com);
 
+
+        // create simple sfd widget for testing (copy of example widget
+        var sfd= new SimpleSFDWidget(initializer);
+        sfd.setTabTitle("Simple SFD");
+        sfd.setupGuiElements(initializer.getNavigationObject(),
+            initializer.getTabsObject(),
+            initializer.getCanvasArea(),
+            initializer.getOptionsArea() );
+        sfd.forceGraphCssStyle("sdfGraphStyle");
+        sfd.setCommunicationModule(com);
+
+
+
         // adding to widget list
         widgetList.push(example);
         widgetList.push(gtw);
         widgetList.push(cld);
+        widgetList.push(sfd);
 
 
         // set default tab
         //gtw.widgetIsActivated();
-        example.widgetIsActivated();
+        sfd.widgetIsActivated();
         //cld.widgetIsActivated();
 
 

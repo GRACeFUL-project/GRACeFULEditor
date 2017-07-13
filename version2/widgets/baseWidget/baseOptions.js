@@ -142,6 +142,7 @@ function BaseControls(parentWidget) {
         // var div_checkbox=  document.createElement("div");
         // div_checkbox.id=identifier;
         // parent.getBody().node().appendChild(div_checkbox);
+
         var moduleOptionContainer = parent.getBody()
             .append("div").classed("form-horizontal",true)
                 .append("div")

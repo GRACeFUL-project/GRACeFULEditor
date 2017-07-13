@@ -1,0 +1,24 @@
+{
+  "library":[{
+    "name"       : "pump"
+  , "imgURL"     : "./data/img/pump.png" , "hoverText"  : "This is a pump"
+  , "parameters" : [ {"name" : "capacity", "type" : "Float"} ]
+  , "interface"  : [ {"name" : "inflow",   "type" : "Flow" , "hoverText"  : "InFlow Port", "rotation"   : true, "imgURL" : "./data/interfaces/inflow.png" }
+                   , {"name" : "outflow",  "type" : "Flow" ,"hoverText"  : "OutFlow Port", "rotation"   : true, "imgURL" : "./data/interfaces/outflow.png"}
+    ]
+  },{
+    "name"       : "rain"
+  , "imgURL"     : "./data/img/rain.png" , "hoverText"  : "This is a rain"
+  , "parameters" : [ {"name" : "amount",   "type" : "Float"} ]
+  , "interface"  : [ {"name" : "rainfall", "type" : "Flow",  "hoverText"  : "Rainfall Port", "rotation"   : false, "imgURL" : "./data/interfaces/rainfall.png" } ]
+  },{
+    "name"       : "runoffArea"
+  , "imgURL"    : "./data/img/runOffArea.png", "hoverText"  : "This is a runoffArea"
+  , "parameters" : [ {"name" : "storage capacity", "type" : "Float"} ]
+  , "interface"  : [ {"name" : "inflow",   "type" : "Flow", "hoverText" : "InFlow Port",   "rotation" : true,  "imgURL" : "./data/interfaces/inflow.png" }
+                   , {"name" : "outlet",   "type" : "Flow", "hoverText" : "Outlet Port",   "rotation" : false, "imgURL" : "./data/interfaces/outlet.png" }
+                   , {"name" : "overflow", "type" : "Flow", "hoverText" : "Overflow Port", "rotation" : false, "imgURL" : "./data/interfaces/overflow.png" }
+    ]
+  }],
+  "name":"crud"
+}

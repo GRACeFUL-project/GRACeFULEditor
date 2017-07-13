@@ -69,7 +69,9 @@ function ExampleNode(graph) {
         }
     };
     // disable double click function
-    this.executeUserDblClick=function(){};
+    this.executeUserDblClick=function(){
+
+    };
 
 
 
