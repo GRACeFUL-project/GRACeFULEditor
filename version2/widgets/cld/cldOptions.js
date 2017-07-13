@@ -175,7 +175,7 @@ function CLDControls(parentWidget) {
         hidden_solutionInput.click();
         loaderSolutionPathNode.remove(loaderSolutionPathNode);
         // tell what to do when clicked
-        loaderSolutionPathNode.on("input",function(){
+        loaderSolutionPathNode.on("change",function(){
             console.log("hidden thing is clicked");
             var files= loaderSolutionPathNode.property("files");
             if (files.length>0){
