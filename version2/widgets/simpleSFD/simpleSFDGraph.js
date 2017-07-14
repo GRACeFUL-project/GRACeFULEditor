@@ -306,9 +306,6 @@ function SimpleSFDGraph(){
             var nodeId=parseInt(nameVar.replace( /^\D+/g, ''));
             var portName=nameVar.replace(new RegExp("[0-9]"),'');
 
-            // console.log("Node iD: "+nodeId);
-            // console.log("Port Name: "+portName);
-            // console.log("Port Value: "+value);
 
             var nodeElement=undefined;
             for (var nE=0;nE<that.nodeElementArray.length;nE++){
@@ -326,6 +323,11 @@ function SimpleSFDGraph(){
                     if (portElements[p].getPortName()===portName){
                         // found port
                         portElements[p].setPortValue(parseFloat(value));
+                        console.log("---------------------------------------------");
+                        console.log("Node iD: "+nodeId);
+                        console.log("Port Name: "+portName);
+                        console.log("Port Value: "+value);
+
                     }
                 }
             }else{
