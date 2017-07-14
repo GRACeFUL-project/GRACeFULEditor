@@ -84,7 +84,7 @@ function SimpleSFDWidget(){
 
     String.prototype.replaceAll = function(search, replacement) {
         var target = this;
-        return target.replace(new RegExp(search, 'g'), replacement);
+        return target.split(search).join(replacement);
     };
 
     this.parseResult=function(result){
@@ -96,7 +96,7 @@ function SimpleSFDWidget(){
             console.log("mockup test");
             textToParse='{"result":[{"rainfall4" : 14.0}, {"inflow5" : 15.0}, {"outflow5" : 16.0},{"inflow6" : 17.0}]}';
             // testing invalid text
-            textToParse='{"result":"[{\"rainfall4\" : 10.0,\n\"inflow5\" : 10.0,\n\"outflow5\" : 10.0,\n\"inflow6\" : 10.0}\n]"}';
+            textToParse='{"result":"[{\\"rainfall4\\" : 10.0,\\n\\"inflow5\\" : 10.0,\\n\\"outflow5\\" : 10.0,\\n\\"inflow6\\" : 10.0}\\n]"}';
         }
         //
 
@@ -112,7 +112,7 @@ function SimpleSFDWidget(){
         if (invalid){
             console.log("thing is invalid");
             var invalidText=textToParse;
-            invalidText=invalidText.replaceAll('\\n','');
+            invalidText=invalidText.replaceAll("\\n",'');
             invalidText=invalidText.replaceAll('\\"','"');
             invalidText=invalidText.replace('"[','[');
             invalidText=invalidText.replace(']"',']');
