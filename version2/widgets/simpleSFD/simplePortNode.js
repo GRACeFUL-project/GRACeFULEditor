@@ -10,14 +10,37 @@ function SimplePortNode(parent,portDesc) {
     var mouseEntered;
     var assosiatedLinks=[];
     var portIsUsed=false;
+    var portIdInNode=0;
+    var value=0;
+
+    this.getPortName=function(){
+        return name;
+    };
+    this.getPortType=function(){
+        return portTYPE;
+    };
+    this.getPortValue=function(){
+        return value;
+    };
+    this.setPortValue=function(val){
+        value=val;
+    };
+
 
     this.isUsed=function(val){
         if (!arguments.length) return portIsUsed;
         else portIsUsed=val;
     };
-    this.id=function(){
-        return 0;
+    this.id=function(val){
+        if (!arguments.length) return portIdInNode;
+        else portIdInNode=val;
+
     };
+
+    this.getParentId=function(){
+      return parent.id();
+    };
+
     var svgRoot=undefined;
     this.GRAPH_OBJECT_NODE="GraphObjectNode";
     this.OVERLAY_OBJECT_NODE="OverlayNode";
@@ -54,12 +77,39 @@ function SimplePortNode(parent,portDesc) {
 
         console.log("-----------------------------------");
         console.log("+++++++++++++++++++++++++++++++++++");
-
-
-
-
     }
     parseDescription(portDesc);
+
+
+    this.getParentPortName=function(){
+        // we only have one to one connections for now
+        var linkObj=assosiatedLinks[0];
+        if (linkObj.targetNode===that) return undefined;
+        return linkObj.targetNode.getName();
+    };
+
+    this.getParentConnectorId=function(){
+        var linkObj=assosiatedLinks[0];
+        return linkObj.targetNode.getParentId();
+    };
+
+    this.getConnectionAndDescriptionOfPort=function(){
+        var portObj={};
+        portObj.name=name;
+        portObj.type=portTYPE;
+        if (portIsUsed===true){
+            // add the connection;
+            var pId=that.getParentConnectorId();
+            var parentPortName=that.getParentPortName();
+            if (parentPortName) {
+                portObj.connection = [];
+                portObj.connection.push(pId);
+                portObj.connection.push(parentPortName);
+            }
+        }
+        return portObj;
+
+    };
 
     this.drawPort=function(){
         svgRoot=parent.getPortSvgRoot().append('g');

@@ -96,6 +96,31 @@ function SimpleSFDGraph(){
     };
 
 
+    // function for wrapping the graph data into the solver format;
+    this.requestModelDataAsJson=function(){
+        var modelObj={};
+        modelObj.nodes=[];
+        var i,j;
+        for (i=0;i<that.nodeElementArray.length;i++){
+            var node=that.nodeElementArray[i];
+            var obj={};
+            obj.name=node.getNodeName();
+            obj.parameters=[];
+            // add parameters
+            var nodeParameters=node.getParameterElements();
+            for (j=0;j<nodeParameters.length;j++){
+                obj.parameters.push(nodeParameters[j])
+
+            }
+            obj.identity=node.id();
+            obj.interface=node.getInterfaceDescription();
+
+            modelObj.nodes.push(obj);
+        }
+        return  JSON.stringify(modelObj, null, '  ');
+    };
+
+
     this.requestSaveDataAsJson=function(){
         // THIS SHOULD BE OVERWRITTEN BY ALL GRAPHS!
         var retObj={};
@@ -109,7 +134,8 @@ function SimpleSFDGraph(){
             obj={};
             obj.id=node.id();
             obj.name=node.label;
-            obj.nodeIdType="none";
+            obj.interface=node.getInterfaceDescription();
+            obj.nodeIdType=node.getTypeId();
             obj.pos=[node.x,node.y];
             retObj.nodes.push(obj);
         }
@@ -117,8 +143,9 @@ function SimpleSFDGraph(){
         for (i=0;i<that.pathElementArray.length;i++){
             var link =that.pathElementArray[i];
             var linkObj={};
-            linkObj.id=link.id();
-            linkObj.source_target=[link.sourceNode.id(),link.targetNode.id()];
+            linkObj.linkID=link.id();
+            linkObj.nodeSource_nodeTarget=[link.sourceNode.getParentId(),link.targetNode.getParentId()];
+            linkObj.portSource_portTarget=[link.sourceNode.id(),link.targetNode.id()];
             retObj.links.push(linkObj);
         }
         return  JSON.stringify(retObj, null, '  ');
@@ -155,11 +182,11 @@ function SimpleSFDGraph(){
         var nodePos=jsonNode.pos;
         var nodeId=jsonNode.id;
 
-
-        console.log("Graph should add now a node with : " );
-        console.log("   Name : "+nodeName );
-        console.log("   Id   : "+nodeId);
-        console.log("   Pos  : "+nodePos);
+        //
+        // console.log("Graph should add now a node with : " );
+        // console.log("   Name : "+nodeName );
+        // console.log("   Id   : "+nodeId);
+        // console.log("   Pos  : "+nodePos);
 
         var newNode=that.createNode(that);
         // todo: check how to handle the data;
@@ -169,7 +196,7 @@ function SimpleSFDGraph(){
         var y=parseFloat(nodePos[1]);
         newNode.setPosition(x,y);
         // push to array of nodes
-        console.log("newNode  "+newNode);
+        // console.log("newNode  "+newNode);
         that.nodeElementArray.push(newNode);
         that.needsRedraw(true);
 
@@ -260,6 +287,61 @@ function SimpleSFDGraph(){
         }
 
     };
+
+    this.implementResultIntoGraphData=function(jsonOBJ){
+        var results=jsonOBJ.result;
+
+        for (var i=0;i<results.length;i++){
+            // parse the id of the node from the result
+            var temp=results[i];
+            // get key name
+            var nameVar;
+            var value;
+            for (var name in temp){
+                nameVar=name;
+                value=temp[name];
+            }
+            // try to parse the ports name and id of node;
+
+            var nodeId=parseInt(nameVar.replace( /^\D+/g, ''));
+            var portName=nameVar.replace(new RegExp("[0-9]"),'');
+
+            // console.log("Node iD: "+nodeId);
+            // console.log("Port Name: "+portName);
+            // console.log("Port Value: "+value);
+
+            var nodeElement=undefined;
+            for (var nE=0;nE<that.nodeElementArray.length;nE++){
+                if (that.nodeElementArray[nE].id()===nodeId)
+                    nodeElement=that.nodeElementArray[nE];
+            }
+
+
+            if (nodeElement){
+                console.log("node exists");
+                // get port elements;
+                var portElements=nodeElement.getPortElements();
+                // search for port name;
+                for (var p=0;p<portElements.length;p++){
+                    if (portElements[p].getPortName()===portName){
+                        // found port
+                        portElements[p].setPortValue(parseFloat(value));
+                    }
+                }
+            }else{
+                console.log("node with id "+nodeId+" does not exist");
+
+            }
+
+
+
+
+
+
+        }
+    };
+
+
 
     this.generateHUD=function(){
         console.log("generating hud FOR SFD ");

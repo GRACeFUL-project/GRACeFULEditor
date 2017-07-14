@@ -52,13 +52,10 @@
 
             if (localAction.task===SERVER_REQUEST && localAction.requestType==="SEND_MODEL"){
                 console.log("requesting an action that talks with docker ");
-                console.log("The data " +localAction.data);
-                // docker image name
                 // get the model
                 var modelText = localAction.data;
                 var send_requestAddress=solverAddress+"/submit";
                 console.log("do we have a lib address:"+send_requestAddress);
-
                 var xhr_post = new XMLHttpRequest();   // new HttpRequest instance
                 xhr_post .open("POST", send_requestAddress);
                 xhr_post .setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -67,8 +64,16 @@
                     console.log("finished the xhr request with post");
                     console.log("result:"+xhr_post.responseText);
                     console.log("response text needs to be transferred into json ");
+                    widget.parseResult(xhr_post.responseText);
                     // todo: process the returned data; to the widget
                 };
+
+                console.log(xhr_post);
+                if (xhr_post.status===0){
+                    // mockup test
+                    widget.parseResult("");
+                }
+
             }
 
 

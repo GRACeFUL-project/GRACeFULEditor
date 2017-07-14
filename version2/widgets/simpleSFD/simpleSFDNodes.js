@@ -10,7 +10,10 @@ function SimpleSFDNode(graph,nodeDescriptions) {
     var labelTags=["Undefined", "Example A", "Example B"]; // used for init name of the elements in the hud;
     var imageUrls=[];
     var portDescriptions=[];
+    var parametersDescriptions=[];
+    var parameterElements=[];
     var portElements=[];
+    var nodeName="noName";
     var superDrawFunction = that.drawNode;
     var superClickFunction= that.onClicked;
     var m_nodeDescriptions=nodeDescriptions;
@@ -23,11 +26,11 @@ function SimpleSFDNode(graph,nodeDescriptions) {
 
     this.getPortElements=function(){
         return portElements;
-    }
+    };
 
     this.parseNodeDescriptions=function(){
-        console.log("Parsing node descripions");
-        console.log("found node types "+m_nodeDescriptions.length);
+        // console.log("Parsing node descripions");
+        // console.log("found node types "+m_nodeDescriptions.length);
         labelTags=[];
         typesArray=[];
         for (var i=0;i<m_nodeDescriptions.length;i++){
@@ -35,9 +38,25 @@ function SimpleSFDNode(graph,nodeDescriptions) {
             typesArray.push("baseRoundNode");
             imageUrls.push(m_nodeDescriptions[i].imgUrl);
             portDescriptions.push(m_nodeDescriptions[i].ports);
+            console.log(m_nodeDescriptions[i]);
+            parametersDescriptions.push(m_nodeDescriptions[i].params);
         }
     };
 
+    this.getInterfaceDescription=function(){
+
+        // check for the connections;
+        var the_ports=[];
+        for (var i=0;i<portElements.length;i++){
+            var anPort=portElements[i].getConnectionAndDescriptionOfPort();
+            the_ports.push(anPort)
+        }
+
+
+
+
+        return the_ports;
+    };
 
     this.getRadius=function(){
         return defaultRadius;
@@ -63,6 +82,16 @@ function SimpleSFDNode(graph,nodeDescriptions) {
     };
 
 
+    this.getImageURL=function(){
+        return imageUrls[that.getTypeId()];
+    };
+
+
+    this.getNodeName=function(){
+        return nodeName
+    };
+
+
     this.setTypeId = function (val) {
         if (val < numTypes)
             exampleTypeId = val;
@@ -70,14 +99,35 @@ function SimpleSFDNode(graph,nodeDescriptions) {
             exampleTypeId = 0; // << fixing if wong numTypes;
     };
 
+    function createParameterObjects(){
+        console.log(parametersDescriptions);
+        var parDesc=parametersDescriptions[that.getTypeId()];
+        for (var i=0;i<parDesc.length;i++){
+            var parObj={};
+            parObj.name=parDesc[i].name;
+            parObj.type=parDesc[i].type;
+            if (parDesc[i].value===undefined)
+                parObj.value=0;
+            else
+                parObj.value=parDesc[i].value;
+            parameterElements.push(parObj);
+        }
+    }
+
+    this.getParameterElements=function(){
+        return parameterElements;
+    };
+
     this.setType=function(typeId) {
 
         that.setTypeId(typeId);
         that.label=labelTags[that.getTypeId()];
+        nodeName=labelTags[that.getTypeId()];
         that.nodeClass=typesArray[that.getTypeId()];
+        that.parameters=createParameterObjects();
         if (that.nodeElement) {
             for (var i = 0; i < typesArray.length; i++) {
-                console.log("disabling :" + typesArray[i]);
+               // console.log("disabling :" + typesArray[i]);
                 that.nodeElement.classed(typesArray[i], false);
             }
             that.nodeElement.classed(that.nodeClass, true);
@@ -106,7 +156,7 @@ function SimpleSFDNode(graph,nodeDescriptions) {
 
 
         // adding image
-        console.log("adding image "+imageUrls[that.getTypeId()]);
+     //   console.log("adding image "+imageUrls[that.getTypeId()]);
         var imagePrimitive=that.rootNodeLayer.append("image")
             .attr('x',-that.getRadius())
             .attr('y',-that.getRadius())
@@ -142,12 +192,13 @@ function SimpleSFDNode(graph,nodeDescriptions) {
         var nV=angleToNormedVec(-45*i);
         var px=that.getRadius()*nV.x;
         var py=that.getRadius()*nV.y;
-        console.log("port "+i+" -> new positoins "+px+"  "+py);
+      //  console.log("port "+i+" -> new positoins "+px+"  "+py);
         if (that.getNodeObjectType()===that.OVERLAY_OBJECT_NODE)
             nPort.setPortTypeToOverlay();
 
         nPort.drawPort();
         nPort.setPosition(px,py);
+        nPort.id(i);
         portElements.push(nPort)
 
     };
@@ -164,15 +215,16 @@ function SimpleSFDNode(graph,nodeDescriptions) {
 
         // this node generates its own ports;
         var myPorts=portDescriptions[index];
-        console.log("generating ports for node:"+that.label);
-        console.log(myPorts);
+        //console.log("generating ports for node:"+that.label);
+        //console.log(myPorts);
+        var i;
         if (portElements.length===0 && myPorts.length!==0) {
-            for (var i = 0; i < myPorts.length; i++) {
+            for (i = 0; i < myPorts.length; i++) {
                 that.addPortFromDescription(myPorts[i], i);
             }
         }
         else if (portElements.length>0){
-            for (var i = 0; i < portElements.length; i++) {
+            for (i = 0; i < portElements.length; i++) {
                 portElements[i].drawPort();
                 var nV=angleToNormedVec(-45*i);
                 var px=that.getRadius()*nV.x;
@@ -191,6 +243,8 @@ function SimpleSFDNode(graph,nodeDescriptions) {
             portElements[i].updateLinkElement();
         }
     };
+
+
 
 
     this.drawPorts=function(){

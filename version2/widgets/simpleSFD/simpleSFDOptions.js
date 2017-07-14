@@ -6,6 +6,10 @@ function SimpleSFDControls(parentWidget) {
     var controlsMenu;
     var optionsGroup, nodeGroup;
     var nodeSelGroup;
+    var parametersGroup;
+    var parameterTable;
+    var portTable;
+    var nodeClass,nodeLabel;
 
     this.onChangeEmpty=function(x){
         // empty function does not do anything, used for debuging
@@ -88,7 +92,10 @@ function SimpleSFDControls(parentWidget) {
         //action.data='{"nodes": [{"name": "pump","parameters": [{"name": "capacity","type": "Float","value": 0}],"identity": 0,"interface": [{"name": "inflow","type": "Flow"},{"name": "outflow","type": "Flow","connection": [3,"inflow"]}]},{"name": "pump","parameters": [{"name": "capacity","type": "Float","value": 0}],"identity": 1,"interface": [{"name": "inflow","type": "Flow"},{"name": "outflow","type": "Flow"}]},{"name": "rain","parameters": [{"name": "amount","type": "Float","value": 0}],"identity": 2,"interface": [{"name": "rainfall","type": "Flow","connection": [0,"inflow"]}]},{"name": "runoffArea","parameters": [{"name": "storage capacity","type": "Float","value": 0}],"identity": 3,"interface": [{"name": "inflow","type": "Flow"},{"name": "outlet","type": "Flow","connection": [1,"outflow"]},{"name": "overflow","type": "Flow"}]}]}';
 
         //requestData from widget
-        action.data='{"nodes":[{"name":"rain","parameters":[{"name":"amount","type":"Float","value":0}],"identity":0,"interface":[{"name":"rainfall","type":"Flow"}]}]}';
+
+        // request data form sfd widget
+
+        action.data=that.parent.requestModelDataForSolver();
         that.parent.requestAction(action);
     };
 
@@ -103,6 +110,49 @@ function SimpleSFDControls(parentWidget) {
         console.log(selectionContainer.selectedIndex+" the user string is "+strUser);
         that.selectedNode.setType(selectionContainer.selectedIndex, strUser);
     };
+
+
+    this.changeNodesName=function(){
+        that.selectedNode.setLabelText(nodeLabel.node().value);
+    };
+
+    this.createLETableEntry=function(cell,onChange,value,paramObj){
+        var le=document.createElement('input');
+        cell.appendChild(le);
+        var leNode=d3.select(le);
+        leNode.classed("form-control",true);
+        le.value=value;
+        leNode.on("change",function(){onChange(paramObj,cell);});
+
+    };
+
+    this.onLET_change=function(paramObj,cell){
+      console.log("something changed"+paramObj);
+      console.log(paramObj);
+      console.log(cell);
+      var newValue=cell.children[0].value;
+      console.log("new Value To Set "+ newValue);
+      console.log("new Value To Set Type "+ typeof newValue);
+      paramObj.value=parseFloat(newValue);
+
+    };
+
+    this.addParameterRow=function(table,values,editable,paramObj){
+        var rowId=table.node().rows.length;
+        var row=table.node().insertRow(rowId);
+
+        for (var i=0; i<values.length;i++){
+            var cell = row.insertCell(i);
+            if (editable && editable[i]===true){
+                // create a lineEdit element;
+                that.createLETableEntry(cell,that.onLET_change,values[i],paramObj);
+
+            }else{
+                cell.innerHTML=values[i];
+            }
+        }
+    };
+
 
 
     this.generateControls=function() {
@@ -122,7 +172,17 @@ function SimpleSFDControls(parentWidget) {
 
 
         nodeGroup=that.createAccordionGroup(that.divControlsGroupNode,"Node Types");
-        nodeSelGroup= that.addSelectionOpts(nodeGroup, "Node type", ["Undefined", "A", "B"], that.onChangeNodeType);
+     //   nodeSelGroup= that.addSelectionOpts(nodeGroup, "Node type", ["Undefined", "A", "B"], that.onChangeNodeType);
+        nodeClass=that.addLabel(nodeGroup,"Class","nodesClass");
+        nodeLabel=that.addLineEdit(nodeGroup,"Name","nodesName",false, that.changeNodesName);
+
+        parameterTable=that.addTable(nodeGroup,"Parameters",["name","type","value"]);
+        that.addParameterRow(parameterTable,["a","b","c"]);
+        that.addParameterRow(parameterTable,["d","e","f"]);
+
+        portTable=that.addTable(nodeGroup,"Ports",["name","type","value"]);
+        that.addParameterRow(portTable,["d","e","f"]);
+        that.addParameterRow(portTable,["d","e","f"]);
 
     };
 
@@ -130,16 +190,19 @@ function SimpleSFDControls(parentWidget) {
 
 
 
+
+
     this.handleNodeSelection=function(node){
         // should be overwritten by the real options thing
 
 
-        if (node === undefined) {
+        if (node === undefined || node === null) {
             nodeGroup.collapseBody();
             return;
         }
         console.log("node type "+ node.getElementType());
         var selId;
+        var i,items;
         if (node.getElementType()==="NodeElement") {
 
             // should be overwritten by the real options thing
@@ -147,10 +210,55 @@ function SimpleSFDControls(parentWidget) {
             this.selectedNode = node;
             nodeGroup.expandBody();
 
-            // should be overwritten by the real options thing
+            // set the proper parameters
+            var pref=nodeClass.attr("prefix");
+            nodeClass.node().innerHTML=pref+": "+node.getNodeName();
+            nodeLabel.node().value = that.selectedNode.label;
+            nodeLabel.node().disabled = false;
 
-            selId = that.selectedNode.getTypeId();
-            nodeSelGroup.node().options[selId].selected = "selected";
+
+            // parameter table createtion
+            var rows=parameterTable.node().rows;
+            if (rows.length>1){
+                // clear the rows;
+                items=rows.length;
+                for (i=1;i<items;i++){
+                    rows[1].remove();
+                }
+            }
+
+            var rowsPort=portTable.node().rows;
+            if (rowsPort.length>1){
+                // clear the rows;
+                items=rowsPort.length;
+                for (i=1;i<items;i++){
+                    rowsPort[1].remove();
+                }
+            }
+
+
+            // get node parameters
+            var nodeParams=node.getParameterElements();
+            for (i=0;i<nodeParams.length;i++){
+                var name=nodeParams[i].name;
+                var type=nodeParams[i].type;
+                var value=nodeParams[i].value;
+
+                that.addParameterRow(parameterTable,[name,type,value],[false,false,true],nodeParams[i]);
+
+            }
+
+
+            var portsParameters=node.getPortElements();
+            for (var j=0;j<portsParameters.length;j++){
+                var p_name=portsParameters[j].getPortName();
+                var p_type=portsParameters[j].getPortType();
+                var p_value=portsParameters[j].getPortValue();
+
+                that.addParameterRow(portTable,[p_name,p_type,p_value],[false,false,false],portsParameters[j]);
+
+            }
+
         }
 
     };

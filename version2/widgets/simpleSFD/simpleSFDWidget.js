@@ -75,8 +75,58 @@ function SimpleSFDWidget(){
             var jsonLink=links[i];
             that.graphObject.addLinkFromJSON(jsonLink);
         }
+    };
 
+
+    this.requestModelDataForSolver=function(){
+        return that.graphObject.requestModelDataAsJson();
+    };
+
+    String.prototype.replaceAll = function(search, replacement) {
+        var target = this;
+        return target.replace(new RegExp(search, 'g'), replacement);
+    };
+
+    this.parseResult=function(result){
+        console.log("handling result:"+result);
+        var textToParse=result;
+        if (result===""){
+
+            console.log("server did not respondend");
+            console.log("mockup test");
+            textToParse='{"result":[{"rainfall4" : 14.0}, {"inflow5" : 15.0}, {"outflow5" : 16.0},{"inflow6" : 17.0}]}';
+            // testing invalid text
+            textToParse='{"result":"[{\"rainfall4\" : 10.0,\n\"inflow5\" : 10.0,\n\"outflow5\" : 10.0,\n\"inflow6\" : 10.0}\n]"}';
+        }
+        //
+
+
+
+        console.log("invalid Response: "+textToParse);
+        // check if invalidServer result
+        var invalid=false;
+        if (textToParse.indexOf(':"[')!==-1){
+            invalid=true;
+        }
+
+        if (invalid){
+            console.log("thing is invalid");
+            textToParse=textToParse.replace('"[','[\n');
+            textToParse=textToParse.replace(']"',']');
+            textToParse=textToParse.replaceAll(',','\n},\n{');
+
+        }
+
+        console.log("trying to parse the server result" );
+        var jsonObj=JSON.parse(textToParse);
+        console.log(jsonObj);
+        if (jsonObj){
+            that.graphObject.implementResultIntoGraphData(jsonObj);
+
+
+        }
     }
+
 
 
 }

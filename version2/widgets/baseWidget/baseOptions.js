@@ -206,6 +206,68 @@ function BaseControls(parentWidget) {
 
     };
 
+
+    this.addTable=function(parent,tableName,headerArray){
+        var thisDiv=document.createElement('div');
+        parent.getBody().node().appendChild(thisDiv);
+        d3.select(thisDiv).classed("form-group",true);
+        var lb=document.createElement('label');
+        lb.innerHTML=tableName;
+        thisDiv.appendChild(lb);
+        console.log("try to create table");
+        // add a label tag;
+
+        var table=document.createElement('table');
+
+        // add table to div
+        d3.select(table).classed("tableClass");
+
+        var percentage=100/headerArray.length;
+        percentage=100;
+
+        d3.select(table).style("width",percentage+"%");
+        thisDiv.appendChild(table);
+
+        var row = table.insertRow(0);
+        for (var i=0; i<headerArray.length;i++){
+            var cell = row.insertCell(i);
+            cell.innerHTML=headerArray[i];
+        }
+
+        console.log("done ----------------------------------------------------------------------------------");
+        // try as forLoop;
+
+
+
+        return d3.select(table);
+    };
+
+    this.addGroup=function(parent,header){
+        var thisDiv=document.createElement('div');
+        parent.getBody().node().appendChild(thisDiv);
+        d3.select(thisDiv).classed("form-group",true);
+        var lb=document.createElement('label');
+
+        lb.innerHTML=header;
+        thisDiv.appendChild(lb);
+        var groupDiv=document.createElement('div');
+        d3.select(groupDiv).classed("form-group",true);
+        return d3.select(groupDiv);
+    };
+
+
+    this.addLabel=function(parent,prefix,text){
+        var thisDiv=document.createElement('div');
+        parent.getBody().node().appendChild(thisDiv);
+        d3.select(thisDiv).classed("form-group",true);
+        var lb=document.createElement('label');
+
+        lb.innerHTML=prefix+": "+text;
+        thisDiv.appendChild(lb);
+        d3.select(lb).attr("prefix",prefix);
+        return d3.select(lb);
+    };
+
     this.onSelectionTest=function(els){
         var el=els;
         var strUser = el.options[el.selectedIndex].value;
