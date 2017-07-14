@@ -121,7 +121,7 @@ function SimpleSFDWidget(){
 
         }
 
-        console.log("trying to parse the server result" );
+        console.log("trying to parse the server result:"+textToParse);
         var jsonObj=JSON.parse(textToParse);
         console.log(jsonObj);
         if (jsonObj){
