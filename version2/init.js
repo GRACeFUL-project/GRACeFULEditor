@@ -2,6 +2,7 @@
     var initializer={};
     var previousSelectedWidget=undefined;
     var widgetList=[];
+    var gtw, cld;
 
     initializer.width=function(){
         return window.innerWidth ;
@@ -67,7 +68,7 @@
 
 
         // widget generation
-        var gtw= new GTWidget(initializer);
+        gtw= new GTWidget(initializer);
         gtw.setTabTitle("GoalTree");
         gtw.setupGuiElements(initializer.getNavigationObject(),
             initializer.getTabsObject(),
@@ -77,7 +78,7 @@
         gtw.setCommunicationModule(com);
 
 
-        var cld= new CLDWidget(initializer);
+        cld= new CLDWidget(initializer);
         cld.setTabTitle("Causal Loop Diagram");
         cld.setupGuiElements(initializer.getNavigationObject(),
             initializer.getTabsObject(),
@@ -116,6 +117,7 @@
     };
 
     initializer.initializeWidgets();
+    cld.connectGt(gtw);
 
 
     // overwrite the window resize function

@@ -16,6 +16,7 @@ function CLDGraph(){
         that.clearRendering();
         that.redrawGraphContent();
         aNode.editInitialText();
+        console.log("New node id is: "+aNode.id());
     };
 
     this.createNode=function(parent){
@@ -111,10 +112,42 @@ function CLDGraph(){
 
     };
 
+    this.clearCriteria = function() {
+        console.log("clear the criteria nodes from the CLD");
+        var deleteCriteria = [];
+        for(var i=0; i<that.nodeElementArray.length; i++) {
+            if(that.nodeElementArray[i].typeName === "Criteria") {
+                deleteCriteria.push(that.nodeElementArray[i]);
+            }
+        }
+        for(var i=0; i<deleteCriteria.length; i++) {
+            var temp = deleteCriteria[i];
+            console.log("temp is: "+temp.id());
+            that.nodeElementArray.splice(that.nodeElementArray.indexOf(temp), 1);
+            var spliceLinks = that.pathElementArray.filter(function(l) {
+                return (l.sourceNode === temp || l.targetNode === temp);
+            });
+            spliceLinks.map(function(l) {
+                that.pathElementArray.splice(that.pathElementArray.indexOf(l), 1);
+            });
+        }
+        //redraw the graph
+        that.forceRedrawContent();
+        that.removeDeletedElements();
+    };
 
+    this.addCriteriaFromGT = function(criteriaNode) {
+        var newNode = that.createNode(that);
 
+        newNode.setLabelText(criteriaNode.name);
+        newNode.setType(criteriaNode.nodeTypeId, criteriaNode.nodeType);
+        var x= parseFloat(criteriaNode.pos[0]);
+        var y = parseFloat(criteriaNode.pos[1]);
+        newNode.setPosition(x,y);
 
-
+        that.nodeElementArray.push(newNode);
+        that.needsRedraw(true);
+    };
 
     this.draggerElementReleaseFunction=function(d){
         // overwrite if needed;
@@ -136,7 +169,7 @@ function CLDGraph(){
 
             that.forceRedrawContent();
         }
-    };
+    };    
 
 
     function validateAllPaths(){
