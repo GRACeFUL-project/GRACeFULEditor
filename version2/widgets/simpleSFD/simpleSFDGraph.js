@@ -336,9 +336,13 @@ function SimpleSFDGraph(){
             }
 
 
-
-
-
+        // update the selected node if there is one
+            if (that.prevSelectedNode){
+                // do this twice so it is defenetly selected
+                var nodeToSelect=that.prevSelectedNode;
+                that.selectNode(undefined);
+                that.selectNode(nodeToSelect);
+            }
 
         }
     };

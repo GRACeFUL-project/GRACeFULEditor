@@ -261,7 +261,7 @@ function BaseGraph(parentWidget) {
         return tN;
 
 
-    }
+    };
 
     this.setDoubleClickEvent=function(onDoubleClickFunction){
         that.hasDoubleClickEvent=true;

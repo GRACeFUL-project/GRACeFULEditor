@@ -65,14 +65,13 @@
                     console.log("result:"+xhr_post.responseText);
                     console.log("response text needs to be transferred into json ");
                     widget.parseResult(xhr_post.responseText);
-                    // todo: process the returned data; to the widget
                 };
-
-                console.log(xhr_post);
-                if (xhr_post.status===0){
-                    // mockup test
-                    widget.parseResult("");
-                }
+                //
+                // console.log(xhr_post);
+                // if (xhr_post.status===0){
+                //     // mockup test
+                //     widget.parseResult("");
+                // }
 
             }
 

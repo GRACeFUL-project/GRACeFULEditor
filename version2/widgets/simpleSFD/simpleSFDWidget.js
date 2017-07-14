@@ -92,7 +92,7 @@ function SimpleSFDWidget(){
         var textToParse=result;
         if (result===""){
 
-            console.log("server did not respondend");
+            // console.log("server did not respondend");
             // console.log("mockup test");
             // textToParse='{"result":[{"rainfall4" : 14.0}, {"inflow5" : 15.0}, {"outflow5" : 16.0},{"inflow6" : 17.0}]}';
             // testing invalid text
