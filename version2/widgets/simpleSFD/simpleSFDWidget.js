@@ -112,8 +112,8 @@ function SimpleSFDWidget(){
         if (invalid){
             console.log("thing is invalid");
             var invalidText=textToParse;
-            invalidText=invalidText.replaceAll('\n','');
-            invalidText=invalidText.replaceAll('\"','"');
+            invalidText=invalidText.replaceAll('\\n','');
+            invalidText=invalidText.replaceAll('\\"','"');
             invalidText=invalidText.replace('"[','[');
             invalidText=invalidText.replace(']"',']');
             invalidText=invalidText.replaceAll(',','},{');
