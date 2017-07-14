@@ -47,11 +47,14 @@ function CLDControls(parentWidget) {
         sendCld.setAttribute("class", "btn btn-default btn-sm pull-right");
         sendCld.innerHTML = '<span class="glyphicon glyphicon-log-out"></span> Send Model';
 
+        importCriteria = that.addHrefButton(additionalSettings, "Import Criteria", that.onCriteriaImport, true);
+        importCriteria.setAttribute("class", "btn btn-default btn-sm btn-block");
+
         extFactorBtn = that.addHrefButton(additionalSettings, "Identify External Factors", that.identifyExtFact, true);
         extFactorBtn.setAttribute("class", "btn btn-default btn-sm btn-block");
 
         loopBtn = that.addHrefButton(additionalSettings, "Identify Feeback Loops", that.feedbackLoop, true);
-        loopBtn.setAttribute("class", "btn btn-default btn-sm btn-block");
+        loopBtn.setAttribute("class", "btn btn-default btn-sm btn-block");        
     };
 
     this.handleNodeSelection=function(node){
@@ -138,6 +141,11 @@ function CLDControls(parentWidget) {
         that.parent.linkDeletion(that.selectedNode);
         that.selectedNode = null;
     };
+
+    this.onCriteriaImport = function() {
+        console.log("Import criteria nodes from Goal Tree");
+        that.parent.getCriteria();
+    }
 
     this.identifyExtFact = function() {
         that.parent.identifyExtFact();

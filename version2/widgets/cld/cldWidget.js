@@ -3,6 +3,7 @@ function CLDWidget(){
     BaseWidget.apply(this,arguments);
     this.setClassName("CLDWidget");
     var that=this;
+    this.gtInstance = undefined;
 
     this.setupMyGraphAndControls=function(){
         // required overwritten function
@@ -21,6 +22,42 @@ function CLDWidget(){
 
     this.setupControls=function(){
         this.controlsObject=new CLDControls(that);
+    };
+
+    this.connectGt = function(gt) {
+        this.gtInstance = gt;
+        console.log("Is Goal Tree?"+this.gtInstance.className);
+    }
+
+    this.getCriteria = function() {
+        var gtGraph = this.gtInstance.graphObject;
+        console.log("number of nodes are: "+ gtGraph.nodeElementArray.length);
+        var gtNodes = gtGraph.nodeElementArray;
+        var gtCriteria = [];
+        for(var i=0; i<gtNodes.length; i++) {
+            if(gtNodes[i].goalType === "Criteria") {
+                var temp = {};
+                // temp.id = gtNodes[i].id();
+                temp.name = gtNodes[i].label;
+                temp.nodeType = "Criteria"; //hard coded value
+                temp.nodeTypeId = 3; //hard coded value
+                temp.pos = [gtNodes[i].y, gtNodes[i].x];
+                gtCriteria.push(temp);
+            }
+        }
+        console.log("Number of criteria nodes are: "+gtCriteria.length);
+        console.log("The criteria nodes are: "+JSON.stringify(gtCriteria));
+        if(gtCriteria.length === 0) {
+            console.log("No criteria nodes in Goal Tree");
+        }
+        else {
+            that.graphObject.clearCriteria();
+            for(var i=0; i<gtCriteria.length; i++) {
+                var criteriaNode = gtCriteria[i];
+                that.graphObject.addCriteriaFromGT(criteriaNode);
+            }
+            that.graphObject.forceRedrawContent();
+        }
     };
 
     this.identifyExtFact = function() {

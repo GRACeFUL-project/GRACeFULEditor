@@ -15,6 +15,22 @@ function CLDNode(graph) {
       return selectedTypeId;
     };
 
+    this.setLabelText=function(val){
+        this.label=val;
+        var words = this.label.split(/\s+/g),
+        nwords = words.length;
+                   
+        if (this.labelRenderingElement){
+            var el = this.labelRenderingElement
+                .attr("dy", "-" + (nwords-1)*7.5);
+            for (var i = 0; i < words.length; i++) {
+                var tspan = el.append('tspan').text(words[i]);
+                if (i > 0)
+                    tspan.attr('x', 0).attr('dy', '15');
+            }
+        }
+    };
+
     this.drawNode=function(){
 
         that.nodeElement= that.rootNodeLayer.append('circle')
@@ -29,8 +45,10 @@ function CLDNode(graph) {
         // add title
         this.labelRenderingElement=  that.rootNodeLayer.append("text")
             .attr("text-anchor","middle")
-            .text(that.label)
+            // .text(that.label)
             .style("cursor","default");
+
+        that.setLabelText(that.label);
 
         //add delete image
         that.rootNodeLayer.append("image")
@@ -53,7 +71,7 @@ function CLDNode(graph) {
     };
     this.setRadius=function(val){
         defaultRadius=val;
-    };
+    };    
 
     this.onMouseOver=function(){
 
