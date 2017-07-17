@@ -302,7 +302,12 @@ function SimpleSFDGraph(){
                 value=temp[name];
             }
             // try to parse the ports name and id of node;
+            if (nameVar===undefined){
+                console.log("Could not parse the json object ");
+                console.log("input :"+jsonOBJ);
+                return;
 
+            }
             var nodeId=parseInt(nameVar.replace( /^\D+/g, ''));
             var portName=nameVar.replace(new RegExp("[0-9]"),'');
 
