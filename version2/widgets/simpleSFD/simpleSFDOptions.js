@@ -17,6 +17,9 @@ function SimpleSFDControls(parentWidget) {
         console.log("changing something"+x)
     };
 
+    this.clearGraph=function(){
+        parentWidget.clearGraph();
+    };
 
     this.loadFunction=function(){
         console.log("loading was pressed");
@@ -169,6 +172,7 @@ function SimpleSFDControls(parentWidget) {
 
         controlsMenu= that.createAccordionGroup(that.divControlsGroupNode, "Controls");
         solverLineEdit=that.addLineEdit(controlsMenu,"SolverAddress","http://localhost:4000",true,that.changeSolverAddress);
+        that.addHrefButton(controlsMenu,"Clear",that.clearGraph,true);
         that.addHrefButton(controlsMenu,"Load",that.loadFunction,true);
         that.addHrefButton(controlsMenu,"Save",that.saveFunction,true);
         that.addHrefButton(controlsMenu,"Get Lib",that.serverRequest,true);

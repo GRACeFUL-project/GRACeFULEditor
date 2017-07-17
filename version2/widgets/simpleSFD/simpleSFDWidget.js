@@ -77,6 +77,10 @@ function SimpleSFDWidget(){
         }
     };
 
+    this.clearGraph=function () {
+      that.graphObject.emptyGraphStructure();
+      that.graphObject.forceRedrawContent();
+    };
 
     this.requestModelDataForSolver=function(){
         return that.graphObject.requestModelDataAsJson();
