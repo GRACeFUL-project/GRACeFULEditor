@@ -112,6 +112,11 @@ function BaseWidget(parentElement) {
     };
 
 
+    this.updateCommunicationSolverAddres=function(val){
+        console.log("updating sover Address: "+val);
+        that.communicationModule.registerSolver(val);
+    };
+
     this.enableHUD=function(val){
         // enables HUD / legend for a graph object
 

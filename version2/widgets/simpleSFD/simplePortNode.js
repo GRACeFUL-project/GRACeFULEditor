@@ -62,21 +62,21 @@ function SimplePortNode(parent,portDesc) {
     };
 
     function parseDescription(portdesc) {
-        console.log("parsing port Description");
+       // console.log("parsing port Description");
         imageUrl=portdesc.imgURL;
         hoverText=portdesc.hoverText;
         name=portdesc.name;
         portTYPE=portdesc.type;
 
-        console.log("-----------------------------------");
-        console.log("Port url :"+imageUrl);
-        console.log("Port hoverText :"+hoverText);
-        console.log("Port name :"+name);
-        console.log("Port type :"+portTYPE);
-
-
-        console.log("-----------------------------------");
-        console.log("+++++++++++++++++++++++++++++++++++");
+        // console.log("-----------------------------------");
+        // console.log("Port url :"+imageUrl);
+        // console.log("Port hoverText :"+hoverText);
+        // console.log("Port name :"+name);
+        // console.log("Port type :"+portTYPE);
+        //
+        //
+        // console.log("-----------------------------------");
+        // console.log("+++++++++++++++++++++++++++++++++++");
     }
     parseDescription(portDesc);
 
@@ -162,7 +162,7 @@ function SimplePortNode(parent,portDesc) {
 
     this.updateLinkElement=function(){
       for (var i=0;i<assosiatedLinks.length;i++){
-          console.log("port Node updates link element");
+        //  console.log("port Node updates link element");
           assosiatedLinks[i].updateElement();
       }
     };

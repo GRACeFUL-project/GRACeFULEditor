@@ -214,16 +214,13 @@ function BaseControls(parentWidget) {
         var lb=document.createElement('label');
         lb.innerHTML=tableName;
         thisDiv.appendChild(lb);
-        console.log("try to create table");
         // add a label tag;
 
         var table=document.createElement('table');
 
         // add table to div
         d3.select(table).classed("tableClass");
-
-        var percentage=100/headerArray.length;
-        percentage=100;
+        var percentage=100;
 
         d3.select(table).style("width",percentage+"%");
         thisDiv.appendChild(table);
@@ -233,11 +230,6 @@ function BaseControls(parentWidget) {
             var cell = row.insertCell(i);
             cell.innerHTML=headerArray[i];
         }
-
-        console.log("done ----------------------------------------------------------------------------------");
-        // try as forLoop;
-
-
 
         return d3.select(table);
     };
@@ -293,13 +285,13 @@ function BaseControls(parentWidget) {
     };
 
     this.start=function(){
-        console.log("Calling Start of options -----------------------------------------------------------------------")
+        // console.log("Calling Start of options -----------------------------------------------------------------------")
         that.initControls();
     };
 
     this.createAccordionGroup=function(parent,title){
         var accordion=new generateAccordion(parent,title);
-        console.log("generated Accordion group"+accordion );
+       // console.log("generated Accordion group"+accordion );
         return accordion;
     };
 

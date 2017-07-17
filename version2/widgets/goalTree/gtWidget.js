@@ -20,24 +20,20 @@ function GTWidget(){
 
 
     this.setupGraph=function(){
-      console.log("Setting up my own graph");
+     // console.log("Setting up my own graph");
       this.graphObject=new GTGraph(that);
       that.graphObject.initializeGraph();
     };
 
     this.setupControls=function(){
-        console.log("test oA");
-        console.log("oA:"+that.getOptionsArea());
+      //  console.log("test oA");
+       // console.log("oA:"+that.getOptionsArea());
 
         this.controlsObject=new GTControls(that);
     };
 
 
-    this.sayHello=function(){
-        console.log("muahaha overwritten base class say hello function!"+this.tempVar);
-        console.log("Unique Identifyer "+this.getUniqueId());
 
-    }
 
     this.loadJSON=function(jsonData){
         // LOAD JSON ACTION

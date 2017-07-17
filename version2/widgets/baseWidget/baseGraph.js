@@ -175,7 +175,7 @@ function BaseGraph(parentWidget) {
         this.dragBehaviour = d3.behavior.drag()
             .origin(function (d) {
 
-                console.log("origin"+d.x+"  "+d.y);
+              //  console.log("origin"+d.x+"  "+d.y);
                 return d;
 
             })
@@ -213,7 +213,7 @@ function BaseGraph(parentWidget) {
                     that.draggerElementReleaseFunction(d);
                 }
                 d3.event.sourceEvent.stopPropagation(); // Prevent panning
-                console.log("dragger ended");
+              //  console.log("dragger ended");
             })
 
     };
@@ -256,7 +256,7 @@ function BaseGraph(parentWidget) {
                 tN=el;
             }
         });
-        console.log("minDist="+minDist);
+   //     console.log("minDist="+minDist);
         if (minDist>80) return null;
         return tN;
 
@@ -409,7 +409,7 @@ function BaseGraph(parentWidget) {
 
     this.createDraggerElement=function(parentNode){
         // this should be cleared now;
-        console.log("parent node calls createor of drager element");
+      //  console.log("parent node calls createor of drager element");
         this.draggerElement.setParentNode(parentNode);
         this.draggerLayer.classed("hidden",false);
 
@@ -446,7 +446,7 @@ function BaseGraph(parentWidget) {
     this.selectNode=function(node){
         // graph handles node selection
         that.deselectLastLink();
-         console.log("handling selection stuff");
+        // console.log("handling selection stuff");
         if (node===undefined){
 
             that.prevSelectedNode=undefined;

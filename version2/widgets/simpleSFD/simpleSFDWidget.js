@@ -30,7 +30,7 @@ function SimpleSFDWidget(){
         // loading library;
 
         // read the text as json
-        console.log("Parsing Json obj"+jsonData);
+      //  console.log("Parsing Json obj"+jsonData);
         var jsonObj=JSON.parse(jsonData);
 
         var success=that.graphObject.paseLibrary(jsonObj);
@@ -53,7 +53,7 @@ function SimpleSFDWidget(){
     };
 
     this.parseJSON=function(jsonObj){
-        console.log("Parsing Json obj"+jsonObj);
+      //  console.log("Parsing Json obj"+jsonObj);
         // you need to know the json structure that you are loading
         // for each widget we will have to modify this functions;
         var jsonTyp=jsonObj.type;

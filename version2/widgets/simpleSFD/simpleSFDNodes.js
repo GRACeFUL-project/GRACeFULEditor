@@ -38,7 +38,7 @@ function SimpleSFDNode(graph,nodeDescriptions) {
             typesArray.push("baseRoundNode");
             imageUrls.push(m_nodeDescriptions[i].imgUrl);
             portDescriptions.push(m_nodeDescriptions[i].ports);
-            console.log(m_nodeDescriptions[i]);
+          //  console.log(m_nodeDescriptions[i]);
             parametersDescriptions.push(m_nodeDescriptions[i].params);
         }
     };
@@ -100,7 +100,7 @@ function SimpleSFDNode(graph,nodeDescriptions) {
     };
 
     function createParameterObjects(){
-        console.log(parametersDescriptions);
+      //  console.log(parametersDescriptions);
         var parDesc=parametersDescriptions[that.getTypeId()];
         for (var i=0;i<parDesc.length;i++){
             var parObj={};

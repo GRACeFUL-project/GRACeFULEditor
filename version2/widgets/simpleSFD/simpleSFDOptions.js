@@ -9,6 +9,7 @@ function SimpleSFDControls(parentWidget) {
     var parametersGroup;
     var parameterTable;
     var portTable;
+    var solverLineEdit;
     var nodeClass,nodeLabel;
 
     this.onChangeEmpty=function(x){
@@ -153,6 +154,11 @@ function SimpleSFDControls(parentWidget) {
         }
     };
 
+    this.changeSolverAddress=function(){
+        var newSolverAddr=solverLineEdit.node().value;
+        parentWidget.updateCommunicationSolverAddres(newSolverAddr);
+
+    };
 
 
     this.generateControls=function() {
@@ -162,6 +168,7 @@ function SimpleSFDControls(parentWidget) {
 
 
         controlsMenu= that.createAccordionGroup(that.divControlsGroupNode, "Controls");
+        solverLineEdit=that.addLineEdit(controlsMenu,"SolverAddress","http://localhost:4000",true,that.changeSolverAddress);
         that.addHrefButton(controlsMenu,"Load",that.loadFunction,true);
         that.addHrefButton(controlsMenu,"Save",that.saveFunction,true);
         that.addHrefButton(controlsMenu,"Get Lib",that.serverRequest,true);

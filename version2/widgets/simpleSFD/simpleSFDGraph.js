@@ -46,7 +46,7 @@ function SimpleSFDGraph(){
         // console.log("A Double Click "+d3.event);
         // console.log("BaseGraph does not implement this");
         // console.log("Debugging ");
-        console.log("overwritten dblClick");
+      //  console.log("overwritten dblClick");
         that.deselectLastLink();
         that.deselectLastNode();
         var aNode = that.createNode(that, inputClasses);
@@ -210,7 +210,7 @@ function SimpleSFDGraph(){
             hudGenerated=false;
             return;
         }
-        console.log("Generate HUD if needed");
+    //    console.log("Generate HUD if needed");
         if (hudGenerated===false){
             this.generateHUD();
         }
@@ -218,7 +218,7 @@ function SimpleSFDGraph(){
 
 
     this.clearOverlayRendering=function(){
-        console.log("clearing the overlay rendering");
+      //  console.log("clearing the overlay rendering");
         that.overlayRenderingSvg.selectAll('*').remove();
     };
 
@@ -350,10 +350,10 @@ function SimpleSFDGraph(){
 
 
     this.generateHUD=function(){
-        console.log("generating hud FOR SFD ");
+     //   console.log("generating hud FOR SFD ");
         hudGenerated=true;
 
-        console.log("Do we have an overlay thingy?"+that.overlayRenderingSvg);
+      //  console.log("Do we have an overlay thingy?"+that.overlayRenderingSvg);
         // yes;
 
         // clear it
@@ -471,7 +471,7 @@ function SimpleSFDGraph(){
     };
 
     this.redrawOverlayContent=function(){
-        console.log("redrawing overlay Area");
+      //  console.log("redrawing overlay Area");
         var overlayNodeElements = overlayArea.selectAll(".node")
             .data(overlayNodes).enter()
             .append("g")
@@ -548,16 +548,16 @@ function SimpleSFDGraph(){
             // get description of the library in terms of nodes and their interfaces
             // each object is here a node with its values;
             var nodeName = libDisc.name;
-            console.log(libDisc);
+    //        console.log(libDisc);
             var imgURL = libDisc.icon;
             var hoverText = libDisc.hoverText;
             var params = libDisc.parameters; // TODO: parse them and add them to the node object;
 
-            console.log("-------------------------------------");
-            console.log("node " + nodeName );
-            console.log("img URL " + imgURL );
-            console.log("hover Text " + hoverText);
-            console.log("params " + params);
+            // console.log("-------------------------------------");
+            // console.log("node " + nodeName );
+            // console.log("img URL " + imgURL );
+            // console.log("hover Text " + hoverText);
+            // console.log("params " + params);
 
             nodeDescription.name=nodeName;
             nodeDescription.imgUrl=imgURL;
@@ -590,7 +590,7 @@ function SimpleSFDGraph(){
         var draggeEndPos=[that.draggerElement.x, that.draggerElement.y];
         var targetPort=that.getTargetPort(draggeEndPos);
         // console.log("dragger End pos"+draggeEndPos);
-        if (targetPort) {
+        if (targetPort && d.parentNode().getParentId()!==targetPort.getParentId()) {
             console.log("Target node name" + targetPort.getName());
             // create a link between these;
             if  (targetPort.isUsed()===false && d.parentNode().isUsed()===false) {

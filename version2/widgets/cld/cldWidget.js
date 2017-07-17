@@ -26,8 +26,8 @@ function CLDWidget(){
 
     this.connectGt = function(gt) {
         this.gtInstance = gt;
-        console.log("Is Goal Tree?"+this.gtInstance.className);
-    }
+      //  console.log("Is Goal Tree?"+this.gtInstance.className);
+    };
 
     this.getCriteria = function() {
         var gtGraph = this.gtInstance.graphObject;

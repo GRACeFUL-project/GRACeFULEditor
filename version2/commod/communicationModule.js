@@ -57,15 +57,29 @@
                 var send_requestAddress=solverAddress+"/submit";
                 console.log("do we have a lib address:"+send_requestAddress);
                 var xhr_post = new XMLHttpRequest();   // new HttpRequest instance
-                xhr_post .open("POST", send_requestAddress);
-                xhr_post .setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                xhr_post.open("POST", send_requestAddress);
+                xhr_post.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
                 xhr_post .send(modelText);
-                xhr_post .onload = function () {
+
+
+
+                xhr_post.onload = function () {
                     console.log("finished the xhr request with post");
                     console.log("result:"+xhr_post.responseText);
                     console.log("response text needs to be transferred into json ");
                     widget.parseResult(xhr_post.responseText);
                 };
+
+                xhr_post.onreadystatechange= function(){
+                    if (xhr_post.readyState===4) {
+                        console.log("Finished sending Operation");
+                        console.log(xhr_post);
+                        if (xhr_post.responseText===""){
+                            console.log("something went wrong");
+                        }
+                    }
+                };
+
                 //
                 // console.log(xhr_post);
                 // if (xhr_post.status===0){
@@ -90,7 +104,9 @@
                    else{
                    console.log("error!"+error.status);
                        // if no server is running we simply use the current state of the library;
+
                        var exampleLib='{"library":[{"icon":"./data/img/rain.png","name":"rain","parameters":[{"hoverText":"amount","name":"amount","imgURL":"./data/interfaces/amount.png","type":"Float"}],"interface":[{"hoverText":"rainfall","name":"rainfall","imgURL":"./data/interfaces/rainfall.png","type":"Port (Float)"}],"comment":"Rain"},{"icon":"./data/img/pump.png","name":"pump","parameters":[{"hoverText":"capacity","name":"capacity","imgURL":"./data/interfaces/capacity.png","type":"Float"}],"interface":[{"hoverText":"inflow","name":"inflow","imgURL":"./data/interfaces/inflow.png","type":"Port (Float)"},{"hoverText":"outflow","name":"outflow","imgURL":"./data/interfaces/outflow.png","type":"Port (Float)"}],"comment":"Pump"},{"icon":"./data/img/runOffArea.png","name":"runoff area","parameters":[{"hoverText":"storage capacity","name":"storage capacity","imgURL":"./data/interfaces/storage capacity.png","type":"Float"}],"interface":[{"hoverText":"inflow","name":"inflow","imgURL":"./data/interfaces/inflow.png","type":"Port (Float)"},{"hoverText":"outlet","name":"outlet","imgURL":"./data/interfaces/outlet.png","type":"Port (Float)"},{"hoverText":"overflow","name":"overflow","imgURL":"./data/interfaces/overflow.png","type":"Port (Float)"}],"comment":"Runoff"}]}';
+                       console.log("loading static library -----> "+exampleLib);
                        widget.loadLibrary(exampleLib);
 
                    }
