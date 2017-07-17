@@ -90,13 +90,13 @@ function SimpleSFDWidget(){
     this.parseResult=function(result){
         console.log("handling result:"+result);
         var textToParse=result;
-        if (result===""){
+        if (result==="localTest"){
 
             // console.log("server did not respondend");
-            // console.log("mockup test");
+            console.log("mockup test");
             // textToParse='{"result":[{"rainfall4" : 14.0}, {"inflow5" : 15.0}, {"outflow5" : 16.0},{"inflow6" : 17.0}]}';
             // testing invalid text
-        // textToParse='{"result":"[{\\"rainfall4\\" : 10.0,\\n\\"inflow5\\" : 10.0,\\n\\"outflow5\\" : 10.0,\\n\\"inflow6\\" : 10.0}\\n]"}';
+            textToParse='{"result":"[{\\"rainfall4\\" : 10.0,\\n\\"inflow5\\" : 10.0,\\n\\"outflow5\\" : 10.0,\\n\\"inflow6\\" : 10.0}\\n]"}';
         }
         //
 

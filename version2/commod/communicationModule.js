@@ -76,6 +76,8 @@
                         console.log(xhr_post);
                         if (xhr_post.responseText===""){
                             console.log("something went wrong");
+                            // local test
+                       //     widget.parseResult("localTest");
                         }
                     }
                 };

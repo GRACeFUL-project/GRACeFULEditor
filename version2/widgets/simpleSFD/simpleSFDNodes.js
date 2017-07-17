@@ -280,6 +280,9 @@ function SimpleSFDNode(graph,nodeDescriptions) {
 
     this.addPortDragger=function(port){
         graph.createDraggerElement(port);
+        // force a selection of this node if a port was clicked
+        graph.selectNode(undefined);
+        graph.selectNode(that);
     }
 
 

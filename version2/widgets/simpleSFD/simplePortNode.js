@@ -12,6 +12,7 @@ function SimplePortNode(parent,portDesc) {
     var portIsUsed=false;
     var portIdInNode=0;
     var value=0;
+    var valueSetFromOutside=false;
 
     this.getPortName=function(){
         return name;
@@ -24,6 +25,11 @@ function SimplePortNode(parent,portDesc) {
     };
     this.setPortValue=function(val){
         value=val;
+        valueSetFromOutside=true;
+        // update circle color
+        svgRoot.select("circle").attr("style","fill:#fff; stroke: #000; stroke-width:3");
+
+
     };
 
 
@@ -118,9 +124,15 @@ function SimplePortNode(parent,portDesc) {
             // alignment will be done by the parent node;
 
 
-            svgRoot.append("circle")
-                .attr("style","fill:#fff;")
-                .attr("r", radius);
+            var circ=svgRoot.append("circle");
+            circ.attr("r", radius);
+            if (valueSetFromOutside===true)
+                circ.attr("style","fill:#0f0; stroke: #0f0; stroke-width:3");
+            else
+                circ.attr("style","fill:#fff;");
+
+
+
             // console.log("Adding Image"+ portObj.imageURL());
             svgRoot.append("image")
                     .attr('x', -radius)
@@ -173,15 +185,20 @@ function SimplePortNode(parent,portDesc) {
             return;
         }
         that.mouseEntered(true);
-        svgRoot.select("circle").attr("style","fill:#0f0;")
-
+        if (valueSetFromOutside===false)
+            svgRoot.select("circle").attr("style","fill:#0f0;");
+        else
+            svgRoot.select("circle").attr("style","fill:#0f0; stroke: #000; stroke-width:3");
 
 
     }
 
     function outImageHover(){
         that.mouseEntered(false);
-        svgRoot.select("circle").attr("style","fill:#fff;")
+        if (valueSetFromOutside===false)
+            svgRoot.select("circle").attr("style","fill:#fff;");
+        else
+            svgRoot.select("circle").attr("style","fill:#fff; stroke: #000; stroke-width:3");
     }
 
 

@@ -184,12 +184,12 @@ function SimpleSFDControls(parentWidget) {
         nodeLabel=that.addLineEdit(nodeGroup,"Name","nodesName",false, that.changeNodesName);
 
         parameterTable=that.addTable(nodeGroup,"Parameters",["name","type","value"]);
-        that.addParameterRow(parameterTable,["a","b","c"]);
-        that.addParameterRow(parameterTable,["d","e","f"]);
+        // that.addParameterRow(parameterTable,["a","b","c"]);
+        // that.addParameterRow(parameterTable,["d","e","f"]);
 
         portTable=that.addTable(nodeGroup,"Ports",["name","type","value"]);
-        that.addParameterRow(portTable,["d","e","f"]);
-        that.addParameterRow(portTable,["d","e","f"]);
+        // that.addParameterRow(portTable,["d","e","f"]);
+        // that.addParameterRow(portTable,["d","e","f"]);
 
     };
 
