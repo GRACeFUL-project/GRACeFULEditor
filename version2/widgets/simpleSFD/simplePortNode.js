@@ -28,8 +28,11 @@ function SimplePortNode(parent,portDesc) {
         valueSetFromOutside=true;
         // update circle color
         svgRoot.select("circle").attr("style","fill:#fff; stroke: #000; stroke-width:3");
-
-
+    };
+    this.resetPortValue=function(){
+        value=0;
+        valueSetFromOutside=false;
+        svgRoot.select("circle").attr("style","fill:#fff;");
     };
 
 

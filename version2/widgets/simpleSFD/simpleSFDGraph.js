@@ -290,6 +290,21 @@ function SimpleSFDGraph(){
 
     this.implementResultIntoGraphData=function(jsonOBJ){
         var results=jsonOBJ.result;
+        var nE,p;
+        if (results.length===0){
+            // result does not provide any information;
+            // reset the ports values;
+
+            for (nE=0;nE<that.nodeElementArray.length;nE++){
+                nodeElement=that.nodeElementArray[nE];
+                var ports=nodeElement.getPortElements();
+                for (p=0;p<ports.length;p++){
+                    ports[p].resetPortValue();
+                }
+            }
+
+
+        }
 
         for (var i=0;i<results.length;i++){
             // parse the id of the node from the result
@@ -314,7 +329,7 @@ function SimpleSFDGraph(){
 
 
             var nodeElement=undefined;
-            for (var nE=0;nE<that.nodeElementArray.length;nE++){
+            for (nE=0;nE<that.nodeElementArray.length;nE++){
                 if (that.nodeElementArray[nE].id()===nodeId)
                     nodeElement=that.nodeElementArray[nE];
             }
@@ -325,7 +340,7 @@ function SimpleSFDGraph(){
                 // get port elements;
                 var portElements=nodeElement.getPortElements();
                 // search for port name;
-                for (var p=0;p<portElements.length;p++){
+                for ( p=0;p<portElements.length;p++){
                     if (portElements[p].getPortName()===portName){
                         // found port
                         portElements[p].setPortValue(parseFloat(value));
