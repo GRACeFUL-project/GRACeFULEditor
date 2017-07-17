@@ -130,7 +130,7 @@ function SimplePortNode(parent,portDesc) {
             var circ=svgRoot.append("circle");
             circ.attr("r", radius);
             if (valueSetFromOutside===true)
-                circ.attr("style","fill:#0f0; stroke: #0f0; stroke-width:3");
+                circ.attr("style","fill:#fff; stroke: #000; stroke-width:3");
             else
                 circ.attr("style","fill:#fff;");
 

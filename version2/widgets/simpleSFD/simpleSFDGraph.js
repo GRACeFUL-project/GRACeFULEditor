@@ -117,6 +117,7 @@ function SimpleSFDGraph(){
 
             modelObj.nodes.push(obj);
         }
+        console.log(JSON.stringify(modelObj, null, ''));
         return  JSON.stringify(modelObj, null, '  ');
     };
 
