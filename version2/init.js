@@ -65,7 +65,7 @@
                                   initializer.getOptionsArea() );
          example.forceGraphCssStyle("exampleA");
          example.setCommunicationModule(com);
-
+         
 
         // widget generation
         gtw= new GTWidget(initializer);
@@ -127,6 +127,5 @@
                 widgetList[i].updateSvgSize();
         }
     };
-
 
 }();

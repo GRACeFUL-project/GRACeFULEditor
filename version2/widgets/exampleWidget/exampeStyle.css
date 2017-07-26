@@ -1,7 +1,7 @@
 #canvasArea svg.exampleA {
     box-sizing: border-box;
     margin: 0;
-    background: darkgray;
+    background: #BDBDBD;
     overflow: hidden;
     padding: 0;
 }
@@ -39,7 +39,7 @@
 }
 
 .overlayAreaRect{
-    fill: #389c66
+    fill: #aef6ee;
 }
 
 
@@ -80,7 +80,3 @@
     stroke : black;
     stroke-width: 5px;
 }
-
-
-
-

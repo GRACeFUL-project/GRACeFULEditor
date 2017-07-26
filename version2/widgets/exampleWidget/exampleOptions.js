@@ -159,4 +159,3 @@ function ExampleControls(parentWidget) {
 
 ExampleControls.prototype = Object.create(BaseControls.prototype);
 ExampleControls.prototype.constructor = ExampleControls;
-

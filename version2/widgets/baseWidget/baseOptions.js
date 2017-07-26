@@ -96,7 +96,7 @@ function BaseControls(parentWidget) {
         var thisDiv=document.createElement('div');
         parent.getBody().node().appendChild(thisDiv);
         d3.select(thisDiv).classed("form-group",true);
-        
+
         var button = document.createElement('button');
         button.type = "button";
         button.id = btnId;
@@ -302,8 +302,6 @@ function BaseControls(parentWidget) {
 
 
 
-
-
     function generateAccordion(parentElement,title){
         var group={};
         var accordionClass="panel panel-default";
@@ -398,6 +396,3 @@ function BaseControls(parentWidget) {
 
 }
 BaseControls.prototype.constructor = BaseControls;
-
-
-
