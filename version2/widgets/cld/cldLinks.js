@@ -18,7 +18,10 @@ function CLDLink(graph) {
 
     console.log("Generating a link with id "+that.id());
     var cldType="unknown";
-    this.cldTypeString="?";
+    this.className = undefined;
+    this.classId = 0;
+    this.cldTypeString=undefined;
+    this.cldTypeId = 0;
     that.hoverText="";
     var linkDir=[]; // normal vector;
     var endPos=[]; // end position for the line
@@ -55,19 +58,31 @@ function CLDLink(graph) {
 
 
     this.getTypeId=function() {
-        if (that.cldTypeString === "?") return 0;
-        if (that.cldTypeString === "+") return 1;
-        if (that.cldTypeString === "-") return 2;
+        // if (that.cldTypeString === "?") return 0;
+        // if (that.cldTypeString === "+") return 1;
+        // if (that.cldTypeString === "-") return 2;
+        return that.cldTypeId;
     };
 
-    this.setCLDTypeString=function(val){
-        if (val === 0) that.cldTypeString="?";
-        if (val === 1) that.cldTypeString="+";
-        if (val === 2) that.cldTypeString="-";
+    this.setCLDTypeString=function(typeId, typeName){
+        that.cldTypeId = typeId;
+        that.cldTypeString = typeName;
+        // if (val === 0) that.cldTypeString="?";
+        // if (val === 1) that.cldTypeString="+";
+        // if (val === 2) that.cldTypeString="-";
 
         // update textRendering element
         if (textRenderingElement)
             textRenderingElement.text(that.cldTypeString);
+    };
+
+    this.setClassType = function(classId, className) {
+        that.classId = classId;
+        that.className = className;
+    };
+
+    this.getClassType = function() {
+        return that.className;
     };
 
 

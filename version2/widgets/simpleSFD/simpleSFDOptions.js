@@ -168,15 +168,35 @@ function SimpleSFDControls(parentWidget) {
         // testing stuff,
 
         // controls menu;
+        var clearSFD, loadSFD, saveSFD, reqSFD, submitSFD;
 
 
         controlsMenu= that.createAccordionGroup(that.divControlsGroupNode, "Controls");
         solverLineEdit=that.addLineEdit(controlsMenu,"SolverAddress","http://localhost:4000",true,that.changeSolverAddress);
-        that.addHrefButton(controlsMenu,"Clear",that.clearGraph,true);
-        that.addHrefButton(controlsMenu,"Load",that.loadFunction,true);
-        that.addHrefButton(controlsMenu,"Save",that.saveFunction,true);
-        that.addHrefButton(controlsMenu,"Get Lib",that.serverRequest,true);
-        that.addHrefButton(controlsMenu,"Send ",that.testSubmitModel,true);
+        clearSFD = that.addHrefButton(controlsMenu,"Clear",that.clearGraph,true);
+        clearSFD.setAttribute("class", "btn btn-default btn-sm");
+        clearSFD.parentNode.setAttribute("id", "sfd_basic");
+        clearSFD.parentNode.setAttribute("class", "form-group col-lg-12");
+
+        loadSFD = that.addHrefButton(controlsMenu,"Load",that.loadFunction,true);
+        document.getElementById("sfd_basic").appendChild(loadSFD.parentNode);
+        loadSFD.setAttribute("class", "btn btn-default btn-sm");
+        loadSFD.parentNode.setAttribute("class", "col-xs-4 text-center");
+
+        saveSFD = that.addHrefButton(controlsMenu,"Save",that.saveFunction,true);
+        document.getElementById("sfd_basic").appendChild(saveSFD.parentNode);
+        saveSFD.setAttribute("class", "btn btn-default btn-sm");
+        saveSFD.parentNode.setAttribute("class", "col-xs-4");
+
+        reqSFD = that.addHrefButton(controlsMenu,"Get Library",that.serverRequest,true);
+        reqSFD.setAttribute("class", "btn btn-default btn-sm");
+        reqSFD.parentNode.setAttribute("id", "sfd_basic1");
+        reqSFD.parentNode.setAttribute("class", "form-group col-lg-12");
+
+        submitSFD = that.addHrefButton(controlsMenu,"Send Model",that.testSubmitModel,true);
+        document.getElementById("sfd_basic1").appendChild(submitSFD.parentNode);
+        submitSFD.setAttribute("class", "btn btn-default btn-sm");
+        submitSFD.parentNode.setAttribute("class", "col-xs-6 text-center");
         that.addCheckBox(controlsMenu,"Show HUD","cb_test1",true,that.enableHUD); // per default enable the hud
         // execute the default value;
         that.enableHUD(true);
