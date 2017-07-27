@@ -226,7 +226,7 @@ path.link.selected {
 /** Element Styling
 	* Buttons, images ..
 **/
-#btn-opentoolBar {
+/*#btn-opentoolBar {
 	position: absolute;
 	left: 48px;
 	top: 48px;
@@ -246,4 +246,12 @@ path.link.selected {
   font-size: 24px;
   line-height: 1.33;
   border-radius: 35px;
+}*/
+
+#btn-opentoolBar {
+	position: absolute;
+	left: 48px;
+	top: 48px;
+	display:none;
+	z-index: 9999;
 }
