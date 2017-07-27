@@ -211,6 +211,7 @@ function BaseControls(parentWidget) {
         var thisDiv=document.createElement('div');
         parent.getBody().node().appendChild(thisDiv);
         d3.select(thisDiv).classed("form-group",true);
+        d3.select(thisDiv).classed("table-responsive",true);
         var lb=document.createElement('label');
         lb.innerHTML=tableName;
         thisDiv.appendChild(lb);
@@ -219,7 +220,7 @@ function BaseControls(parentWidget) {
         var table=document.createElement('table');
 
         // add table to div
-        d3.select(table).classed("tableClass");
+        d3.select(table).classed("table-bordered", true);
         var percentage=100;
 
         d3.select(table).style("width",percentage+"%");

@@ -90,7 +90,7 @@
 
         // create simple sfd widget for testing (copy of example widget
         var sfd= new SimpleSFDWidget(initializer);
-        sfd.setTabTitle("Simple SFD");
+        sfd.setTabTitle("GRACeFUL Concept Map");
         sfd.setupGuiElements(initializer.getNavigationObject(),
             initializer.getTabsObject(),
             initializer.getCanvasArea(),

@@ -6,7 +6,8 @@ function CLDControls(parentWidget) {
     var nodesGroup,linksGroup, additionalSettings;
 
     var selectionNode,lineEditNode,commentNode;
-    var causalSelection,commentLink;
+    var linkClass, causalSelection,commentLink;
+    var getClassValues = [undefined];
     var delNodeBtn, delLinkBtn, extFactorBtn, loopBtn, loadcld, saveCld, libCld, sendCld;
 
 
@@ -22,7 +23,9 @@ function CLDControls(parentWidget) {
 
 
         linksGroup = that.createAccordionGroup(that.divControlsGroupNode, "Links");
-        causalSelection = that.addSelectionOpts(linksGroup, "Causal relation", ["?", "+", "-"], that.onChangeLinkType);
+        linkClass = that.addSelectionOpts(linksGroup, "Class type", ["Undefined", "Causal Relation", "Other Relation"], that.onChangeLinkClass);
+        causalSelection = that.addSelectionOpts(linksGroup, "Value", getClassValues, that.onChangeLinkType);
+        d3.select(causalSelection.node().parentNode).classed("hidden", true);
         commentLink = that.addTextEdit(linksGroup, "Comments", "", true, that.onChangeLinkComment);
         delLinkBtn = that.addButtons(linksGroup, "Delete", "linkDelete", that.deleteLinks);
 
@@ -109,11 +112,34 @@ function CLDControls(parentWidget) {
     this.onChangeLinkComment=function(){
         that.selectedNode.setHoverText(commentLink.node().value);
     };
+
+    this.onChangeLinkClass = function(selectionContainer) {
+        var strUser = selectionContainer.options[selectionContainer.selectedIndex].value;
+        if(strUser !== "Undefined") {
+            that.selectedNode.setClassType(selectionContainer.selectedIndex, strUser);
+            d3.select(causalSelection.node().parentNode).classed("hidden", false);
+            d3.select(causalSelection.node()).selectAll("option").remove();
+            if(strUser === "Causal Relation") {
+                getClassValues = [undefined, '+', '-', '?'];
+                for (var i=0;i<getClassValues.length;i++){
+                    d3.select(causalSelection.node()).append("option").text(getClassValues[i]);
+                }
+            }
+            else if(strUser === "Other Relation") {
+                getClassValues = [undefined, 'A', 'B']; 
+                for(var i=0; i<getClassValues.length; i++) {
+                    d3.select(causalSelection.node()).append("option").text(getClassValues[i]);
+                }
+            }
+        }
+        else
+            d3.select(causalSelection.node().parentNode).classed("hidden", true);
+    };
+
     this.onChangeLinkType=function (selectionContainer) {
         var strUser = selectionContainer.options[selectionContainer.selectedIndex].value;
         console.log(selectionContainer.selectedIndex+" the user string is "+strUser);
-        that.selectedNode.setCLDTypeString(selectionContainer.selectedIndex);
-
+        that.selectedNode.setCLDTypeString(selectionContainer.selectedIndex, strUser);
     };
 
 
