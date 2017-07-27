@@ -26,6 +26,10 @@ function BaseWidget(parentElement) {
 
     };
 
+    this.getGraphObject=function(){
+      return that.graphObject;
+    }
+
 
     this.setupGuiElements=function(navigation,tabs,canvas,controls){
         // console.log("Setting up the widget Gui");
@@ -169,7 +173,7 @@ function BaseWidget(parentElement) {
         that.graphObject.handleLinkDeletion(link);
     };
 
-    
+
 /** COMMUNICATION BASE WIDGET HANDLING  -------------------------------------------------------------**/
     this.requestAction=function(action){
         this.communicationModule.actionProcessing(that,action);

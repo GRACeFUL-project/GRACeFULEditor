@@ -1,3 +1,5 @@
+var example;
+
 !function(){
     var initializer={};
     var previousSelectedWidget=undefined;
@@ -57,7 +59,7 @@
 
         // create an example widget;
         // keep it for debugging purpose.
-         var example = new ExampleWidget(initializer);
+          example = new ExampleWidget(initializer);
          example.setTabTitle("Example B");
          example.setupGuiElements(initializer.getNavigationObject(),
                                   initializer.getTabsObject(),
@@ -65,7 +67,7 @@
                                   initializer.getOptionsArea() );
          example.forceGraphCssStyle("exampleA");
          example.setCommunicationModule(com);
-         
+
 
         // widget generation
         gtw= new GTWidget(initializer);
