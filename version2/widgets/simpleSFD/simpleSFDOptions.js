@@ -169,33 +169,34 @@ function SimpleSFDControls(parentWidget) {
 
         // controls menu;
         var clearSFD, loadSFD, saveSFD, reqSFD, submitSFD;
-
+        // var tempIcon = document.createElement('i');
 
         controlsMenu= that.createAccordionGroup(that.divControlsGroupNode, "Controls");
         solverLineEdit=that.addLineEdit(controlsMenu,"SolverAddress","http://localhost:4000",true,that.changeSolverAddress);
         clearSFD = that.addHrefButton(controlsMenu,"Clear",that.clearGraph,true);
-        clearSFD.setAttribute("class", "btn btn-default btn-sm");
+        clearSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
         clearSFD.parentNode.setAttribute("id", "sfd_basic");
         clearSFD.parentNode.setAttribute("class", "form-group col-lg-12");
 
+
         loadSFD = that.addHrefButton(controlsMenu,"Load",that.loadFunction,true);
         document.getElementById("sfd_basic").appendChild(loadSFD.parentNode);
-        loadSFD.setAttribute("class", "btn btn-default btn-sm");
+        loadSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
         loadSFD.parentNode.setAttribute("class", "col-xs-4 text-center");
 
         saveSFD = that.addHrefButton(controlsMenu,"Save",that.saveFunction,true);
         document.getElementById("sfd_basic").appendChild(saveSFD.parentNode);
-        saveSFD.setAttribute("class", "btn btn-default btn-sm");
+        saveSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
         saveSFD.parentNode.setAttribute("class", "col-xs-4");
 
         reqSFD = that.addHrefButton(controlsMenu,"Get Library",that.serverRequest,true);
-        reqSFD.setAttribute("class", "btn btn-default btn-sm");
+        reqSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
         reqSFD.parentNode.setAttribute("id", "sfd_basic1");
         reqSFD.parentNode.setAttribute("class", "form-group col-lg-12");
 
         submitSFD = that.addHrefButton(controlsMenu,"Send Model",that.testSubmitModel,true);
         document.getElementById("sfd_basic1").appendChild(submitSFD.parentNode);
-        submitSFD.setAttribute("class", "btn btn-default btn-sm");
+        submitSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
         submitSFD.parentNode.setAttribute("class", "col-xs-6 text-center");
         that.addCheckBox(controlsMenu,"Show HUD","cb_test1",true,that.enableHUD); // per default enable the hud
         // execute the default value;
@@ -299,4 +300,3 @@ function SimpleSFDControls(parentWidget) {
 
 SimpleSFDControls.prototype = Object.create(BaseControls.prototype);
 SimpleSFDControls.prototype.constructor = SimpleSFDControls;
-

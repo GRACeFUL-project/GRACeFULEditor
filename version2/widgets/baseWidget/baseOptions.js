@@ -70,23 +70,33 @@ function BaseControls(parentWidget) {
     };
 
     this.addLineEdit=function(parent,label,defaultText,enabled,onChangeFunction){
+        var timeStampInMs = window.performance && window.performance.now && window.performance.timing && window.performance.timing.navigationStart ? window.performance.now() + window.performance.timing.navigationStart : Date.now();
+
+        var thisForm=document.createElement('form');
+        parent.getBody().node().appendChild(thisForm);
 
         var thisDiv=document.createElement('div');
-        parent.getBody().node().appendChild(thisDiv);
-        d3.select(thisDiv).classed("form-group",true);
+        thisForm.appendChild(thisDiv);
+        // parent.getBody().node().appendChild(thisDiv);
+        d3.select(thisDiv).classed("mdl-textfield mdl-js-textfield mdl-textfield--floating-label",true);
 
-
-        var lb=document.createElement('label');
-        lb.innerHTML=label;
-        thisDiv.appendChild(lb);
 
         //'<input type="text" class="form-control" id="nTitle" disabled>' +
         var le=document.createElement('input');
         thisDiv.appendChild(le);
+        le.setAttribute("type","text");
+        le.setAttribute("id", timeStampInMs);
         var leNode=d3.select(le);
-        leNode.classed("form-control",true);
+        leNode.classed("mdl-textfield__input",true);
         le.disabled=!enabled;
         le.value=defaultText;
+
+
+        var lb=document.createElement('label');
+        // lb.innerHTML=label;
+        lb.setAttribute("for",timeStampInMs);
+        d3.select(lb).classed("mdl-textfield__label", true);
+        thisDiv.appendChild(lb);
 
         leNode.on("change",function(){onChangeFunction();});
         return leNode;
@@ -100,7 +110,7 @@ function BaseControls(parentWidget) {
         var button = document.createElement('button');
         button.type = "button";
         button.id = btnId;
-        button.class = "btn btn-default btn-lg btn-block";
+        button.class = "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect";
         button.innerHTML = label;
         thisDiv.appendChild(button);
 
@@ -211,7 +221,7 @@ function BaseControls(parentWidget) {
         var thisDiv=document.createElement('div');
         parent.getBody().node().appendChild(thisDiv);
         d3.select(thisDiv).classed("form-group",true);
-        d3.select(thisDiv).classed("table-responsive",true);
+        d3.select(thisDiv).classed("mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp",true);
         var lb=document.createElement('label');
         lb.innerHTML=tableName;
         thisDiv.appendChild(lb);
@@ -220,7 +230,7 @@ function BaseControls(parentWidget) {
         var table=document.createElement('table');
 
         // add table to div
-        d3.select(table).classed("table-bordered", true);
+        d3.select(table).classed("mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp", true);
         var percentage=100;
 
         d3.select(table).style("width",percentage+"%");
