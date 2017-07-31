@@ -12,6 +12,7 @@ function GTNode(graph) {
     var goalTypeId = 0;
     var goalClass="baseRoundNode";
     var allGoalClasses=['undefined','goalOptionA','goalOptionB','goalOptionC'];
+    this.criteriaUnit = "";
 
     this.getTypeId=function(){
       return goalTypeId;
@@ -112,6 +113,11 @@ function GTNode(graph) {
 
         d3.select(this).selectAll("image").attr("display", "none");
     };
+
+    this.setCriteriaUnit = function(text) {
+        that.criteriaUnit = text;
+        console.log("the unit is:"+ text);
+    }
 }
 
 

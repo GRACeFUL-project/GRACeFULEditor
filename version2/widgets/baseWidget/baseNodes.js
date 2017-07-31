@@ -15,7 +15,7 @@ function BaseNode(graph) {
 
     this.nodeId = nodeId++;
     this.elementType="NodeElement";
-    this.label = "empty";
+    this.label = "";
     this.x = 0;
     this.y = 0;
     this.rootElement=undefined;

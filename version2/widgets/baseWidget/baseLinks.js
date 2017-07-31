@@ -20,6 +20,14 @@ function BaseLink(graph) {
     this.setSelectionStatus=function(val){
         that.elementIsFocused=val;
         that.pathElement.classed("LinkFocused", val);
+
+        if (that.rootElement.selectAll("image")!=null) {
+            if (val===true)
+                that.rootElement.selectAll("image").attr("display", null);
+            else{
+                that.rootElement.selectAll("image").attr("display", "none");
+            }
+        }
     };
 
 

@@ -7,18 +7,18 @@ function GTControls(parentWidget) {
     // tells the graph which widget it talks to
     this.parent=parentWidget;
 
-    var goalsGroup, goalName, goalType, goalComment, delGoal, criteriaUnit, criteriaValue, additionalSettings, loadcld, saveCld;
+    var goalsGroup, goalName, goalType, goalComment, delGoal, criteriaUnit, additionalSettings, loadcld, saveCld;
 
     this.generateControls=function(){
         goalsGroup = that.createAccordionGroup(that.divControlsGroupNode, "Goals");
         goalName = that.addLineEdit(goalsGroup, "Name", "", true, that.onChangeGoalName);
+        d3.select(goalName.node()).attr("placeholder" , "Enter Node name");
         goalType = that.addSelectionOpts(goalsGroup, "Type", ["Undefined", "Goal", "Sub Goal", "Criteria"], that.onChangeGoalType);
         goalComment = that.addTextEdit(goalsGroup, "Comments", "", true, that.onChangeGoalComment);
         //TODO: form fields when the goal type = criteria
         criteriaUnit = that.addLineEdit(goalsGroup, "Unit", "", true, that.onChangeUnit);
         d3.select(criteriaUnit.node().parentNode).classed("hidden", true);
-        criteriaValue = that.addLineEdit(goalsGroup, "Value", "", true, that.onChangeValue);
-        d3.select(criteriaValue.node().parentNode).classed("hidden", true);
+
         delGoal = that.addButtons(goalsGroup, "Delete", "goalDelete", that.onDeleteGoal);
 
         additionalSettings = that.createAccordionGroup(that.divControlsGroupNode, "Settings");
@@ -41,22 +41,27 @@ function GTControls(parentWidget) {
         this.selectedNode = node;
 
         if (node.getElementType()==="NodeElement") {
+            goalsGroup.expandBody();
+
             goalName.node().value = that.selectedNode.label;
             goalName.node().disabled = false;
             goalComment.node().disabled = false;
             goalComment.node().value = that.selectedNode.hoverText;
-
+            criteriaUnit.node().value = that.selectedNode.criteriaUnit;
             var gtId = that.selectedNode.getTypeId();
             goalType.node().options[gtId].selected = "selected";
+
+            var selectType = goalType.node().options[gtId].value;
+            if(selectType === "Criteria") {
+                d3.select(criteriaUnit.node().parentNode).classed("hidden", false);
+            }
+            if(selectType !== "Criteria") {
+                d3.select(criteriaUnit.node().parentNode).classed("hidden", true);
+            }
         }
-        var selectType = goalType.node().options[gtId].value;
-        if(selectType === "Criteria") {
-            d3.select(criteriaUnit.node().parentNode).classed("hidden", false);
-            d3.select(criteriaValue.node().parentNode).classed("hidden", false);
-        }
-        if(selectType !== "Criteria") {
-            d3.select(criteriaUnit.node().parentNode).classed("hidden", true);
-            d3.select(criteriaValue.node().parentNode).classed("hidden", true);
+
+        if(node.getElementType()==="LinkElement") {
+            goalsGroup.collapseBody();
         }
     };
 
@@ -70,11 +75,9 @@ function GTControls(parentWidget) {
         that.selectedNode.setType(selectionContainer.selectedIndex, selectType);
         if(selectType === "Criteria") {
             d3.select(criteriaUnit.node().parentNode).classed("hidden", false);
-            d3.select(criteriaValue.node().parentNode).classed("hidden", false);
         }
         else {
             d3.select(criteriaUnit.node().parentNode).classed("hidden", true);
-            d3.select(criteriaValue.node().parentNode).classed("hidden", true);
         }
     };
 
@@ -88,11 +91,7 @@ function GTControls(parentWidget) {
     }; 
 
     this.onChangeUnit =function() {
-        //TODO
-    };
-
-    this.onChangeValue = function() {
-        //TODO
+        that.selectedNode.setCriteriaUnit(criteriaUnit.node().value);
     };
 
     this.saveFunction=function(){
