@@ -38,7 +38,7 @@ function GTNode(graph) {
         this.label=val;
         var words = this.label.split(/\s+/g),
         nwords = words.length;
-                   
+
         if (this.labelRenderingElement){
             var el = this.labelRenderingElement
                 .attr("dy", "-" + (nwords-1)*7.5);
@@ -72,7 +72,11 @@ function GTNode(graph) {
             // .text(that.label)
             .style("cursor","default");
 
-        that.setLabelText(that.label);
+        //add tooltip
+        that.nodeElement.append('title')
+        .text(that.label);
+
+        that.setLabelText(that.label.slice(0,10).concat("..."));
 
         //add delete image
         that.rootNodeLayer.append("image")
@@ -123,5 +127,3 @@ function GTNode(graph) {
 
 GTNode.prototype = Object.create(BaseNode.prototype);
 GTNode.prototype.constructor = GTNode;
-
-

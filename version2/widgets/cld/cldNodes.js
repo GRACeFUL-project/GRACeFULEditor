@@ -19,7 +19,7 @@ function CLDNode(graph) {
         this.label=val;
         var words = this.label.split(/\s+/g),
         nwords = words.length;
-                   
+
         if (this.labelRenderingElement){
             var el = this.labelRenderingElement
                 .attr("dy", "-" + (nwords-1)*7.5);
@@ -48,7 +48,11 @@ function CLDNode(graph) {
             // .text(that.label)
             .style("cursor","default");
 
-        that.setLabelText(that.label);
+        //add tooltip
+        that.nodeElement.append('title')
+        .text(that.label);
+
+        that.setLabelText(that.label.slice(0,10).concat("..."));
 
         //add delete image
         that.rootNodeLayer.append("image")
@@ -71,7 +75,7 @@ function CLDNode(graph) {
     };
     this.setRadius=function(val){
         defaultRadius=val;
-    };    
+    };
 
     this.onMouseOver=function(){
 
@@ -126,5 +130,3 @@ function CLDNode(graph) {
 
 CLDNode.prototype = Object.create(BaseNode.prototype);
 CLDNode.prototype.constructor = CLDNode;
-
-

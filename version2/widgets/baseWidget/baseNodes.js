@@ -15,7 +15,7 @@ function BaseNode(graph) {
 
     this.nodeId = nodeId++;
     this.elementType="NodeElement";
-    this.label = "";
+    this.label = "undefined undefined undefined";
     this.x = 0;
     this.y = 0;
     this.rootElement=undefined;
@@ -94,13 +94,15 @@ function BaseNode(graph) {
     };
 
     this.setHoverText=function(val){
+      //set the label content based on the length of text content
+
         this.hoverText=val;
         if (that.rootNodeLayer){
             that.rootNodeLayer.select("title").text(that.hoverText);
         }
     };
     this.setLabelText=function(val){
-        this.label=val;
+        this.label= val;
         if (this.labelRenderingElement){
             this.labelRenderingElement.text(that.label);
         }
@@ -129,7 +131,11 @@ function BaseNode(graph) {
 
     /** DRAWING FUNCTIONS ------------------------------------------------- **/
     this.drawNode=function(){
+      //each element on dom that can be manipulated should have a uniqueId
+      var uniqueId = window.performance && window.performance.now && window.performance.timing && window.performance.timing.navigationStart ? window.performance.now() + window.performance.timing.navigationStart : Date.now();
+
       that.nodeElement= that.rootNodeLayer.append('circle').attr("r", 50)
+            .attr("id", uniqueId)
             .classed(that.nodeClass,true);
 
         // add hover text if you want
@@ -139,8 +145,13 @@ function BaseNode(graph) {
         // add title
         that.labelRenderingElement=  that.rootNodeLayer.append("text")
             .attr("text-anchor","middle")
-            .text(that.label)
+            .text(that.label.slice(0,10).concat("..."))
             .style("cursor","default");
+
+        //add tooltip
+        that.nodeElement.append('title')
+        .text(that.label);
+
     };
 
 
