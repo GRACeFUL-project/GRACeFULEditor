@@ -168,6 +168,9 @@ function CLDGraph(){
             validateAllPaths();
 
             that.forceRedrawContent();
+            // that.parentWidget.handleSelection(aLink);
+            aLink.onClicked();
+            aLink.pathElement.classed("cldLinkSelected", true);
         }
     };    
 
@@ -198,12 +201,7 @@ function CLDGraph(){
                 }
             }
         }
-
-
-
     }
-
-
 
     this.handleLinkDeletion = function(link) {
         // overwriting this because we have added validate all paths function
@@ -212,36 +210,6 @@ function CLDGraph(){
         that.forceRedrawContent();
         that.removeDeletedElements();
     };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     // debug things
     function getScreenCoords(x, y, translate, scale){
