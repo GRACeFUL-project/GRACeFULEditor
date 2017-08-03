@@ -15,7 +15,8 @@ function BaseNode(graph) {
 
     this.nodeId = nodeId++;
     this.elementType="NodeElement";
-    this.label = "undefined undefined undefined";
+    this.label = "undefined undefined";
+    this.displayLabel = "undefined undefined";
     this.x = 0;
     this.y = 0;
     this.rootElement=undefined;
@@ -26,6 +27,7 @@ function BaseNode(graph) {
     this.mouseButtonPressed=false;
     this.editingTextElement=false;
     this.nodeElement=undefined;
+    this.toolTipElement=undefined;
     this.labelRenderingElement=undefined;
     var fobj=undefined;
     var drX=50;
@@ -103,8 +105,16 @@ function BaseNode(graph) {
     };
     this.setLabelText=function(val){
         this.label= val;
+        if (this.toolTipElement){
+            this.toolTipElement.text(that.label);
+        }
+    };
+
+    this.setDisplayLabelText=function(val){
+        this.displayLabel= val;
+        this.displayLabel.slice(0,10).concat("...");
         if (this.labelRenderingElement){
-            this.labelRenderingElement.text(that.label);
+            this.labelRenderingElement.text(that.displayLabel);
         }
     };
 
@@ -145,12 +155,12 @@ function BaseNode(graph) {
         // add title
         that.labelRenderingElement=  that.rootNodeLayer.append("text")
             .attr("text-anchor","middle")
-            .text(that.label.slice(0,10).concat("..."))
+            .text(that.displayLabel.slice(0,10).concat("..."))
             .style("cursor","default");
 
         //add tooltip
-        that.nodeElement.append('title')
-        .text(that.label);
+        that.toolTipElement = that.nodeElement.append('title')
+            .text(that.label);
 
     };
 
@@ -324,6 +334,7 @@ function BaseNode(graph) {
             txtNode.layerX=that.x;
             txtNode.layerY=that.y;
             that.setLabelText(this.textContent);
+            that.setDisplayLabelText(this.textContent);
             // remove the object and redraw the node;
 
             that.rootNodeLayer.selectAll("foreignObject").remove();

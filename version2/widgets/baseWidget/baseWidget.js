@@ -169,7 +169,7 @@ function BaseWidget(parentElement) {
         that.graphObject.handleLinkDeletion(link);
     };
 
-    
+
 /** COMMUNICATION BASE WIDGET HANDLING  -------------------------------------------------------------**/
     this.requestAction=function(action){
         this.communicationModule.actionProcessing(that,action);
