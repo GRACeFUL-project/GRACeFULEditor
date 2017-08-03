@@ -10,13 +10,15 @@ function BaseNode(graph) {
 
     this.GRAPH_OBJECT_NODE="GraphObjectNode";
     this.OVERLAY_OBJECT_NODE="OverlayNode";
+    this.DISPLAY_LABEL_LENGTH=14;
+    this.DISPLAY_LABEL_LIMIT=10;
 
     this.nodeClass="baseRoundNode";
 
     this.nodeId = nodeId++;
     this.elementType="NodeElement";
-    this.label = "undefined undefined";
-    this.displayLabel = "undefined undefined";
+    this.label = "example node 2017";
+    this.displayLabel = "example node 2017";
     this.x = 0;
     this.y = 0;
     this.rootElement=undefined;
@@ -105,14 +107,14 @@ function BaseNode(graph) {
     };
     this.setLabelText=function(val){
         this.label= val;
-        if (this.toolTipElement){
+        if (this.toolTipElement && (this.toolTipElement > this.DISPLAY_LABEL_LENGTH)){
             this.toolTipElement.text(that.label);
         }
     };
 
     this.setDisplayLabelText=function(val){
         this.displayLabel= val;
-        this.displayLabel.slice(0,10).concat("...");
+        this.displayLabel.slice(0,that.DISPLAY_LABEL_LIMIT).concat("...");
         if (this.labelRenderingElement){
             this.labelRenderingElement.text(that.displayLabel);
         }
@@ -153,14 +155,20 @@ function BaseNode(graph) {
             that.rootNodeLayer.append('title').text(that.hoverText);
 
         // add title
+        var tempDisplayLabel = that.displayLabel;
+
+        if( that.displayLabel.length > that.DISPLAY_LABEL_LENGTH )
+          tempDisplayLabel = tempDisplayLabel.slice(0,that.DISPLAY_LABEL_LIMIT).concat("...");
+
         that.labelRenderingElement=  that.rootNodeLayer.append("text")
             .attr("text-anchor","middle")
-            .text(that.displayLabel.slice(0,10).concat("..."))
+            .text(tempDisplayLabel)
             .style("cursor","default");
 
         //add tooltip
-        that.toolTipElement = that.nodeElement.append('title')
-            .text(that.label);
+        if( that.label.length > that.DISPLAY_LABEL_LENGTH   )
+          that.toolTipElement = that.nodeElement.append('title')
+              .text(that.label);
 
     };
 
