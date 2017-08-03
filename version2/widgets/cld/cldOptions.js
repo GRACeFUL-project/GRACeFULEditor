@@ -14,10 +14,10 @@ function CLDControls(parentWidget) {
     this.generateControls=function() {
         // testing stuff,
         nodesGroup = that.createAccordionGroup(that.divControlsGroupNode, "Nodes");
+        lineEditNode = that.addLineEdit(nodesGroup, "Name", "", true, that.onChangeNodeName);
         selectionNode = that.addSelectionOpts(nodesGroup, "Class type", ["Undefined", "Factor", "Action", "Criteria", "External Factor"], that.onChangeNodeType);
         var hideClass = selectionNode.node().options[selectionNode.node().length - 1];
         hideClass.hidden = true;
-        lineEditNode = that.addLineEdit(nodesGroup, "Node name", "", true, that.onChangeNodeName);
         commentNode = that.addTextEdit(nodesGroup, "Comments", "", true, that.onChangeNodeComment);
         delNodeBtn = that.addButtons(nodesGroup, "Delete", "nodeDelete", that.deleteNodes);
 
@@ -98,8 +98,17 @@ function CLDControls(parentWidget) {
             linksGroup.expandBody();
 
             // todo overwrite the values;
-            var selId = that.selectedNode.getTypeId();
-            causalSelection.node().options[selId].selected="selected";
+            var selId_1 = that.selectedNode.getClassType();
+            linkClass.node().options[selId_1].selected = "selected";
+            var selId_2 = that.selectedNode.getTypeId();
+            var temp = linkClass.node().options[selId_1].value;
+            if(temp !== "Undefined") {
+                appendLinkType(temp);
+                causalSelection.node().options[selId_2].selected="selected";    
+            }
+            else
+                d3.select(causalSelection.node().parentNode).classed("hidden", true);
+            
             commentLink .node().disabled = false;
             commentLink .node().value = that.selectedNode.hoverText;
 
@@ -107,7 +116,21 @@ function CLDControls(parentWidget) {
 
     };
 
-
+    function appendLinkType(className) {
+        d3.select(causalSelection.node()).selectAll("option").remove();
+        if(className === "Causal Relation") {
+                getClassValues = [undefined, '+', '-', '?'];
+                for (var i=0;i<getClassValues.length;i++){
+                    d3.select(causalSelection.node()).append("option").text(getClassValues[i]);
+                }
+            }
+        else if(className === "Other Relation") {
+            getClassValues = [undefined, 'A', 'B']; 
+            for(var i=0; i<getClassValues.length; i++) {
+                d3.select(causalSelection.node()).append("option").text(getClassValues[i]);
+            }
+        }
+    }
 
     this.onChangeLinkComment=function(){
         that.selectedNode.setHoverText(commentLink.node().value);
@@ -118,19 +141,7 @@ function CLDControls(parentWidget) {
         if(strUser !== "Undefined") {
             that.selectedNode.setClassType(selectionContainer.selectedIndex, strUser);
             d3.select(causalSelection.node().parentNode).classed("hidden", false);
-            d3.select(causalSelection.node()).selectAll("option").remove();
-            if(strUser === "Causal Relation") {
-                getClassValues = [undefined, '+', '-', '?'];
-                for (var i=0;i<getClassValues.length;i++){
-                    d3.select(causalSelection.node()).append("option").text(getClassValues[i]);
-                }
-            }
-            else if(strUser === "Other Relation") {
-                getClassValues = [undefined, 'A', 'B']; 
-                for(var i=0; i<getClassValues.length; i++) {
-                    d3.select(causalSelection.node()).append("option").text(getClassValues[i]);
-                }
-            }
+            appendLinkType(strUser);
         }
         else
             d3.select(causalSelection.node().parentNode).classed("hidden", true);

@@ -82,7 +82,7 @@ function CLDLink(graph) {
     };
 
     this.getClassType = function() {
-        return that.className;
+        return that.classId;
     };
 
 
