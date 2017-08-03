@@ -36,7 +36,19 @@ function GTNode(graph) {
 
     this.setLabelText=function(val){
         this.label=val;
-        var words = this.label.split(/\s+/g),
+
+        if (this.toolTipElement && (this.label.length > that.DISPLAY_LABEL_LENGTH) ){
+          this.toolTipElement.text(this.label);
+        }
+    };
+
+    this.setDisplayLabelText=function(val){
+        this.displayLabel=val;
+
+        if(this.displayLabel.length > that.DISPLAY_LABEL_LENGTH)
+          this.displayLabel=that.displayLabel.slice(0,that.DISPLAY_LABEL_LIMIT).concat("...");
+
+        var words = this.displayLabel.split(/\s+/g);
         nwords = words.length;
 
         if (this.labelRenderingElement){
@@ -69,14 +81,18 @@ function GTNode(graph) {
         // add title
         that.labelRenderingElement=  that.rootNodeLayer.append("text")
             .attr("text-anchor","middle")
-            // .text(that.label)
+            // .text(that.labelf
             .style("cursor","default");
 
-        //add tooltip
-        that.nodeElement.append('title')
-        .text(that.label);
 
-        that.setLabelText(that.label.slice(0,10).concat("..."));
+        //add tooltip
+        if(that.label.length > that.DISPLAY_LABEL_LENGTH)
+          that.toolTipElement = that.nodeElement.append('title');
+
+        that.setLabelText(that.label);
+
+        //prepare node display label
+        that.setDisplayLabelText(that.label);
 
         //add delete image
         that.rootNodeLayer.append("image")
