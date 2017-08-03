@@ -246,56 +246,74 @@ function CLDGraph(){
 
     this.identifyFeedbackLoops = function() {
         console.log("Looking for feedback loops");
-        // var feedbackLoops = [];
-        // for(var i=0; i<that.pathElementArray.length; i++) {
-        //     var pathLoops = that.pathElementArray.filter(function(l) {
-        //         if(that.pathElementArray[i].id() !== l.id()) {
-        //             return (l.sourceNode === that.pathElementArray[i].targetNode && l.targetNode === that.pathElementArray[i].sourceNode);
-        //         }
-        //     });
-        //     if(pathLoops.length !== 0)
-        //         feedbackLoops.push(that.pathElementArray[i]);
-        // }
-        // console.log("Number of feedback loops are: "+feedbackLoops.length);
 
-        // for(var i=0; i<feedbackLoops.length; i++) {
-        //     console.log("The feedback loop id is: "+feedbackLoops[i].id());
-        //     feedbackLoops[i].setLoopStyle();
-        // }
-        
+        //trying a new algorithm
+        //it has two parts - first, the strongly connected components are found by applying Tarjan's algorithm and then the loops are found in the sub-graph which are strongly connected
+        var allNodes = [];
         var adjNodes = [];
-        var adjLinks = [];
+        var allLinks = [];    
+
         var loops = {};
         var path = [];
         var allTheLoops = [];
-        var feedbackLoops = [];
-        
-        for(var i=0; i<that.nodeElementArray.length; i++) {
-            var j = that.nodeElementArray[i].id();
-            adjNodes.push(j);
-            loops[j] = 0;
-        }
+        var feedbackLoops = [];    
 
         for(var i=0; i<that.pathElementArray.length; i++) {
             var arr = [that.pathElementArray[i].sourceNode.id(), that.pathElementArray[i].targetNode.id()];
-            adjLinks.push(arr);
+            allLinks.push(arr);
         }
-        console.log("The nodes are: "+adjNodes);
-        console.log("The links are: "+JSON.stringify(adjLinks));
 
-        for (var i=0; i<adjNodes.length; ++i) {
-            var vertex = adjNodes[i];
-            console.log("**************************");
-            if (loops[vertex] == 0) {
-                var result = checkLoops(adjLinks, loops, path, vertex);
-                if (result.hasLoop) {
-                    allTheLoops.push(result.loop);
-                    path.pop();
+        for(var i=0; i<that.nodeElementArray.length; i++) {
+            var n = that.nodeElementArray[i].id();
+            allNodes.push(n);
+            adjNodes[i] = [];
+            that.pathElementArray.filter(function (l) {
+                if(l.sourceNode.id() === n)
+                    adjNodes[i].push(l.targetNode.id());
+            });
+        }
+
+        console.log("the all nodes are "+JSON.stringify(allNodes)+" The adjacent nodes are: "+JSON.stringify(adjNodes));
+        var anyObj= stronglyConnectedComponents(adjNodes);
+        console.log("The any obj is: "+JSON.stringify(anyObj));
+
+        //************************************************************************
+        var sccs = anyObj.components;        
+        var sccsNodes = {};
+
+        while(sccs.length > 0) {
+            var scc = sccs.pop();
+            if(scc.length <= 1) continue;
+            else {
+                for(var i=0; i<scc.length; i++) {
+                    var k = scc[i];
+                    sccsNodes[k] = [];
+                    loops[k] = 0;
+                    var q = sccsNodes[k];
+
+                    that.pathElementArray.filter(function(l) {
+                        if(l.sourceNode.id() === k) {                            
+                            if(scc.indexOf(l.targetNode.id()) > -1)
+                                q.push(l.targetNode.id());
+                        }
+                    });
+                }
+            }            
+        }
+        console.log("The SCCS nodes are: "+JSON.stringify(sccsNodes));
+
+        for(var key in sccsNodes) {
+            if(sccsNodes.hasOwnProperty(key)) {
+                var vertex = Number(key);
+                var adjLinks = sccsNodes[key];
+                console.log("Vertex: "+vertex+ " adjLinks: "+adjLinks);
+                if(loops[key] == 0) {
+                    checkLoops(adjLinks, loops, path, vertex);
                 }
             }
         }
         console.log("All the loops in a graph are: "+JSON.stringify(allTheLoops));
-        console.log("how is loops: "+JSON.stringify(loops));
+
         for(var i=0; i<allTheLoops.length; i++) {
             var tempLoop = allTheLoops[i];
             for(var j=0; j<tempLoop.length; j++) {
@@ -311,48 +329,143 @@ function CLDGraph(){
         for(var i=0; i<feedbackLoops.length; i++) {
             console.log("The feedback loop id is: "+feedbackLoops[i].id());
             feedbackLoops[i].setLoopStyle();
-        }        
-    };
-    
-    //TODO: The algorithm is not efficient in finding loops when a node is involved in more then one cycle
-    function checkLoops(edges, loops, path, vertex) {
-        loops[vertex] = 1;
-        path.push(vertex);
-        console.log("This is vertex: "+vertex+" Path is: "+path);
-        var adjacentEdges = [];
-        for (var i=0; i<edges.length; ++i) {
-            var edge = edges[i];
-            if (edge[0] == vertex) {
-                adjacentEdges.push(edge);
-            }
         }
 
-        for (var i=0; i<adjacentEdges.length; ++i) {
-            console.log("The adjacent edge of node: "+vertex+ " is: "+JSON.stringify(adjacentEdges));
-            var edge = adjacentEdges[i];
-            var adjVertex = edge[1];
+        function checkLoops(edges, loops, path, vertex) {
+            loops[vertex] = 1;
+            path.push(vertex);
+            // console.log("This is vertex: "+vertex+" Path is: "+path);
+            var adjacentEdges = edges;
 
-            if (loops[adjVertex] == 1) {      
-            console.log("The adjVertex "+adjVertex+" is 1");          
-                var loop = path.slice(path.indexOf(adjVertex));
-                loop.push(adjVertex);
-                console.log("The loop is: "+loop);
-                return { hasLoop: true, loop: loop };
-            }
+            for (var i=0; i<adjacentEdges.length; ++i) {
+                // console.log("The adjacent edge of node: "+vertex+ " is: "+JSON.stringify(adjacentEdges));
+                var adjVertex = adjacentEdges[i];
 
-            if (loops[adjVertex] == 0) {
-                console.log("The adjVertex "+adjVertex+" is still 0");
-                var result = checkLoops(edges, loops, path, adjVertex);
-                if (result.hasLoop) {
-                    return result;
+                if (loops[adjVertex] == 1) {      
+                // console.log("The adjVertex "+adjVertex+" is 1");          
+                    var loop = path.slice(path.indexOf(adjVertex));
+                    loop.push(adjVertex);
+                    console.log("The loop is: "+loop);
+                    allTheLoops.push(loop);
+                }
+
+                if (loops[adjVertex] == 0) {
+                    // console.log("The adjVertex "+adjVertex+" is still 0");
+                    checkLoops(sccsNodes[adjVertex], loops, path, adjVertex);
                 }
             }
+            // console.log("coloring vertex: "+vertex+" as black");
+            loops[vertex] = 2;
+            path.pop();
         }
-        console.log("coloring vertex: "+vertex+" as black");
-        loops[vertex] = 2;
-        path.pop();
-        return { hasLoop: false };
-    }
+        
+        //************************************************************************
+
+        function stronglyConnectedComponents(adjList) {
+
+            var numVertices = adjList.length;
+            var index = [];
+            var lowValue = [];
+            var active = [];
+            var child = [];
+            var scc = [];
+            var sccLinks = [];
+  
+            for(var i=0; i<numVertices; ++i) {
+                index[i] = -1;
+                lowValue[i] = 0;
+                active[i] = false;
+                child[i] = 0;
+                scc[i] = -1;
+                sccLinks[i] = [];
+            }
+
+            var count = 0;
+            var components = [];
+            var sccAdjList = [];
+
+            function strongConnect(v) {
+                var S = [v], T = [v];
+                index[v] = lowValue[v] = count;
+                active[v] = true;
+                count++;
+                while(T.length > 0) {
+                    v = T[T.length-1];
+                    var e = adjList[v];
+                    if (child[v] < e.length) { 
+                        for(var i=child[v]; i<e.length; ++i) { 
+                            var u = e[i];
+                            if(index[u] < 0) {
+                                index[u] = lowValue[u] = count;
+                                active[u] = true;
+                                count += 1;
+                                S.push(u);
+                                T.push(u);
+                                break; 
+                            } else if (active[u]) {
+                                lowValue[v] = Math.min(lowValue[v], lowValue[u])|0;
+                            }
+                            if (scc[u] >= 0) {
+                                sccLinks[v].push(scc[u]);
+                            }
+                        }
+                        child[v] = i; 
+                    } else { 
+                    if(lowValue[v] === index[v]) { 
+                        var component = [];
+                        var links = [], linkCount = 0;
+                        for(var i=S.length-1; i>=0; --i) {
+                            var w = S[i];
+                            active[w] = false;
+                            component.push(w);
+                            links.push(sccLinks[w]);
+                            linkCount += sccLinks[w].length;
+                            scc[w] = components.length;
+                            if(w === v) {
+                                S.length = i;
+                                break;
+                            }
+                        }
+                        component.sort(function(a, b) {
+                            return a-b;
+                        });
+                        components.push(component);
+                        var allLinks = new Array(linkCount);
+                        for(var i=0; i<links.length; i++) {
+                            for(var j=0; j<links[i].length; j++) {
+                                allLinks[--linkCount] = links[i][j];
+                            }
+                        }
+                        sccAdjList.push(allLinks);
+                    }
+                    T.pop(); 
+                    }
+                }
+            }
+
+            for(var i=0; i<numVertices; ++i) {
+                if(index[i] < 0) {
+                    strongConnect(i);
+                }
+            }
+  
+            var newE;
+            for(var i=0; i<sccAdjList.length; i++) {
+                var e = sccAdjList[i];
+                if (e.length === 0) continue;
+                e.sort(function (a,b) { return a-b; });
+                newE = [e[0]];
+                for(var j=1; j<e.length; j++) {
+                    if (e[j] !== e[j-1]) {
+                        newE.push(e[j]);
+                    }
+                }
+                sccAdjList[i] = newE;
+            }  
+
+            return {components: components, adjacencyList: sccAdjList}
+        }
+    };
 }
 
 CLDGraph.prototype = Object.create(BaseGraph.prototype);
