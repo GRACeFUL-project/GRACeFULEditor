@@ -58,6 +58,35 @@ function CLDGraph(){
         return  JSON.stringify(retObj, null, '  ');
     };
 
+    this.requestModelDataAsJson = function() {
+        var modelObj = {};
+        modelObj.nodes = [];
+        modelObj.links = [];
+
+        for(var i=0; i<that.nodeElementArray.length; i++) {
+            var node = that.nodeElementArray[i];
+            var obj = {};
+            obj.id = node.id();
+            obj.name = node.label;
+            obj.nodeType = node.typeName;
+            //need to add more attributes
+            modelObj.nodes.push(obj);
+        }
+
+        for(var i=0; i<that.pathElementArray.length; i++) {
+            var link = that.pathElementArray[i];
+            var obj = {};
+            obj.id = link.id();
+            obj.source_target = [link.sourceNode.id(), link.targetNode.id()];
+            obj.className = link.className;
+            obj.value = link.cldTypeString;
+            //need to add more attributes
+            modelObj.links.push(obj);
+        }
+
+        return JSON.stringify(modelObj, null, '');
+    };
+
     this.addLinkFromJSON=function(jsonLink){
         var s_t =jsonLink.source_target;
         var sourceId=s_t[0];
