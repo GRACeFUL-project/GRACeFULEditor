@@ -58,6 +58,8 @@ function CLDControls(parentWidget) {
 
         loopBtn = that.addHrefButton(additionalSettings, "Identify Feeback Loops", that.feedbackLoop, true);
         loopBtn.setAttribute("class", "btn btn-default btn-sm btn-block");
+        loopBtn.setAttribute("data-toggle", "modal");
+        loopBtn.setAttribute("data-target", "#loopModal");
     };
 
     this.handleNodeSelection=function(node){

@@ -116,6 +116,10 @@ function CLDWidget(){
         console.log("handle the result");
         //TODO
     };
+
+    this.createLoopModal = function(id, header, content) {
+        that.controlsObject.createModal(id, header, content);
+    };
 }
 
 

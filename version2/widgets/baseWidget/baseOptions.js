@@ -384,7 +384,7 @@ function BaseControls(parentWidget) {
     }// end of base group funcion
 
     this.createModal = function(id, header, content) {
-        var html =  '<div id="'+id+'" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="confirm-modal" aria-hidden="true">';
+        var html =  '<div id="'+id+'" class="modal fade" tabindex="-1" role="dialog">';
         html += '<div class="modal-dialog">';
         html += '<div class="modal-content">';
         html += '<div class="modal-header">';
@@ -407,6 +407,8 @@ function BaseControls(parentWidget) {
         $('#dynamicModal').on('hidden.bs.modal', function (e) {
             $(this).remove();
         });
+
+        return html;
     };
 
 

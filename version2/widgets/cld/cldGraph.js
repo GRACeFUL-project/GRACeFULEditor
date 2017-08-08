@@ -343,15 +343,21 @@ function CLDGraph(){
         }
         console.log("All the loops in a graph are: "+JSON.stringify(allTheLoops));
 
+        var loopNodeNames = [];
         for(var i=0; i<allTheLoops.length; i++) {
             var tempLoop = allTheLoops[i];
+            loopNodeNames[i] = [];
             for(var j=0; j<tempLoop.length; j++) {
                 for(var k=0; k<that.pathElementArray.length; k++) {
                     if(tempLoop[j+1] !== undefined) {
                         if(tempLoop[j] === that.pathElementArray[k].sourceNode.id() && tempLoop[j+1] === that.pathElementArray[k].targetNode.id())
                             feedbackLoops.push(that.pathElementArray[k]);
                     }                    
-                }                
+                }
+                that.nodeElementArray.filter(function(n) {
+                    if(tempLoop[j] === n.id())
+                        loopNodeNames[i].push(n.label);
+                });                
             }            
         }
 
@@ -359,6 +365,24 @@ function CLDGraph(){
             console.log("The feedback loop id is: "+feedbackLoops[i].id());
             feedbackLoops[i].setLoopStyle();
         }
+
+        var strLoop = "";
+        for(var i=0; i<loopNodeNames.length; i++) {
+            var aLoop = loopNodeNames[i];
+            strLoop += '<p>';
+            for(var j=0; j<aLoop.length; j++) {
+                strLoop += aLoop[j];
+                if(j != aLoop.length-1)
+                    strLoop += " --> ";
+            }
+            strLoop += '</p>';
+        }
+
+        var loopElem = document.getElementById("loopModal");
+        if(loopElem)
+            loopElem.parentNode.removeChild(loopElem);
+        that.parentWidget.createLoopModal("loopModal", "Feedback Loops", strLoop);
+
 
         function checkLoops(edges, loops, path, vertex) {
             loops[vertex] = 1;
