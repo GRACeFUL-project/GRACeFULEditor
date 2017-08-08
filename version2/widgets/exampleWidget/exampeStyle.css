@@ -1,7 +1,7 @@
 #canvasArea svg.exampleA {
     box-sizing: border-box;
     margin: 0;
-    background: darkgray;
+    background: var(--main-widget-color-ten);
     overflow: hidden;
     padding: 0;
 }
@@ -9,7 +9,7 @@
 #canvasArea svg.exampleB {
     box-sizing: border-box;
     margin: 0;
-    background: greenyellow;
+    background: var(--main-widget-color-eleven);
     overflow: hidden;
     padding: 0;
 }
@@ -17,7 +17,7 @@
 #canvasArea svg.exampleC {
     box-sizing: border-box;
     margin: 0;
-    background: #E5E4F6;
+    background: var(--main-widget-color-twelve);
     overflow: hidden;
     padding: 0;
 }
@@ -25,21 +25,21 @@
 #canvasArea svg.exampleD {
     box-sizing: border-box;
     margin: 0;
-    background: #E5E4F6;
+    background: var(--main-widget-color-thirteen);
     overflow: hidden;
     padding: 0;
 }
 
 .exampleNodeA{
-    fill: #ff0
+    fill: red;
 }
 
 .exampleNodeB{
-    fill: #ff6200
+    fill: red;
 }
 
 .overlayAreaRect{
-    fill: #389c66
+    fill: #389c66;
 }
 
 
@@ -80,7 +80,3 @@
     stroke : black;
     stroke-width: 5px;
 }
-
-
-
-

@@ -42,6 +42,10 @@ function GTNode(graph) {
         }
     };
 
+    this.clearLabelText=function(){
+        this.toolTipElement.text("");
+    }
+
     this.setDisplayLabelText=function(val){
         this.displayLabel=val;
 
@@ -62,6 +66,10 @@ function GTNode(graph) {
         }
     };
 
+    this.clearDisplayLabelText=function(){
+      this.labelRenderingElement.text("");
+    }
+
     this.drawNode=function(){
 
         that.nodeElement= that.rootNodeLayer.append('rect')
@@ -81,13 +89,15 @@ function GTNode(graph) {
         // add title
         that.labelRenderingElement=  that.rootNodeLayer.append("text")
             .attr("text-anchor","middle")
-            // .text(that.labelf
+            // .text(that.label)
             .style("cursor","default");
 
 
+        that.toolTipElement = that.nodeElement.append('title');
+
         //add tooltip
-        if(that.label.length > that.DISPLAY_LABEL_LENGTH)
-          that.toolTipElement = that.nodeElement.append('title');
+        if( that.label.length > that.DISPLAY_LABEL_LENGTH   )
+          that.toolTipElement.text(that.label);
 
         that.setLabelText(that.label);
 

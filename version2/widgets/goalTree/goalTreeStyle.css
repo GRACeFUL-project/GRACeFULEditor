@@ -1,7 +1,7 @@
 #canvasArea svg.goalTreeGraphStyle {
     box-sizing: border-box;
     margin: 0;
-    background: #E5E4F6;
+    background: var(--main-widget-color-nine);
     overflow: hidden;
     padding: 0;
 }

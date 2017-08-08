@@ -1,7 +1,7 @@
 #canvasArea svg.cldGraphStyle {
     box-sizing: border-box;
     margin: 0;
-    background: #E5E4F6;
+    background: var(--main-widget-color-three);
     overflow: hidden;
     padding: 0;
 }

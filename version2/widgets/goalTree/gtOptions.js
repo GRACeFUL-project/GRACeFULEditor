@@ -26,7 +26,7 @@ function GTControls(parentWidget) {
         loadcld.setAttribute("class", "btn btn-default btn-sm");
         loadcld.parentNode.setAttribute("id", "goalBasic");
         loadcld.innerHTML = '<span class="glyphicon glyphicon-floppy-open"></span> Load Goal Tree';
-        
+
         saveCld = that.addHrefButton(additionalSettings,"Save",that.saveFunction,false);
         document.getElementById("goalBasic").appendChild(saveCld);
         saveCld.setAttribute("class", "btn btn-default btn-sm pull-right");
@@ -66,8 +66,13 @@ function GTControls(parentWidget) {
     };
 
     this.onChangeGoalName = function() {
-    that.selectedNode.setLabelText(goalName.node().value);
-    };
+      // change the value to be displayed on the node.
+      that.selectedNode.clearDisplayLabelText();
+      that.selectedNode.setDisplayLabelText(goalName.node().value);
+      // change the value of the tooltip.
+      that.selectedNode.clearLabelText();
+      that.selectedNode.setLabelText(goalName.node().value);
+    }
 
     this.onChangeGoalType = function(selectionContainer) {
         var selectType = selectionContainer.options[selectionContainer.selectedIndex].value;
@@ -88,7 +93,7 @@ function GTControls(parentWidget) {
     this.onDeleteGoal = function() {
         that.parent.nodeDeletion(that.selectedNode);
         that.selectedNode = null;
-    }; 
+    };
 
     this.onChangeUnit =function() {
         that.selectedNode.setCriteriaUnit(criteriaUnit.node().value);
@@ -154,4 +159,3 @@ function GTControls(parentWidget) {
 }
 GTControls.prototype = Object.create(BaseControls.prototype);
 GTControls.prototype.constructor = GTControls;
-

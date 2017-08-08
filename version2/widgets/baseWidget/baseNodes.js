@@ -112,6 +112,10 @@ function BaseNode(graph) {
         }
     };
 
+    // this.clearLabelText=function(){
+    //     this.toolTipElement.text("");
+    // };
+
     this.setDisplayLabelText=function(val){
         this.displayLabel= val;
         this.displayLabel.slice(0,that.DISPLAY_LABEL_LIMIT).concat("...");
@@ -119,6 +123,10 @@ function BaseNode(graph) {
             this.labelRenderingElement.text(that.displayLabel);
         }
     };
+
+    // this.clearDisplayLabelText=function(){
+    //   this.labelRenderingElement.text("");
+    // }
 
     this.setPosition=function(x,y){
         that.x=x;
@@ -165,10 +173,11 @@ function BaseNode(graph) {
             .text(tempDisplayLabel)
             .style("cursor","default");
 
+        that.toolTipElement = that.nodeElement.append('title');
+
         //add tooltip
         if( that.label.length > that.DISPLAY_LABEL_LENGTH   )
-          that.toolTipElement = that.nodeElement.append('title')
-              .text(that.label);
+          that.toolTipElement.text(that.label);
 
     };
 
