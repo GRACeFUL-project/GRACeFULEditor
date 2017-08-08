@@ -265,12 +265,19 @@ function CLDControls(parentWidget) {
 
     this.sendModel = function() {
         console.log("Send the model");
-        //TODO
+        var action = {};
+        action.task = "SERVER_REQUEST"
+        action.requestType = "SEND_MODEL";
+        action.data = that.parent.requestModelDataForSolver();
+        that.parent.requestAction(action);
     };
 
     this.getLibrary = function() {
         console.log("Get Library");
-        //TODO
+        var action = {};
+        action.task = "SERVER_REQUEST";
+        action.requestType = "GET_LIBRARY";
+        that.parent.requestAction(action);
     };
 
     this.start();

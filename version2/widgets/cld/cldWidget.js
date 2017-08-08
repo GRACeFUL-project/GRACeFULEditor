@@ -101,7 +101,21 @@ function CLDWidget(){
             that.graphObject.addLinkFromJSON(jsonLink);
         }
 
-    }
+    };
+
+    this.requestModelDataForSolver = function() {
+        that.graphObject.requestModelDataAsJson();
+    };
+
+    this.loadLibrary = function(jsonData) {
+        console.log("Library Obtained for CLD");
+        //TODO: populate the respective attributes for nodes and links
+    };
+
+    this.parseResult = function(result) {
+        console.log("handle the result");
+        //TODO
+    };
 }
 
 
