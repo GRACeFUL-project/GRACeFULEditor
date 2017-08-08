@@ -28,6 +28,7 @@
 	margin: 0;
 	overflow: hidden;
 	padding: 0;
+	background: var(--main-widget-color-fifteen);
 }
 
 /*nav#tabWidgetNavigation{*/

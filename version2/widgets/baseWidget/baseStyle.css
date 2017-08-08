@@ -1,7 +1,12 @@
 .baseRoundNode{
-    fill: #F6FBFF;
-    stroke: #333;
+    fill: var(--main-node-color-nine);
+    stroke: var(--main-node-border-three);
     stroke-width: 2px;
+    color: white;
+}
+
+svg.text{
+  fill: white;
 }
 
 .baseNodeHovered{

@@ -1,11 +1,22 @@
 #canvasArea svg.cldGraphStyle {
     box-sizing: border-box;
     margin: 0;
-    background: #E5E4F6;
+    background: var(--main-widget-color-three);
     overflow: hidden;
     padding: 0;
 }
 
+.onChangeNode{
+    fill: green;
+    stroke: #000;
+    stroke-width: 2px;
+}
+
+.onChanged{
+    fill: red;
+    stroke: #000;
+    stroke-width: 2px;
+}
 
 .cldLink{
     stroke: #69c;
@@ -49,6 +60,7 @@
 .feedbackLoops {
     stroke: #CA5F5F;
 }
+<<<<<<< HEAD
 
 .loopContextMenu {
     display: none;
@@ -77,3 +89,5 @@
     background-color: #4677f8;
     color: #fefefe;
 }
+=======
+>>>>>>> 4631e42e7570fd86a8792cca73fc84ee37d3b176

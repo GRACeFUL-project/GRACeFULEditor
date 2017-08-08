@@ -1,5 +1,61 @@
+:root {
+	/*For reference of neutral colors please visit:
+			http://www.creativecolorschemes.com/resources/free-color-schemes/neutral-color-scheme.shtml
+			Please not the colors are listed here in the same order as displayed on the site.
+	*/
+	--main-widget-color-one: #B7A6AD;
+	--main-widget-color-two: #C8CAC0;
+	--main-widget-color-three: #D3C9CE ;
+	--main-widget-color-four: #BEB2A7;
+	--main-widget-color-five: #D1C6BF;
+	--main-widget-color-six: #DBD7CC;
+	--main-widget-color-seven: #CAB388;
+	--main-widget-color-eight: #D5C4A1;
+	--main-widget-color-nine: #E0D4BB ;
+	--main-widget-color-ten: #B5B292;
+	--main-widget-color-eleven: #C8C5AC;
+	--main-widget-color-twelve: #D5D3BF;
+	--main-widget-color-thirteen: #A8Ad84;
+	--main-widget-color-fourteen: #C3C8CD;
+	--main-widget-color-fifteen: #D2D6D9;
+
+	/*Flat colors & Material UI colors for the nodes:
+		https://flatuicolors.com/
+		The colors are listed from top to bottom order as displayed on the site.
+		The lighter accents are used for the inner coloring of the nodes.
+	*/
+	--main-node-color-one: #1abc9c;
+	--main-node-color-two: #2ecc71;
+	--main-node-color-three: #3498db;
+	--main-node-color-four: #9b59b6;
+	--main-node-color-five: #34495e;
+	--main-node-color-six: #f1c40f;
+	--main-node-color-seven: #e67e22;
+	--main-node-color-eight: #e74c3c;
+	--main-node-color-nine: #ecf0f1;
+	--main-node-color-ten: #95a5a6;
+
+
+	/*Flat UI colors and Material UI Colors
+		https://flatuicolors.com/
+		The colors are listed from top to bottom order as displayed on the site.
+		The darker accents are used for the borders of the node elements.
+	*/
+	--main-node-border-one: #16a085;
+	--main-node-border-two: #27ae60;
+	--main-node-border-three: #2980b9;
+	--main-node-border-four: #8e44ad;
+	--main-node-border-five: #2c3e50;
+	--main-node-border-six: #f39c12;
+	--main-node-border-seven: #d35400;
+	--main-node-border-eight: #c0392b;
+	--main-node-border-nine: #bdc3c7;
+	--main-node-border-ten: #7f8c8d;
+
+}
+
 body {
-	background: #ececec;
+	background: var(--main-widget-color-one);
 	height: 100%;
 	font-size: 14px;
 	font-family: 'Open Sans', Helvetica, Arial, sans-serif;
@@ -97,8 +153,8 @@ main {
 	color:#000;
 }
 
-p{ 
-    text-align: center; 
+p{
+    text-align: center;
     overflow: overlay;
     position: relative;
 }
