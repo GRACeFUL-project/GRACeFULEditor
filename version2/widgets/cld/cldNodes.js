@@ -23,6 +23,10 @@ function CLDNode(graph) {
         }
     };
 
+    this.clearLabelText=function(){
+        this.toolTipElement.text("");
+    }
+
     this.setDisplayLabelText=function(val){
         this.displayLabel=val;
 
@@ -43,6 +47,18 @@ function CLDNode(graph) {
         }
     };
 
+    this.clearDisplayLabelText=function(){
+      this.labelRenderingElement.text("");
+    }
+
+    this.changeClass=function(cssClassName){
+      that.nodeElement.classed(cssClassName,true);
+    }
+
+    this.clearClass=function(){
+      that.nodeElement.attr('class', null);
+    }
+
     this.drawNode=function(){
 
         that.nodeElement= that.rootNodeLayer.append('circle')
@@ -60,9 +76,11 @@ function CLDNode(graph) {
             // .text(that.label)
             .style("cursor","default");
 
+        that.toolTipElement = that.nodeElement.append('title');
+
         //add tooltip
-        if(that.label.length > that.DISPLAY_LABEL_LENGTH)
-          that.toolTipElement = that.nodeElement.append('title');
+        if( that.label.length > that.DISPLAY_LABEL_LENGTH   )
+          that.toolTipElement.text(that.label);
 
         that.setLabelText(that.label);
 

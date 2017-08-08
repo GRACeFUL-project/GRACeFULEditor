@@ -96,7 +96,7 @@ function BaseControls(parentWidget) {
         var thisDiv=document.createElement('div');
         parent.getBody().node().appendChild(thisDiv);
         d3.select(thisDiv).classed("form-group",true);
-        
+
         var button = document.createElement('button');
         button.type = "button";
         button.id = btnId;
@@ -399,6 +399,3 @@ function BaseControls(parentWidget) {
 
 }
 BaseControls.prototype.constructor = BaseControls;
-
-
-

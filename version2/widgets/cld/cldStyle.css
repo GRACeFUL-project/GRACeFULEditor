@@ -6,6 +6,17 @@
     padding: 0;
 }
 
+.onChangeNode{
+    fill: green;
+    stroke: #000;
+    stroke-width: 2px;
+}
+
+.onChanged{
+    fill: red;
+    stroke: #000;
+    stroke-width: 2px;
+}
 
 .cldLink{
     stroke: #69c;

@@ -112,9 +112,8 @@ function BaseNode(graph) {
         }
     };
 
-    // this.clearLabelText=function(){
-    //     this.toolTipElement.text("");
-    // };
+     this.clearLabelText=function(){
+     };
 
     this.setDisplayLabelText=function(val){
         this.displayLabel= val;
@@ -124,9 +123,8 @@ function BaseNode(graph) {
         }
     };
 
-    // this.clearDisplayLabelText=function(){
-    //   this.labelRenderingElement.text("");
-    // }
+    this.clearDisplayLabelText=function(){
+    }
 
     this.setPosition=function(x,y){
         that.x=x;
