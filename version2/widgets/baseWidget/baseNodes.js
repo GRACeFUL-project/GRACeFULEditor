@@ -124,7 +124,7 @@ function BaseNode(graph) {
     };
 
     this.clearDisplayLabelText=function(){
-    }
+    };
 
     this.setPosition=function(x,y){
         that.x=x;

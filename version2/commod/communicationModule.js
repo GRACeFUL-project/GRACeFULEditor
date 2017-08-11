@@ -15,7 +15,7 @@
         //var registeredWidgets;
         //http://localhost:4000/static/index.html
         //var solverAddress="http://localhost:4000";
-        var solverAddress="http://vocol.iais.fraunhofer.de/graceful-rat"
+        var solverAddress="http://vocol.iais.fraunhofer.de/graceful-rat";
         var localAction;
 
         // done from the outside
@@ -60,9 +60,13 @@
                 var xhr_post = new XMLHttpRequest();   // new HttpRequest instance
                 xhr_post.open("POST", send_requestAddress);
                 xhr_post.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-                xhr_post .send(modelText);
+                xhr_post.send(modelText);
 
 
+                // console.log("XHR"+xhr_post);
+                // console.log(xhr_post);
+                // console.log("POST: "+send_requestAddress);
+                // console.log("Model: "+modelText);
 
                 xhr_post.onload = function () {
                     console.log("finished the xhr request with post");

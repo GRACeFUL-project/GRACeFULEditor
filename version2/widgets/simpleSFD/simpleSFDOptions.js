@@ -173,6 +173,7 @@ function SimpleSFDControls(parentWidget) {
 
         controlsMenu= that.createAccordionGroup(that.divControlsGroupNode, "Controls");
         solverLineEdit=that.addLineEdit(controlsMenu,"SolverAddress","http://vocol.iais.fraunhofer.de/graceful-rat",true,that.changeSolverAddress);
+        //solverLineEdit=that.addLineEdit(controlsMenu,"SolverAddress","http://localhost:4000",true,that.changeSolverAddress);
         clearSFD = that.addHrefButton(controlsMenu,"Clear",that.clearGraph,true);
         clearSFD.setAttribute("class", "btn btn-default btn-sm");
         clearSFD.parentNode.setAttribute("id", "sfd_basic");

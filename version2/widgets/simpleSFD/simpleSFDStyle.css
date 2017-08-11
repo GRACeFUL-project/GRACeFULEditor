@@ -13,6 +13,11 @@
     fill: #ff0;
 }
 
+.sfdLink {
+    stroke: #cc833c;
+    stroke-width: 4px;
+    fill: none;
+}
 .overlayAreaRect{
     fill: #389c66
 }
