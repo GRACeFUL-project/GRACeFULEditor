@@ -118,11 +118,18 @@ function SimpleSFDLink(graph) {
             var oddNumber=numberOfLinks%2;
 
             for (var i = 0; i < pathElements.length; i++) {
+                srcPort=subLinks[i].src;
+                tarPort=subLinks[i].tar;
+
+                // change start and endpoint if not same connections;
+                if (srcPort.getParentNode()!==that.sourceNode) {
+                    var helper=startPoint;
+                    startPoint=endPoint;
+                    endPoint=helper;
+                }
                 controlPoints=calculateMultiLinkPath(startPoint, centerPoint, endPoint, orthoNormed, offset, oddNumber,i);
                 pathElements[i].attr("d", lineFunction(controlPoints));
                 // use the control points for setting the the ports positions
-                srcPort=subLinks[i].src;
-                tarPort=subLinks[i].tar;
 
                 // update their positions
                 srcPort.setLinkPosition(controlPoints[0].x,controlPoints[0].y);
