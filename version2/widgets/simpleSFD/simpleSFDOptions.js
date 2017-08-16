@@ -12,6 +12,8 @@ function SimpleSFDControls(parentWidget) {
     var solverLineEdit;
     var nodeClass,nodeLabel;
 
+
+
     this.onChangeEmpty=function(x){
         // empty function does not do anything, used for debuging
         console.log("changing something"+x)

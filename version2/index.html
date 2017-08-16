@@ -74,25 +74,29 @@
 
     <!--</nav>-->
 
-
-
     <div class="container-fluid">
       <div class="row">
         <div class="col-lg-1 col-xs-2 col-sm-2 col-md-2" id="toolbar">
-          <br/><br/>
-          <a onclick="hideToolbar()">rohan</a> <br/>
-
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <div class="group-title">
-                Nodes
-              </div>
+          <div class="titleToolbar">
+            <p class="head">Widgets</p>
+            <a onclick="hideToolbar()" id="closemenu"><i class="material-icons">close</i></a>
+          </div>
+          <div class="widgitListToolbar">
+            <div class="widgetItem">
+              <img src="./data/img/rain.png" height="96px" width="96px">
+              <br/>
+              Rain
             </div>
-            <div class="panel-body">
-              Panel content
+            <div class="widgetItem">
+              <img src="./data/img/pump.png" height="96px" width="96px"><br/>
+              Pump
+            </div>
+            <div class="widgetItem">
+              <img src="./data/img/runOffArea.png" height="96px" width="96px"><br/>
+              Run Off Area
             </div>
           </div>
-
+          <br/>
         </div>
         <div class="col-lg-8 col-xs-8 col-sm-8 col-md-8" id="drawingArea">
           <!-- <button onclick="showToolbar()" type="button" class="btn btn-info btn-circle btn-xl" id="btn-opentoolBar"><i class="glyphicon glyphicon-pencil"></i></button> -->

@@ -34,7 +34,7 @@ function BaseGraph(parentWidget) {
     this.draggingObject=false;
     this.needUpdateRedraw=false;
 
-
+    
     // some state of graph functionality
     this.needsRedraw=function(val){
         if (!arguments.length) return that.needUpdateRedraw;
@@ -314,7 +314,7 @@ function BaseGraph(parentWidget) {
     this.clearRendering=function(){
         // clear the graph
         that.graphRenderingSvg.selectAll('*').remove();
-        
+
         that.draggerLayer=that.graphRenderingSvg.append('g');
         that.pathLayer=that.graphRenderingSvg.append('g');
         that.nodeLayer=that.graphRenderingSvg.append('g');

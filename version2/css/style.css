@@ -74,20 +74,59 @@ main {
 	min-height: 100%;
 	overflow: auto;
 	color: #fff;
-	background-color: #EEEEEE ;
+	background-color: white ;
 	border-right:1px solid #E0E0E0;
-	padding-left: 0px;
 	padding-right: 0px;
-	padding-top: 8px;
-	padding-bottom: 32px;
 }
 
+.titleToolbar {
+	background-color: #FAFAFA;
+	min-width: 100;
+	height: 63px;
+	border-bottom: 1px solid;
+	border-color: #e0e0e0;
+}
+
+.head {
+	color: #757575;
+	font-weight: lighter;
+	font-size: 20px;
+	float: left;
+	padding-left: 16px;
+	padding-top: 20px;
+}
+
+#closemenu {
+	float: right;
+	margin-top: 20px;
+	margin-right: 8px;
+	position: sticky;
+}
+
+.widgitListToolbar {
+	background-color: white;
+	height: 100%;
+	padding-bottom: 64px;
+	text-align: center;
+}
+
+.widgetItem {
+	border-bottom: 1px solid;
+	border-color: #e0e0e0;
+	color: #000;
+	padding-bottom: 8px;
+	padding-top: 8px;
+}
+
+.widgetItem:hover {
+	background-color: yellow;
+}
 /**
  * Canvas Area & Drawing of Elements
 */
 
 #drawingArea {
-	padding: 32px;
+	padding: 0px;
 	background-color: #FAFAFA;
 }
 

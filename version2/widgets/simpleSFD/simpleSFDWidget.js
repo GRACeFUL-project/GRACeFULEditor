@@ -4,7 +4,7 @@ function SimpleSFDWidget(){
     this.setClassName("SimpleSFDWidget");
     var that=this;
 
-    var libraryLoaded=false;
+    var libraryLoaded=true;
 
     this.setupMyGraphAndControls=function(){
         // required overwritten function
@@ -20,6 +20,10 @@ function SimpleSFDWidget(){
       this.graphObject=new SimpleSFDGraph(that);
       that.graphObject.initializeGraph();
     };
+
+    this.setupNode=function(){
+      this.graphObject.changeNodeType(1);
+    }
 
     this.setupControls=function(){
         this.controlsObject=new SimpleSFDControls(that);
@@ -37,7 +41,8 @@ function SimpleSFDWidget(){
         if (success) {
             that.graphObject.libraryLoaded(true);
             // redraw the hud;
-            that.graphObject.redrawHUD();
+            // TODO: clean it up
+            //that.graphObject.redrawHUD();
         }
 
 

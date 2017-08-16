@@ -68,6 +68,7 @@ function SimpleSFDGraph(){
         var exampleNode=new SimpleSFDNode(parent,nodeDescriptions);
         // if type is selected than we can generate typed nodes;
         // get who is selected;
+        // TODO: make the selected overlayid class level to change id types at anymoment required.
         var selectedOverlayId=0;
         if (overlayNodes.length>0){
             for (var i=0;i<overlayNodes.length;i++){
@@ -81,6 +82,12 @@ function SimpleSFDGraph(){
         return exampleNode;
     };
 
+    this.changeNodeType=function(val){
+
+      overlayNodes[0].setSelectionStatus(false);
+      overlayNodes[1].setSelectionStatus(true);
+      overlayNodes[2].setSelectionStatus(false);
+    }
 
     this.updateSvgSize=function(){
         var drawArea=that.parentWidget.getCanvasArea();
@@ -575,11 +582,11 @@ function SimpleSFDGraph(){
             var hoverText = libDisc.hoverText;
             var params = libDisc.parameters; // TODO: parse them and add them to the node object;
 
-            // console.log("-------------------------------------");
-            // console.log("node " + nodeName );
-            // console.log("img URL " + imgURL );
-            // console.log("hover Text " + hoverText);
-            // console.log("params " + params);
+            console.log("-------------------------------------");
+            console.log("node " + nodeName );
+            console.log("img URL " + imgURL );
+            console.log("hover Text " + hoverText);
+            console.log("params " + params);
 
             nodeDescription.name=nodeName;
             nodeDescription.imgUrl=imgURL;

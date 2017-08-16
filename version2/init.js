@@ -98,7 +98,11 @@ var example;
             initializer.getCanvasArea(),
             initializer.getOptionsArea() );
         sfd.forceGraphCssStyle("sdfGraphStyle");
+        var action={};
+        action.task="SERVER_REQUEST";
+        action.requestType="GET_LIBRARY";
         sfd.setCommunicationModule(com);
+        sfd.requestAction(action);
 
 
 
