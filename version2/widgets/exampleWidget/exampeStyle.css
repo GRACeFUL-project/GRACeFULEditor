@@ -1,11 +1,7 @@
 #canvasArea svg.exampleA {
     box-sizing: border-box;
     margin: 0;
-<<<<<<< HEAD
-    background: #BDBDBD;
-=======
     background: var(--main-widget-color-ten);
->>>>>>> 4b23c15df2155c24ed4c05c1aba2256894c3d94a
     overflow: hidden;
     padding: 0;
 }
@@ -43,11 +39,7 @@
 }
 
 .overlayAreaRect{
-<<<<<<< HEAD
     fill: #aef6ee;
-=======
-    fill: #389c66;
->>>>>>> 4b23c15df2155c24ed4c05c1aba2256894c3d94a
 }
 
 
