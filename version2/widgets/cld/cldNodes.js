@@ -17,9 +17,25 @@ function CLDNode(graph) {
 
     this.setLabelText=function(val){
         this.label=val;
-        var words = this.label.split(/\s+/g),
+
+        if (this.toolTipElement && (this.label.length > that.DISPLAY_LABEL_LENGTH) ){
+          this.toolTipElement.text(this.label);
+        }
+    };
+
+    this.clearLabelText=function(){
+        this.toolTipElement.text("");
+    }
+
+    this.setDisplayLabelText=function(val){
+        this.displayLabel=val;
+
+        if(this.displayLabel.length > that.DISPLAY_LABEL_LENGTH)
+          this.displayLabel=that.displayLabel.slice(0,that.DISPLAY_LABEL_LIMIT).concat("...");
+
+        var words = this.displayLabel.split(/\s+/g);
         nwords = words.length;
-                   
+
         if (this.labelRenderingElement){
             var el = this.labelRenderingElement
                 .attr("dy", "-" + (nwords-1)*7.5);
@@ -30,6 +46,18 @@ function CLDNode(graph) {
             }
         }
     };
+
+    this.clearDisplayLabelText=function(){
+      this.labelRenderingElement.text("");
+    }
+
+    this.changeClass=function(cssClassName){
+      that.nodeElement.classed(cssClassName,true);
+    }
+
+    this.clearClass=function(){
+      that.nodeElement.attr('class', null);
+    }
 
     this.drawNode=function(){
 
@@ -48,7 +76,16 @@ function CLDNode(graph) {
             // .text(that.label)
             .style("cursor","default");
 
+        that.toolTipElement = that.nodeElement.append('title');
+
+        //add tooltip
+        if( that.label.length > that.DISPLAY_LABEL_LENGTH   )
+          that.toolTipElement.text(that.label);
+
         that.setLabelText(that.label);
+
+        //prepare node display label
+        that.setDisplayLabelText(that.label);
 
         //add delete image
         that.rootNodeLayer.append("image")
@@ -71,7 +108,7 @@ function CLDNode(graph) {
     };
     this.setRadius=function(val){
         defaultRadius=val;
-    };    
+    };
 
     this.onMouseOver=function(){
 
@@ -126,5 +163,3 @@ function CLDNode(graph) {
 
 CLDNode.prototype = Object.create(BaseNode.prototype);
 CLDNode.prototype.constructor = CLDNode;
-
-

@@ -12,6 +12,7 @@ function GTNode(graph) {
     var goalTypeId = 0;
     var goalClass="baseRoundNode";
     var allGoalClasses=['undefined','goalOptionA','goalOptionB','goalOptionC'];
+    this.criteriaUnit = "";
 
     this.getTypeId=function(){
       return goalTypeId;
@@ -35,9 +36,25 @@ function GTNode(graph) {
 
     this.setLabelText=function(val){
         this.label=val;
-        var words = this.label.split(/\s+/g),
+
+        if (this.toolTipElement && (this.label.length > that.DISPLAY_LABEL_LENGTH) ){
+          this.toolTipElement.text(this.label);
+        }
+    };
+
+    this.clearLabelText=function(){
+        this.toolTipElement.text("");
+    }
+
+    this.setDisplayLabelText=function(val){
+        this.displayLabel=val;
+
+        if(this.displayLabel.length > that.DISPLAY_LABEL_LENGTH)
+          this.displayLabel=that.displayLabel.slice(0,that.DISPLAY_LABEL_LIMIT).concat("...");
+
+        var words = this.displayLabel.split(/\s+/g);
         nwords = words.length;
-                   
+
         if (this.labelRenderingElement){
             var el = this.labelRenderingElement
                 .attr("dy", "-" + (nwords-1)*7.5);
@@ -48,6 +65,10 @@ function GTNode(graph) {
             }
         }
     };
+
+    this.clearDisplayLabelText=function(){
+      this.labelRenderingElement.text("");
+    }
 
     this.drawNode=function(){
 
@@ -71,7 +92,17 @@ function GTNode(graph) {
             // .text(that.label)
             .style("cursor","default");
 
+
+        that.toolTipElement = that.nodeElement.append('title');
+
+        //add tooltip
+        if( that.label.length > that.DISPLAY_LABEL_LENGTH   )
+          that.toolTipElement.text(that.label);
+
         that.setLabelText(that.label);
+
+        //prepare node display label
+        that.setDisplayLabelText(that.label);
 
         //add delete image
         that.rootNodeLayer.append("image")
@@ -112,10 +143,13 @@ function GTNode(graph) {
 
         d3.select(this).selectAll("image").attr("display", "none");
     };
+
+    this.setCriteriaUnit = function(text) {
+        that.criteriaUnit = text;
+        console.log("the unit is:"+ text);
+    }
 }
 
 
 GTNode.prototype = Object.create(BaseNode.prototype);
 GTNode.prototype.constructor = GTNode;
-
-

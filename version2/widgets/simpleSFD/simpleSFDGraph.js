@@ -29,9 +29,8 @@ function SimpleSFDGraph(){
         // console.log("a graph has"+this.nodeLayer);
         // console.log("a graph has"+this.pathLayer);
         // console.log("a graph has"+this.specialLayer);
-
         // setting the extent default(0.1,3)
-        that.setZoomExtent(0.5,2);
+        that.setZoomExtent(0.5,4);
         // det a double click event if needed
         //that.setDoubleClickEvent(that.dblClick);
     };
@@ -531,9 +530,79 @@ function SimpleSFDGraph(){
 
     };
 
+    this.clearRendering=function(){
+        // clear the graph
+        that.graphRenderingSvg.selectAll('*').remove();
+
+        that.draggerLayer=that.graphRenderingSvg.append('g');
+        that.pathLayer=that.graphRenderingSvg.append('g');
+        that.nodeLayer=that.graphRenderingSvg.append('g');
+        that.markerLayer=that.graphRenderingSvg.append('g');
+
+        that.draggerElement=that.createDraggerItem(that);
+        that.draggerElement.svgRoot(that.draggerLayer);
+        that.draggerLayer.classed("hidden",true);
+        that.draggerObjectsArray.push(that.draggerElement);
+    };
+
     this.redrawHUD=function(){
         this.generateHUD();
     };
+
+    this.redrawGraphContent=function(){
+        var nodeElements = that.nodeLayer.selectAll(".node")
+            .data(that.nodeElementArray).enter()
+            .append("g")
+            .classed("node", true)
+            .attr("id", function (d) {
+                return d.id();
+            })
+            .call(that.dragBehaviour);
+
+        nodeElements.each(function (node) {
+            node.svgRoot(d3.select(this));
+            node.drawNode();
+            node.updateElement();
+        });
+
+
+
+        var pathElements= that.pathLayer.selectAll(".path")
+            .data(that.pathElementArray).enter()
+            .append("g")
+            .classed("path", true)
+            .attr("id", function (d) {
+                return d.id();
+            })
+            .call(that.dragBehaviour);
+
+        pathElements.each(function (node) {
+            node.svgRoot(d3.select(this));
+            node.drawElement();
+            node.updateElement();
+        });
+
+
+
+        // add the drag behavior to the dragger element;
+        var draggerElments = that.draggerLayer.selectAll(".node")
+            .data(that.draggerObjectsArray).enter()
+            .append("g")
+            .classed("node", true)
+            .attr("id", function (d) {
+                return d.id();
+            })
+            .call(that.dragBehaviour);
+
+        draggerElments.each(function (node) {
+            node.svgRoot(d3.select(this));
+            node.drawNode();
+        });
+        // hide the dragger layer;
+        that.draggerLayer.classed("hidden",true);
+
+    };
+
 
 
     this.paseLibrary=function(jsonObj){
@@ -624,15 +693,38 @@ function SimpleSFDGraph(){
             // create a link between these;
             if  (targetPort.isUsed()===false && d.parentNode().isUsed()===false) {
                 var aLink = that.createLink(that);
-                aLink.source(d.parentNode());
-                aLink.target(targetPort);
-                that.pathElementArray.push(aLink);
-                that.forceRedrawContent();
+                var sourceNode=d.parentNode().getParentNode();
+                var sourcPort=d.parentNode();
+                var targetNode=targetPort.getParentNode();
+                var seenLink=aLink.validateConnection(sourceNode,targetNode);
+                console.log("Do we have Seen that Link?"+seenLink);
+
+                if (seenLink===false) {
+                    aLink.source(sourceNode);
+                    aLink.target(targetNode);
+                    aLink.addPortConnection(sourcPort,targetPort);
+                    that.pathElementArray.push(aLink);
+                }else{
+                    seenLink.setMultiLinkType(true);
+                    seenLink.addPortConnection(sourcPort,targetPort);
+                }
+
+
+                // hide the ports
+
+                // todo: define constrains based on requirements!
                 // one to one constraint;
                 targetPort.isUsed(true);
                 d.parentNode().isUsed(true);
+                // force draw of link;
+                that.forceRedrawContent();
             }
         }
+    };
+
+    this.forceRedrawContent=function(){
+        that.clearRendering();
+        that.redrawGraphContent();
     };
 
     this.getTargetPort=function(position) {

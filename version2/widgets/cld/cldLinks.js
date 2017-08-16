@@ -22,6 +22,7 @@ function CLDLink(graph) {
     this.classId = 0;
     this.cldTypeString=undefined;
     this.cldTypeId = 0;
+    this.isLoop = false;
     that.hoverText="";
     var linkDir=[]; // normal vector;
     var endPos=[]; // end position for the line
@@ -82,7 +83,7 @@ function CLDLink(graph) {
     };
 
     this.getClassType = function() {
-        return that.className;
+        return that.classId;
     };
 
 
@@ -552,7 +553,84 @@ function CLDLink(graph) {
     };
 
     this.setLoopStyle = function() {
+        that.isLoop = true;
         that.pathElement.classed("feedbackLoops", true);
+        that.pathElement.on("contextmenu", that.onLoopContextMenu);
+    };
+
+    this.onLoopContextMenu = function() {
+        console.log("right click on a loop is clicked");
+
+        d3.event.preventDefault();
+        that.rootElement.selectAll("image").attr("display", "none");
+
+        var dx=that.targetNode.x-that.sourceNode.x;
+        var dy=that.targetNode.y-that.sourceNode.y;
+        var menu = [
+            {
+                title: 'Feedback Loop Symbol',
+                action: function() {
+
+                if (that.getLinkType()===SINGLE_LINK) {
+                    that.rootElement.append("image")
+                        .attr("id", "loop")
+                        .attr("xlink:href", "images/loop.png")
+                        .attr("display", null)
+                        .attr("width", 30)
+                        .attr("height", 30)
+                        .attr("x", that.sourceNode.x + 0.5*(dx)-0.5*17)
+                        .attr("y", that.sourceNode.y + 0.5*(dy)-0.5*17);
+                }
+                else if (that.getLinkType()===MULTI_LINK){
+                    var startPoint={ x:that.sourceNode.x, y:that.sourceNode.y };
+                    var endPoint  ={ x:that.targetNode.x, y:that.targetNode.y };
+                    var controlPoints=calculateMultiLinkPath(startPoint, endPoint);
+
+                    that.rootElement.append("image")
+                        .attr("id", "loop")
+                        .attr("xlink:href", "images/loop.png")
+                        .attr("display", null)
+                        .attr("width", 30)
+                        .attr("height", 30)
+                        .attr("x", controlPoints[1].x - 0.5 * 17)
+                        .attr("y", controlPoints[1].y - 0.5 * 17);
+                    }
+                }
+            },
+            {
+                title: 'Delete Link',
+                action: function() {
+                    console.log("This link has to be deleted: "+that.id());
+                    graph.handleLinkDeletion(that);
+                }
+            }
+        ];
+
+        d3.selectAll(".loopContextMenu").data([1]).enter()
+            .append('div')
+            .attr('class', 'loopContextMenu');
+
+        d3.selectAll(".loopContextMenu").html('');
+        var items = d3.selectAll(".loopContextMenu").append('ul').classed('list-group', true);
+        items.selectAll('li').data(menu).enter()
+            .append('li')
+            .html(function(d) {
+                return d.title;
+            })
+            .classed('list-group-item', true)
+            .on('click', function(d) {
+                d.action();
+                d3.select('.loopContextMenu').style('display', 'none');
+            });
+
+        d3.select('.loopContextMenu')
+            .style('left', (d3.event.pageX - 2) + 'px')
+            .style('top', (d3.event.pageY - 2) + 'px')
+            .style('display', 'block');
+
+        d3.select('body').on('click.loopContextMenu', function() {
+            d3.select('.loopContextMenu').style('display', 'none');
+        });
     };
 
 }

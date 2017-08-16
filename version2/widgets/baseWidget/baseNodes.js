@@ -10,12 +10,15 @@ function BaseNode(graph) {
 
     this.GRAPH_OBJECT_NODE="GraphObjectNode";
     this.OVERLAY_OBJECT_NODE="OverlayNode";
+    this.DISPLAY_LABEL_LENGTH=14;
+    this.DISPLAY_LABEL_LIMIT=10;
 
     this.nodeClass="baseRoundNode";
 
     this.nodeId = nodeId++;
     this.elementType="NodeElement";
     this.label = "empty";
+    this.displayLabel = "empty";
     this.x = 0;
     this.y = 0;
     this.rootElement=undefined;
@@ -26,6 +29,7 @@ function BaseNode(graph) {
     this.mouseButtonPressed=false;
     this.editingTextElement=false;
     this.nodeElement=undefined;
+    this.toolTipElement=undefined;
     this.labelRenderingElement=undefined;
     var fobj=undefined;
     var drX=50;
@@ -94,16 +98,32 @@ function BaseNode(graph) {
     };
 
     this.setHoverText=function(val){
+      //set the label content based on the length of text content
+
         this.hoverText=val;
         if (that.rootNodeLayer){
             that.rootNodeLayer.select("title").text(that.hoverText);
         }
     };
     this.setLabelText=function(val){
-        this.label=val;
-        if (this.labelRenderingElement){
-            this.labelRenderingElement.text(that.label);
+        this.label= val;
+        if (this.toolTipElement && (this.toolTipElement > this.DISPLAY_LABEL_LENGTH)){
+            this.toolTipElement.text(that.label);
         }
+    };
+
+     this.clearLabelText=function(){
+     };
+
+    this.setDisplayLabelText=function(val){
+        this.displayLabel= val;
+        this.displayLabel.slice(0,that.DISPLAY_LABEL_LIMIT).concat("...");
+        if (this.labelRenderingElement){
+            this.labelRenderingElement.text(that.displayLabel);
+        }
+    };
+
+    this.clearDisplayLabelText=function(){
     };
 
     this.setPosition=function(x,y){
@@ -129,7 +149,11 @@ function BaseNode(graph) {
 
     /** DRAWING FUNCTIONS ------------------------------------------------- **/
     this.drawNode=function(){
+      //each element on dom that can be manipulated should have a uniqueId
+      var uniqueId = window.performance && window.performance.now && window.performance.timing && window.performance.timing.navigationStart ? window.performance.now() + window.performance.timing.navigationStart : Date.now();
+
       that.nodeElement= that.rootNodeLayer.append('circle').attr("r", 50)
+            .attr("id", uniqueId)
             .classed(that.nodeClass,true);
 
         // add hover text if you want
@@ -137,10 +161,22 @@ function BaseNode(graph) {
             that.rootNodeLayer.append('title').text(that.hoverText);
 
         // add title
+        var tempDisplayLabel = that.displayLabel;
+
+        if( that.displayLabel.length > that.DISPLAY_LABEL_LENGTH )
+          tempDisplayLabel = tempDisplayLabel.slice(0,that.DISPLAY_LABEL_LIMIT).concat("...");
+
         that.labelRenderingElement=  that.rootNodeLayer.append("text")
             .attr("text-anchor","middle")
-            .text(that.label)
+            .text(tempDisplayLabel)
             .style("cursor","default");
+
+        that.toolTipElement = that.nodeElement.append('title');
+
+        //add tooltip
+        if( that.label.length > that.DISPLAY_LABEL_LENGTH   )
+          that.toolTipElement.text(that.label);
+
     };
 
 
@@ -313,6 +349,7 @@ function BaseNode(graph) {
             txtNode.layerX=that.x;
             txtNode.layerY=that.y;
             that.setLabelText(this.textContent);
+            that.setDisplayLabelText(this.textContent);
             // remove the object and redraw the node;
 
             that.rootNodeLayer.selectAll("foreignObject").remove();

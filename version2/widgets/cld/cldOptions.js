@@ -14,10 +14,10 @@ function CLDControls(parentWidget) {
     this.generateControls=function() {
         // testing stuff,
         nodesGroup = that.createAccordionGroup(that.divControlsGroupNode, "Nodes");
+        lineEditNode = that.addLineEdit(nodesGroup, "Name", "", true, that.onChangeNodeName);
         selectionNode = that.addSelectionOpts(nodesGroup, "Class type", ["Undefined", "Factor", "Action", "Criteria", "External Factor"], that.onChangeNodeType);
         var hideClass = selectionNode.node().options[selectionNode.node().length - 1];
         hideClass.hidden = true;
-        lineEditNode = that.addLineEdit(nodesGroup, "Node name", "", true, that.onChangeNodeName);
         commentNode = that.addTextEdit(nodesGroup, "Comments", "", true, that.onChangeNodeComment);
         delNodeBtn = that.addButtons(nodesGroup, "Delete", "nodeDelete", that.deleteNodes);
 
@@ -34,7 +34,7 @@ function CLDControls(parentWidget) {
         loadcld.setAttribute("class", "btn btn-default btn-sm");
         loadcld.parentNode.setAttribute("id", "basic");
         loadcld.innerHTML = '<span class="glyphicon glyphicon-floppy-open"></span> Load Model';
-        
+
         saveCld = that.addHrefButton(additionalSettings,"Save",that.saveFunction,false);
         document.getElementById("basic").appendChild(saveCld);
         saveCld.setAttribute("class", "btn btn-default btn-sm pull-right");
@@ -57,7 +57,9 @@ function CLDControls(parentWidget) {
         extFactorBtn.setAttribute("class", "btn btn-default btn-sm btn-block");
 
         loopBtn = that.addHrefButton(additionalSettings, "Identify Feeback Loops", that.feedbackLoop, true);
-        loopBtn.setAttribute("class", "btn btn-default btn-sm btn-block");        
+        loopBtn.setAttribute("class", "btn btn-default btn-sm btn-block");
+        loopBtn.setAttribute("data-toggle", "modal");
+        loopBtn.setAttribute("data-target", "#loopModal");
     };
 
     this.handleNodeSelection=function(node){
@@ -98,8 +100,17 @@ function CLDControls(parentWidget) {
             linksGroup.expandBody();
 
             // todo overwrite the values;
-            var selId = that.selectedNode.getTypeId();
-            causalSelection.node().options[selId].selected="selected";
+            var selId_1 = that.selectedNode.getClassType();
+            linkClass.node().options[selId_1].selected = "selected";
+            var selId_2 = that.selectedNode.getTypeId();
+            var temp = linkClass.node().options[selId_1].value;
+            if(temp !== "Undefined") {
+                appendLinkType(temp);
+                causalSelection.node().options[selId_2].selected="selected";
+            }
+            else
+                d3.select(causalSelection.node().parentNode).classed("hidden", true);
+
             commentLink .node().disabled = false;
             commentLink .node().value = that.selectedNode.hoverText;
 
@@ -107,7 +118,21 @@ function CLDControls(parentWidget) {
 
     };
 
-
+    function appendLinkType(className) {
+        d3.select(causalSelection.node()).selectAll("option").remove();
+        if(className === "Causal Relation") {
+                getClassValues = [undefined, '+', '-', '?'];
+                for (var i=0;i<getClassValues.length;i++){
+                    d3.select(causalSelection.node()).append("option").text(getClassValues[i]);
+                }
+            }
+        else if(className === "Other Relation") {
+            getClassValues = [undefined, 'A', 'B'];
+            for(var i=0; i<getClassValues.length; i++) {
+                d3.select(causalSelection.node()).append("option").text(getClassValues[i]);
+            }
+        }
+    }
 
     this.onChangeLinkComment=function(){
         that.selectedNode.setHoverText(commentLink.node().value);
@@ -118,19 +143,7 @@ function CLDControls(parentWidget) {
         if(strUser !== "Undefined") {
             that.selectedNode.setClassType(selectionContainer.selectedIndex, strUser);
             d3.select(causalSelection.node().parentNode).classed("hidden", false);
-            d3.select(causalSelection.node()).selectAll("option").remove();
-            if(strUser === "Causal Relation") {
-                getClassValues = [undefined, '+', '-', '?'];
-                for (var i=0;i<getClassValues.length;i++){
-                    d3.select(causalSelection.node()).append("option").text(getClassValues[i]);
-                }
-            }
-            else if(strUser === "Other Relation") {
-                getClassValues = [undefined, 'A', 'B']; 
-                for(var i=0; i<getClassValues.length; i++) {
-                    d3.select(causalSelection.node()).append("option").text(getClassValues[i]);
-                }
-            }
+            appendLinkType(strUser);
         }
         else
             d3.select(causalSelection.node().parentNode).classed("hidden", true);
@@ -152,8 +165,25 @@ function CLDControls(parentWidget) {
 
     };
     this.onChangeNodeName=function(){
-        that.selectedNode.setLabelText(lineEditNode.node().value);
+      // change the value to be displayed on the node.
+      that.selectedNode.clearDisplayLabelText();
+      that.selectedNode.setDisplayLabelText(lineEditNode.node().value);
+      // change the value of the tooltip.
+      that.selectedNode.clearLabelText();
+      that.selectedNode.setLabelText(lineEditNode.node().value);
+
+      // Todo: feedback about the node editing...
+      // that.selectedNode.clearClass();
+      // that.selectedNode.changeClass("onChanged");
+      // setTimeout(that.oldClass(), 18000);
+
     };
+
+    // that.oldClass=function(){
+    //   that.selectedNode.clearClass();
+    //   that.selectedNode.changeClass("baseRoundNode");
+    // };
+
     this.onChangeNodeComment=function(){
         that.selectedNode.setHoverText(commentNode.node().value);
     };
@@ -237,18 +267,24 @@ function CLDControls(parentWidget) {
 
     this.sendModel = function() {
         console.log("Send the model");
-        //TODO
+        var action = {};
+        action.task = "SERVER_REQUEST"
+        action.requestType = "SEND_MODEL";
+        action.data = that.parent.requestModelDataForSolver();
+        that.parent.requestAction(action);
     };
 
     this.getLibrary = function() {
         console.log("Get Library");
-        //TODO
+        var action = {};
+        action.task = "SERVER_REQUEST";
+        action.requestType = "GET_LIBRARY";
+        that.parent.requestAction(action);
     };
-    
+
     this.start();
 
 }
 
 CLDControls.prototype = Object.create(BaseControls.prototype);
 CLDControls.prototype.constructor = CLDControls;
-

@@ -13,6 +13,11 @@ function SimplePortNode(parent,portDesc) {
     var portIdInNode=0;
     var value=0;
     var valueSetFromOutside=false;
+    var parentNode=parent;
+
+    this.getParentNode=function(){
+        return parentNode;
+    };
 
     this.getPortName=function(){
         return name;
@@ -35,11 +40,11 @@ function SimplePortNode(parent,portDesc) {
         svgRoot.select("circle").attr("style","fill:#fff;");
     };
 
-
     this.isUsed=function(val){
         if (!arguments.length) return portIsUsed;
         else portIsUsed=val;
     };
+
     this.id=function(val){
         if (!arguments.length) return portIdInNode;
         else portIdInNode=val;
@@ -61,9 +66,9 @@ function SimplePortNode(parent,portDesc) {
         return that.portObjectType;
     }
 
-    this.addLink=function(aLink){
-        assosiatedLinks.push(aLink);
-        console.log("adding a link to "+that.id());
+    this.addPortLinks=function(source,target){
+        var portLink={src:source,tar:target};
+        assosiatedLinks.push(portLink);
     };
 
     this.getName=function(){
@@ -89,17 +94,16 @@ function SimplePortNode(parent,portDesc) {
     }
     parseDescription(portDesc);
 
-
     this.getParentPortName=function(){
         // we only have one to one connections for now
         var linkObj=assosiatedLinks[0];
-        if (linkObj.targetNode===that) return undefined;
-        return linkObj.targetNode.getName();
+        if (linkObj.tar===that) return undefined;
+        return linkObj.tar.getName();
     };
 
     this.getParentConnectorId=function(){
         var linkObj=assosiatedLinks[0];
-        return linkObj.targetNode.getParentId();
+        return linkObj.tar.getParentId();
     };
 
     this.getConnectionAndDescriptionOfPort=function(){
@@ -119,22 +123,17 @@ function SimplePortNode(parent,portDesc) {
         return portObj;
 
     };
-
     this.drawPort=function(){
         svgRoot=parent.getPortSvgRoot().append('g');
 
             // just render the port in the center of the node
             // alignment will be done by the parent node;
-
-
             var circ=svgRoot.append("circle");
             circ.attr("r", radius);
             if (valueSetFromOutside===true)
                 circ.attr("style","fill:#fff; stroke: #000; stroke-width:3");
             else
                 circ.attr("style","fill:#fff;");
-
-
 
             // console.log("Adding Image"+ portObj.imageURL());
             svgRoot.append("image")
@@ -144,11 +143,11 @@ function SimplePortNode(parent,portDesc) {
                     .attr('height', 2 * radius)
                     .attr("xlink:href", imageUrl);
 
-
         if (getPortObjectType()===that.GRAPH_OBJECT_NODE){
             // add dragger and mouse actions to this elements;
             that.addMouseEvents();
         }
+
     };
 
     this.mouseEntered=function(p){
@@ -175,14 +174,6 @@ function SimplePortNode(parent,portDesc) {
 
     }
 
-    this.updateLinkElement=function(){
-      for (var i=0;i<assosiatedLinks.length;i++){
-        //  console.log("port Node updates link element");
-          assosiatedLinks[i].updateElement();
-      }
-    };
-
-
     function onImageHover(){
         if (that.mouseEntered()) {
             return;
@@ -203,17 +194,30 @@ function SimplePortNode(parent,portDesc) {
         else
             svgRoot.select("circle").attr("style","fill:#fff; stroke: #000; stroke-width:3");
     }
+    this.setLinkPosition=function(x,y){
+        if (svgRoot) {
+            var px=x-parent.x;
+            var py=y-parent.y;
+            // currently allow to rotate the port in the vis;
+            var rotationEnabled=true;
+            if (rotationEnabled===true) {
+                var angle=Math.atan2(py,px)* (180 / Math.PI);
+                var image=svgRoot.select("image");
 
+                image.attr("transform", "rotate("+angle+")");
+                svgRoot.attr("transform", "translate(" + px + "," + py + ")");
+            }
+            else
+                svgRoot.attr("transform", "translate(" + px + "," + py + ")");
+        }
+    };
 
     this.setPosition=function(x,y){
-
         if (svgRoot) {
             svgRoot.attr("transform", "translate(" + x + "," + y + ")");
             this.x=parent.x+x;
             this.y=parent.y+y;
         }
-
-
     }
 
 }
