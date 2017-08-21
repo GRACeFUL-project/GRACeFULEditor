@@ -1,3 +1,7 @@
+// GLOBALS
+var libObject;
+var sfdRef;
+
 /**
   * Toolbar Toggling functions
 **/
@@ -31,6 +35,7 @@ function showToolbar(){
 function loadGracefulConceptMapToolbar(sfd){
   var gracefulLib=getGracefulConceptMapToolbar();
   console.log("It contains data for sure now:"+gracefulLib);
+  sfdRef=sfd;
 
     // TODO: make it dynamic for now just make a normal dom
     // var domElement = document.getElementById('widgitListToolbar');
@@ -54,6 +59,7 @@ function loadWidgetItems(gracefulLib)
   //get the response here and parse the json obj
   var libraryObject = JSON.parse(gracefulLib);
   console.log(libraryObject);
+  libObject = libraryObject;
 
   var iterator=0;
   var label = "sample";
@@ -72,7 +78,8 @@ function loadWidgetItems(gracefulLib)
     console.log(label);
     var widgetItemDiv = document.createElement("div");
     widgetItemDiv.setAttribute("class","widgetItem");
-    widgetItemDiv.setAttribute("id",iterator);
+    widgetItemDiv.setAttribute("id","sfd"+iterator);
+    widgetItemDiv.setAttribute("onclick", "setDivActive("+iterator+")")
     var imgItem = document.createElement("img");
     imgItem.setAttribute("src",srcToImg);
     imgItem.setAttribute("height","96px");
@@ -84,9 +91,23 @@ function loadWidgetItems(gracefulLib)
     nameDiv.innerHTML=label;
     widgetItemDiv.appendChild(nameDiv);
     domElement.appendChild(widgetItemDiv);
-
   }
 
+}
+
+function clearAllDiv()
+{
+  var object= libObject['library'];
+
+  for(i=0 ; i < object.length ; i++ )
+    document.getElementById("sfd"+i).style.backgroundColor="white";
+
+}
+
+function setDivActive(id){
+  clearAllDiv();
+  document.getElementById("sfd"+id).style.backgroundColor="yellow";
+  sfdRef.setupNode(id);
 }
 
 /**

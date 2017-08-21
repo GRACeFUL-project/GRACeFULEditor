@@ -21,8 +21,8 @@ function SimpleSFDWidget(){
       that.graphObject.initializeGraph();
     };
 
-    this.setupNode=function(){
-      that.graphObject.setSelectedOverlayId(2);
+    this.setupNode=function(id){
+      that.graphObject.setSelectedOverlayId(id);
     //  this.graphObject.changeNodeType();
     };
 
