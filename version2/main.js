@@ -129,6 +129,8 @@ function getGracefulConceptMapToolbar(){
                // todo: process the returned data; to the widget
                response=request.responseText;
                loadWidgetItems(request.responseText);
+               setDivActive(0);
+               sfdRef.setupNode(0);
 
            }
            else{
