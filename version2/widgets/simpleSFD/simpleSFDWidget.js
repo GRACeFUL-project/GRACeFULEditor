@@ -22,8 +22,9 @@ function SimpleSFDWidget(){
     };
 
     this.setupNode=function(){
-      this.graphObject.changeNodeType(1);
-    }
+      that.graphObject.setSelectedOverlayId(2);
+    //  this.graphObject.changeNodeType();
+    };
 
     this.setupControls=function(){
         this.controlsObject=new SimpleSFDControls(that);
@@ -34,7 +35,7 @@ function SimpleSFDWidget(){
         // loading library;
 
         // read the text as json
-      //  console.log("Parsing Json obj"+jsonData);
+      console.log("Parsing Json obj"+jsonData);
         var jsonObj=JSON.parse(jsonData);
 
         var success=that.graphObject.paseLibrary(jsonObj);

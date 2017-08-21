@@ -15,7 +15,6 @@ function BaseWidget(parentElement) {
     this.graphSchema="default";
     this.parentElement=parentElement;
 
-
     this.setCommunicationModule=function(mod){
         this.communicationModule=mod;
     };
@@ -177,6 +176,7 @@ function BaseWidget(parentElement) {
 /** COMMUNICATION BASE WIDGET HANDLING  -------------------------------------------------------------**/
     this.requestAction=function(action){
         this.communicationModule.actionProcessing(that,action);
+
     };
 
     this.updateIfNeeded=function(){

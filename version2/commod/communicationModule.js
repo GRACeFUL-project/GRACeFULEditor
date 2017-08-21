@@ -107,6 +107,7 @@
                        console.log("docker returns data: "+request.responseText);
                        // todo: process the returned data; to the widget
                        widget.loadLibrary(request.responseText);
+
                    }
                    else{
                    console.log("error!"+error.status);
@@ -137,6 +138,7 @@
         return new new_object(initializer);
 
     };
+
 
 
 

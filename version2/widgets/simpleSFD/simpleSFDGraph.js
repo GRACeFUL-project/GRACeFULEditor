@@ -16,11 +16,19 @@ function SimpleSFDGraph(){
     var overlayLinks=[];
     var overlayArea;
     var overlayRect;
+    this.selectedOverlayId=0;
 
 
     // helper var;
     var mouseEntered=false;
 
+    this.setSelectedOverlayId=function(val){
+        that.selectedOverlayId = val ;
+    };
+
+    this.getSelectedOverlayId=function(){
+      return that.selectedOverlayId;
+    };
 
     this.initializeGraph=function(){
 
@@ -68,25 +76,23 @@ function SimpleSFDGraph(){
         // if type is selected than we can generate typed nodes;
         // get who is selected;
         // TODO: make the selected overlayid class level to change id types at anymoment required.
-        var selectedOverlayId=0;
+        //that.setSelectedOverlayId(0); //var selectedOverlayId=0;
         if (overlayNodes.length>0){
             for (var i=0;i<overlayNodes.length;i++){
                 if (overlayNodes[i].getSelectionStatus()===true){
-                    selectedOverlayId=i;
+                    that.setSelectedOverlayId(i);
                     break;
                 }
             }
         }
-        exampleNode.setType(selectedOverlayId);
+        exampleNode.setType(that.selectedOverlayId);
+        console.log(that.selectedOverlayId+"it is the one");
         return exampleNode;
     };
 
-    this.changeNodeType=function(val){
-
-      overlayNodes[0].setSelectionStatus(false);
-      overlayNodes[1].setSelectionStatus(true);
-      overlayNodes[2].setSelectionStatus(false);
-    }
+    this.changeNodeType=function(){
+    //  that.getSele()
+    };
 
     this.updateSvgSize=function(){
         var drawArea=that.parentWidget.getCanvasArea();

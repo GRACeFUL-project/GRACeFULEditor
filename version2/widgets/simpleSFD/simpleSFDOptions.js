@@ -12,8 +12,6 @@ function SimpleSFDControls(parentWidget) {
     var solverLineEdit;
     var nodeClass,nodeLabel;
 
-
-
     this.onChangeEmpty=function(x){
         // empty function does not do anything, used for debuging
         console.log("changing something"+x)
@@ -174,8 +172,7 @@ function SimpleSFDControls(parentWidget) {
         // var tempIcon = document.createElement('i');
 
         controlsMenu= that.createAccordionGroup(that.divControlsGroupNode, "Controls");
-        solverLineEdit=that.addLineEdit(controlsMenu,"SolverAddress","http://vocol.iais.fraunhofer.de/graceful-rat",true,that.changeSolverAddress);
-        //solverLineEdit=that.addLineEdit(controlsMenu,"SolverAddress","http://localhost:4000",true,that.changeSolverAddress);
+        solverLineEdit=that.addLineEdit(controlsMenu,"SolverAddress","http://localhost:4000",true,that.changeSolverAddress);
         clearSFD = that.addHrefButton(controlsMenu,"Clear",that.clearGraph,true);
         clearSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
         clearSFD.parentNode.setAttribute("id", "sfd_basic");
@@ -203,7 +200,7 @@ function SimpleSFDControls(parentWidget) {
         submitSFD.parentNode.setAttribute("class", "col-xs-6 text-center");
         that.addCheckBox(controlsMenu,"Show HUD","cb_test1",true,that.enableHUD); // per default enable the hud
         // execute the default value;
-        that.enableHUD(true);
+        that.enableHUD(false);
 
 
         nodeGroup=that.createAccordionGroup(that.divControlsGroupNode,"Node Types");

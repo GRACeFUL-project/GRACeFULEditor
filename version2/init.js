@@ -98,19 +98,20 @@ var example;
             initializer.getCanvasArea(),
             initializer.getOptionsArea() );
         sfd.forceGraphCssStyle("sdfGraphStyle");
+        //load the node types from backend.
         var action={};
         action.task="SERVER_REQUEST";
         action.requestType="GET_LIBRARY";
         sfd.setCommunicationModule(com);
         sfd.requestAction(action);
 
-
-
         // adding to widget list
         widgetList.push(example);
         widgetList.push(gtw);
         widgetList.push(cld);
         widgetList.push(sfd);
+        loadGracefulConceptMapToolbar(sfd);
+        //sfd.setupNode();
 
 
         // set default tab
