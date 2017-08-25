@@ -2,6 +2,8 @@
 function CLDGraph(){
     BaseGraph.apply(this,arguments);
     var that=this;
+    this.nodeTypeGraph=1;
+
     // call the baseGraph init function
     // that.initializeGraph();
     that.setZoomExtent(0.1,6);
@@ -17,7 +19,12 @@ function CLDGraph(){
         that.redrawGraphContent();
         aNode.editInitialText();
         console.log("New node id is: "+aNode.id());
+        aNode.setType(that.nodeTypeGraph, aNode.allClasss[that.nodeTypeGraph]);
     };
+
+    this.changeNodeType=function(nodeT){
+      that.nodeTypeGraph=nodeT;
+    }
 
     this.createNode=function(parent){
         return new CLDNode(parent);
@@ -201,7 +208,7 @@ function CLDGraph(){
             aLink.onClicked();
             aLink.pathElement.classed("cldLinkSelected", true);
         }
-    };    
+    };
 
 
     function validateAllPaths(){
@@ -252,7 +259,7 @@ function CLDGraph(){
         var factorNodes = that.nodeElementArray.filter(function(n) {
             //nodes whose type is Factor, which is equivalent to 1 in the selection type
             return (n.getTypeId() === 1 || n.getTypeId() === 4)
-        });        
+        });
         console.log("number of factor nodes are: "+factorNodes.length);
 
         var externalFactorNodes = [];
@@ -260,7 +267,7 @@ function CLDGraph(){
             console.log("The factor node id is: "+factorNodes[i].id());
             factorNodes[i].setType(1, "Factor");
             var extLinks = that.pathElementArray.filter( function(l) {
-                return (l.targetNode === factorNodes[i]) 
+                return (l.targetNode === factorNodes[i])
             });
             if(extLinks.length === 0)
                 externalFactorNodes.push(factorNodes[i]);
@@ -280,12 +287,12 @@ function CLDGraph(){
         //it has two parts - first, the strongly connected components are found by applying Tarjan's algorithm and then the loops are found in the sub-graph which are strongly connected
         var allNodes = [];
         var adjNodes = [];
-        var allLinks = [];    
+        var allLinks = [];
 
         var loops = {};
         var path = [];
         var allTheLoops = [];
-        var feedbackLoops = [];    
+        var feedbackLoops = [];
 
         for(var i=0; i<that.pathElementArray.length; i++) {
             var arr = [that.pathElementArray[i].sourceNode.id(), that.pathElementArray[i].targetNode.id()];
@@ -307,7 +314,7 @@ function CLDGraph(){
         console.log("The any obj is: "+JSON.stringify(anyObj));
 
         //************************************************************************
-        var sccs = anyObj.components;        
+        var sccs = anyObj.components;
         var sccsNodes = {};
 
         while(sccs.length > 0) {
@@ -321,13 +328,13 @@ function CLDGraph(){
                     var q = sccsNodes[k];
 
                     that.pathElementArray.filter(function(l) {
-                        if(l.sourceNode.id() === k) {                            
+                        if(l.sourceNode.id() === k) {
                             if(scc.indexOf(l.targetNode.id()) > -1)
                                 q.push(l.targetNode.id());
                         }
                     });
                 }
-            }            
+            }
         }
         console.log("The SCCS nodes are: "+JSON.stringify(sccsNodes));
 
@@ -352,13 +359,13 @@ function CLDGraph(){
                     if(tempLoop[j+1] !== undefined) {
                         if(tempLoop[j] === that.pathElementArray[k].sourceNode.id() && tempLoop[j+1] === that.pathElementArray[k].targetNode.id())
                             feedbackLoops.push(that.pathElementArray[k]);
-                    }                    
+                    }
                 }
                 that.nodeElementArray.filter(function(n) {
                     if(tempLoop[j] === n.id())
                         loopNodeNames[i].push(n.label);
-                });                
-            }            
+                });
+            }
         }
 
         for(var i=0; i<feedbackLoops.length; i++) {
@@ -394,8 +401,8 @@ function CLDGraph(){
                 // console.log("The adjacent edge of node: "+vertex+ " is: "+JSON.stringify(adjacentEdges));
                 var adjVertex = adjacentEdges[i];
 
-                if (loops[adjVertex] == 1) {      
-                // console.log("The adjVertex "+adjVertex+" is 1");          
+                if (loops[adjVertex] == 1) {
+                // console.log("The adjVertex "+adjVertex+" is 1");
                     var loop = path.slice(path.indexOf(adjVertex));
                     loop.push(adjVertex);
                     console.log("The loop is: "+loop);
@@ -411,7 +418,7 @@ function CLDGraph(){
             loops[vertex] = 2;
             path.pop();
         }
-        
+
         //************************************************************************
 
         function stronglyConnectedComponents(adjList) {
@@ -423,7 +430,7 @@ function CLDGraph(){
             var child = [];
             var scc = [];
             var sccLinks = [];
-  
+
             for(var i=0; i<numVertices; ++i) {
                 index[i] = -1;
                 lowValue[i] = 0;
@@ -445,8 +452,8 @@ function CLDGraph(){
                 while(T.length > 0) {
                     v = T[T.length-1];
                     var e = adjList[v];
-                    if (child[v] < e.length) { 
-                        for(var i=child[v]; i<e.length; ++i) { 
+                    if (child[v] < e.length) {
+                        for(var i=child[v]; i<e.length; ++i) {
                             var u = e[i];
                             if(index[u] < 0) {
                                 index[u] = lowValue[u] = count;
@@ -454,7 +461,7 @@ function CLDGraph(){
                                 count += 1;
                                 S.push(u);
                                 T.push(u);
-                                break; 
+                                break;
                             } else if (active[u]) {
                                 lowValue[v] = Math.min(lowValue[v], lowValue[u])|0;
                             }
@@ -462,9 +469,9 @@ function CLDGraph(){
                                 sccLinks[v].push(scc[u]);
                             }
                         }
-                        child[v] = i; 
-                    } else { 
-                    if(lowValue[v] === index[v]) { 
+                        child[v] = i;
+                    } else {
+                    if(lowValue[v] === index[v]) {
                         var component = [];
                         var links = [], linkCount = 0;
                         for(var i=S.length-1; i>=0; --i) {
@@ -491,7 +498,7 @@ function CLDGraph(){
                         }
                         sccAdjList.push(allLinks);
                     }
-                    T.pop(); 
+                    T.pop();
                     }
                 }
             }
@@ -501,7 +508,7 @@ function CLDGraph(){
                     strongConnect(i);
                 }
             }
-  
+
             var newE;
             for(var i=0; i<sccAdjList.length; i++) {
                 var e = sccAdjList[i];
@@ -514,7 +521,7 @@ function CLDGraph(){
                     }
                 }
                 sccAdjList[i] = newE;
-            }  
+            }
 
             return {components: components, adjacencyList: sccAdjList}
         }

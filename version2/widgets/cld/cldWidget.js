@@ -4,6 +4,7 @@ function CLDWidget(){
     this.setClassName("CLDWidget");
     var that=this;
     this.gtInstance = undefined;
+    this.NodeType = undefined;
 
     this.setupMyGraphAndControls=function(){
         // required overwritten function
@@ -14,6 +15,10 @@ function CLDWidget(){
         that.setupControls();
     };
 
+    this.setNodeType=function(typeId)
+    {
+      that.graphObject.changeNodeType(typeId);
+    }
 
     this.setupGraph=function(){
       this.graphObject=new CLDGraph(that);

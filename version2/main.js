@@ -1,6 +1,23 @@
 // GLOBALS
 var libObject;
 var sfdRef;
+var cldRef;
+var goalTreeRef;
+
+/**
+  * Toolbar Type
+**/
+
+function clearAllToolbars(){
+  document.getElementById('widgetList').style.display = "none";
+  document.getElementById('widgetListCLD').style.display = "none";
+  document.getElementById('widgetListGT').style.display = "none";
+  document.getElementById('widgetListExampleB').style.display = "none";
+}
+
+function setActiveToolbar(toolBarDiv) {
+  document.getElementById(toolBarDiv).style.display = "block";
+}
 
 /**
   * Toolbar Toggling functions
@@ -13,6 +30,11 @@ function hideToolbar(){
  //toggle Classes to set the presentation view
  $('#drawingArea').removeClass('col-lg-8 col-xs-8 col-sm-8 col-md-8');
  $('#drawingArea').addClass('col-lg-9 col-xs-10 col-sm-10 col-md-10');
+ $('#canvasArea').removeClass('col-lg-8 col-xs-8 col-sm-8 col-md-8');
+ $('#canvasArea').addClass('col-lg-9 col-xs-10 col-sm-10 col-md-10');
+ sfdRef.updateSvgSize();
+ goalTreeRef.updateSvgSize();
+ cldRef.updateSvgSize();
 
  console.log(example.className);
 
@@ -26,11 +48,17 @@ function showToolbar(){
  // toggle Classes to set the presentation view
  $('#drawingArea').removeClass('col-lg-9 col-xs-10 col-sm-10 col-md-10');
  $('#drawingArea').addClass('col-lg-8 col-xs-8 col-sm-8 col-md-8');
+ $('#canvasArea').removeClass('col-lg-9 col-xs-10 col-sm-10 col-md-10');
+ $('#canvasArea').addClass('col-lg-8 col-xs-8 col-sm-8 col-md-8');
 }
 
 /**
   * Toolbar Loading Library functions
 **/
+
+function setSFD(sfd){
+  sfdRef=sfd;
+}
 
 function loadGracefulConceptMapToolbar(sfd){
   var gracefulLib=getGracefulConceptMapToolbar();
@@ -53,6 +81,18 @@ function loadGracefulConceptMapToolbar(sfd){
   //  sfd.setupNode();
 
 }
+
+function loadCausalLoopDiagramToolbar(cld)
+{
+  cldRef = cld;
+}
+
+function loadGoalTreeDiagram(gtw)
+{
+  goalTreeRef = gtw;
+}
+
+// Loading of widget Items
 
 function loadWidgetItems(gracefulLib)
 {
@@ -95,6 +135,8 @@ function loadWidgetItems(gracefulLib)
 
 }
 
+// setting the DOM ELEMENTS
+
 function clearAllDiv()
 {
   var object= libObject['library'];
@@ -108,6 +150,32 @@ function setDivActive(id){
   clearAllDiv();
   document.getElementById("sfd"+id).style.backgroundColor="yellow";
   sfdRef.setupNode(id);
+}
+
+function clearAllDivCLD()
+{
+  document.getElementById("cld"+0).style.backgroundColor="white";
+  document.getElementById("cld"+1).style.backgroundColor="white";
+  document.getElementById("cld"+2).style.backgroundColor="white";
+  document.getElementById("cld"+3).style.backgroundColor="white";
+
+
+}
+
+function setDivActiveCLD(id){
+  clearAllDivCLD();
+  document.getElementById("cld"+id).style.backgroundColor="yellow";
+  cldRef.setNodeType(id);
+}
+
+function clearAllDivGTW()
+{
+
+}
+
+function setDivActiveGTW()
+{
+
 }
 
 /**

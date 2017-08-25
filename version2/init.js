@@ -28,12 +28,13 @@ var example;
     };
 
     initializer.getCanvasArea=function(){
-        return d3.select("#canvasArea")
+        return d3.select("#canvasArea");
     };
 
     initializer.getOptionsArea=function(){
-        return d3.select("#sidebar")
+        return d3.select("#sidebar");
     };
+
 
     initializer.widgetActivated=function(widget){
         if (previousSelectedWidget===undefined){
@@ -111,6 +112,8 @@ var example;
         widgetList.push(cld);
         widgetList.push(sfd);
         loadGracefulConceptMapToolbar(sfd);
+        loadCausalLoopDiagramToolbar(cld);
+        loadGoalTreeDiagram(gtw);
         //sfd.setupNode();
 
 

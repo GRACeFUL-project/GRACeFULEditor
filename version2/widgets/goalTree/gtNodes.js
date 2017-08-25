@@ -1,5 +1,4 @@
 
-
 function GTNode(graph) {
     // todo: think about a parent widget
     /** variable defs **/

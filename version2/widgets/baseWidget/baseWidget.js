@@ -66,6 +66,7 @@ function BaseWidget(parentElement) {
             widgetTabItem.onclick = function () {
                 console.log("Oh oh a tab was clicked");
                 that.widgetIsActivated();
+
             };
             widgetTabItem.ondragstart=function(){return false;}; // remove drag operations of tabs items
             listItem.appendChild(widgetTabItem);
@@ -153,6 +154,23 @@ function BaseWidget(parentElement) {
         // console.log("does controls object exist?"+that.controlsObject);
         if (that.controlsObject)
             that.controlsObject.activateControls(true);
+
+        if (that.getUniqueId() == "SimpleSFDWidget3") {
+          clearAllToolbars();
+          setActiveToolbar('widgetList');
+
+        }else if (that.getUniqueId() == "CLDWidget2"){
+          clearAllToolbars();
+          setActiveToolbar('widgetListCLD');
+
+        }else if (that.getUniqueId() == "GoalTreeWidget1"){
+          clearAllToolbars();
+          setActiveToolbar('widgetListGT');
+        }else if (that.getUniqueId == "ExampleWidget0"){
+          clearAllToolbars();
+          setActiveToolbar('widgetListExampleB  ');
+        }else
+          console.log("Error matching the tab name"+that.getUniqueId());
 
     };
 

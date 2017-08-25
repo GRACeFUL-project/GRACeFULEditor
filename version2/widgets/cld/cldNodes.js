@@ -11,6 +11,8 @@ function CLDNode(graph) {
     var selectedTypeId=0;
     this.typeName = undefined;
     var allPossibleClasses=['undefined','nodeOptionA','nodeOptionB','nodeOptionC', 'externalFactors'];
+    this.allClasss=['undefined','nodeOptionA','nodeOptionB','nodeOptionC', 'externalFactors'];
+
     this.getTypeId=function(){
       return selectedTypeId;
     };
@@ -152,7 +154,6 @@ function CLDNode(graph) {
             console.log("Setting final class :"+nodeClass);
             that.nodeElement.classed(nodeClass,true);
         }
-
     };
 
     this.setExternalFactors = function() {

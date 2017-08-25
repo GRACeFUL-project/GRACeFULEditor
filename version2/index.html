@@ -81,20 +81,34 @@
             <p class="head">Widgets</p>
             <a onclick="hideToolbar()" id="closemenu"><i class="material-icons">close</i></a>
           </div>
-          <div class="widgitListToolbar" id="widgetList">
-            <!-- <div class="widgetItem">
-              <img src="./data/img/rain.png" height="96px" width="96px">
+          <div class="widgitListToolbar" id="widgetList" style="display:block">
+            <!-- Presentation from the function -->
+          </div>
+          <div class="widgitListToolbar" id="widgetListCLD" style="display:none">
+            <!-- TODO: present it through lib like sfd but WHAT ABOUT VECTOR ICONS ? -->
+            <!-- QUESTION: To Change Icons from the Lib or from static  -->
+            <div class="widgetItem" id="cld0" onclick="setDivActiveCLD(0)">
+              <img src="./tempImg/circle.jpg" height="96px" width="96px">
               <br/>
               Rain
             </div>
-            <div class="widgetItem">
-              <img src="./data/img/pump.png" height="96px" width="96px"><br/>
+            <div class="widgetItem" id="cld1" onclick="setDivActiveCLD(1)">
+              <img src="./tempImg/download.png" height="96px" width="96px"><br/>
               Pump
             </div>
-            <div class="widgetItem">
-              <img src="./data/img/runOffArea.png" height="96px" width="96px"><br/>
+            <div class="widgetItem"  id="cld2" onclick="setDivActiveCLD(2)">
+              <img src="./tempImg/perfect.png" height="96px" width="96px"><br/>
               Run Off Area
-            </div> -->
+            </div>
+            <div class="widgetItem"  id="cld3" onclick="setDivActiveCLD(3)">
+              <img src="./tempImg/circlefilled.jpg" height="96px" width="96px"><br/>
+              Run Off Area
+            </div>
+          </div>
+          <div class="widgitListToolbar" id="widgetListGT" style="display:none">
+            rr
+          </div>
+          <div class="widgitListToolbar" id="widgetListExampleB" style="display:none">
           </div>
           <br/>
         </div>
@@ -103,7 +117,7 @@
           <button <button onclick="showToolbar()" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored" id="btn-opentoolBar">
             <i class="material-icons">widgets</i>
           </button>
-          <div id="canvasArea">
+          <div id="canvasArea" class="col-lg-8 col-xs-8 col-sm-8 col-md-8">
           </div>
         </div>
         <div class="col-lg-3 col-xs-2 col-sm-2 col-md-2" id="sidebar">
