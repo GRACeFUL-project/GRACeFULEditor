@@ -3,6 +3,7 @@
 function BaseGraph(parentWidget) {
     /** variable defs **/
     var that = this;
+    var transformAnimation=false;
     this.parentWidget=parentWidget; // tells the graph which widget it talks to
 
     this.zoom=undefined;
@@ -32,6 +33,7 @@ function BaseGraph(parentWidget) {
     this.draggerObjectsArray=[];
     this.draggerElement=undefined;
     this.draggingObject=false;
+
     this.needUpdateRedraw=false;
 
     
@@ -305,9 +307,46 @@ function BaseGraph(parentWidget) {
     this.zoomingFunction=function(){
         // todo add smooth zoom
         // console.log("zooming function called: "+that.zoomFactor);
-        that.graphRenderingSvg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-        that.zoomFactor=d3.event.scale;
-        that.translation=d3.event.translate;
+        // that.graphRenderingSvg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+        // that.zoomFactor=d3.event.scale;
+        // that.translation=d3.event.translate;
+
+        var zoomEventByMWheel=false;
+        if (d3.event.sourceEvent) {
+            if (d3.event.sourceEvent.deltaY)
+                zoomEventByMWheel=true;
+        }
+
+        if (zoomEventByMWheel===false){
+            if (transformAnimation===true){
+                return;
+            }
+            that.zoomFactor = d3.event.scale;
+            that.translation= d3.event.translate;
+            that.graphRenderingSvg.attr("transform", "translate(" + that.translation+ ")scale(" + that.zoomFactor + ")");
+
+            return;
+        }
+
+        /** animate the transition **/
+        that.zoomFactor = d3.event.scale;
+        that.translation= d3.event.translate;
+        that.graphRenderingSvg.transition()
+            .tween("attr.translate", function () {
+                return function (t) {
+                    transformAnimation=true;
+                    var tr = d3.transform( that.graphRenderingSvg.attr("transform"));
+                    that.translation[0] = tr.translate[0];
+                    that.translation[1] = tr.translate[1];
+                    that.zoomFactor=tr.scale[0];
+
+                };
+            })
+            .each("end", function(){transformAnimation=false;})
+            .attr("transform", "translate(" + that.translation + ")scale(" + that.zoomFactor + ")")
+            .ease('linear')
+            .duration(250);
+
     };
 
 
