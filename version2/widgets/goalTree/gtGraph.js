@@ -2,33 +2,56 @@
 function GTGraph(){
     BaseGraph.apply(this,arguments);
     var that=this;
+    this.nodeTypeGraph=1;
     // call the baseGraph init function
-    that.initializeGraph();
+    // that.initializeGraph();
 
 
-    this.initializeGraph=function(){
-
-        // modify to you needs
-        this.specialLayer= this.svgElement.append("g");
-        // setting the extent default(0.1,3)
-        //that.setZoomExtent(0.5,2);
-
-
-        // det a double click event if needed
-        //that.setDoubleClickEvent(that.dblClick);
-    };
+    // this.initializeGraph=function(){
+    //
+    //     // modify to you needs
+    //     this.specialLayer= this.svgElement.append("g");
+    //     // setting the extent default(0.1,3)
+    //     //that.setZoomExtent(0.5,2);
+    //
+    //
+    //     // det a double click event if needed
+    //     //that.setDoubleClickEvent(that.dblClick);
+    // };
 
     this.dblClick=function(){
         console.log("Hello From Example graph");
+
+        var aNode=that.createNode(that);
+        var grPos=getScreenCoords(d3.event.clientX,d3.event.clientY+that.verticalOffset,that.translation,that.zoomFactor);
+        aNode.x=grPos.x;
+        aNode.y=grPos.y;
+        that.nodeElementArray.push(aNode);
+        that.clearRendering();
+        that.redrawGraphContent();
+        aNode.editInitialText();
+        console.log(that.nodeTypeGraph + ": this is the nodeType Graph");
+        aNode.setType(that.nodeTypeGraph, aNode.allClasss[that.nodeTypeGraph]);
+
     };
 
     this.createNode=function(parent){
         return new GTNode(parent);
     };
 
+    this.changeNodeType=function(nodeT){
+      that.nodeTypeGraph=nodeT;
+    }
+
     this.createLink=function(parent){
         return new GTLink(parent);
     };
+
+    function getScreenCoords(x, y, translate, scale){
+        var xn=(x - translate[0])/scale;
+        var yn=(y - translate[1])/scale;
+        return {x: xn, y: yn};
+    }
 
     this.requestSaveDataAsJson=function(){
         // THIS SHOULD BE OVERWRITTEN BY ALL GRAPHS!

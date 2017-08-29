@@ -155,12 +155,17 @@ function setDivActiveCLD(id){
 
 function clearAllDivGTW()
 {
-  
+  document.getElementById("gt"+0).style.backgroundColor="white";
+  document.getElementById("gt"+1).style.backgroundColor="white";
+  document.getElementById("gt"+2).style.backgroundColor="white";
+  document.getElementById("gt"+3).style.backgroundColor="white";
 }
 
-function setDivActiveGTW()
+function setDivActiveGTW(id)
 {
-
+ clearAllDivGTW();
+ document.getElementById("gt"+id).style.backgroundColor="yellow";
+ goalTreeRef.setNodeType(id);
 }
 
 /**

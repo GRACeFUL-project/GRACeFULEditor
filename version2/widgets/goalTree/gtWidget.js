@@ -33,7 +33,11 @@ function GTWidget(){
     };
 
 
-
+    this.setNodeType=function(typeId)
+    {
+      that.graphObject.changeNodeType(typeId);
+      console.log(typeId+":this is the id");
+    }
 
     this.loadJSON=function(jsonData){
         // LOAD JSON ACTION
