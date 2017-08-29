@@ -1,6 +1,6 @@
 .baseRoundNode{
-    fill: var(--main-node-color-nine);
-    stroke: var(--main-node-border-three);
+    fill: #fafafa;
+    stroke: white;
     stroke-width: 2px;
     color: white;
 }
@@ -10,8 +10,8 @@ svg.text{
 }
 
 .baseNodeHovered{
-    fill: #Ff0000;
-    stroke: #000;
+    fill: yellow;
+    stroke: var(--main-node-color-eight);
     stroke-width: 2px;
 }
 td {
@@ -72,7 +72,7 @@ p[contenteditable]:focus {
 }
 
 .focused{
-    stroke:#f00;
+    stroke: var(--main-node-color-eight);
     stroke-width: 2px;
 }
 
@@ -88,27 +88,27 @@ p[contenteditable]:focus {
 }
 
 .nodeOptionA{
-    fill: #0f0
+    fill: var(--main-node-color-one);
 }
 .nodeOptionB{
-    fill: #00f
+    fill: var(--main-node-color-five);
 }
 .nodeOptionC{
-    fill: #ff0
+    fill: var(--main-node-color-three);
 }
 
 .goalOptionA {
-    fill: #E9967A;
+    fill: var(--main-node-color-six);
 }
 
 .goalOptionB {
-    fill: #8FBC8F;
+    fill: var(--main-node-color-seven);
 }
 
 .goalOptionC {
-    fill: #ff0;
+    fill: var(--main-node-color-ten);
 }
 
 .externalFactors {
-    fill: #10843B;
+    fill: var(--main-node-color-four);
 }

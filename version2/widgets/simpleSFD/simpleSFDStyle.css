@@ -1,7 +1,7 @@
 #canvasArea svg.sdfGraphStyle {
     box-sizing: border-box;
     margin: 0;
-    background: var(--main-widget-color-six);
+    background: var(--main-widget-color-four);
     overflow: hidden;
     padding: 0;
 }

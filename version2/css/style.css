@@ -3,11 +3,11 @@
 			http://www.creativecolorschemes.com/resources/free-color-schemes/neutral-color-scheme.shtml
 			Please not the colors are listed here in the same order as displayed on the site.
 	*/
-	--main-widget-color-one: #B7A6AD;
-	--main-widget-color-two: #C8CAC0;
-	--main-widget-color-three: #D3C9CE ;
-	--main-widget-color-four: #BEB2A7;
-	--main-widget-color-five: #D1C6BF;
+	--main-widget-color-one: #ffffe6;
+	--main-widget-color-two: #e6ffe6;
+	--main-widget-color-three: #e6ffff;
+	--main-widget-color-four: #e6e6ff;
+	--main-widget-color-five: #ffe6ff;
 	--main-widget-color-six: #DBD7CC;
 	--main-widget-color-seven: #CAB388;
 	--main-widget-color-eight: #D5C4A1;
@@ -24,16 +24,19 @@
 		The colors are listed from top to bottom order as displayed on the site.
 		The lighter accents are used for the inner coloring of the nodes.
 	*/
-	--main-node-color-one: #1abc9c;
-	--main-node-color-two: #2ecc71;
-	--main-node-color-three: #3498db;
-	--main-node-color-four: #9b59b6;
-	--main-node-color-five: #34495e;
-	--main-node-color-six: #f1c40f;
-	--main-node-color-seven: #e67e22;
+	--main-node-color-one: #addcc9;
+	--main-node-color-two: #dbebc2;
+	--main-node-color-three: #fdd2b5;
+	--main-node-color-four: #f7a8a6;
+	--main-node-color-five: #f48b94;
+	--main-node-color-six: #65e1c4;
+	--main-node-color-seven: #65c0e1;
 	--main-node-color-eight: #e74c3c;
 	--main-node-color-nine: #ecf0f1;
-	--main-node-color-ten: #95a5a6;
+	--main-node-color-ten: #ee76a4;
+	--main-node-color-eleven: #f39f85;
+	--main-node-color-twelve: #ee76a4;
+
 
 
 	/*Flat UI colors and Material UI Colors
@@ -51,6 +54,13 @@
 	--main-node-border-eight: #c0392b;
 	--main-node-border-nine: #bdc3c7;
 	--main-node-border-ten: #7f8c8d;
+
+	/*
+		Link Colors
+	*/
+	--main-link-one: #3498db;
+
+
 
 }
 
