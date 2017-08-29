@@ -65,21 +65,6 @@ function loadGracefulConceptMapToolbar(sfd){
   console.log("It contains data for sure now:"+gracefulLib);
   sfdRef=sfd;
 
-    // TODO: make it dynamic for now just make a normal dom
-    // var domElement = document.getElementById('widgitListToolbar');
-    //
-    //
-    // var srcToImg="./data/img/rain.png";
-    // var label="sample";
-    // var i=0;
-    //
-    // var html = '<div class="widgetItem" id="'+i+'"><img src="'+srcToImg+'" height="96px" width="96px"><br/>'+label+'</div>';
-    //
-    // var br = '<br/><br/>';
-    // document.getElementById('widgetList').innerHTML = html;
-
-  //  sfd.setupNode();
-
 }
 
 function loadCausalLoopDiagramToolbar(cld)
@@ -170,7 +155,7 @@ function setDivActiveCLD(id){
 
 function clearAllDivGTW()
 {
-
+  
 }
 
 function setDivActiveGTW()
