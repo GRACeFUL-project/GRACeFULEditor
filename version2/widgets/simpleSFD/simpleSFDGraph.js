@@ -56,8 +56,10 @@ function SimpleSFDGraph(){
       //  console.log("overwritten dblClick");
         that.deselectLastLink();
         that.deselectLastNode();
+        var coordinatesRelativeToCanvasArea=[0,0];
+        coordinatesRelativeToCanvasArea=d3.mouse(this);
         var aNode = that.createNode(that, inputClasses);
-        var grPos = getScreenCoords(d3.event.clientX, d3.event.clientY + that.verticalOffset, that.translation, that.zoomFactor);
+        var grPos = getScreenCoords(coordinatesRelativeToCanvasArea[0], coordinatesRelativeToCanvasArea[1], that.translation, that.zoomFactor);
         aNode.x = grPos.x;
         aNode.y = grPos.y;
 
