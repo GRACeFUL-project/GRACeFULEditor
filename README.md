@@ -1,6 +1,6 @@
 Visual Editor for GRACeFUL
 
-The demo is available under http://graceful.visualdataweb.org/new/
+The demo is available under http://vocol.iais.fraunhofer.de/graceful-rat/static/index.html
 
 Development setup
 1. Clone the repo
