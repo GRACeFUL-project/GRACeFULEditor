@@ -12,10 +12,6 @@ function CLDLink(graph) {
     var that = this;
     BaseLink.apply(this,arguments);
 
-    // constants
-    var SINGLE_LINK=0;
-    var MULTI_LINK=1;
-
     console.log("Generating a link with id "+that.id());
     var cldType="unknown";
     this.className = undefined;
@@ -27,51 +23,25 @@ function CLDLink(graph) {
     var linkDir=[]; // normal vector;
     var endPos=[]; // end position for the line
     var dynamicLinkWidth=false;
-    var linkType=SINGLE_LINK;
 
-    var startPoint,endPoint;
-
-    this.getLinkType=function () {
-        return linkType;
-    };
-    this.setLinkType=function(multilink){
-      linkType=multilink;
-    };
-
+    var startPoint,endPoint,cpPoint;
 
     this.type=function(){
         return cldType;
     };
+
     this.setSelectionStatus=function(val){
         that.elementIsFocused=val;
         that.pathElement.classed("cldLinkSelected", val);
-
-        // remove the image element
-        if (that.rootElement.selectAll("image")!=null) {
-            if (val===true)
-                that.rootElement.selectAll("image").attr("display", null);
-            else{
-                that.rootElement.selectAll("image").attr("display", "none");
-            }
-        }
-
     };
 
-
     this.getTypeId=function() {
-        // if (that.cldTypeString === "?") return 0;
-        // if (that.cldTypeString === "+") return 1;
-        // if (that.cldTypeString === "-") return 2;
         return that.cldTypeId;
     };
 
     this.setCLDTypeString=function(typeId, typeName){
         that.cldTypeId = typeId;
         that.cldTypeString = typeName;
-        // if (val === 0) that.cldTypeString="?";
-        // if (val === 1) that.cldTypeString="+";
-        // if (val === 2) that.cldTypeString="-";
-
         // update textRendering element
         if (textRenderingElement)
             textRenderingElement.text(that.cldTypeString);
@@ -86,12 +56,11 @@ function CLDLink(graph) {
         return that.classId;
     };
 
-
-
     var arrowHead=undefined;
     var arrowTail=undefined; // testing
     var textRenderingElement=undefined;
-
+    var controlPoints = undefined;
+    var cpEllipse = undefined;
 
     var lineFunction = d3.svg.line()
         .x(function (d) {
@@ -102,8 +71,7 @@ function CLDLink(graph) {
         })
         .interpolate("cardinal");
 
-
-    function calculateMultiLinkPath(start,end,hovered) {
+    function calculateMultiLinkPath(start,end, mid, hovered) {
         // compute orthogonal vector;
 
         var sX=start.x;
@@ -135,12 +103,14 @@ function CLDLink(graph) {
         if (offset<minOffset) offset=minOffset;
         if (offset>maxOffset) offset=maxOffset;
 
-        var fpX=cX+offset*nY;
-        var fpY=cY-offset*nX;
-
-        // console.log("fp1:" +start.x +" "+start.y );
-        // console.log("fp2:" +fpX +" "+fpY );
-        // console.log("fp3:" +end.x +" "+end.y );
+        if(!mid) {
+            var fpX=cX;
+            var fpY=cY;
+        }
+        else {
+            var fpX=mid.x;
+            var fpY=mid.y;
+        }
 
         // compute the starting point offset;
         var soX=fpX-start.x;
@@ -160,10 +130,10 @@ function CLDLink(graph) {
 
         var arrowOffset=10;
         var sourceRadius=that.sourceNode.getRadius();
+        
         if (hovered===true){
             arrowOffset=20;
         }
-
 
         var targetRadius=that.targetNode.getRadius()+arrowOffset;
 
@@ -174,155 +144,67 @@ function CLDLink(graph) {
         return [fixPoint1, fixPoint2, fixPoint3];
     }
 
-
-    function calculateSingleLinkPath(start,end) {
-        var fixPoint1 = {"x": start.x , "y": start.y},
-            fixPoint2 = {"x": end.x,    "y": end.y };
-        return [fixPoint1, fixPoint2];
-    }
-
-
     this.drawElement=function(){
         that.pathElement = that.rootElement.append('path').classed("cldLink",true);
         addArrowHead();
         // addArrowTail();
-        addTypeString();
         // clds have no arrow tails
-        // addArrowTail();
+
         that.pathElement.append('title').text(that.hoverText);
         that.addMouseEvents();
-        //add delete image
 
-        var dx=that.targetNode.x-that.sourceNode.x;
-        var dy=that.targetNode.y-that.sourceNode.y;
+        startPoint={ x:that.sourceNode.x, y:that.sourceNode.y };
+        endPoint  ={ x:that.targetNode.x, y:that.targetNode.y };
+        controlPoints=calculateMultiLinkPath(startPoint, endPoint, cpPoint);
+        cpPoint={x:controlPoints[1].x, y:controlPoints[1].y};
 
-        that.rootElement.append("image")
-            .attr("id", "linkDeleteIcon")
-            .attr("xlink:href", "images/delete.png")
-            .attr("display", "none")
-            .attr("width", 17)
-            .attr("height", 17)
-            .attr("x", that.sourceNode.x + 0.5*(dx)-0.5*17)
-            .attr("y", that.sourceNode.y + 0.5*(dy)-0.5*17)
-            .on('click', function() {
-                d3.event.stopPropagation();
-                console.log("This link has to be deleted: "+that.id());
-                graph.handleLinkDeletion(that);
-            });
+        cpEllipse = that.rootElement.append("ellipse")
+                                .attr("cx", cpPoint.x)
+                                .attr("cy", cpPoint.y)
+                                .attr("rx", 15)
+                                .attr("ry", 10)
+                                .classed("controlPoint", true)
+                                .call(that.dragControlPoints);
+
+        addTypeString();
     };
+
+    this.dragControlPoints = d3.behavior.drag()
+                            .on("dragstart", function(d) {
+                                d3.event.sourceEvent.stopPropagation();
+                            })
+                            .on("drag", function (d) {
+                                cpPoint={x:d3.event.x, y:d3.event.y};
+                                cpEllipse.attr("cx", cpPoint.x).attr("cy", cpPoint.y);
+                                controlPoints[1].x = cpPoint.x;
+                                controlPoints[1].y = cpPoint.y;
+                                that.pathElement.attr("d", lineFunction(controlPoints));
+                                textRenderingElement.attr("x", cpPoint.x).attr("y", cpPoint.y);
+                            })
+                            .on("dragend", function(d) {
+                                that.updateElement();
+                            });
 
     function addTypeString(){
          textRenderingElement=that.rootElement.append("text")
             .classed("text", true)
             .attr("text-anchor", "middle")
             .attr("style", "fill: black")
-            .text(that.cldTypeString);
+            .text(that.cldTypeString)
+            .attr("dy", "0.35em");
     }
 
     this.updateElement=function(){
         if (that.pathElement) {
-            // console.log("updating element");
-            var radiusOfSource=that.sourceNode.getRadius();
-            var radiusOfTarget=that.targetNode.getRadius();
-
-            // compute normal distance vector form source to target;
-            var dx=that.targetNode.x-that.sourceNode.x;
-            var dy=that.targetNode.y-that.sourceNode.y;
-            var nLen=Math.sqrt(dx*dx+dy*dy);
-            if(nLen) {
-                // get normalized offset vector;
-                var nX = dx / nLen;
-                var nY = dy / nLen;
-                var tailOffset = 0;
-                var headOffset = 0;
-                var scale=0;
-                if (arrowTail!=undefined) {
-                    scale = arrowTail.attr("markerHeight") / 6;
-                    tailOffset = parseInt(arrowTail.attr("markerHeight")) - scale;
-                }
-                if (arrowHead) {
-                    scale = arrowHead.attr("markerHeight") / 6;
-                    headOffset = parseInt(arrowHead.attr("markerHeight"))-scale;
-                }
-
-                var sX=that.sourceNode.x+nX*(radiusOfSource+tailOffset);
-                var sY=that.sourceNode.y+nY*(radiusOfSource+tailOffset);
-
-                var eX=that.sourceNode.x+nX*(nLen-radiusOfTarget-headOffset);
-                var eY=that.sourceNode.y+nY*(nLen-radiusOfTarget-headOffset);
-
-
-                // find center position of the element
-                var tdx=that.targetNode.x-that.sourceNode.x;
-                var tdy=that.targetNode.y-that.sourceNode.y;
-                var tnLen=Math.sqrt(tdx*tdx+tdy*tdy);
-
-                var tnX = tdx / tnLen;
-                var tnY = tdy / tnLen;
-
-
-
-                var orthX=15* tnY;
-                var orthY=15*-tnX;
-
-                var offset=[that.sourceNode.x+0.5*tnLen*tnX  + orthX,that.sourceNode.y+0.5*tnLen*tnY +   orthY];
-
-                textRenderingElement.attr("transform", "translate(" + offset[0] + "," + offset[1]+ ")");
-                // use path calculations
-
-
-
-                // that.pathElement.attr("x1", sX)
-                //     .attr("y1", sY)
-                //     .attr("x2", eX)
-                //     .attr("y2", eY);
-
-                startPoint={ x:sX, y:sY };
-                endPoint  ={ x:eX, y:eY };
-
-                if (that.getLinkType()===SINGLE_LINK) {
-                    that.pathElement.attr("d", lineFunction(calculateSingleLinkPath(startPoint, endPoint)));
-                    endPos = [eX, eY];
-                    linkDir = [nX, nY];
-
-                    that.rootElement.selectAll("image")
-                        .attr("x", that.sourceNode.x + 0.5 * (dx) - 0.5 * 17)
-                        .attr("y", that.sourceNode.y + 0.5 * (dy) - 0.5 * 17);
-                }
-                if (that.getLinkType()===MULTI_LINK){
-                    console.log("computing the multilink path");
-                    startPoint={ x:that.sourceNode.x, y:that.sourceNode.y };
-                    endPoint  ={ x:that.targetNode.x, y:that.targetNode.y };
-
-                    var controlPoints=calculateMultiLinkPath(startPoint, endPoint);
-                    console.log(controlPoints);
-
-                    that.pathElement.attr("d", lineFunction(controlPoints));
-                    endPos = [eX, eY];
-                    linkDir = [nX, nY];
-
-                    var orthX=15* tnY;
-                    var orthY=15*-tnX;
-                    var offset=[controlPoints[1].x+orthX,controlPoints[1].y+orthY];
-                    textRenderingElement.attr("transform", "translate(" + offset[0] + "," + offset[1]+ ")");
-
-
-
-                    that.rootElement.selectAll("image")
-                        .attr("x", controlPoints[1].x - 0.5 * 17)
-                        .attr("y", controlPoints[1].y - 0.5 * 17);
-
-                }
-            }else{
-                // this should not happen because than we have no path between two nodes;
-                console.log("well error !");
-            }
-
+                startPoint={ x:that.sourceNode.x, y:that.sourceNode.y };
+                endPoint  ={ x:that.targetNode.x, y:that.targetNode.y };
+                controlPoints=calculateMultiLinkPath(startPoint, endPoint, cpPoint);
+                that.pathElement.attr("d", lineFunction(controlPoints));
+                textRenderingElement.attr("x", cpPoint.x).attr("y", cpPoint.y);
+                cpEllipse.attr("cx", cpPoint.x)
+                        .attr("cy", cpPoint.y);
         }
-
     };
-
-
 
     this.onClicked = function () {
         console.log("link click");
@@ -330,44 +212,16 @@ function CLDLink(graph) {
             that.elementIsFocused=true;
             that.pathElement.classed("LinkFocused", true);
             graph.handleLinkSelection(that);
-            if (that.rootElement.selectAll("image")!=null) {
-                var iW = parseInt(that.rootElement.selectAll("image").attr("width"));
-                var iH = parseInt(that.rootElement.selectAll("image").attr("height"));
-                if (that.getLinkType()===SINGLE_LINK) {
-                    that.rootElement.selectAll("image")
-                        .attr("display", null)
-                        .attr("x", that.sourceNode.x + 0.5 * (that.targetNode.x - that.sourceNode.x) - 0.5 * iW)
-                        .attr("y", that.sourceNode.y + 0.5 * (that.targetNode.y - that.sourceNode.y) - 0.5 * iH);
-                    return;
-                }
-                if (that.getLinkType()===MULTI_LINK){
-
-                    var startPoint={ x:that.sourceNode.x, y:that.sourceNode.y };
-                    var endPoint  ={ x:that.targetNode.x, y:that.targetNode.y };
-
-                    var controlPoints=calculateMultiLinkPath(startPoint, endPoint);
-                    that.rootElement.selectAll("image")
-                        .attr("display", null)
-                        .attr("x", controlPoints[1].x - 0.5 * iW)
-                        .attr("y", controlPoints[1].y - 0.5 * iH);
-                    return;
-
-
-                    }
-            }
+            return;
         }
         if (that.elementIsFocused===true) {
             that.elementIsFocused=false;
             that.pathElement.classed("LinkFocused", false);
             graph.handleLinkSelection(undefined);
-            that.rootElement.selectAll("image")
-                .attr("display", "none");
         }
-
         that.mouseEnteredFunc(false);
         that.onMouseOver();
     };
-
 
     function addArrowHead(){
         if (that.pathElement) {
@@ -459,21 +313,6 @@ function CLDLink(graph) {
             }
             var newX = endPos[0] - linkDir[0] * 10;
             var newY = endPos[1] - linkDir[1] * 10;
-
-            // need to fix this;
-            // check if path is a single one;
-            if (that.getLinkType()===SINGLE_LINK){
-                var controlPoints=calculateSingleLinkPath(startPoint, endPoint);
-                controlPoints[1].x=newX;
-                controlPoints[1].y=newY;
-                that.pathElement.attr("d", lineFunction(controlPoints));
-            }
-            if (that.getLinkType()===MULTI_LINK){
-                var controlPoints=calculateMultiLinkPath(startPoint, endPoint,true);
-                that.pathElement.attr("d", lineFunction(controlPoints));
-            }
-
-
         }else { // experimental code;
             // if (that.getSelectionStatus() === true) {
             //     that.pathElement.classed("cldLinkSelected", false);
@@ -521,13 +360,6 @@ function CLDLink(graph) {
                 that.pathElement.classed("cldLinkSelectedHovered", false);
                 that.pathElement.classed("cldLinkHovered", false);
             }
-            if (that.getLinkType() === SINGLE_LINK) {
-                that.pathElement.attr("d", lineFunction(calculateSingleLinkPath(startPoint, endPoint)));
-            }
-            if (that.getLinkType() === MULTI_LINK) {
-                that.pathElement.attr("d", lineFunction(calculateMultiLinkPath(startPoint, endPoint)));
-            }
-
         }
         // }else{
         //     if (that.getSelectionStatus() === true) {
@@ -564,37 +396,19 @@ function CLDLink(graph) {
         d3.event.preventDefault();
         that.rootElement.selectAll("image").attr("display", "none");
 
-        var dx=that.targetNode.x-that.sourceNode.x;
-        var dy=that.targetNode.y-that.sourceNode.y;
         var menu = [
             {
                 title: 'Feedback Loop Symbol',
                 action: function() {
 
-                if (that.getLinkType()===SINGLE_LINK) {
                     that.rootElement.append("image")
                         .attr("id", "loop")
                         .attr("xlink:href", "images/loop.png")
                         .attr("display", null)
                         .attr("width", 30)
                         .attr("height", 30)
-                        .attr("x", that.sourceNode.x + 0.5*(dx)-0.5*17)
-                        .attr("y", that.sourceNode.y + 0.5*(dy)-0.5*17);
-                }
-                else if (that.getLinkType()===MULTI_LINK){
-                    var startPoint={ x:that.sourceNode.x, y:that.sourceNode.y };
-                    var endPoint  ={ x:that.targetNode.x, y:that.targetNode.y };
-                    var controlPoints=calculateMultiLinkPath(startPoint, endPoint);
-
-                    that.rootElement.append("image")
-                        .attr("id", "loop")
-                        .attr("xlink:href", "images/loop.png")
-                        .attr("display", null)
-                        .attr("width", 30)
-                        .attr("height", 30)
-                        .attr("x", controlPoints[1].x - 0.5 * 17)
-                        .attr("y", controlPoints[1].y - 0.5 * 17);
-                    }
+                        .attr("x", cpPoint.x - 0.5 * 17)
+                        .attr("y", cpPoint.y - 0.5 * 17);
                 }
             },
             {
@@ -637,5 +451,3 @@ function CLDLink(graph) {
 
 CLDLink.prototype = Object.create(BaseLink.prototype);
 CLDLink.prototype.constructor = CLDLink;
-
-

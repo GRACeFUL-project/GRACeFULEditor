@@ -88,3 +88,10 @@
     background-color: #4677f8;
     color: #fefefe;
 }
+
+.controlPoint {
+    fill: orange;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+    cursor: move;
+}
