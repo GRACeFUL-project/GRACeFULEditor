@@ -10,8 +10,10 @@ function CLDGraph(){
     this.dblClick=function(){
         console.log("Hello From CLD Graph");
 
+        var coordinatesRelativeToCanvasArea = [0,0] ;
+        coordinatesRelativeToCanvasArea = d3.mouse(this);
         var aNode=that.createNode(that);
-        var grPos=getScreenCoords(d3.event.clientX,d3.event.clientY+that.verticalOffset,that.translation,that.zoomFactor);
+        var grPos=getScreenCoords(coordinatesRelativeToCanvasArea[0],coordinatesRelativeToCanvasArea[1],that.translation,that.zoomFactor);
         aNode.x=grPos.x;
         aNode.y=grPos.y;
         that.nodeElementArray.push(aNode);
@@ -19,6 +21,7 @@ function CLDGraph(){
         that.redrawGraphContent();
         aNode.editInitialText();
         console.log("New node id is: "+aNode.id());
+        console.log("Mouse Coordinates relative to the div:"+d3.mouse(this));
         aNode.setType(that.nodeTypeGraph, aNode.allClasss[that.nodeTypeGraph]);
     };
 

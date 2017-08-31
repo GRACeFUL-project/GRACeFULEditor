@@ -36,8 +36,6 @@ function hideToolbar(){
  goalTreeRef.updateSvgSize();
  cldRef.updateSvgSize();
 
- console.log(example.className);
-
 }
 
 
@@ -50,6 +48,9 @@ function showToolbar(){
  $('#drawingArea').addClass('col-lg-8 col-xs-8 col-sm-8 col-md-8');
  $('#canvasArea').removeClass('col-lg-9 col-xs-10 col-sm-10 col-md-10');
  $('#canvasArea').addClass('col-lg-8 col-xs-8 col-sm-8 col-md-8');
+ sfdRef.updateSvgSize();
+ goalTreeRef.updateSvgSize();
+ cldRef.updateSvgSize();
 }
 
 /**

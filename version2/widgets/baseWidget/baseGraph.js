@@ -36,7 +36,7 @@ function BaseGraph(parentWidget) {
 
     this.needUpdateRedraw=false;
 
-    
+
     // some state of graph functionality
     this.needsRedraw=function(val){
         if (!arguments.length) return that.needUpdateRedraw;
@@ -289,8 +289,10 @@ function BaseGraph(parentWidget) {
 
         that.deselectLastLink();
         that.deselectLastNode();
+        var coordinatesRelativeToCanvasArea= [0,0];
+        coordinatesRelativeToCanvasArea=d3.mouse(this);
         var aNode=that.createNode(that);
-        var grPos=getScreenCoords(d3.event.clientX,d3.event.clientY+that.verticalOffset,that.translation,that.zoomFactor);
+        var grPos=getScreenCoords(coordinatesRelativeToCanvasArea[0],coordinatesRelativeToCanvasArea[1],that.translation,that.zoomFactor);
         aNode.x=grPos.x;
         aNode.y=grPos.y;
 
