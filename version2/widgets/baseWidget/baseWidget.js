@@ -158,15 +158,15 @@ function BaseWidget(parentElement) {
         if (that.controlsObject)
             that.controlsObject.activateControls(true);
 
-        if (that.getUniqueId() == "SimpleSFDWidget3") {
+        if (that.getUniqueId() == "SimpleSFDWidget2") {
           clearAllToolbars();
           setActiveToolbar('widgetList');
 
-        }else if (that.getUniqueId() == "CLDWidget2"){
+        }else if (that.getUniqueId() == "CLDWidget1"){
           clearAllToolbars();
           setActiveToolbar('widgetListCLD');
 
-        }else if (that.getUniqueId() == "GoalTreeWidget1"){
+        }else if (that.getUniqueId() == "GoalTreeWidget0"){
           clearAllToolbars();
           setActiveToolbar('widgetListGT');
         }else if (that.getUniqueId == "ExampleWidget0"){

@@ -116,7 +116,7 @@ var example;
         // set default tab
         //gtw.widgetIsActivated();
       //  example.widgetIsActivated();
-        sfd.widgetIsActivated();
+        gtw.widgetIsActivated();
     };
 
     initializer.initializeWidgets();
