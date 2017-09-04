@@ -179,7 +179,7 @@ function BaseWidget(parentElement) {
     this.handleSelection=function(node){
         console.log("handling Selection of a node");
         that.controlsObject.handleNodeSelection(node);
-        
+
     };
 
     this.nodeDeletion = function(node) {
