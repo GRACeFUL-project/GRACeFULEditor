@@ -193,7 +193,7 @@ function SimpleSFDControls(parentWidget) {
           // nodeClass=that.addLabel(nodeGroup,"Class","nodesClass");
           // nodeLabel=that.addLineEdit(nodeGroup,"Name","nodesName",false, that.changeNodesName);
 
-          sfdChipNode=that.addNodeTypeChip(nodeGroup,"Rain","#fafafa",that.onSFDNodeDelete,"sfdChipField",false,"./data/img/rain.png","sfd","0");
+          sfdChipNode=that.addNodeTypeChip(nodeGroup,"Rain","#fafafa",that.onSFDNodeDelete,"sfdChipField",false,"./data/img/rain.png","sfd","1");
           sfdChip=sfdChipNode[0];
           sfdChipImage=sfdChipNode[1];
 

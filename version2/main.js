@@ -65,31 +65,79 @@ function loadGracefulConceptMapToolbar(sfd){
   var gracefulLib=getGracefulConceptMapToolbar();
   console.log("It contains data for sure now:"+gracefulLib);
   sfdRef=sfd;
+  // adding the TAB name here
+  sfdRef.setTabTitle("GRACeFUL Concept Map: Hello WORLD");
 
 }
 
-function loadCausalLoopDiagramToolbar(cld)
-{
+function loadCausalLoopDiagramToolbar(cld){
   cldRef = cld;
 }
 
-function loadGoalTreeDiagram(gtw)
-{
+function loadGoalTreeDiagram(gtw){
   goalTreeRef = gtw;
 }
 
 // Loading of widget Items
 
-function loadWidgetItems(gracefulLib)
-{
+function reloadWidgetItems(jsonOBJ){
+    console.log("hey you, kill all the perv elements please");
+    var domElement = document.getElementById('widgetList') ;
+
+    var htmlCollection = domElement.children;
+    var numEntries = htmlCollection.length;
+    for (var i = 0; i < numEntries; i++) {
+        htmlCollection[0].remove();
+    }
+    // create the new elements
+    var object= jsonOBJ['library'];
+    var iterator;
+    var label = "sample";
+    var srcToImg = "./data/img/test.svg";
+    //do the presentation logic here as following ..
+    for( i=0; i < object.length ; i++ ){
+        var temp = object[i];
+
+        label = temp.name ;
+        srcToImg = temp.icon;
+        // sanity check
+        if (srcToImg===undefined) { // try img url
+            srcToImg = temp.imgURL;
+        }
+        // srcToImg = "./data/svg/test.svg";
+        //srcToImg = item.icon ;
+        console.log(label);
+        var widgetItemDiv = document.createElement("div");
+        widgetItemDiv.setAttribute("class","widgetItem");
+        widgetItemDiv.setAttribute("id","sfd"+i);
+        widgetItemDiv.setAttribute("onclick", "setDivActive("+i+")");
+        var imgItem = document.createElement("img");
+        imgItem.setAttribute("src",srcToImg);
+        imgItem.setAttribute("height","96px");
+        imgItem.setAttribute("width","96px");
+        // widgetItemDiv.innerHTML = label;
+        widgetItemDiv.appendChild(imgItem);
+        widgetItemDiv.appendChild(document.createElement("br"));
+        var nameDiv = document.createElement("div");
+        nameDiv.innerHTML=label;
+        widgetItemDiv.appendChild(nameDiv);
+        domElement.appendChild(widgetItemDiv);
+    }
+    libObject=jsonOBJ;
+
+    setDivActive(0);
+  // sfdRef.setupNode(0);
+}
+
+function loadWidgetItems(gracefulLib){
   //get the response here and parse the json obj
   var libraryObject = JSON.parse(gracefulLib);
-  console.log(libraryObject);
+  console.log("Loading Widget Items "+libraryObject);
   libObject = libraryObject;
 
-  var iterator=0;
+  var iterator;
   var label = "sample";
-  var srcToImg = "./data/img/rain.png";
+  var srcToImg = "./data/img/test.svg";
 
   var domElement = document.getElementById('widgetList') ;
   var object= libraryObject['library'];
@@ -98,14 +146,15 @@ function loadWidgetItems(gracefulLib)
   for( iterator=0; iterator < object.length ; iterator++ ){
     var temp = object[iterator];
 
-    label = temp.comment  ;
-    srcToImg = temp.icon ;
-    // srcToImg = item.icon ;
+    label = temp.comment ;
+    srcToImg = temp.icon;
+    // srcToImg = "./data/svg/test.svg";
+    //srcToImg = item.icon ;
     console.log(label);
     var widgetItemDiv = document.createElement("div");
     widgetItemDiv.setAttribute("class","widgetItem");
     widgetItemDiv.setAttribute("id","sfd"+iterator);
-    widgetItemDiv.setAttribute("onclick", "setDivActive("+iterator+")")
+    widgetItemDiv.setAttribute("onclick", "setDivActive("+iterator+")");
     var imgItem = document.createElement("img");
     imgItem.setAttribute("src",srcToImg);
     imgItem.setAttribute("height","96px");
@@ -122,51 +171,43 @@ function loadWidgetItems(gracefulLib)
 }
 
 // setting the DOM ELEMENTS
-
-function clearAllDiv()
-{
-  var object= libObject['library'];
-
-  for(i=0 ; i < object.length ; i++ )
-    document.getElementById("sfd"+i).style.backgroundColor="white";
-
+function clearAllDiv(){
+    var object= libObject['library'];
+    for(var i=0 ; i < object.length ; i++ ) {
+        document.getElementById("sfd" + i).style.backgroundColor = "white";
+    }
 }
 
 function setDivActive(id){
-  clearAllDiv();
-  document.getElementById("sfd"+id).style.backgroundColor="yellow";
-  sfdRef.setupNode(id);
+    clearAllDiv();
+    document.getElementById("sfd"+id).style.backgroundColor="yellow";
+    sfdRef.setupNode(id);
 }
 
-function clearAllDivCLD()
-{
-  // document.getElementById("cld"+0).style.backgroundColor="white";
-  document.getElementById("cld"+1).style.backgroundColor="white";
-  document.getElementById("cld"+2).style.backgroundColor="white";
-  document.getElementById("cld"+3).style.backgroundColor="white";
-
-
+function clearAllDivCLD() {
+    var numElements = 4;
+    for (var i = 1; i < numElements; i++) {
+        document.getElementById("cld" + i).style.backgroundColor = "white";
+    }
 }
 
 function setDivActiveCLD(id){
-  clearAllDivCLD();
-  document.getElementById("cld"+id).style.backgroundColor="yellow";
-  cldRef.setNodeType(id);
+    clearAllDivCLD();
+    document.getElementById("cld"+id).style.backgroundColor="yellow";
+    cldRef.setNodeType(id);
 }
 
-function clearAllDivGTW()
-{
-  // document.getElementById("gt"+0).style.backgroundColor="white";
-  document.getElementById("gt"+1).style.backgroundColor="white";
-  document.getElementById("gt"+2).style.backgroundColor="white";
-  document.getElementById("gt"+3).style.backgroundColor="white";
+function clearAllDivGTW() {
+    var numElements = 4;
+    for (var i = 1; i < numElements; i++) {
+        document.getElementById("gt" + i).style.backgroundColor = "white";
+    }
 }
 
-function setDivActiveGTW(id)
-{
- clearAllDivGTW();
- document.getElementById("gt"+id).style.backgroundColor="yellow";
- goalTreeRef.setNodeType(id);
+function setDivActiveGTW(id){
+    clearAllDivGTW();
+    document.getElementById("gt"+id).style.backgroundColor="yellow";
+    goalTreeRef.setNodeType(id);
 }
 
 /**
@@ -174,35 +215,30 @@ function setDivActiveGTW(id)
 **/
 
 function getGracefulConceptMapToolbar(){
-
     var solverAddress="http://vocol.iais.fraunhofer.de/graceful-rat";
-    var response;
+    var response="";
+    console.log("requesting an action that talks with docker ");
+    // docker image name
+    var get_requestAddress=solverAddress+"/library/crud";
+    console.log("address :"+get_requestAddress);
 
-        console.log("requesting an action that talks with docker ");
-        // docker image name
-        var get_requestAddress=solverAddress+"/library/crud";
-        console.log("address :"+get_requestAddress);
-        d3.xhr(get_requestAddress, "application/json",function (error, request) {
-           if (request){
-               console.log("docker returns data: "+request.responseText);
-               // todo: process the returned data; to the widget
-               response=request.responseText;
-               loadWidgetItems(request.responseText);
-               setDivActive(0);
-              //  TODO:they go in their own dynamic library function .. Temp
-               setDivActiveGTW("1");
-               setDivActiveCLD("1");
-               sfdRef.setupNode(0);
+    d3.xhr(get_requestAddress, "application/json",function (error, request) {
+        if (request){
+            console.log("docker returns the data: "+request.responseText);
+            // todo: process the returned data; to the widget
+            response=request.responseText;
+         //   loadWidgetItems(request.responseText);
+        //    setDivActive(0);
+         //   sfdRef.setupNode(0);
+        }else{
+            console.log("error!"+error.status);
+            // if no server is running we simply use the current state of the library;
+            var exampleLib='{"library":[{"icon":"./data/img/rain.png","name":"rain","parameters":[{"hoverText":"amount","name":"amount","imgURL":"./data/interfaces/amount.png","type":"Float"}],"interface":[{"hoverText":"rainfall","name":"rainfall","imgURL":"./data/interfaces/rainfall.png","type":"Port (Float)"}],"comment":"Rain"},{"icon":"./data/img/pump.png","name":"pump","parameters":[{"hoverText":"capacity","name":"capacity","imgURL":"./data/interfaces/capacity.png","type":"Float"}],"interface":[{"hoverText":"inflow","name":"inflow","imgURL":"./data/interfaces/inflow.png","type":"Port (Float)"},{"hoverText":"outflow","name":"outflow","imgURL":"./data/interfaces/outflow.png","type":"Port (Float)"}],"comment":"Pump"},{"icon":"./data/img/runOffArea.png","name":"runoff area","parameters":[{"hoverText":"storage capacity","name":"storage capacity","imgURL":"./data/interfaces/storage capacity.png","type":"Float"}],"interface":[{"hoverText":"inflow","name":"inflow","imgURL":"./data/interfaces/inflow.png","type":"Port (Float)"},{"hoverText":"outlet","name":"outlet","imgURL":"./data/interfaces/outlet.png","type":"Port (Float)"},{"hoverText":"overflow","name":"overflow","imgURL":"./data/interfaces/overflow.png","type":"Port (Float)"}],"comment":"Runoff"}]}';
+            console.log("loading static library -----> "+exampleLib);
+            response=exampleLib;
+        }// end else
+    }// end xhr request function
+    ); // end d3.xhr call
+    return response;
 
-           }
-           else{
-           console.log("error!"+error.status);
-               // if no server is running we simply use the current state of the library;
-
-               var exampleLib='{"library":[{"icon":"./data/img/rain.png","name":"rain","parameters":[{"hoverText":"amount","name":"amount","imgURL":"./data/interfaces/amount.png","type":"Float"}],"interface":[{"hoverText":"rainfall","name":"rainfall","imgURL":"./data/interfaces/rainfall.png","type":"Port (Float)"}],"comment":"Rain"},{"icon":"./data/img/pump.png","name":"pump","parameters":[{"hoverText":"capacity","name":"capacity","imgURL":"./data/interfaces/capacity.png","type":"Float"}],"interface":[{"hoverText":"inflow","name":"inflow","imgURL":"./data/interfaces/inflow.png","type":"Port (Float)"},{"hoverText":"outflow","name":"outflow","imgURL":"./data/interfaces/outflow.png","type":"Port (Float)"}],"comment":"Pump"},{"icon":"./data/img/runOffArea.png","name":"runoff area","parameters":[{"hoverText":"storage capacity","name":"storage capacity","imgURL":"./data/interfaces/storage capacity.png","type":"Float"}],"interface":[{"hoverText":"inflow","name":"inflow","imgURL":"./data/interfaces/inflow.png","type":"Port (Float)"},{"hoverText":"outlet","name":"outlet","imgURL":"./data/interfaces/outlet.png","type":"Port (Float)"},{"hoverText":"overflow","name":"overflow","imgURL":"./data/interfaces/overflow.png","type":"Port (Float)"}],"comment":"Runoff"}]}';
-               console.log("loading static library -----> "+exampleLib);
-               response=exampleLib;
-           }
-        });
-        return response;
 }

@@ -180,6 +180,7 @@ function CLDLink(graph) {
                                 controlPoints[1].y = cpPoint.y;
                                 that.pathElement.attr("d", lineFunction(controlPoints));
                                 textRenderingElement.attr("x", cpPoint.x).attr("y", cpPoint.y);
+                                that.updateElement();
                             })
                             .on("dragend", function(d) {
                                 that.updateElement();
@@ -299,7 +300,7 @@ function CLDLink(graph) {
         var selectedNode = that.rootElement.node(),
             nodeContainer = selectedNode.parentNode;
         nodeContainer.appendChild(selectedNode);
-
+        console.log("Mouse Hover over link , Dynamic Link Width"+dynamicLinkWidth);
         if (dynamicLinkWidth==false) {
             if (that.getSelectionStatus() === true) {
                 that.pathElement.classed("cldLinkHovered",          false);
@@ -311,8 +312,9 @@ function CLDLink(graph) {
                 that.pathElement.classed("cldLinkHovered",          true);
 
             }
-            var newX = endPos[0] - linkDir[0] * 10;
-            var newY = endPos[1] - linkDir[1] * 10;
+            controlPoints=calculateMultiLinkPath(startPoint, endPoint, cpPoint, true);
+            that.pathElement.attr("d", lineFunction(controlPoints));
+
         }else { // experimental code;
             // if (that.getSelectionStatus() === true) {
             //     that.pathElement.classed("cldLinkSelected", false);
@@ -360,6 +362,8 @@ function CLDLink(graph) {
                 that.pathElement.classed("cldLinkSelectedHovered", false);
                 that.pathElement.classed("cldLinkHovered", false);
             }
+            controlPoints=calculateMultiLinkPath(startPoint, endPoint, cpPoint, false);
+            that.pathElement.attr("d", lineFunction(controlPoints));
         }
         // }else{
         //     if (that.getSelectionStatus() === true) {

@@ -60,15 +60,15 @@ var example;
 
         // create an example widget;
         // keep it for debugging purpose.
-          example = new ExampleWidget(initializer);
-         example.setTabTitle("Example B");
-         example.setupGuiElements(initializer.getNavigationObject(),
-                                  initializer.getTabsObject(),
-                                  initializer.getCanvasArea(),
-                                  initializer.getOptionsArea() );
-         example.forceGraphCssStyle("exampleA");
-         example.setCommunicationModule(com);
-
+        //   example = new ExampleWidget(initializer);
+        //  example.setTabTitle("Example B");
+        //  example.setupGuiElements(initializer.getNavigationObject(),
+        //                           initializer.getTabsObject(),
+        //                           initializer.getCanvasArea(),
+        //                           initializer.getOptionsArea() );
+        //  example.forceGraphCssStyle("exampleA");
+        //  example.setCommunicationModule(com);
+        //
 
         // widget generation
         gtw= new GTWidget(initializer);
@@ -105,7 +105,7 @@ var example;
         sfd.requestAction(action);
 
         // adding to widget list
-        widgetList.push(example);
+    //    widgetList.push(example);
         widgetList.push(gtw);
         widgetList.push(cld);
         widgetList.push(sfd);
@@ -113,15 +113,10 @@ var example;
         loadCausalLoopDiagramToolbar(cld);
         loadGoalTreeDiagram(gtw);
         //sfd.setupNode();
-
-
         // set default tab
         //gtw.widgetIsActivated();
-        example.widgetIsActivated();
-        //cld.widgetIsActivated();
-
-
-
+      //  example.widgetIsActivated();
+        gtw.widgetIsActivated();
     };
 
     initializer.initializeWidgets();
