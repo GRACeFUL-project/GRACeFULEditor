@@ -8,14 +8,16 @@ function CLDControls(parentWidget) {
     var selectionNode,lineEditNode,commentNode;
     var linkClass, causalSelection,commentLink;
     var getClassValues = [undefined];
-    var cldChip, delNodeBtn, delLinkBtn, extFactorBtn, loopBtn, loadcld, saveCld, libCld, sendCld;
+    var cldChip, cldChipImage, cldChipNode,  delNodeBtn, delLinkBtn, extFactorBtn, loopBtn, loadcld, saveCld, libCld, sendCld;
 
 
     this.generateControls=function() {
         // testing stuff,
         nodesGroup = that.createAccordionGroup(that.divControlsGroupNode, "Nodes");
 
-        cldChip=that.addNodeTypeChip(nodesGroup,"Enter Node Name","#fafafa",that.deleteNodes,"cldChipField");
+        cldChipNode=that.addNodeTypeChip(nodesGroup,"Enter Node Name","#fafafa",that.deleteNodes,"cldChipField",true,"undefined");
+        cldChip = cldChipNode[0];
+        
         // lineEditNode = that.addLineEdit(nodesGroup, "Name", "", true, that.onChangeNodeName);
         selectionNode = that.addSelectionOpts(nodesGroup, "Class type", ["Undefined", "Factor", "Action", "Criteria", "External Factor"], that.onChangeNodeType);
         var hideClass = selectionNode.node().options[selectionNode.node().length - 1];

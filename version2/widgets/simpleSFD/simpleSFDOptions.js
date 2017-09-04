@@ -12,6 +12,8 @@ function SimpleSFDControls(parentWidget) {
     var solverLineEdit;
     var nodeClass,nodeLabel;
 
+    var sfdChip ,sfdChipNode, sfdChipImage, clearSFD, loadSFD, saveSFD, reqSFD, submitSFD;
+
     this.onChangeEmpty=function(x){
         // empty function does not do anything, used for debuging
         console.log("changing something"+x)
@@ -185,7 +187,6 @@ function SimpleSFDControls(parentWidget) {
         // testing stuff,
 
           // controls menu;
-          var clearSFD, loadSFD, saveSFD, reqSFD, submitSFD;
           // var tempIcon = document.createElement('i');
 
           controlsMenu= that.createAccordionGroup(that.divControlsGroupNode, "Controls");
@@ -220,10 +221,14 @@ function SimpleSFDControls(parentWidget) {
           that.enableHUD(false);
 
 
-          nodeGroup=that.createAccordionGroup(that.divControlsGroupNode,"Node Types");
+          nodeGroup=that.createAccordionGroup(that.divControlsGroupNode,"Stock Flow Node Types");
        //   nodeSelGroup= that.addSelectionOpts(nodeGroup, "Node type", ["Undefined", "A", "B"], that.onChangeNodeType);
           nodeClass=that.addLabel(nodeGroup,"Class","nodesClass");
           nodeLabel=that.addLineEdit(nodeGroup,"Name","nodesName",false, that.changeNodesName);
+
+          sfdChipNode=that.addNodeTypeChip(nodeGroup,"Rain","#fafafa",that.onSFDNodeDelete,"sfdChipField",false,"./data/img/rain.png");
+          sfdChip=sfdChipNode[0];
+          sfdChipImage=sfdChipNode[1];
 
           parameterTable=that.addTable(nodeGroup,"Parameters",["name","type","value"]);
           // that.addParameterRow(parameterTable,["a","b","c"]);
@@ -238,15 +243,15 @@ function SimpleSFDControls(parentWidget) {
     this.start();
 
 
+    this.onSFDNodeDelete=function(){
 
-
+    }
 
     this.handleNodeSelection=function(node){
         // should be overwritten by the real options thing
 
-
         if (node === undefined || node === null) {
-            nodeGroup.collapseBody();
+            // nodeGroup.collapseBody();
             return;
         }
         console.log("node type "+ node.getElementType());
@@ -262,9 +267,10 @@ function SimpleSFDControls(parentWidget) {
             // set the proper parameters
             var pref=nodeClass.attr("prefix");
             nodeClass.node().innerHTML=pref+": "+node.getNodeName();
-            nodeLabel.node().value = that.selectedNode.label;
-            nodeLabel.node().disabled = false;
-
+            // nodeLabel.node().value = that.selectedNode.label;
+            // nodeLabel.node().disabled = false;
+            sfdChip.innerHTML=that.selectedNode.label;
+            sfdChipImage.setAttribute('src',that.selectedNode.getImageURL());
 
             // parameter table createtion
             var rows=parameterTable.node().rows;

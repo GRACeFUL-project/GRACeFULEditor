@@ -7,12 +7,13 @@ function GTControls(parentWidget) {
     // tells the graph which widget it talks to
     this.parent=parentWidget;
 
-    var goalchip, goalsGroup, goalName, goalType, goalComment, delGoal, criteriaUnit, additionalSettings, loadcld, saveCld;
+    var goalchip, goalimage, goalChipNode, goalsGroup, goalName, goalType, goalComment, delGoal, criteriaUnit, additionalSettings, loadcld, saveCld;
 
     this.generateControls=function(){
         goalsGroup = that.createAccordionGroup(that.divControlsGroupNode, "Goal");
         // goal Chip for the goalNames
-        goalchip=that.addNodeTypeChip(goalsGroup,"Enter Node Name","#fafafa",that.onDeleteGoal,"gtChipField");
+        goalchipNode=that.addNodeTypeChip(goalsGroup,"Enter Node Name","#fafafa",that.onDeleteGoal,"gtChipField",true,"undefined");
+        goalchip = goalchipNode[0];
 
         // goalName = that.addLineEdit(goalsGroup, "Name", "", true, that.onChangeGoalName);
         // d3.select(goalName.node()).attr("placeholder" , "Enter Node name");
