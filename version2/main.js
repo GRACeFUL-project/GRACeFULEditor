@@ -140,7 +140,7 @@ function setDivActive(id){
 
 function clearAllDivCLD()
 {
-  document.getElementById("cld"+0).style.backgroundColor="white";
+  // document.getElementById("cld"+0).style.backgroundColor="white";
   document.getElementById("cld"+1).style.backgroundColor="white";
   document.getElementById("cld"+2).style.backgroundColor="white";
   document.getElementById("cld"+3).style.backgroundColor="white";
@@ -156,7 +156,7 @@ function setDivActiveCLD(id){
 
 function clearAllDivGTW()
 {
-  document.getElementById("gt"+0).style.backgroundColor="white";
+  // document.getElementById("gt"+0).style.backgroundColor="white";
   document.getElementById("gt"+1).style.backgroundColor="white";
   document.getElementById("gt"+2).style.backgroundColor="white";
   document.getElementById("gt"+3).style.backgroundColor="white";
@@ -189,6 +189,9 @@ function getGracefulConceptMapToolbar(){
                response=request.responseText;
                loadWidgetItems(request.responseText);
                setDivActive(0);
+              //  TODO:they go in their own dynamic library function .. Temp
+               setDivActiveGTW("1");
+               setDivActiveCLD("1");
                sfdRef.setupNode(0);
 
            }

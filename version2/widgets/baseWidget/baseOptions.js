@@ -69,6 +69,76 @@ function BaseControls(parentWidget) {
 
     };
 
+    this.addNodeTypeChip=function(parent,label,icon,deleteGoal,id){
+      var thisDiv=document.createElement('span');
+      parent.getBody().node().appendChild(thisDiv);
+
+      d3.select(thisDiv).classed("mdl-chip mdl-chip--contact mdl-chip--deletable", true);
+
+      icon = "http://www.clker.com/cliparts/p/0/L/e/j/B/red-circle-solid-hi.png";
+
+      var image=document.createElement('img');
+      thisDiv.appendChild(image);
+      image.setAttribute('src',icon);
+      d3.select(image).classed("mdl-chip__contact",true);
+
+      var text=document.createElement('span');
+      thisDiv.appendChild(text);
+      text.innerHTML=label;
+      text.setAttribute('contentEditable',true);
+      text.setAttribute('id',id);
+      d3.select(text).classed("mdl-chip__text",true);
+
+      // bind deleteFunction with delete of Chip
+      $("#"+id).bind('dblclick',function() {
+
+        $("#"+id).keydown(function(){
+          if(event.keyCode==13){
+            console.log("In key code ENTER ENTER");
+            // change the text of the node here ..
+            that.selectedNode.clearDisplayLabelText();
+            that.selectedNode.setDisplayLabelText(text.innerHTML);
+
+            that.selectedNode.clearLabelText();
+            that.selectedNode.setLabelText(text.innerHTML);
+
+            this.blur();
+            event.preventDefault();
+          }
+        })
+
+      }).blur(
+        function(){
+        }
+      );
+
+      var link=document.createElement('a');
+      thisDiv.appendChild(link);
+      d3.select(link).on("click", function() {
+          deleteGoal();
+      });
+      d3.select(link).classed('mdl-chip__action',true);
+
+      var deleteIcon=document.createElement('i');
+      link.appendChild(deleteIcon);
+      deleteIcon.innerHTML="cancel";
+      d3.select(deleteIcon).classed("material-icons",true);
+
+      var breakElement=document.createElement('br');
+      parent.getBody().node().appendChild(breakElement);
+      d3.select(breakElement).classed("separator",true);
+
+      return text;
+    }
+
+    this.addSelectType=function(parent, label, options ){
+      var thisDiv=document.createElement('div');
+      parent.getBody().node().appendChild(thisDiv);
+
+      d3.select(thisDiv).classed("",true);
+
+    };
+
     this.addLineEdit=function(parent,label,defaultText,enabled,onChangeFunction){
         var timeStampInMs = window.performance && window.performance.now && window.performance.timing && window.performance.timing.navigationStart ? window.performance.now() + window.performance.timing.navigationStart : Date.now();
 
@@ -110,7 +180,7 @@ function BaseControls(parentWidget) {
         var button = document.createElement('button');
         button.type = "button";
         button.id = btnId;
-        button.class = "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect";
+        button.class = "mdl-cell mdl-cell--1-col";
         button.innerHTML = label;
         thisDiv.appendChild(button);
 
@@ -118,6 +188,50 @@ function BaseControls(parentWidget) {
             onClickFunction();
         });
     };
+
+    this.addButton = function(parent, text, btnId, onClickFunction, btnType, btnIcon, btnIconType )
+    {
+      //by default raised button type
+      var buttonClass="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent";
+
+      if( btnType == "flat")
+        buttonClass="mdl-button mdl-js-button mdl-js-ripple-effec" ;
+      else if( btnType == "fab" )
+        buttonClass="mdl-button mdl-js-button mdl-button--fab mdl-button--colored";
+
+
+      // Create Parent Div with Correct Grid Layout in the GRID
+      var buttonMainDiv = document.createElement('div');
+        parent.appendChild(buttonMainDiv);
+        d3.select(buttonMainDiv).classed("mdl-cell mdl-cell--12-col",true);
+
+      // adding button to the dom element
+      var button = document.createElement('button');
+      parent.appendChild(button);
+      d3.select(button).classed(buttonClass+" mdl-cell mdl-cell--12-col",true);
+
+      // adding Icon to the button if required
+      if(btnIcon==true)
+      {
+        var icon = document.createElement('i');
+        d3.select(icon).classed("material-icons",true);
+        icon.innerHTML=btnIconType;
+        button.appendChild(icon);
+      }
+
+
+      // add label text
+      var label = document.createElement('span');
+      label.innerHTML=text;
+      button.appendChild(label);
+
+      buttonMainDiv.appendChild(button);
+
+      d3.select(button).on("click", function() {
+          onClickFunction();
+      });
+
+    }
 
     this.addHrefButton = function(parent, label, onClickFunction,ownDiv) {
         var thisDiv=undefined;

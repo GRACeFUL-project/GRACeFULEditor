@@ -119,6 +119,7 @@ function GTNode(graph) {
             });
     };
 
+
     this.onMouseOver=function(){
         if (that.mouseEnteredFunc() || that.editingTextElement===true) {
             return;
@@ -148,6 +149,7 @@ function GTNode(graph) {
         that.criteriaUnit = text;
         console.log("the unit is:"+ text);
     }
+
 }
 
 

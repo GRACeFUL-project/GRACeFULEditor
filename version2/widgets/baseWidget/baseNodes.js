@@ -113,6 +113,7 @@ function BaseNode(graph) {
     };
 
      this.clearLabelText=function(){
+        this.toolTipElement.text("");
      };
 
     this.setDisplayLabelText=function(val){
@@ -124,6 +125,7 @@ function BaseNode(graph) {
     };
 
     this.clearDisplayLabelText=function(){
+      this.labelRenderingElement.text("");
     };
 
     this.setPosition=function(x,y){
@@ -268,9 +270,6 @@ function BaseNode(graph) {
         // console.log("--------------------------number of assosiated links "+assosiatedLinks.length);
 
 
-
-
-
        // d3.event.stopPropagation();
         if (that.getNodeObjectType()===that.GRAPH_OBJECT_NODE) {
             if (that.nodeIsFocused === false) {
@@ -362,8 +361,6 @@ function BaseNode(graph) {
             // pseude cklick on the graph
             graph.simulateClickOnGraph();
             console.log(d3.event);
-
-
 
         });
 

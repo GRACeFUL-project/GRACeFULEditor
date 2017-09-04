@@ -165,56 +165,73 @@ function SimpleSFDControls(parentWidget) {
 
 
     this.generateControls=function() {
+
+        // Before Adding the field Add them to separate Field Container..
+        // var fieldDiv=document.createElement('div');
+        // controlsMenu.getBody().node().appendChild(fieldDiv);
+        // d3.select(fieldDiv).classed("mdl-grid",true)
+                          //  .attr("id","fieldGroupSFD");
+
+        // button parameters = parent, text, btnId, onClickFunction, btnType, btnIcon, btnIconType
+        // clearSFD=that.addButton(fieldDiv,"Clear","Clear",that.clearGraph,"raised",true,"mood");
+
+
+        // Before Adding Buttons append them to Butoon Div Container..
+        // var buttonGroup=document.createElement('div');
+        // controlsMenu.getBody().node().appendChild(buttonGroup);
+        // d3.select(buttonGroup).classed("mdl-grid",true)
+        //                       .attr("id","buttonGroupSFD");
+
         // testing stuff,
 
-        // controls menu;
-        var clearSFD, loadSFD, saveSFD, reqSFD, submitSFD;
-        // var tempIcon = document.createElement('i');
+          // controls menu;
+          var clearSFD, loadSFD, saveSFD, reqSFD, submitSFD;
+          // var tempIcon = document.createElement('i');
 
-        controlsMenu= that.createAccordionGroup(that.divControlsGroupNode, "Controls");
-        solverLineEdit=that.addLineEdit(controlsMenu,"SolverAddress","http://localhost:4000",true,that.changeSolverAddress);
-        clearSFD = that.addHrefButton(controlsMenu,"Clear",that.clearGraph,true);
-        clearSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
-        clearSFD.parentNode.setAttribute("id", "sfd_basic");
-        clearSFD.parentNode.setAttribute("class", "form-group col-lg-12");
-
-
-        loadSFD = that.addHrefButton(controlsMenu,"Load",that.loadFunction,true);
-        document.getElementById("sfd_basic").appendChild(loadSFD.parentNode);
-        loadSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
-        loadSFD.parentNode.setAttribute("class", "col-xs-4 text-center");
-
-        saveSFD = that.addHrefButton(controlsMenu,"Save",that.saveFunction,true);
-        document.getElementById("sfd_basic").appendChild(saveSFD.parentNode);
-        saveSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
-        saveSFD.parentNode.setAttribute("class", "col-xs-4");
-
-        reqSFD = that.addHrefButton(controlsMenu,"Get Library",that.serverRequest,true);
-        reqSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
-        reqSFD.parentNode.setAttribute("id", "sfd_basic1");
-        reqSFD.parentNode.setAttribute("class", "form-group col-lg-12");
-
-        submitSFD = that.addHrefButton(controlsMenu,"Send Model",that.testSubmitModel,true);
-        document.getElementById("sfd_basic1").appendChild(submitSFD.parentNode);
-        submitSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
-        submitSFD.parentNode.setAttribute("class", "col-xs-6 text-center");
-        that.addCheckBox(controlsMenu,"Show HUD","cb_test1",true,that.enableHUD); // per default enable the hud
-        // execute the default value;
-        that.enableHUD(false);
+          controlsMenu= that.createAccordionGroup(that.divControlsGroupNode, "Controls");
+          solverLineEdit=that.addLineEdit(controlsMenu,"SolverAddress","http://localhost:4000",true,that.changeSolverAddress);
+          clearSFD = that.addHrefButton(controlsMenu,"Clear",that.clearGraph,true);
+          clearSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
+          clearSFD.parentNode.setAttribute("id", "sfd_basic");
+          clearSFD.parentNode.setAttribute("class", "form-group col-lg-12");
 
 
-        nodeGroup=that.createAccordionGroup(that.divControlsGroupNode,"Node Types");
-     //   nodeSelGroup= that.addSelectionOpts(nodeGroup, "Node type", ["Undefined", "A", "B"], that.onChangeNodeType);
-        nodeClass=that.addLabel(nodeGroup,"Class","nodesClass");
-        nodeLabel=that.addLineEdit(nodeGroup,"Name","nodesName",false, that.changeNodesName);
+          loadSFD = that.addHrefButton(controlsMenu,"Load",that.loadFunction,true);
+          document.getElementById("sfd_basic").appendChild(loadSFD.parentNode);
+          loadSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
+          loadSFD.parentNode.setAttribute("class", "col-xs-4 text-center");
 
-        parameterTable=that.addTable(nodeGroup,"Parameters",["name","type","value"]);
-        // that.addParameterRow(parameterTable,["a","b","c"]);
-        // that.addParameterRow(parameterTable,["d","e","f"]);
+          saveSFD = that.addHrefButton(controlsMenu,"Save",that.saveFunction,true);
+          document.getElementById("sfd_basic").appendChild(saveSFD.parentNode);
+          saveSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
+          saveSFD.parentNode.setAttribute("class", "col-xs-4");
 
-        portTable=that.addTable(nodeGroup,"Ports",["name","type","value"]);
-        // that.addParameterRow(portTable,["d","e","f"]);
-        // that.addParameterRow(portTable,["d","e","f"]);
+          reqSFD = that.addHrefButton(controlsMenu,"Get Library",that.serverRequest,true);
+          reqSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
+          reqSFD.parentNode.setAttribute("id", "sfd_basic1");
+          reqSFD.parentNode.setAttribute("class", "form-group col-lg-12");
+
+          submitSFD = that.addHrefButton(controlsMenu,"Send Model",that.testSubmitModel,true);
+          document.getElementById("sfd_basic1").appendChild(submitSFD.parentNode);
+          submitSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
+          submitSFD.parentNode.setAttribute("class", "col-xs-6 text-center");
+          // that.addCheckBox(controlsMenu,"Show HUD","cb_test1",true,that.enableHUD); // per default enable the hud
+          // execute the default value;
+          that.enableHUD(false);
+
+
+          nodeGroup=that.createAccordionGroup(that.divControlsGroupNode,"Node Types");
+       //   nodeSelGroup= that.addSelectionOpts(nodeGroup, "Node type", ["Undefined", "A", "B"], that.onChangeNodeType);
+          nodeClass=that.addLabel(nodeGroup,"Class","nodesClass");
+          nodeLabel=that.addLineEdit(nodeGroup,"Name","nodesName",false, that.changeNodesName);
+
+          parameterTable=that.addTable(nodeGroup,"Parameters",["name","type","value"]);
+          // that.addParameterRow(parameterTable,["a","b","c"]);
+          // that.addParameterRow(parameterTable,["d","e","f"]);
+
+          portTable=that.addTable(nodeGroup,"Ports",["name","type","value"]);
+          // that.addParameterRow(portTable,["d","e","f"]);
+          // that.addParameterRow(portTable,["d","e","f"]);
 
     };
 

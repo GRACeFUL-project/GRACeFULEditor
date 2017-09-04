@@ -80,7 +80,6 @@ var example;
         gtw.forceGraphCssStyle("goalTreeGraphStyle");
         gtw.setCommunicationModule(com);
 
-
         cld= new CLDWidget(initializer);
         cld.setTabTitle("Causal Loop Diagram");
         cld.setupGuiElements(initializer.getNavigationObject(),
@@ -89,7 +88,6 @@ var example;
             initializer.getOptionsArea() );
         cld.forceGraphCssStyle("cldGraphStyle");
         cld.setCommunicationModule(com);
-
 
         // create simple sfd widget for testing (copy of example widget
         var sfd= new SimpleSFDWidget(initializer);
@@ -119,7 +117,7 @@ var example;
 
         // set default tab
         //gtw.widgetIsActivated();
-        sfd.widgetIsActivated();
+        example.widgetIsActivated();
         //cld.widgetIsActivated();
 
 
