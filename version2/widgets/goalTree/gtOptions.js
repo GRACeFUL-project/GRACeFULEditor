@@ -7,19 +7,22 @@ function GTControls(parentWidget) {
     // tells the graph which widget it talks to
     this.parent=parentWidget;
 
-    var goalsGroup, goalName, goalType, goalComment, delGoal, criteriaUnit, additionalSettings, loadcld, saveCld;
+    var goalchip, goalsGroup, goalName, goalType, goalComment, delGoal, criteriaUnit, additionalSettings, loadcld, saveCld;
 
     this.generateControls=function(){
-        goalsGroup = that.createAccordionGroup(that.divControlsGroupNode, "Goals");
-        goalName = that.addLineEdit(goalsGroup, "Name", "", true, that.onChangeGoalName);
-        d3.select(goalName.node()).attr("placeholder" , "Enter Node name");
+        goalsGroup = that.createAccordionGroup(that.divControlsGroupNode, "Goal");
+        // goal Chip for the goalNames
+        goalchip=that.addNodeTypeChip(goalsGroup,"Enter Node Name","#fafafa",that.onDeleteGoal,"gtChipField");
+
+        // goalName = that.addLineEdit(goalsGroup, "Name", "", true, that.onChangeGoalName);
+        // d3.select(goalName.node()).attr("placeholder" , "Enter Node name");
         goalType = that.addSelectionOpts(goalsGroup, "Type", ["Undefined", "Goal", "Sub Goal", "Criteria"], that.onChangeGoalType);
         goalComment = that.addTextEdit(goalsGroup, "Comments", "", true, that.onChangeGoalComment);
         //TODO: form fields when the goal type = criteria
         criteriaUnit = that.addLineEdit(goalsGroup, "Unit", "", true, that.onChangeUnit);
         d3.select(criteriaUnit.node().parentNode).classed("hidden", true);
 
-        delGoal = that.addButtons(goalsGroup, "Delete", "goalDelete", that.onDeleteGoal);
+        // delGoal = that.addButtons(goalsGroup, "Delete", "goalDelete", that.onDeleteGoal);
 
         additionalSettings = that.createAccordionGroup(that.divControlsGroupNode, "Settings");
         loadcld = that.addHrefButton(additionalSettings,"Load",that.loadFunction,true);
@@ -43,8 +46,10 @@ function GTControls(parentWidget) {
         if (node.getElementType()==="NodeElement") {
             goalsGroup.expandBody();
 
-            goalName.node().value = that.selectedNode.label;
-            goalName.node().disabled = false;
+            // goalName.node().value = that.selectedNode.label;
+            // goal Chip for The goalNames
+            goalchip.innerHTML=that.selectedNode.label;
+            // goalName.node().disabled = false;
             goalComment.node().disabled = false;
             goalComment.node().value = that.selectedNode.hoverText;
             criteriaUnit.node().value = that.selectedNode.criteriaUnit;
@@ -72,6 +77,7 @@ function GTControls(parentWidget) {
       // change the value of the tooltip.
       that.selectedNode.clearLabelText();
       that.selectedNode.setLabelText(goalName.node().value);
+
     }
 
     this.onChangeGoalType = function(selectionContainer) {
@@ -93,6 +99,8 @@ function GTControls(parentWidget) {
     this.onDeleteGoal = function() {
         that.parent.nodeDeletion(that.selectedNode);
         that.selectedNode = null;
+        goalsGroup.collapseBody();
+
     };
 
     this.onChangeUnit =function() {

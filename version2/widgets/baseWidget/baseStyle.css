@@ -5,6 +5,24 @@
     color: white;
 }
 
+.chipField{
+    display: block;
+    z-index: 9999;
+    height: 8px;
+    width: 40px;
+}
+
+.separator{
+  line-height: 4;
+}
+
+.chipFieldActive{
+  display: block;
+  z-index: 9999;
+  height: 12px;
+  width: 180px;
+}
+
 svg.text{
   fill: white;
 }

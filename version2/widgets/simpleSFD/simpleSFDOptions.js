@@ -213,6 +213,22 @@ function SimpleSFDControls(parentWidget) {
 
 
     this.generateControls=function() {
+        // Before Adding the field Add them to separate Field Container..
+        // var fieldDiv=document.createElement('div');
+        // controlsMenu.getBody().node().appendChild(fieldDiv);
+        // d3.select(fieldDiv).classed("mdl-grid",true)
+                          //  .attr("id","fieldGroupSFD");
+
+        // button parameters = parent, text, btnId, onClickFunction, btnType, btnIcon, btnIconType
+        // clearSFD=that.addButton(fieldDiv,"Clear","Clear",that.clearGraph,"raised",true,"mood");
+
+
+        // Before Adding Buttons append them to Butoon Div Container..
+        // var buttonGroup=document.createElement('div');
+        // controlsMenu.getBody().node().appendChild(buttonGroup);
+        // d3.select(buttonGroup).classed("mdl-grid",true)
+        //                       .attr("id","buttonGroupSFD");
+
         // testing stuff,
 
         // controls menu;
@@ -279,7 +295,6 @@ function SimpleSFDControls(parentWidget) {
         portTable=that.addTable(nodeGroup,"Ports",["name","type","value"]);
         // that.addParameterRow(portTable,["d","e","f"]);
         // that.addParameterRow(portTable,["d","e","f"]);
-
     };
 
     this.start();

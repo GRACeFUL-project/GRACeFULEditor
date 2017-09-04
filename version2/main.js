@@ -184,10 +184,10 @@ function setDivActive(id){
     sfdRef.setupNode(id);
 }
 
-function clearAllDivCLD(){
-    var numElements=4;
-    for (var i=0;i<numElements;i++){
-        document.getElementById("cld" + i).style.backgroundColor="white";
+function clearAllDivCLD() {
+    var numElements = 4;
+    for (var i = 1; i < numElements; i++) {
+        document.getElementById("cld" + i).style.backgroundColor = "white";
     }
 }
 
@@ -199,7 +199,7 @@ function setDivActiveCLD(id){
 
 function clearAllDivGTW() {
     var numElements = 4;
-    for (var i = 0; i < numElements; i++) {
+    for (var i = 1; i < numElements; i++) {
         document.getElementById("gt" + i).style.backgroundColor = "white";
     }
 }
@@ -217,7 +217,7 @@ function setDivActiveGTW(id){
 function getGracefulConceptMapToolbar(){
     var solverAddress="http://vocol.iais.fraunhofer.de/graceful-rat";
     var response="";
-    console.log("requesting an action asdasdqweasd that talks with docker ");
+    console.log("requesting an action that talks with docker ");
     // docker image name
     var get_requestAddress=solverAddress+"/library/crud";
     console.log("address :"+get_requestAddress);
@@ -240,4 +240,5 @@ function getGracefulConceptMapToolbar(){
     }// end xhr request function
     ); // end d3.xhr call
     return response;
+
 }

@@ -104,6 +104,17 @@ function ExampleControls(parentWidget) {
 
     this.generateControls=function() {
         // testing stuff,
+        nodeGroup=that.createAccordionGroup(that.divControlsGroupNode,"Node Detail");
+        that.addNodeTypeChip(nodeGroup,"JHON SNOW JHON","adsa","goalTree");
+        nodeSelGroup= that.addSelectionOpts(nodeGroup, "Node type", ["Undefined", "A", "B"], that.onChangeNodeType);
+
+
+        optionsGroup= that.createAccordionGroup(that.divControlsGroupNode, "Controls");
+        that.addHrefButton(optionsGroup,"Load",that.loadFunction,true);
+        that.addHrefButton(optionsGroup,"Save",that.saveFunction,true);
+        that.addHrefButton(optionsGroup,"Get Lib",that.serverRequest,true);
+        that.addHrefButton(optionsGroup,"Send ",that.testSubmitModel,true);
+
         generationTest= that.createAccordionGroup(that.divControlsGroupNode, "GenerationTests");
         that.addSelectionOpts(generationTest, "Selection Tests", ["A", "B", "C", "D"], that.onChangeEmpty);
         that.addLineEdit(generationTest, "LineEdint", "", true, that.onChangeEmpty);
@@ -112,17 +123,9 @@ function ExampleControls(parentWidget) {
         that.addCheckBox(generationTest,"CheckBox Test","cb_test1",true,that.onChangeEmpty);
         that.addHrefButton(generationTest,"HrefButton",that.loadFunction,false);
 
-        optionsGroup= that.createAccordionGroup(that.divControlsGroupNode, "Load/Save");
-        that.addHrefButton(optionsGroup,"Load",that.loadFunction,true);
-        that.addHrefButton(optionsGroup,"Save",that.saveFunction,true);
-        that.addHrefButton(optionsGroup,"Get Lib",that.serverRequest,true);
-        that.addHrefButton(optionsGroup,"Send ",that.testSubmitModel,true);
+
         generationTest.collapseBody();
 
-
-        nodeGroup=that.createAccordionGroup(that.divControlsGroupNode,"Node Types");
-        nodeSelGroup= that.addSelectionOpts(nodeGroup, "Node type", ["Undefined", "A", "B"], that.onChangeNodeType);
-        that.addCheckBox(nodeGroup,"Show HUD","cb_test1",false,that.enableHUD);
     };
 
     this.start();

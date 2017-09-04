@@ -1,0 +1,96 @@
+{
+"library" :[
+  {
+    "name": "rain",
+    "parameters": [
+      { "name": "amount", "type" : "Float"}
+    ],
+    "interface" :[
+      {
+        "name" : "rainfall",
+        "type" : "Port (Float)",
+        "description": "Amount Of Rain",
+        "imgURL": "./data/interfaces/rainfall.png",
+        "rotation" : false,
+        "outgoingType" :"MULTIPLE",
+        "incomingType" :"NONE"
+      }
+    ],
+    "imgURL"      : "./data/svg/rain.svg",
+    "description" : "This is Rain", 
+    "type"        : "SINGLE"
+  },
+
+  {
+    "name": "pump",
+    "parameters":[
+      {"name":"capacity","type":"Float"}
+    ],
+    "interface":[
+      {
+        "name": "inflow",
+        "type": "Port (Float)",
+        "description": "Incoming Flow",
+        "imgURL": "./data/interfaces/inflow.png",
+        "rotation": true,
+        "outgoingType": "NONE",
+        "incomingType": "SINGLE"
+      },
+      {
+        "name": "outflow",
+        "type": "Port (Float)",
+        "description": "Outgoing Flow",
+        "imgURL": "./data/interfaces/inflow.png",
+        "rotation": true,
+        "outgoingType": "SINGLE",
+        "incomingType": "NONE"
+      }
+    ],
+    "imgURL"      : "./data/svg/pump.svg",
+    "description" : "This is a pump",
+    "type"        : "INTERLINK"
+  },
+
+  { "name": "runoff area",
+
+    "parameters":[
+      {"name":"storage capacity","type":"Float"}
+    ],
+    "interface":[
+      {
+        "name": "inflow",
+        "type": "Port (Float)",
+        "description": "Incoming Flow",
+        "imgURL": "./data/interfaces/inflow.png",
+        "rotation": true,
+        "outgoingType": "NONE",
+        "incomingType": "SINGLE"
+      },
+      {
+        "name": "outlet",
+        "type": "Port (Float)",
+        "description": "Outlet Description",
+        "imgURL": "./data/interfaces/outlet.png",
+        "rotation": false,
+        "outgoingType": "SINGLE",
+        "incomingType": "NONE"
+      },
+      {
+        "name": "overflow",
+        "type": "Port (Float)",
+        "description": "Overflow Description",
+        "imgURL": "./data/interfaces/overflow.png",
+        "rotation": false,
+        "outgoingType": "SINGLE",
+        "incomingType": "NONE"
+      }
+    ],
+    "imgURL"      : "./data/img/runOffArea.png",
+    "description" : "This is RUN off Area",
+    "type"        : "SINGLE"
+  }
+
+
+],
+"name" : "CRUD RAT Example"
+}
