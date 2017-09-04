@@ -79,6 +79,11 @@ function SimplePortNode(parent,portDesc) {
        // console.log("parsing port Description");
         imageUrl=portdesc.imgURL;
         hoverText=portdesc.hoverText;
+        if ( portdesc.hoverText===undefined) {
+            hoverText=portdesc.description;
+        }
+
+
         name=portdesc.name;
         portTYPE=portdesc.type;
 
@@ -161,6 +166,7 @@ function SimplePortNode(parent,portDesc) {
 
         nodeRoot.on("mouseover", function () {onImageHover() ;});
         nodeRoot.on("mouseout" , function () {outImageHover();});
+        console.log("adding hover Text"+hoverText);
         nodeRoot.append("title").text(hoverText);
         nodeRoot.on("click", onClicked);
     };

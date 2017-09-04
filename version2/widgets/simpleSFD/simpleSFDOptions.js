@@ -32,7 +32,7 @@ function SimpleSFDControls(parentWidget) {
         hidden_solutionInput.placeholder="load a json File";
         hidden_solutionInput.setAttribute("class", "inputPath");
         // hidden_solutionInput.style.display="none";
-        optionsGroup.getBody().node().appendChild(hidden_solutionInput);
+        controlsMenu.getBody().node().appendChild(hidden_solutionInput);
         var loaderSolutionPathNode=d3.select("#HIDDEN_SOLUTION_JSON_INPUT");
         var fileElement;
         var fileName;
@@ -84,6 +84,54 @@ function SimpleSFDControls(parentWidget) {
         action.task="SERVER_REQUEST";
         action.requestType="GET_LIBRARY"; // testing purpose
         that.parent.requestAction(action);
+    };
+
+    this. loadLibraryFromJSON=function(){
+      console.log("Button Requesting a load function");
+        console.log("loading was pressed");
+        // create a temporary file loader
+        var hidden_solutionInput=document.createElement('input');
+        hidden_solutionInput.id="HIDDEN_SOLUTION_JSON_INPUT";
+        hidden_solutionInput.type="file";
+        //hidden_solutionInput.style.display="none";
+        hidden_solutionInput.autocomplete="off";
+        hidden_solutionInput.placeholder="load a json File";
+        hidden_solutionInput.setAttribute("class", "inputPath");
+        // hidden_solutionInput.style.display="none";
+        controlsMenu.getBody().node().appendChild(hidden_solutionInput);
+        var loaderSolutionPathNode=d3.select("#HIDDEN_SOLUTION_JSON_INPUT");
+        var fileElement;
+        var fileName;
+        var readText;
+        // simulate click event;
+        console.log("hidden thing is clicked");
+        hidden_solutionInput.click();
+        loaderSolutionPathNode.remove(loaderSolutionPathNode);
+        // tell what to do when clicked
+        loaderSolutionPathNode.on("change",function(){
+            console.log("hidden thing is clicked");
+            var files= loaderSolutionPathNode.property("files");
+            if (files.length>0){
+                console.log("file?"+files[0].name);
+                fileElement=files[0];
+                fileName=fileElement.name;
+                loaderSolutionPathNode.remove();
+
+                // read this file;
+                var reader = new FileReader();
+                reader.readAsText(fileElement);
+                reader.onload = function () {
+                    readText = reader.result;
+                    // the the communication module about this
+                    var action={};
+                    action.task="ACTION_LOAD_LIBRARY";
+                    action.data=readText;
+                    that.parent.requestAction(action);
+                    // kill the action object;
+                    action=null;
+                };
+            }
+        });
     };
 
     this.testSubmitModel=function(){
@@ -168,23 +216,31 @@ function SimpleSFDControls(parentWidget) {
         // testing stuff,
 
         // controls menu;
-        var clearSFD, loadSFD, saveSFD, reqSFD, submitSFD;
+        var clearSFD, loadSFD, saveSFD, reqSFD, submitSFD, reqLoadLIB;
         // var tempIcon = document.createElement('i');
 
         controlsMenu= that.createAccordionGroup(that.divControlsGroupNode, "Controls");
         solverLineEdit=that.addLineEdit(controlsMenu,"SolverAddress","http://localhost:4000",true,that.changeSolverAddress);
-        clearSFD = that.addHrefButton(controlsMenu,"Clear",that.clearGraph,true);
+
+        //@ Rohan could you realign the buttons?
+        // something like this:
+        // -----------------------------------------------
+        // Load Model, Save Model, Send Model
+        // Load Library, Get Library, Clear Graph
+        // -----------------------------------------------
+
+        clearSFD = that.addHrefButton(controlsMenu,"Clear Graph",that.clearGraph,true);
         clearSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
         clearSFD.parentNode.setAttribute("id", "sfd_basic");
         clearSFD.parentNode.setAttribute("class", "form-group col-lg-12");
 
 
-        loadSFD = that.addHrefButton(controlsMenu,"Load",that.loadFunction,true);
+        loadSFD = that.addHrefButton(controlsMenu,"Load Model",that.loadFunction,true);
         document.getElementById("sfd_basic").appendChild(loadSFD.parentNode);
         loadSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
         loadSFD.parentNode.setAttribute("class", "col-xs-4 text-center");
 
-        saveSFD = that.addHrefButton(controlsMenu,"Save",that.saveFunction,true);
+        saveSFD = that.addHrefButton(controlsMenu,"Save Model",that.saveFunction,true);
         document.getElementById("sfd_basic").appendChild(saveSFD.parentNode);
         saveSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
         saveSFD.parentNode.setAttribute("class", "col-xs-4");
@@ -194,11 +250,19 @@ function SimpleSFDControls(parentWidget) {
         reqSFD.parentNode.setAttribute("id", "sfd_basic1");
         reqSFD.parentNode.setAttribute("class", "form-group col-lg-12");
 
+
+        // @ Rohan : could you realign the Buttons?
+        reqLoadLIB = that.addHrefButton(controlsMenu,"load Library",that.loadLibraryFromJSON,true);
+        reqLoadLIB.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
+        reqLoadLIB.parentNode.setAttribute("id", "sfd_basic1");
+        reqLoadLIB.parentNode.setAttribute("class", "form-group col-lg-12");
+
+
         submitSFD = that.addHrefButton(controlsMenu,"Send Model",that.testSubmitModel,true);
         document.getElementById("sfd_basic1").appendChild(submitSFD.parentNode);
         submitSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
         submitSFD.parentNode.setAttribute("class", "col-xs-6 text-center");
-        that.addCheckBox(controlsMenu,"Show HUD","cb_test1",true,that.enableHUD); // per default enable the hud
+ //       that.addCheckBox(controlsMenu,"Show HUD","cb_test1",true,that.enableHUD); // per default enable the hud
         // execute the default value;
         that.enableHUD(false);
 

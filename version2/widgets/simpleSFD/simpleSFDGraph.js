@@ -612,6 +612,67 @@ function SimpleSFDGraph(){
     };
 
 
+    this.clearWidgetsElements=function(){
+        inputClasses=[];
+    };
+
+    this.paseLoadedLibrary=function(jsonObj){
+        // clear the input classes
+        inputClasses=[];
+        if (!jsonObj){
+            console.log("Error while parsing json");
+            return false;
+        }
+        var header=jsonObj.header;
+
+        var metaInformation={};
+
+        if (header){
+            // parse some meta Info:
+            metaInformation.title=header.title;
+            metaInformation.comment=header._comment;
+        }else{
+            metaInformation.title="Not presented in file";
+            metaInformation.comment="Not presented in file";
+        }
+        console.log("PARSING DATA");
+
+        var TBOX=jsonObj.library;
+        // for number of objects in TBOX do parsing
+
+
+
+        for (var iA=0;iA<TBOX.length;iA++) {
+
+            // generate nodeDescriptiosn which are then used for initializing the nodes;
+
+            var nodeDescription={};
+
+            var libDisc = TBOX[iA];
+            // get description of the library in terms of nodes and their interfaces
+            // each object is here a node with its values;
+            var nodeName = libDisc.name;
+            //        console.log(libDisc);
+            var imgURL = libDisc.imgURL;
+            var description = libDisc.description;
+            var params = libDisc.parameters; // TODO: parse them and add them to the node object;
+
+            console.log("-----------IN THE NEW LOADED FILE FORMAT--------------------------");
+            console.log("node " + nodeName );
+            console.log("img URL " + imgURL );
+            console.log("hover Text " + description);
+            console.log("params " + params);
+
+            nodeDescription.name=nodeName;
+            nodeDescription.imgUrl=imgURL;
+            nodeDescription.hoverText=description;
+            nodeDescription.params=params;
+            nodeDescription.ports=libDisc.interface;
+            inputClasses.push(nodeDescription);
+        }
+
+    return true;
+    };
 
     this.paseLibrary=function(jsonObj){
         // clear the input classes

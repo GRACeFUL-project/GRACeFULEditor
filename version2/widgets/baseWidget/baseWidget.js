@@ -27,7 +27,7 @@ function BaseWidget(parentElement) {
 
     this.getGraphObject=function(){
       return that.graphObject;
-    }
+    };
 
 
     this.setupGuiElements=function(navigation,tabs,canvas,controls){
@@ -99,8 +99,11 @@ function BaseWidget(parentElement) {
 
 
     this.setTabTitle=function(title){
-      that.tabName=title;
-      // update in the gui;
+        that.tabName=title;
+        // update in the gui;
+        if (that.widgetTabItem) {
+            that.widgetTabItem.innerHTML = title;
+        }
     };
 
 

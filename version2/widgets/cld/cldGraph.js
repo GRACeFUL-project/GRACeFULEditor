@@ -27,7 +27,7 @@ function CLDGraph(){
 
     this.changeNodeType=function(nodeT){
       that.nodeTypeGraph=nodeT;
-    }
+    };
 
     this.createNode=function(parent){
         return new CLDNode(parent);

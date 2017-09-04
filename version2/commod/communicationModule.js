@@ -5,6 +5,7 @@
 
     var ACTION_LOAD_JSON="ACTION_LOAD_JSON";
     var ACTION_SAVE_JSON="ACTION_SAVE_JSON";
+    var ACTION_LOAD_LIBRARY="ACTION_LOAD_LIBRARY";
     var ACTION_REQUEST_MODEL="ACTION_REQUEST_MODEL";
     var SERVER_REQUEST="SERVER_REQUEST";
 
@@ -44,6 +45,11 @@
             if (localAction.task===ACTION_LOAD_JSON){
                 // here we have already the data from the action, so we put this directly to the widget
                 widget.loadJSON(localAction.data);
+            }
+
+            if (localAction.task===ACTION_LOAD_LIBRARY){
+                // here we have already the data from the action, so we put this directly to the widget
+                widget.loadJSON_Library(localAction.data);
             }
 
             if (localAction.task===ACTION_SAVE_JSON){

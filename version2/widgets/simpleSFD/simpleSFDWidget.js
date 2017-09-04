@@ -31,6 +31,24 @@ function SimpleSFDWidget(){
     };
 
 
+    this.loadJSON_Library=function(jsonData){
+        var jsonObj=JSON.parse(jsonData);
+        // get library name and set it;
+        var libName=jsonObj.name;
+        this.setTabTitle("GRACeFUL Concept Map: "+libName);
+        // clear the graph in the  widgets menu;
+
+        var success=that.graphObject.paseLoadedLibrary(jsonObj);
+        if (success) {
+            that.clearGraph();
+            reloadWidgetItems(jsonObj);// this should be able to call since global function
+        }
+
+
+
+
+    };
+
     this.loadLibrary=function(jsonData){
         // loading library;
 
@@ -40,6 +58,8 @@ function SimpleSFDWidget(){
 
         var success=that.graphObject.paseLibrary(jsonObj);
         if (success) {
+            that.clearGraph();
+            reloadWidgetItems(jsonObj);
             that.graphObject.libraryLoaded(true);
             // redraw the hud;
             // TODO: clean it up

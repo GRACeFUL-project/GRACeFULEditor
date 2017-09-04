@@ -39,7 +39,7 @@ function SimpleSFDNode(graph,nodeDescriptions) {
             typesArray.push("baseRoundNode");
             imageUrls.push(m_nodeDescriptions[i].imgUrl);
             portDescriptions.push(m_nodeDescriptions[i].ports);
-          //  console.log(m_nodeDescriptions[i]);
+            console.log(m_nodeDescriptions[i]);
             parametersDescriptions.push(m_nodeDescriptions[i].params);
         }
     };
