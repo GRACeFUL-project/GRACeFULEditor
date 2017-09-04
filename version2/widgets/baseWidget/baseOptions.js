@@ -69,7 +69,7 @@ function BaseControls(parentWidget) {
 
     };
 
-    this.addNodeTypeChip=function(parent,label,icon,deleteGoal,id,editStatus,imgUrl){
+    this.addNodeTypeChip=function(parent,label,icon,deleteGoal,id,editStatus,imgUrl,widgetType,widgetid){
       var thisDiv=document.createElement('span');
       parent.getBody().node().appendChild(thisDiv);
 
@@ -78,6 +78,12 @@ function BaseControls(parentWidget) {
 
       if(label=='rain' || label=='Rain' || label=='pump' || label=='runoff area')
         icon=imgUrl;
+      else if(widgetType=="cld" && widgetid=="1")
+        icon="./images/nodes/factor.png";
+      else if(widgetType=="cld" && widgetid=="2")
+        icon="./images/nodes/action.png";
+      else if(widgetType=="cld" && widgetid=="3")
+        icon="./images/nodes/criteria.png";
       else
         icon = "http://www.clker.com/cliparts/p/0/L/e/j/B/red-circle-solid-hi.png";
 

@@ -115,6 +115,8 @@ function SimpleSFDControls(parentWidget) {
         var strUser = selectionContainer.options[selectionContainer.selectedIndex].value;
         console.log(selectionContainer.selectedIndex+" the user string is "+strUser);
         that.selectedNode.setType(selectionContainer.selectedIndex, strUser);
+
+
     };
 
 
@@ -186,6 +188,23 @@ function SimpleSFDControls(parentWidget) {
 
         // testing stuff,
 
+          nodeGroup=that.createAccordionGroup(that.divControlsGroupNode,"Stock Flow Node Types");
+       //   nodeSelGroup= that.addSelectionOpts(nodeGroup, "Node type", ["Undefined", "A", "B"], that.onChangeNodeType);
+          // nodeClass=that.addLabel(nodeGroup,"Class","nodesClass");
+          // nodeLabel=that.addLineEdit(nodeGroup,"Name","nodesName",false, that.changeNodesName);
+
+          sfdChipNode=that.addNodeTypeChip(nodeGroup,"Rain","#fafafa",that.onSFDNodeDelete,"sfdChipField",false,"./data/img/rain.png","sfd","0");
+          sfdChip=sfdChipNode[0];
+          sfdChipImage=sfdChipNode[1];
+
+          parameterTable=that.addTable(nodeGroup,"Parameters",["name","type","value"]);
+          // that.addParameterRow(parameterTable,["a","b","c"]);
+          // that.addParameterRow(parameterTable,["d","e","f"]);
+
+          portTable=that.addTable(nodeGroup,"Ports",["name","type","value"]);
+          // that.addParameterRow(portTable,["d","e","f"]);
+          // that.addParameterRow(portTable,["d","e","f"]);
+
           // controls menu;
           // var tempIcon = document.createElement('i');
 
@@ -221,23 +240,6 @@ function SimpleSFDControls(parentWidget) {
           that.enableHUD(false);
 
 
-          nodeGroup=that.createAccordionGroup(that.divControlsGroupNode,"Stock Flow Node Types");
-       //   nodeSelGroup= that.addSelectionOpts(nodeGroup, "Node type", ["Undefined", "A", "B"], that.onChangeNodeType);
-          nodeClass=that.addLabel(nodeGroup,"Class","nodesClass");
-          nodeLabel=that.addLineEdit(nodeGroup,"Name","nodesName",false, that.changeNodesName);
-
-          sfdChipNode=that.addNodeTypeChip(nodeGroup,"Rain","#fafafa",that.onSFDNodeDelete,"sfdChipField",false,"./data/img/rain.png");
-          sfdChip=sfdChipNode[0];
-          sfdChipImage=sfdChipNode[1];
-
-          parameterTable=that.addTable(nodeGroup,"Parameters",["name","type","value"]);
-          // that.addParameterRow(parameterTable,["a","b","c"]);
-          // that.addParameterRow(parameterTable,["d","e","f"]);
-
-          portTable=that.addTable(nodeGroup,"Ports",["name","type","value"]);
-          // that.addParameterRow(portTable,["d","e","f"]);
-          // that.addParameterRow(portTable,["d","e","f"]);
-
     };
 
     this.start();
@@ -265,8 +267,8 @@ function SimpleSFDControls(parentWidget) {
             nodeGroup.expandBody();
 
             // set the proper parameters
-            var pref=nodeClass.attr("prefix");
-            nodeClass.node().innerHTML=pref+": "+node.getNodeName();
+            // var pref=nodeClass.attr("prefix");
+            // nodeClass.node().innerHTML=pref+": "+node.getNodeName();
             // nodeLabel.node().value = that.selectedNode.label;
             // nodeLabel.node().disabled = false;
             sfdChip.innerHTML=that.selectedNode.label;

@@ -8,13 +8,29 @@ function CLDNode(graph) {
    // this.parentWidget=parentWidget; // tells the graph which widget it talks to
     BaseNode.apply(this,arguments);
     var nodeClass="baseRoundNode";
-    var selectedTypeId=0;
+    this.selectedTypeId=1;
     this.typeName = undefined;
     var allPossibleClasses=['undefined','nodeOptionA','nodeOptionB','nodeOptionC', 'externalFactors'];
     this.allClasss=['undefined','nodeOptionA','nodeOptionB','nodeOptionC', 'externalFactors'];
 
     this.getTypeId=function(){
-      return selectedTypeId;
+      return that.selectedTypeId;
+    };
+
+    this.setTypeId=function(id){
+      that.selectedTypeId=id;
+    };
+
+    this.getImageURL=function(){
+
+      if(that.selectedTypeId==1)
+        return "./images/nodes/factor.png";
+      else if(that.selectedTypeId==2)
+       return "./images/nodes/action.png";
+      else if(that.selectedTypeId==3)
+       return "./images/nodes/criteria.png";
+
+      console.log("CONSOLE SELECTED TYPE ID IS :"+ that.selectedTypeId);
     };
 
     this.setLabelText=function(val){
@@ -141,7 +157,7 @@ function CLDNode(graph) {
 
 
     this.setType=function(typeId, typeName){
-        selectedTypeId=typeId;
+        that.selectedTypeId=typeId;
         nodeClass=allPossibleClasses[typeId];
         that.typeName = typeName;
         console.log("Node class is"+nodeClass);

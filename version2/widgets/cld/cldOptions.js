@@ -15,9 +15,10 @@ function CLDControls(parentWidget) {
         // testing stuff,
         nodesGroup = that.createAccordionGroup(that.divControlsGroupNode, "Nodes");
 
-        cldChipNode=that.addNodeTypeChip(nodesGroup,"Enter Node Name","#fafafa",that.deleteNodes,"cldChipField",true,"undefined");
+        cldChipNode=that.addNodeTypeChip(nodesGroup,"Enter Node Name","#fafafa",that.deleteNodes,"cldChipField",true,"undefined","cld","1");
         cldChip = cldChipNode[0];
-        
+        cldChipImage=cldChipNode[1];
+
         // lineEditNode = that.addLineEdit(nodesGroup, "Name", "", true, that.onChangeNodeName);
         selectionNode = that.addSelectionOpts(nodesGroup, "Class type", ["Undefined", "Factor", "Action", "Criteria", "External Factor"], that.onChangeNodeType);
         var hideClass = selectionNode.node().options[selectionNode.node().length - 1];
@@ -86,6 +87,8 @@ function CLDControls(parentWidget) {
                 // lineEditNode.node().value = that.selectedNode.label;
                 // lineEditNode.node().disabled = false;
                 cldChip.innerHTML=that.selectedNode.label;
+                cldChipImage.setAttribute('src',that.selectedNode.getImageURL());
+
                 commentNode.node().disabled = false;
                 commentNode.node().value = that.selectedNode.hoverText;
 
