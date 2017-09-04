@@ -204,7 +204,6 @@ function CLDGraph(){
             aLink.target(targetNode);
 
             that.pathElementArray.push(aLink);
-            validateAllPaths();
 
             that.forceRedrawContent();
             // that.parentWidget.handleSelection(aLink);
@@ -213,39 +212,8 @@ function CLDGraph(){
         }
     };
 
-
-    function validateAllPaths(){
-        // simple solution, not fast .. to do make it faster
-        // all links are set to be single link
-        var i, j;
-        for (i=0;i<that.pathElementArray.length;i++){
-            that.pathElementArray[i].setLinkType(0); // 0 means single link;
-        }
-
-
-        for (i=0;i<that.pathElementArray.length;i++){
-            var src=that.pathElementArray[i].sourceNode;
-            var tar=that.pathElementArray[i].targetNode;
-
-            for (j=0;j<that.pathElementArray.length;j++){
-                if (i==j) continue;
-
-                var cmpSrc=that.pathElementArray[j].sourceNode;
-                var cmpTar=that.pathElementArray[j].targetNode;
-
-                if (src===cmpTar && tar===cmpSrc){
-                    // we have a multilink between these two nodes;
-                    that.pathElementArray[i].setLinkType(1);
-                    that.pathElementArray[j].setLinkType(1);
-                }
-            }
-        }
-    }
-
     this.handleLinkDeletion = function(link) {
-        // overwriting this because we have added validate all paths function
         that.pathElementArray.splice(that.pathElementArray.indexOf(link), 1);
-        validateAllPaths();
         that.forceRedrawContent();
         that.removeDeletedElements();
     };
