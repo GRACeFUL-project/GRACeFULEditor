@@ -1,5 +1,13 @@
 function SimplePortNode(parent,portDesc) {
-    // todo: think about a parent widget
+
+    /** CONSTANTS def **/
+    // connection types;
+    var NONE      = "NONE",
+        SINGLE    = "SINGLE",
+        MULTI     = "MULTIPLE",
+        ARBITRARY = "ARBITRARY";
+
+
     /** variable defs **/
     var that = this;
     var radius=10;
@@ -12,6 +20,9 @@ function SimplePortNode(parent,portDesc) {
     var portIsUsed=false;
     var portIdInNode=0;
     var value=0;
+    var rotationEnabled=true;
+    var incomingConnectionTYPE=ARBITRARY;
+    var outgoingConnectionTYPE=ARBITRARY;
     var valueSetFromOutside=false;
     var parentNode=parent;
 
@@ -76,14 +87,28 @@ function SimplePortNode(parent,portDesc) {
     };
 
     function parseDescription(portdesc) {
-       // console.log("parsing port Description");
+        console.log("parsing port Description");
+        console.log(portdesc);
         imageUrl=portdesc.imgURL;
         hoverText=portdesc.hoverText;
         if ( portdesc.hoverText===undefined) {
             hoverText=portdesc.description;
         }
+        if (portdesc.rotation!==undefined){
+            if (portdesc.rotation===true || portdesc.rotation==="true" ) {
+                rotationEnabled = true;
+            }else {
+                rotationEnabled =false;
+            }
+        }
 
-
+        // get the incoming outgoing connection types;
+        if (portdesc.outgoingType) {
+            outgoingConnectionTYPE = portdesc.outgoingType;
+        }
+        if (portdesc.incomingType){
+            incomingConnectionTYPE=portdesc.incomingType;
+        }
         name=portdesc.name;
         portTYPE=portdesc.type;
 
@@ -205,7 +230,7 @@ function SimplePortNode(parent,portDesc) {
             var px=x-parent.x;
             var py=y-parent.y;
             // currently allow to rotate the port in the vis;
-            var rotationEnabled=true;
+
             if (rotationEnabled===true) {
                 var angle=Math.atan2(py,px)* (180 / Math.PI);
                 var image=svgRoot.select("image");
