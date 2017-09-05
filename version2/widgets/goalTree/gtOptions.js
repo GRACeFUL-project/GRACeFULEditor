@@ -23,7 +23,7 @@ function GTControls(parentWidget) {
         //TODO: form fields when the goal type = criteria
         criteriaUnit = that.addLineEdit(goalsGroup, "Unit", "", true, that.onChangeUnit);
         d3.select(criteriaUnit.node().parentNode).classed("hidden", true);
-
+        goalsGroup.collapseBody();
         // delGoal = that.addButtons(goalsGroup, "Delete", "goalDelete", that.onDeleteGoal);
 
         additionalSettings = that.createAccordionGroup(that.divControlsGroupNode, "Settings");

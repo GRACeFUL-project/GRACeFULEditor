@@ -25,10 +25,12 @@ function GTNode(graph) {
     this.getImageURL=function(){
       if(that.goalTypeId==1)
         return "./images/nodes/goal.png";
-      else if(that.selectedTypeId==2)
+      else if(that.goalTypeId==2)
        return "./images/nodes/subgoal.png";
-      else if(that.selectedTypeId==3)
+      else if(that.goalTypeId==3)
        return "./images/nodes/criteria.png";
+
+
     };
 
     this.setType=function(typeId, typeName){

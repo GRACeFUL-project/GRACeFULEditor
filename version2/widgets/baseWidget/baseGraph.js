@@ -35,6 +35,7 @@ function BaseGraph(parentWidget) {
     this.draggingObject=false;
 
     this.needUpdateRedraw=false;
+    this.multipleNodes = [];
 
 
     // some state of graph functionality
@@ -513,6 +514,36 @@ function BaseGraph(parentWidget) {
         }
 
     };
+
+    this.selectMultiples = function(node) {
+        that.deselectLastLink();
+        var isPresent = false;
+
+        if(that.multipleNodes.length === 0) {
+            console.log("previous node: "+that.prevSelectedNode.id());
+            that.prevSelectedNode.nodeElement.classed("focused", false);
+            parentWidget.handleSelection(undefined);
+            that.prevSelectedNode=undefined;
+        }
+
+        for(var i=0; i<that.multipleNodes.length; i++) {
+            if(node.id() === that.multipleNodes[i].id())
+                isPresent = true;
+        }
+        
+        if(!isPresent) {
+            console.log("Pushing node id: "+node.id());
+            that.multipleNodes.push(node);
+            node.nodeElement.classed("focused", true);
+        }
+        else {
+            that.multipleNodes.splice(that.multipleNodes.indexOf(node), 1);
+            console.log("Popping node: "+node.id());
+            node.nodeElement.classed("focused", false);
+        }
+        
+        console.log("Total no of nodes are: "+that.multipleNodes.length);
+    }
 
     this.handleNodeDeletion = function(node) {
         // console.log("node deleting button. Selected node is: "+node.nodeId);

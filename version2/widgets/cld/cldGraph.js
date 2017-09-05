@@ -226,6 +226,17 @@ function CLDGraph(){
         return {x: xn, y: yn};
     }
 
+    this.mergeTheNodes = function() {
+        console.log("Calling for merge function. Total nodes to merge are: "+that.multipleNodes.length);
+        var mLength = that.multipleNodes.length;
+
+        if(mLength > 1) {
+            for(var i=0; i<mLength; i++) {
+                //do not delete the nodes, but we need to display a single svg element with all selected nodes inside it
+            }
+        }
+    }
+
     this.identifyExternalFactors = function() {
         console.log("Looking for External factors...");
         var factorNodes = that.nodeElementArray.filter(function(n) {
