@@ -63,7 +63,7 @@ function SimpleSFDGraph(){
         aNode.x = grPos.x;
         aNode.y = grPos.y;
 
-
+        
         that.nodeElementArray.push(aNode);
         that.clearRendering();
         that.redrawGraphContent();

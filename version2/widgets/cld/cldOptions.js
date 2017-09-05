@@ -25,7 +25,7 @@ function CLDControls(parentWidget) {
         hideClass.hidden = true;
         commentNode = that.addTextEdit(nodesGroup, "Comments", "", true, that.onChangeNodeComment);
         // delNodeBtn = that.addButtons(nodesGroup, "Delete", "nodeDelete", that.deleteNodes);
-
+        nodesGroup.collapseBody();
 
         linksGroup = that.createAccordionGroup(that.divControlsGroupNode, "Links");
         linkClass = that.addSelectionOpts(linksGroup, "Class type", ["Undefined", "Causal Relation", "Other Relation"], that.onChangeLinkClass);

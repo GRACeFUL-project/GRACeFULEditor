@@ -258,6 +258,8 @@ function SimpleSFDControls(parentWidget) {
 
           // controls menu;
           // var tempIcon = document.createElement('i');
+          nodeGroup.collapseBody();
+
 
           controlsMenu= that.createAccordionGroup(that.divControlsGroupNode, "Controls");
           solverLineEdit=that.addLineEdit(controlsMenu,"SolverAddress","http://localhost:4000",true,that.changeSolverAddress);

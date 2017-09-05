@@ -97,7 +97,7 @@ function BaseControls(parentWidget) {
       // bind deleteFunction with delete of Chip
       $("#"+id).bind('dblclick',function() {
 
-        $("#"+id).keydown(function(){
+        $("#"+id).keydown(function(event){
           if(event.keyCode==13){
             console.log("In key code ENTER ENTER");
             // change the text of the node here ..
