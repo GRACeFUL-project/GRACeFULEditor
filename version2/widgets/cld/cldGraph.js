@@ -281,44 +281,66 @@ function CLDGraph(){
         }
 
         console.log("the all nodes are "+JSON.stringify(allNodes)+" The adjacent nodes are: "+JSON.stringify(adjNodes));
-        var anyObj= stronglyConnectedComponents(adjNodes);
-        console.log("The any obj is: "+JSON.stringify(anyObj));
+        // var anyObj= stronglyConnectedComponents(adjNodes);
+        // console.log("The any obj is: "+JSON.stringify(anyObj));
 
         //************************************************************************
-        var sccs = anyObj.components;
+        // var sccs = anyObj.components;
         var sccsNodes = {};
 
-        while(sccs.length > 0) {
-            var scc = sccs.pop();
-            if(scc.length <= 1) continue;
-            else {
-                for(var i=0; i<scc.length; i++) {
-                    var k = scc[i];
-                    sccsNodes[k] = [];
-                    loops[k] = 0;
-                    var q = sccsNodes[k];
+        // while(sccs.length > 0) {
+        //     var scc = sccs.pop();
+        //     if(scc.length <= 1) continue;
+        //     else {
+        //         for(var i=0; i<scc.length; i++) {
+        //             var k = scc[i];
+        //             sccsNodes[k] = [];
+        //             loops[k] = 0;
+        //             var q = sccsNodes[k];
 
-                    that.pathElementArray.filter(function(l) {
-                        if(l.sourceNode.id() === k) {
-                            if(scc.indexOf(l.targetNode.id()) > -1)
-                                q.push(l.targetNode.id());
-                        }
-                    });
+        //             that.pathElementArray.filter(function(l) {
+        //                 if(l.sourceNode.id() === k) {
+        //                     if(scc.indexOf(l.targetNode.id()) > -1)
+        //                         q.push(l.targetNode.id());
+        //                 }
+        //             });
+        //         }
+        //     }
+        // }
+        // console.log("The SCCS nodes are: "+JSON.stringify(sccsNodes));
+
+        // for(var key in sccsNodes) {
+        //     if(sccsNodes.hasOwnProperty(key)) {
+        //         var vertex = Number(key);
+        //         var adjLinks = sccsNodes[key];
+        //         console.log("Vertex: "+vertex+ " adjLinks: "+adjLinks);
+        //         if(loops[key] == 0) {
+        //             checkLoops(adjLinks, loops, path, vertex);
+        //         }
+        //     }
+        // }
+
+        for(var i=0; i<allNodes.length; i++) {
+            var j = allNodes[i];
+            sccsNodes[j] = [];
+            loops[j] = 0;
+            var q = sccsNodes[j];
+
+            that.pathElementArray.filter(function(l) {
+                if(l.sourceNode.id() === j) {
+                    q.push(l.targetNode.id());
                 }
-            }
+            });
         }
-        console.log("The SCCS nodes are: "+JSON.stringify(sccsNodes));
-
         for(var key in sccsNodes) {
             if(sccsNodes.hasOwnProperty(key)) {
                 var vertex = Number(key);
                 var adjLinks = sccsNodes[key];
-                console.log("Vertex: "+vertex+ " adjLinks: "+adjLinks);
                 if(loops[key] == 0) {
                     checkLoops(adjLinks, loops, path, vertex);
                 }
             }
-        }
+        }        
         console.log("All the loops in a graph are: "+JSON.stringify(allTheLoops));
 
         var loopNodeNames = [];
