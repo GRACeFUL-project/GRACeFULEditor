@@ -8,23 +8,21 @@ function CLDControls(parentWidget) {
     var selectionNode,lineEditNode,commentNode;
     var linkClass, causalSelection,commentLink;
     var getClassValues = [undefined];
-    var cldChip, cldChipImage, cldChipNode,  delNodeBtn, delLinkBtn, extFactorBtn, loopBtn, loadcld, saveCld, libCld, sendCld;
+    var cldChip, delNodeBtn, delLinkBtn, extFactorBtn, loopBtn, loadcld, saveCld, libCld, sendCld;
 
 
     this.generateControls=function() {
         // testing stuff,
         nodesGroup = that.createAccordionGroup(that.divControlsGroupNode, "Nodes");
 
-        cldChipNode=that.addNodeTypeChip(nodesGroup,"Enter Node Name","#fafafa",that.deleteNodes,"cldChipField",true,"undefined","cld","./images/nodes/factor.png");
-        cldChip = cldChipNode[0];
-        cldChipImage=cldChipNode[1];
-
-        // lineEditNode = that.addLineEdit(nodesGroup, "Name", "", true, that.onChangeNodeName);
+        lineEditNode = that.addLineEdit(nodesGroup, "Name", "", true, that.onChangeNodeName);
         selectionNode = that.addSelectionOpts(nodesGroup, "Class type", ["Undefined", "Factor", "Action", "Criteria", "External Factor"], that.onChangeNodeType);
         var hideClass = selectionNode.node().options[selectionNode.node().length - 1];
         hideClass.hidden = true;
         commentNode = that.addTextEdit(nodesGroup, "Comments", "", true, that.onChangeNodeComment);
-        // delNodeBtn = that.addButtons(nodesGroup, "Delete", "nodeDelete", that.deleteNodes);
+        delNodeBtn = that.addButtons(nodesGroup, "Delete", "nodeDelete", that.deleteNodes);
+
+
         nodesGroup.collapseBody();
 
         linksGroup = that.createAccordionGroup(that.divControlsGroupNode, "Links");
@@ -70,9 +68,12 @@ function CLDControls(parentWidget) {
     this.handleNodeSelection=function(node){
 
         // what type is given?
+
+
+
         if (node === undefined) {
             linksGroup.collapseBody();
-            // nodesGroup.collapseBody();
+            nodesGroup.collapseBody();
             return;
         }
         console.log("node type "+ node.getElementType());
@@ -84,11 +85,8 @@ function CLDControls(parentWidget) {
                 nodesGroup.expandBody();
                 linksGroup.collapseBody();
                 // should be overwritten by the real options thing
-                // lineEditNode.node().value = that.selectedNode.label;
-                // lineEditNode.node().disabled = false;
-                cldChip.innerHTML=that.selectedNode.label;
-                cldChipImage.setAttribute('src',that.selectedNode.getImageURL());
-
+                lineEditNode.node().value = that.selectedNode.label;
+                lineEditNode.node().disabled = false;
                 commentNode.node().disabled = false;
                 commentNode.node().value = that.selectedNode.hoverText;
 
@@ -196,8 +194,6 @@ function CLDControls(parentWidget) {
     this.deleteNodes = function() {
         that.parent.nodeDeletion(that.selectedNode);
         that.selectedNode = null;
-        nodesGroup.collapseBody();
-
     };
 
     this.deleteLinks = function() {
