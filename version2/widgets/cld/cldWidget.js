@@ -73,6 +73,10 @@ function CLDWidget(){
         this.graphObject.identifyFeedbackLoops();
     };
 
+    this.merger = function() {
+        this.graphObject.mergeTheNodes();
+    }
+
     this.loadJSON=function(jsonData){
         // LOAD JSON ACTION
         that.graphObject.emptyGraphStructure(); //<< clears current graph structure

@@ -204,6 +204,7 @@ function CLDLink(graph) {
                 textRenderingElement.attr("x", cpPoint.x).attr("y", cpPoint.y);
                 cpEllipse.attr("cx", cpPoint.x)
                         .attr("cy", cpPoint.y);
+                that.rootElement.selectAll("image").attr("x", cpPoint.x).attr("y", cpPoint.y);
         }
     };
 
