@@ -8,7 +8,7 @@ function CLDControls(parentWidget) {
     var selectionNode,lineEditNode,commentNode;
     var linkClass, causalSelection,commentLink;
     var getClassValues = [undefined];
-    var cldChip, delNodeBtn, delLinkBtn, extFactorBtn, loopBtn, loadcld, saveCld, libCld, sendCld, mergeBtn;
+    var cldChip, delNodeBtn, delLinkBtn, extFactorBtn, loopBtn, loadcld, saveCld, libCld, sendCld;
 
 
     this.generateControls=function() {
@@ -61,9 +61,6 @@ function CLDControls(parentWidget) {
         loopBtn.setAttribute("class", "btn btn-default btn-sm btn-block");
         loopBtn.setAttribute("data-toggle", "modal");
         loopBtn.setAttribute("data-target", "#loopModal");
-
-        // mergeBtn = that.addHrefButton(additionalSettings, "Merge Nodes", that.mergeNodes, true);
-        // mergeBtn.setAttribute("class", "btn btn-default btn-sm btn-block");
     };
 
     this.handleNodeSelection=function(node){
@@ -121,10 +118,6 @@ function CLDControls(parentWidget) {
         }
 
     };
-
-    this.mergeNodes = function() {
-        that.parent.merger();
-    }
 
     function appendLinkType(className) {
         d3.select(causalSelection.node()).selectAll("option").remove();

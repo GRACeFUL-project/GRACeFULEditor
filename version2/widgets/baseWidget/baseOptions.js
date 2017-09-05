@@ -69,13 +69,18 @@ function BaseControls(parentWidget) {
 
     };
 
-    this.addNodeTypeChip=function(parent,label,icon,deleteGoal,id){
+    this.addNodeTypeChip=function(parent,label,icon,deleteGoal,id,editStatus,imgUrl,widgetType,widgeturl){
       var thisDiv=document.createElement('span');
       parent.getBody().node().appendChild(thisDiv);
 
       d3.select(thisDiv).classed("mdl-chip mdl-chip--contact mdl-chip--deletable", true);
 
-      icon = "http://www.clker.com/cliparts/p/0/L/e/j/B/red-circle-solid-hi.png";
+      if(label=='rain' || label=='Rain' || label=='pump' || label=='runoff area')
+        icon=imgUrl;
+      else if(widgetType=="cld" || widgetType=="gt")
+        icon=widgeturl;
+      else
+        icon = "http://www.clker.com/cliparts/p/0/L/e/j/B/red-circle-solid-hi.png";
 
       var image=document.createElement('img');
       thisDiv.appendChild(image);
@@ -85,7 +90,7 @@ function BaseControls(parentWidget) {
       var text=document.createElement('span');
       thisDiv.appendChild(text);
       text.innerHTML=label;
-      text.setAttribute('contentEditable',true);
+      text.setAttribute('contentEditable',editStatus);
       text.setAttribute('id',id);
       d3.select(text).classed("mdl-chip__text",true);
 
@@ -128,7 +133,11 @@ function BaseControls(parentWidget) {
       parent.getBody().node().appendChild(breakElement);
       d3.select(breakElement).classed("separator",true);
 
-      return text;
+      var returnElements = new Array();
+        returnElements[0]=text;
+        returnElements[1]=image;
+
+      return returnElements;
     }
 
     this.addSelectType=function(parent, label, options ){

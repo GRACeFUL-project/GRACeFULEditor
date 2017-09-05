@@ -731,6 +731,9 @@ function SimpleSFDGraph(){
             nodeDescription.hoverText=hoverText;
             nodeDescription.params=params;
             nodeDescription.ports=libDisc.interface;
+            nodeDescription.nodeTypus=libDisc.type; // this is telling us if it is an interlink node or nod
+                                                    // used later for validation ; interlinks should have all ports conj
+
             inputClasses.push(nodeDescription);
         }
 

@@ -14,6 +14,7 @@ function CLDGraph(){
         coordinatesRelativeToCanvasArea = d3.mouse(this);
         var aNode=that.createNode(that);
         var grPos=getScreenCoords(coordinatesRelativeToCanvasArea[0],coordinatesRelativeToCanvasArea[1],that.translation,that.zoomFactor);
+        aNode.setTypeId(that.nodeTypeGraph);
         aNode.x=grPos.x;
         aNode.y=grPos.y;
         that.nodeElementArray.push(aNode);

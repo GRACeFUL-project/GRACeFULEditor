@@ -12,6 +12,8 @@ function SimpleSFDControls(parentWidget) {
     var solverLineEdit;
     var nodeClass,nodeLabel;
 
+    var sfdChip ,sfdChipNode, sfdChipImage, clearSFD, loadSFD, saveSFD, reqSFD, submitSFD, reqLoadLib;
+
     this.onChangeEmpty=function(x){
         // empty function does not do anything, used for debuging
         console.log("changing something"+x)
@@ -32,7 +34,9 @@ function SimpleSFDControls(parentWidget) {
         hidden_solutionInput.placeholder="load a json File";
         hidden_solutionInput.setAttribute("class", "inputPath");
         // hidden_solutionInput.style.display="none";
+        // optionsGroup.getBody().node().appendChild(hidden_solutionInput);
         controlsMenu.getBody().node().appendChild(hidden_solutionInput);
+
         var loaderSolutionPathNode=d3.select("#HIDDEN_SOLUTION_JSON_INPUT");
         var fileElement;
         var fileName;
@@ -67,23 +71,6 @@ function SimpleSFDControls(parentWidget) {
             }
         });
 
-    };
-
-    this.saveFunction=function(){
-        console.log("saving was pressed");
-        var action={};
-        action.task="ACTION_SAVE_JSON";
-        that.parent.requestAction(action);
-    };
-
-
-    this.serverRequest=function(){
-        // the action defines a request type which is send to com mod and that one does the work
-        console.log("requesting data from server : this example is library crud");
-        var action={};
-        action.task="SERVER_REQUEST";
-        action.requestType="GET_LIBRARY"; // testing purpose
-        that.parent.requestAction(action);
     };
 
     this. loadLibraryFromJSON=function(){
@@ -134,6 +121,24 @@ function SimpleSFDControls(parentWidget) {
         });
     };
 
+
+    this.saveFunction=function(){
+        console.log("saving was pressed");
+        var action={};
+        action.task="ACTION_SAVE_JSON";
+        that.parent.requestAction(action);
+    };
+
+
+    this.serverRequest=function(){
+        // the action defines a request type which is send to com mod and that one does the work
+        console.log("requesting data from server : this example is library crud");
+        var action={};
+        action.task="SERVER_REQUEST";
+        action.requestType="GET_LIBRARY"; // testing purpose
+        that.parent.requestAction(action);
+    };
+
     this.testSubmitModel=function(){
         console.log("testing submit function of docker thingy");
         var action={};
@@ -161,6 +166,8 @@ function SimpleSFDControls(parentWidget) {
         var strUser = selectionContainer.options[selectionContainer.selectedIndex].value;
         console.log(selectionContainer.selectedIndex+" the user string is "+strUser);
         that.selectedNode.setType(selectionContainer.selectedIndex, strUser);
+
+
     };
 
 
@@ -213,6 +220,7 @@ function SimpleSFDControls(parentWidget) {
 
 
     this.generateControls=function() {
+
         // Before Adding the field Add them to separate Field Container..
         // var fieldDiv=document.createElement('div');
         // controlsMenu.getBody().node().appendChild(fieldDiv);
@@ -231,84 +239,86 @@ function SimpleSFDControls(parentWidget) {
 
         // testing stuff,
 
-        // controls menu;
-        var clearSFD, loadSFD, saveSFD, reqSFD, submitSFD, reqLoadLIB;
-        // var tempIcon = document.createElement('i');
+          nodeGroup=that.createAccordionGroup(that.divControlsGroupNode,"Stock Flow Node Types");
+       //   nodeSelGroup= that.addSelectionOpts(nodeGroup, "Node type", ["Undefined", "A", "B"], that.onChangeNodeType);
+          // nodeClass=that.addLabel(nodeGroup,"Class","nodesClass");
+          // nodeLabel=that.addLineEdit(nodeGroup,"Name","nodesName",false, that.changeNodesName);
 
-        controlsMenu= that.createAccordionGroup(that.divControlsGroupNode, "Controls");
-        solverLineEdit=that.addLineEdit(controlsMenu,"SolverAddress","http://localhost:4000",true,that.changeSolverAddress);
+          sfdChipNode=that.addNodeTypeChip(nodeGroup,"Rain","#fafafa",that.onSFDNodeDelete,"sfdChipField",false,"./data/img/rain.png","sfd","1");
+          sfdChip=sfdChipNode[0];
+          sfdChipImage=sfdChipNode[1];
 
-        //@ Rohan could you realign the buttons?
+          parameterTable=that.addTable(nodeGroup,"Parameters",["name","type","value"]);
+          // that.addParameterRow(parameterTable,["a","b","c"]);
+          // that.addParameterRow(parameterTable,["d","e","f"]);
+
+          portTable=that.addTable(nodeGroup,"Ports",["name","type","value"]);
+          // that.addParameterRow(portTable,["d","e","f"]);
+          // that.addParameterRow(portTable,["d","e","f"]);
+
+          // controls menu;
+          // var tempIcon = document.createElement('i');
+
+          controlsMenu= that.createAccordionGroup(that.divControlsGroupNode, "Controls");
+          solverLineEdit=that.addLineEdit(controlsMenu,"SolverAddress","http://localhost:4000",true,that.changeSolverAddress);
+          // clearSFD = that.addHrefButton(controlsMenu,"Clear",that.clearGraph,true);
+          //@ Rohan could you realign the buttons?
         // something like this:
         // -----------------------------------------------
         // Load Model, Save Model, Send Model
         // Load Library, Get Library, Clear Graph
         // -----------------------------------------------
-
         clearSFD = that.addHrefButton(controlsMenu,"Clear Graph",that.clearGraph,true);
-        clearSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
-        clearSFD.parentNode.setAttribute("id", "sfd_basic");
-        clearSFD.parentNode.setAttribute("class", "form-group col-lg-12");
+
+          clearSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
+          clearSFD.parentNode.setAttribute("id", "sfd_basic");
+          clearSFD.parentNode.setAttribute("class", "form-group col-lg-12");
 
 
-        loadSFD = that.addHrefButton(controlsMenu,"Load Model",that.loadFunction,true);
-        document.getElementById("sfd_basic").appendChild(loadSFD.parentNode);
-        loadSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
-        loadSFD.parentNode.setAttribute("class", "col-xs-4 text-center");
+          loadSFD = that.addHrefButton(controlsMenu,"Load Model",that.loadFunction,true);
+          document.getElementById("sfd_basic").appendChild(loadSFD.parentNode);
+          loadSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
+          loadSFD.parentNode.setAttribute("class", "col-xs-4 text-center");
 
-        saveSFD = that.addHrefButton(controlsMenu,"Save Model",that.saveFunction,true);
-        document.getElementById("sfd_basic").appendChild(saveSFD.parentNode);
-        saveSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
-        saveSFD.parentNode.setAttribute("class", "col-xs-4");
+          saveSFD = that.addHrefButton(controlsMenu,"Save Model",that.saveFunction,true);
+          document.getElementById("sfd_basic").appendChild(saveSFD.parentNode);
+          saveSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
+          saveSFD.parentNode.setAttribute("class", "col-xs-4");
 
-        reqSFD = that.addHrefButton(controlsMenu,"Get Library",that.serverRequest,true);
-        reqSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
-        reqSFD.parentNode.setAttribute("id", "sfd_basic1");
-        reqSFD.parentNode.setAttribute("class", "form-group col-lg-12");
+          reqSFD = that.addHrefButton(controlsMenu,"Get Library",that.serverRequest,true);
+          reqSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
+          reqSFD.parentNode.setAttribute("id", "sfd_basic1");
+          reqSFD.parentNode.setAttribute("class", "form-group col-lg-12");
 
-
-        // @ Rohan : could you realign the Buttons?
+          // @ Rohan : could you realign the Buttons?
         reqLoadLIB = that.addHrefButton(controlsMenu,"load Library",that.loadLibraryFromJSON,true);
         reqLoadLIB.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
         reqLoadLIB.parentNode.setAttribute("id", "sfd_basic1");
         reqLoadLIB.parentNode.setAttribute("class", "form-group col-lg-12");
 
+          submitSFD = that.addHrefButton(controlsMenu,"Send Model",that.testSubmitModel,true);
+          document.getElementById("sfd_basic1").appendChild(submitSFD.parentNode);
+          submitSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
+          submitSFD.parentNode.setAttribute("class", "col-xs-6 text-center");
+          // that.addCheckBox(controlsMenu,"Show HUD","cb_test1",true,that.enableHUD); // per default enable the hud
+          // execute the default value;
+          that.enableHUD(false);
 
-        submitSFD = that.addHrefButton(controlsMenu,"Send Model",that.testSubmitModel,true);
-        document.getElementById("sfd_basic1").appendChild(submitSFD.parentNode);
-        submitSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
-        submitSFD.parentNode.setAttribute("class", "col-xs-6 text-center");
- //       that.addCheckBox(controlsMenu,"Show HUD","cb_test1",true,that.enableHUD); // per default enable the hud
-        // execute the default value;
-        that.enableHUD(false);
 
-
-        nodeGroup=that.createAccordionGroup(that.divControlsGroupNode,"Node Types");
-     //   nodeSelGroup= that.addSelectionOpts(nodeGroup, "Node type", ["Undefined", "A", "B"], that.onChangeNodeType);
-        nodeClass=that.addLabel(nodeGroup,"Class","nodesClass");
-        nodeLabel=that.addLineEdit(nodeGroup,"Name","nodesName",false, that.changeNodesName);
-
-        parameterTable=that.addTable(nodeGroup,"Parameters",["name","type","value"]);
-        // that.addParameterRow(parameterTable,["a","b","c"]);
-        // that.addParameterRow(parameterTable,["d","e","f"]);
-
-        portTable=that.addTable(nodeGroup,"Ports",["name","type","value"]);
-        // that.addParameterRow(portTable,["d","e","f"]);
-        // that.addParameterRow(portTable,["d","e","f"]);
     };
 
     this.start();
 
 
+    this.onSFDNodeDelete=function(){
 
-
+    }
 
     this.handleNodeSelection=function(node){
         // should be overwritten by the real options thing
 
-
         if (node === undefined || node === null) {
-            nodeGroup.collapseBody();
+            // nodeGroup.collapseBody();
             return;
         }
         console.log("node type "+ node.getElementType());
@@ -322,11 +332,12 @@ function SimpleSFDControls(parentWidget) {
             nodeGroup.expandBody();
 
             // set the proper parameters
-            var pref=nodeClass.attr("prefix");
-            nodeClass.node().innerHTML=pref+": "+node.getNodeName();
-            nodeLabel.node().value = that.selectedNode.label;
-            nodeLabel.node().disabled = false;
-
+            // var pref=nodeClass.attr("prefix");
+            // nodeClass.node().innerHTML=pref+": "+node.getNodeName();
+            // nodeLabel.node().value = that.selectedNode.label;
+            // nodeLabel.node().disabled = false;
+            sfdChip.innerHTML=that.selectedNode.label;
+            sfdChipImage.setAttribute('src',that.selectedNode.getImageURL());
 
             // parameter table createtion
             var rows=parameterTable.node().rows;

@@ -8,18 +8,31 @@ function GTNode(graph) {
     this.goalType = undefined;
    // this.parentWidget=parentWidget; // tells the graph which widget it talks to
     BaseNode.apply(this,arguments);
-    var goalTypeId = 0;
+    this.goalTypeId = 1;
     var goalClass="baseRoundNode";
     var allGoalClasses=['undefined','goalOptionA','goalOptionB','goalOptionC'];
     this.allClasss=['undefined','goalOptionA','goalOptionB','goalOptionC'];
     this.criteriaUnit = "";
 
     this.getTypeId=function(){
-      return goalTypeId;
+      return that.goalTypeId;
+    };
+
+    this.setTypeId=function(id){
+      that.goalTypeId=id;
+    };
+
+    this.getImageURL=function(){
+      if(that.goalTypeId==1)
+        return "./images/nodes/goal.png";
+      else if(that.selectedTypeId==2)
+       return "./images/nodes/subgoal.png";
+      else if(that.selectedTypeId==3)
+       return "./images/nodes/criteria.png";
     };
 
     this.setType=function(typeId, typeName){
-        goalTypeId=typeId;
+        that.goalTypeId=typeId;
         goalClass=allGoalClasses[typeId];
         that.goalType = typeName;
         console.log("Goal class is"+goalClass);
