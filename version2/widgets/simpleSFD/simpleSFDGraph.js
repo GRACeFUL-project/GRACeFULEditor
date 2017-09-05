@@ -702,15 +702,9 @@ function SimpleSFDGraph(){
 
         var TBOX=jsonObj.library;
         // for number of objects in TBOX do parsing
-
-
-
         for (var iA=0;iA<TBOX.length;iA++) {
-
             // generate nodeDescriptiosn which are then used for initializing the nodes;
-
             var nodeDescription={};
-
             var libDisc = TBOX[iA];
             // get description of the library in terms of nodes and their interfaces
             // each object is here a node with its values;
@@ -761,36 +755,102 @@ function SimpleSFDGraph(){
         var targetPort=that.getTargetPort(draggeEndPos);
         // console.log("dragger End pos"+draggeEndPos);
         if (targetPort && d.parentNode().getParentId()!==targetPort.getParentId()) {
-            console.log("Target node name" + targetPort.getName());
+            console.log("Target node name: " + targetPort.getName());
             // create a link between these;
-            if  (targetPort.isUsed()===false && d.parentNode().isUsed()===false) {
-                var aLink = that.createLink(that);
-                var sourceNode=d.parentNode().getParentNode();
-                var sourcPort=d.parentNode();
-                var targetNode=targetPort.getParentNode();
-                var seenLink=aLink.validateConnection(sourceNode,targetNode);
-                console.log("Do we have Seen that Link?"+seenLink);
 
+            var newLibType=(targetPort.getProvidedPortConnectionTypes() || d.parentNode().getProvidedPortConnectionTypes()); // atleast one of the ports should tell me something;
+            console.log("Hey ho, are we a new lib format? "+newLibType);
+            // check if you are allow to connect these ports;
+            var sourcePort=d.parentNode();
+            var t_portIT=targetPort.getIncomingConnectionType();
+            var t_portOT=targetPort.getOutgoingConnectionType();
+            var s_portIT=sourcePort.getIncomingConnectionType();
+            var s_portOT=sourcePort.getOutgoingConnectionType();
+            console.log("Testing Connection Types");
+            console.log("Target("+targetPort.getName()+": INPUT="+t_portIT);
+            console.log("Target("+targetPort.getName()+": OUTPUT="+t_portOT);
+            console.log("Target("+targetPort.getName()+": USED ="+targetPort.isUsed());
+
+            console.log("Source("+sourcePort.getName()+": INPUT="+s_portIT);
+            console.log("Source("+sourcePort.getName()+": OUTPUT="+s_portOT);
+            console.log("Source("+sourcePort.getName()+": OUTPUT="+sourcePort.isUsed());
+            console.log("-----------------");
+
+            var aLink,sourceNode, targetNode,seenLink;
+
+            // define cases
+            if (newLibType===false){
+                // use old one to one mapping with used ports
+                if (targetPort.isUsed()===false && sourcePort.isUsed()===false){
+                    // create connection
+                    aLink = that.createLink(that);
+                    sourceNode=d.parentNode().getParentNode();
+                    targetNode=targetPort.getParentNode();
+                    seenLink=aLink.validateConnection(sourceNode,targetNode);
+                    if (seenLink===false) {
+                        aLink.source(sourceNode);
+                        aLink.target(targetNode);
+                        aLink.addPortConnection(sourcePort,targetPort);
+                        that.pathElementArray.push(aLink);
+                    }else{
+                        seenLink.setMultiLinkType(true);
+                        seenLink.addPortConnection(sourcePort,targetPort);
+                    }
+                    targetPort.isUsed(true);
+                    d.parentNode().isUsed(true);
+                    // force draw of link;
+                    that.forceRedrawContent();
+                }
+            }
+            if (newLibType===true){
+                console.log("validating link connection in the new lib format");
+                // ah now it gets more complex;
+
+                // first does the source port allow outgoing types?
+                if (s_portOT==="NONE"){
+                    console.log("this source port does not allow anything to go out...");
+                    return;
+                }
+                if (s_portIT==="SINGLE" && sourcePort.isUsed()===true){
+                    console.log("Well Nope this does not allow also source port already used");
+                    return;
+                }
+
+                if (t_portIT==="NONE"){
+                    console.log("this Target port does not allow anything to go in...");
+                    return;
+                }
+                // check if we allow outgoing connections but are already used in a prev link
+                if (t_portIT==="SINGLE" && targetPort.isUsed()===true){
+                    console.log("Well Nope this does not allow also target port already used");
+                    return;
+                }
+
+                // everthing that forbids connections should be handled now
+                // now we can create the connections;
+
+                aLink = that.createLink(that);
+                sourceNode=d.parentNode().getParentNode();
+                targetNode=targetPort.getParentNode();
+                seenLink=aLink.validateConnection(sourceNode,targetNode);
                 if (seenLink===false) {
                     aLink.source(sourceNode);
                     aLink.target(targetNode);
-                    aLink.addPortConnection(sourcPort,targetPort);
+                    aLink.addPortConnection(sourcePort,targetPort);
                     that.pathElementArray.push(aLink);
                 }else{
                     seenLink.setMultiLinkType(true);
-                    seenLink.addPortConnection(sourcPort,targetPort);
+                    seenLink.addPortConnection(sourcePort,targetPort);
                 }
-
-
-                // hide the ports
-
-                // todo: define constrains based on requirements!
-                // one to one constraint;
                 targetPort.isUsed(true);
                 d.parentNode().isUsed(true);
                 // force draw of link;
                 that.forceRedrawContent();
+
+
             }
+
+
         }
     };
 
@@ -820,15 +880,18 @@ function SimpleSFDGraph(){
         console.log("minDist="+minDist);
         if (minDist>80) return null;
 
+        minDist=1000000000000000;
         // now you know the target node;
         var tP=undefined;
         tN.getPortElements().forEach(function (el){
+
             // compute distance;
             var cDist=Math.sqrt((el.x-dx)*(el.x-dx)+(el.y-dy)*(el.y-dy));
             if (cDist<minDist){
                 minDist=cDist;
                 tP=el;
             }
+            console.log("targetPort is :"+tP);
         });
 
         console.log("found target Port");

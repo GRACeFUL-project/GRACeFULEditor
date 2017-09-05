@@ -183,6 +183,7 @@ function clearAllDiv(){
 function setDivActive(id){
     clearAllDiv();
     document.getElementById("sfd"+id).style.backgroundColor="yellow";
+    console.log("Active SFD Node TYPE "+id);
     sfdRef.setupNode(id);
 }
 

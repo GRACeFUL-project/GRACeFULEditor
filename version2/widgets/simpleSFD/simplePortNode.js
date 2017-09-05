@@ -21,10 +21,25 @@ function SimplePortNode(parent,portDesc) {
     var portIdInNode=0;
     var value=0;
     var rotationEnabled=true;
-    var incomingConnectionTYPE=ARBITRARY;
-    var outgoingConnectionTYPE=ARBITRARY;
+    // default one to one mapping using undefined as not defined type
+    var providedPortConnectionType=false;
+    var incomingConnectionTYPE=SINGLE;
+    var outgoingConnectionTYPE=SINGLE;
     var valueSetFromOutside=false;
     var parentNode=parent;
+
+
+    this.getProvidedPortConnectionTypes=function(){
+        return providedPortConnectionType;
+    };
+
+    this.getOutgoingConnectionType=function(){
+        return outgoingConnectionTYPE;
+    };
+
+    this.getIncomingConnectionType=function(){
+        return incomingConnectionTYPE;
+    };
 
     this.getParentNode=function(){
         return parentNode;
@@ -104,11 +119,15 @@ function SimplePortNode(parent,portDesc) {
 
         // get the incoming outgoing connection types;
         if (portdesc.outgoingType) {
+            providedPortConnectionType=true;
             outgoingConnectionTYPE = portdesc.outgoingType;
         }
         if (portdesc.incomingType){
+            providedPortConnectionType=true;
             incomingConnectionTYPE=portdesc.incomingType;
         }
+
+
         name=portdesc.name;
         portTYPE=portdesc.type;
 

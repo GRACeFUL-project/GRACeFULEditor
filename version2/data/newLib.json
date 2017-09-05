@@ -40,7 +40,7 @@
         "name": "outflow",
         "type": "Port (Float)",
         "description": "Outgoing Flow",
-        "imgURL": "./data/interfaces/inflow.png",
+        "imgURL": "./data/interfaces/outflow.png",
         "rotation": true,
         "outgoingType": "SINGLE",
         "incomingType": "NONE"
@@ -87,6 +87,27 @@
     ],
     "imgURL"      : "./data/img/runOffArea.png",
     "description" : "This is RUN off Area",
+    "type"        : "SINGLE"
+  },
+  { "name": "sink",
+
+    "parameters":[
+      {"name":"sink capacity","type":"Float"}
+    ],
+    "interface":[
+      {
+        "name": "inflow",
+        "type": "Port (Float)",
+        "description": "Incoming Flow",
+        "imgURL": "./data/interfaces/inflow.png",
+        "rotation": true,
+        "outgoingType": "NONE",
+        "incomingType": "ARBITRARY"
+      }
+
+    ],
+    "imgURL"      : "./data/img/sink.png",
+    "description" : "This is a Sink",
     "type"        : "SINGLE"
   }
 

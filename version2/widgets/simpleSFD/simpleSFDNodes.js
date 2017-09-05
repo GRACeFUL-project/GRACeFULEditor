@@ -41,6 +41,7 @@ function SimpleSFDNode(graph,nodeDescriptions) {
             portDescriptions.push(m_nodeDescriptions[i].ports);
             console.log(m_nodeDescriptions[i]);
             parametersDescriptions.push(m_nodeDescriptions[i].params);
+            numTypes++; // increase if number of node types has increased
         }
     };
 
