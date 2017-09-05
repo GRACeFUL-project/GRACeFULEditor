@@ -66,7 +66,7 @@ function loadGracefulConceptMapToolbar(sfd){
   console.log("It contains data for sure now:"+gracefulLib);
   sfdRef=sfd;
   // adding the TAB name here
-  sfdRef.setTabTitle("GRACeFUL Concept Map: Hello WORLD");
+  sfdRef.setTabTitle("GRACeFUL Concept Map");
 
 }
 

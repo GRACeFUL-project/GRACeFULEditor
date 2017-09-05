@@ -23,6 +23,7 @@ function GTGraph(){
         console.log("Hello From Example graph");
 
         var aNode=that.createNode(that);
+        aNode.setTypeId(that.nodeTypeGraph);
         var coordinatesRelativeToCanvasArea= [0,0];
         coordinatesRelativeToCanvasArea=d3.mouse(this);
         var grPos=getScreenCoords(coordinatesRelativeToCanvasArea[0],coordinatesRelativeToCanvasArea[1],that.translation,that.zoomFactor);

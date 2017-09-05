@@ -12,8 +12,9 @@ function GTControls(parentWidget) {
     this.generateControls=function(){
         goalsGroup = that.createAccordionGroup(that.divControlsGroupNode, "Goal");
         // goal Chip for the goalNames
-        goalchipNode=that.addNodeTypeChip(goalsGroup,"Enter Node Name","#fafafa",that.onDeleteGoal,"gtChipField",true,"undefined","gt","1");
+        goalchipNode=that.addNodeTypeChip(goalsGroup,"Enter Node Name","#fafafa",that.onDeleteGoal,"gtChipField",true,"undefined","gt","./images/nodes/goal.png");
         goalchip = goalchipNode[0];
+        goalimage= goalchipNode[1];
 
         // goalName = that.addLineEdit(goalsGroup, "Name", "", true, that.onChangeGoalName);
         // d3.select(goalName.node()).attr("placeholder" , "Enter Node name");
@@ -50,6 +51,8 @@ function GTControls(parentWidget) {
             // goalName.node().value = that.selectedNode.label;
             // goal Chip for The goalNames
             goalchip.innerHTML=that.selectedNode.label;
+            goalimage.setAttribute('src',that.selectedNode.getImageURL());
+
             // goalName.node().disabled = false;
             goalComment.node().disabled = false;
             goalComment.node().value = that.selectedNode.hoverText;

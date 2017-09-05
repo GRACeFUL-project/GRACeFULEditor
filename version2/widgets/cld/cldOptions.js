@@ -15,7 +15,7 @@ function CLDControls(parentWidget) {
         // testing stuff,
         nodesGroup = that.createAccordionGroup(that.divControlsGroupNode, "Nodes");
 
-        cldChipNode=that.addNodeTypeChip(nodesGroup,"Enter Node Name","#fafafa",that.deleteNodes,"cldChipField",true,"undefined","cld","1");
+        cldChipNode=that.addNodeTypeChip(nodesGroup,"Enter Node Name","#fafafa",that.deleteNodes,"cldChipField",true,"undefined","cld","./images/nodes/factor.png");
         cldChip = cldChipNode[0];
         cldChipImage=cldChipNode[1];
 

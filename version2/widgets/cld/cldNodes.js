@@ -29,8 +29,6 @@ function CLDNode(graph) {
        return "./images/nodes/action.png";
       else if(that.selectedTypeId==3)
        return "./images/nodes/criteria.png";
-
-      console.log("CONSOLE SELECTED TYPE ID IS :"+ that.selectedTypeId);
     };
 
     this.setLabelText=function(val){
