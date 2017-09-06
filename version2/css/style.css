@@ -134,8 +134,7 @@ main {
 }
 
 #toolbar {
-	min-height: 100%;
-	overflow: auto;
+	min-height: 994px;
 	color: #fff;
 	background-color: white ;
 	border-right:1px solid #E0E0E0;
@@ -167,8 +166,10 @@ main {
 }
 
 .widgitListToolbar {
+	height: 994px;
+	overflow-y: scroll;
 	background-color: white;
-	height: 100%;
+	/*height: 994px;*/
 	padding-bottom: 64px;
 	text-align: center;
 }

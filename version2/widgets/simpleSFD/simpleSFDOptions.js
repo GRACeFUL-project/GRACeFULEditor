@@ -21,6 +21,9 @@ function SimpleSFDControls(parentWidget) {
 
     this.clearGraph=function(){
         parentWidget.clearGraph();
+        var snackbarContainer = document.querySelector('#demo-toast-example');
+        var data = {message: 'The graph has been cleared'};
+        snackbarContainer.MaterialSnackbar.showSnackbar(data);
     };
 
     this.loadFunction=function(){
@@ -248,11 +251,11 @@ function SimpleSFDControls(parentWidget) {
           sfdChip=sfdChipNode[0];
           sfdChipImage=sfdChipNode[1];
 
-          parameterTable=that.addTable(nodeGroup,"Parameters",["name","type","value"]);
+          parameterTable=that.addTable(nodeGroup,"Parameters",["Name","Type","Value"]);
           // that.addParameterRow(parameterTable,["a","b","c"]);
           // that.addParameterRow(parameterTable,["d","e","f"]);
 
-          portTable=that.addTable(nodeGroup,"Ports",["name","type","value"]);
+          portTable=that.addTable(nodeGroup,"Ports",["Name","Type","Value"]);
           // that.addParameterRow(portTable,["d","e","f"]);
           // that.addParameterRow(portTable,["d","e","f"]);
 

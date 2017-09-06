@@ -34,18 +34,22 @@ svg.text{
   fill: white;
 }
 
+.headerTable{
+  font-weight: bolder;
+}
+
 .baseNodeHovered{
     fill: yellow;
     stroke: var(--main-node-color-eight);
     stroke-width: 2px;
 }
-td {
+/*td {
     text-align: center;
-}
-.tableClass, td {
+}*/
+/*.tableClass, td {
     border: 1px solid red;
     padding: 2px 10px;
-}
+}*/
 
 
 .editOverlay{
