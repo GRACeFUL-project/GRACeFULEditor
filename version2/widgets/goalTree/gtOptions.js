@@ -105,9 +105,15 @@ function GTControls(parentWidget) {
     };
 
     this.onDeleteGoal = function() {
+        var nameNode=that.selectedNode.label;
         that.parent.nodeDeletion(that.selectedNode);
         that.selectedNode = null;
         goalsGroup.collapseBody();
+
+
+        var snackbarContainer = document.querySelector('#demo-toast-example');
+        var data = {message: 'The node '+ nameNode +' has been deleted'};
+        snackbarContainer.MaterialSnackbar.showSnackbar(data);
 
     };
 

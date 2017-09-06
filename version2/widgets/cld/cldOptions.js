@@ -13,7 +13,7 @@ function CLDControls(parentWidget) {
 
     this.generateControls=function() {
         // testing stuff,
-        nodesGroup = that.createAccordionGroup(that.divControlsGroupNode, "Nodes"); 
+        nodesGroup = that.createAccordionGroup(that.divControlsGroupNode, "Nodes");
 
         // lineEditNode = that.addLineEdit(nodesGroup, "Name", "", true, that.onChangeNodeName);
           cldChipNode=that.addNodeTypeChip(nodesGroup,"Enter Node Name","#fafafa",that.deleteNodes,"cldChipField",false,"undefined","cld","./images/nodes/factor.png");
@@ -199,9 +199,14 @@ function CLDControls(parentWidget) {
     };
 
     this.deleteNodes = function() {
+        var nodeName=that.selectedNode.label;
         that.parent.nodeDeletion(that.selectedNode);
         that.selectedNode = null;
         nodesGroup.collapseBody();
+
+        var snackbarContainer = document.querySelector('#demo-toast-example');
+        var data = {message: 'The node '+ nodeName +' has been deleted'};
+        snackbarContainer.MaterialSnackbar.showSnackbar(data);
 
     };
 
