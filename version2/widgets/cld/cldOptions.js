@@ -13,10 +13,10 @@ function CLDControls(parentWidget) {
 
     this.generateControls=function() {
         // testing stuff,
-        nodesGroup = that.createAccordionGroup(that.divControlsGroupNode, "Nodes");
+        nodesGroup = that.createAccordionGroup(that.divControlsGroupNode, "Nodes"); 
 
         // lineEditNode = that.addLineEdit(nodesGroup, "Name", "", true, that.onChangeNodeName);
-          cldChipNode=that.addNodeTypeChip(nodesGroup,"Enter Node Name","#fafafa",that.deleteNodes,"cldChipField",true,"undefined","cld","./images/nodes/factor.png");
+          cldChipNode=that.addNodeTypeChip(nodesGroup,"Enter Node Name","#fafafa",that.deleteNodes,"cldChipField",false,"undefined","cld","./images/nodes/factor.png");
           cldChip = cldChipNode[0];
           cldChipImage=cldChipNode[1];
 

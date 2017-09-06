@@ -530,7 +530,7 @@ function BaseGraph(parentWidget) {
             if(node.id() === that.multipleNodes[i].id())
                 isPresent = true;
         }
-        
+
         if(!isPresent) {
             console.log("Pushing node id: "+node.id());
             that.multipleNodes.push(node);
@@ -541,7 +541,7 @@ function BaseGraph(parentWidget) {
             console.log("Popping node: "+node.id());
             node.nodeElement.classed("focused", false);
         }
-        
+
         console.log("Total no of nodes are: "+that.multipleNodes.length);
     }
 

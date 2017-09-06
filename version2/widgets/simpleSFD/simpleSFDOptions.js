@@ -261,8 +261,9 @@ function SimpleSFDControls(parentWidget) {
           nodeGroup.collapseBody();
 
 
-          controlsMenu= that.createAccordionGroup(that.divControlsGroupNode, "Controls");
-          solverLineEdit=that.addLineEdit(controlsMenu,"SolverAddress","http://localhost:4000",true,that.changeSolverAddress);
+          controlsMenu= that.createAccordionGroup(that.divControlsGroupNode, "Model Controls");
+          // solverLineEdit=that.addLineEdit(controlsMenu,"SolverAddress","http://localhost:4000",true,that.changeSolverAddress);
+          controlsMenuLibrary=that.createAccordionGroup(that.divControlsGroupNode, "Graph Controls");
           // clearSFD = that.addHrefButton(controlsMenu,"Clear",that.clearGraph,true);
           //@ Rohan could you realign the buttons?
         // something like this:
@@ -270,38 +271,48 @@ function SimpleSFDControls(parentWidget) {
         // Load Model, Save Model, Send Model
         // Load Library, Get Library, Clear Graph
         // -----------------------------------------------
-        clearSFD = that.addHrefButton(controlsMenu,"Clear Graph",that.clearGraph,true);
 
-          clearSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
-          clearSFD.parentNode.setAttribute("id", "sfd_basic");
-          clearSFD.parentNode.setAttribute("class", "form-group col-lg-12");
+        clearSFD= that.addButton(controlsMenuLibrary, "CLEAR GRAPH", "sfdClearGraph", that.clearGraph, "flat", true, "clear_all" );
 
+        // clearSFD = that.addHrefButton(controlsMenu,"Clear Graph",that.clearGraph,true);
+        //
+        //   clearSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
+        //   clearSFD.parentNode.setAttribute("id", "sfd_basic");
+        //   clearSFD.parentNode.setAttribute("class", "form-group col-lg-12");
+        //
+        //
+        loadSFD= that.addButton(controlsMenu, "LOAD MODEL", "sfdLoadModel", that.loadFunction, "flat", true, "cloud_upload" );
 
-          loadSFD = that.addHrefButton(controlsMenu,"Load Model",that.loadFunction,true);
-          document.getElementById("sfd_basic").appendChild(loadSFD.parentNode);
-          loadSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
-          loadSFD.parentNode.setAttribute("class", "col-xs-4 text-center");
+        //   loadSFD = that.addHrefButton(controlsMenu,"Load Model",that.loadFunction,true);
+        //   document.getElementById("sfd_basic").appendChild(loadSFD.parentNode);
+        //   loadSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
+        //   loadSFD.parentNode.setAttribute("class", "col-xs-4 text-center");
+        //
+        saveSFD= that.addButton(controlsMenu, "SAVE MODEL", "sfdSaveModel", that.saveFunction, "flat", true, "save" );
+        //   saveSFD = that.addHrefButton(controlsMenu,"Save Model",that.saveFunction,true);
+        //   document.getElementById("sfd_basic").appendChild(saveSFD.parentNode);
+        //   saveSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
+        //   saveSFD.parentNode.setAttribute("class", "col-xs-4");
+        //
+        reqSFD= that.addButton(controlsMenuLibrary, "GET LIBRARY", "sfdGetLibrary", that.serverRequest, "flat", true, "get_app" );
+        //   reqSFD = that.addHrefButton(controlsMenu,"Get Library",that.serverRequest,true);
+        //   reqSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
+        //   reqSFD.parentNode.setAttribute("id", "sfd_basic1");
+        //   reqSFD.parentNode.setAttribute("class", "form-group col-lg-12");
+        //
+        reqLoadLIB= that.addButton(controlsMenuLibrary, "LOAD LIBRARY", "sfdLoadLibrary", that.loadLibraryFromJSON, "flat", true, "file_upload" );
 
-          saveSFD = that.addHrefButton(controlsMenu,"Save Model",that.saveFunction,true);
-          document.getElementById("sfd_basic").appendChild(saveSFD.parentNode);
-          saveSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
-          saveSFD.parentNode.setAttribute("class", "col-xs-4");
-
-          reqSFD = that.addHrefButton(controlsMenu,"Get Library",that.serverRequest,true);
-          reqSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
-          reqSFD.parentNode.setAttribute("id", "sfd_basic1");
-          reqSFD.parentNode.setAttribute("class", "form-group col-lg-12");
-
-          // @ Rohan : could you realign the Buttons?
-        reqLoadLIB = that.addHrefButton(controlsMenu,"load Library",that.loadLibraryFromJSON,true);
-        reqLoadLIB.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
-        reqLoadLIB.parentNode.setAttribute("id", "sfd_basic1");
-        reqLoadLIB.parentNode.setAttribute("class", "form-group col-lg-12");
-
-          submitSFD = that.addHrefButton(controlsMenu,"Send Model",that.testSubmitModel,true);
-          document.getElementById("sfd_basic1").appendChild(submitSFD.parentNode);
-          submitSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
-          submitSFD.parentNode.setAttribute("class", "col-xs-6 text-center");
+        //   // @ Rohan : could you realign the Buttons?
+        // reqLoadLIB = that.addHrefButton(controlsMenu,"load Library",that.loadLibraryFromJSON,true);
+        // reqLoadLIB.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
+        // reqLoadLIB.parentNode.setAttribute("id", "sfd_basic1");
+        // reqLoadLIB.parentNode.setAttribute("class", "form-group col-lg-12");
+        //
+        submitSFDs= that.addButton(controlsMenu, "SEND MODEL", "sfdSendModel", that.testSubmitModel, "flat", true, "send" );
+        //   submitSFD = that.addHrefButton(controlsMenu,"Send Model",that.testSubmitModel,true);
+        //   document.getElementById("sfd_basic1").appendChild(submitSFD.parentNode);
+        //   submitSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
+        //   submitSFD.parentNode.setAttribute("class", "col-xs-6 text-center");
           // that.addCheckBox(controlsMenu,"Show HUD","cb_test1",true,that.enableHUD); // per default enable the hud
           // execute the default value;
           that.enableHUD(false);

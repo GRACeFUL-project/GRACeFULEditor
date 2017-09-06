@@ -12,6 +12,13 @@
     width: 40px;
 }
 
+.nodeChipField:hover{
+  color:  #E91E63;
+}
+
+.btn-icon-special {
+  margin-right: 8px;
+}
 .separator{
   line-height: 4;
 }

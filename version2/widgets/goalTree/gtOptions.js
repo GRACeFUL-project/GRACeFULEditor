@@ -12,7 +12,7 @@ function GTControls(parentWidget) {
     this.generateControls=function(){
         goalsGroup = that.createAccordionGroup(that.divControlsGroupNode, "Goal");
         // goal Chip for the goalNames
-        goalchipNode=that.addNodeTypeChip(goalsGroup,"Enter Node Name","#fafafa",that.onDeleteGoal,"gtChipField",true,"undefined","gt","./images/nodes/goal.png");
+        goalchipNode=that.addNodeTypeChip(goalsGroup,"Enter Node Name","#fafafa",that.onDeleteGoal,"gtChipField",false,"undefined","gt","./images/nodes/goal.png");
         goalchip = goalchipNode[0];
         goalimage= goalchipNode[1];
 
@@ -26,16 +26,20 @@ function GTControls(parentWidget) {
         goalsGroup.collapseBody();
         // delGoal = that.addButtons(goalsGroup, "Delete", "goalDelete", that.onDeleteGoal);
 
-        additionalSettings = that.createAccordionGroup(that.divControlsGroupNode, "Settings");
-        loadcld = that.addHrefButton(additionalSettings,"Load",that.loadFunction,true);
-        loadcld.setAttribute("class", "btn btn-default btn-sm");
-        loadcld.parentNode.setAttribute("id", "goalBasic");
-        loadcld.innerHTML = '<span class="glyphicon glyphicon-floppy-open"></span> Load Goal Tree';
+        additionalSettings = that.createAccordionGroup(that.divControlsGroupNode, "Controls");
 
-        saveCld = that.addHrefButton(additionalSettings,"Save",that.saveFunction,false);
-        document.getElementById("goalBasic").appendChild(saveCld);
-        saveCld.setAttribute("class", "btn btn-default btn-sm pull-right");
-        saveCld.innerHTML = '<span class="glyphicon glyphicon-floppy-save"></span> Save Goal Tree';
+
+        loadcld= that.addButton(additionalSettings, "LOAD", "gtLOAD", that.loadFunction, "flat", true, "file_upload" );
+        // loadcld = that.addHrefButton(additionalSettings,"Load",that.loadFunction,true);
+        // loadcld.setAttribute("class", "btn btn-default btn-sm");
+        // loadcld.parentNode.setAttribute("id", "goalBasic");
+        // loadcld.innerHTML = '<span class="glyphicon glyphicon-floppy-open"></span> Load Goal Tree';
+        //
+        saveCld= that.addButton(additionalSettings, "SAVE", "gtSAVE", that.saveFunction, "flat", true, "save" );
+        // saveCld = that.addHrefButton(additionalSettings,"Save",that.saveFunction,false);
+        // document.getElementById("goalBasic").appendChild(saveCld);
+        // saveCld.setAttribute("class", "btn btn-default btn-sm pull-right");
+        // saveCld.innerHTML = '<span class="glyphicon glyphicon-floppy-save"></span> Save Goal Tree';
     };
 
     this.handleNodeSelection = function(node) {

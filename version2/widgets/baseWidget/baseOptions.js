@@ -92,30 +92,49 @@ function BaseControls(parentWidget) {
       text.innerHTML=label;
       text.setAttribute('contentEditable',editStatus);
       text.setAttribute('id',id);
-      d3.select(text).classed("mdl-chip__text",true);
+      d3.select(text).classed("mdl-chip__text nodeChipField",true);
 
-      // bind deleteFunction with delete of Chip
-      $("#"+id).bind('dblclick',function() {
+      if(widgetType!="sfd")
+      {
+          // bind deleteFunction with delete of Chip
+          $("#"+id).bind('click',function() {
+            text.setAttribute('contentEditable',true);
 
-        $("#"+id).keydown(function(event){
-          if(event.keyCode==13){
-            console.log("In key code ENTER ENTER");
-            // change the text of the node here ..
-            that.selectedNode.clearDisplayLabelText();
-            that.selectedNode.setDisplayLabelText(text.innerHTML);
+            $("#"+id).keydown(function(event){
+              if(text.innerHTML=="empty"){
+                text.innerHTML="";
+              }
 
-            that.selectedNode.clearLabelText();
-            that.selectedNode.setLabelText(text.innerHTML);
+              if(event.keyCode==13){
+                // change the text of the node here ..
+                var checkblankchip=text.innerHTML;
+                checkblankchip=(checkblankchip.trim) ? checkblankchip.trim() : checkblankchip.replace(/^\s+/,'');
 
-            this.blur();
+                if(checkblankchip=="")
+                  text.innerHTML="empty";
+
+                that.selectedNode.clearDisplayLabelText();
+                that.selectedNode.setDisplayLabelText(text.innerHTML);
+
+                that.selectedNode.clearLabelText();
+                that.selectedNode.setLabelText(text.innerHTML);
+
+                this.blur();
+                event.preventDefault();
+              }
+            })
+
+          }).blur(
+            function(){
+              text.setAttribute('contentEditable',false);
+            }
+          );
+
+          $("#"+id).on("paste",function(event){
             event.preventDefault();
-          }
-        })
+          });
+      };
 
-      }).blur(
-        function(){
-        }
-      );
 
       var link=document.createElement('a');
       thisDiv.appendChild(link);
@@ -197,33 +216,34 @@ function BaseControls(parentWidget) {
             onClickFunction();
         });
     };
-
+//
+// (parent, label, onClickFunction,ownDiv)
     this.addButton = function(parent, text, btnId, onClickFunction, btnType, btnIcon, btnIconType )
     {
       //by default raised button type
       var buttonClass="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent";
 
       if( btnType == "flat")
-        buttonClass="mdl-button mdl-js-button mdl-js-ripple-effec" ;
+        buttonClass="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" ;
       else if( btnType == "fab" )
         buttonClass="mdl-button mdl-js-button mdl-button--fab mdl-button--colored";
 
 
       // Create Parent Div with Correct Grid Layout in the GRID
       var buttonMainDiv = document.createElement('div');
-        parent.appendChild(buttonMainDiv);
+        parent.getBody().node().appendChild(buttonMainDiv);
         d3.select(buttonMainDiv).classed("mdl-cell mdl-cell--12-col",true);
 
       // adding button to the dom element
       var button = document.createElement('button');
-      parent.appendChild(button);
+      parent.getBody().node().appendChild(button);
       d3.select(button).classed(buttonClass+" mdl-cell mdl-cell--12-col",true);
 
       // adding Icon to the button if required
       if(btnIcon==true)
       {
         var icon = document.createElement('i');
-        d3.select(icon).classed("material-icons",true);
+        d3.select(icon).classed("material-icons btn-icon-special",true);
         icon.innerHTML=btnIconType;
         button.appendChild(icon);
       }
