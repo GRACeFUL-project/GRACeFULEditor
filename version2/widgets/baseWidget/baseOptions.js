@@ -376,7 +376,7 @@ function BaseControls(parentWidget) {
         var table=document.createElement('table');
 
         // add table to div
-        d3.select(table).classed("mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--1dp", true);
+        d3.select(table).classed("mdl-data-table mdl-js-data-table mdl-shadow--1dp", true);
         var percentage=100;
 
         d3.select(table).style("width",percentage+"%");

@@ -25,6 +25,7 @@ function CLDLink(graph) {
     var dynamicLinkWidth=false;
 
     var startPoint,endPoint,cpPoint;
+    var cpDragged = false;
 
     this.type=function(){
         return cldType;
@@ -174,6 +175,7 @@ function CLDLink(graph) {
                                 d3.event.sourceEvent.stopPropagation();
                             })
                             .on("drag", function (d) {
+                                cpDragged = true;
                                 cpPoint={x:d3.event.x, y:d3.event.y};
                                 cpEllipse.attr("cx", cpPoint.x).attr("cy", cpPoint.y);
                                 controlPoints[1].x = cpPoint.x;
@@ -199,7 +201,13 @@ function CLDLink(graph) {
         if (that.pathElement) {
                 startPoint={ x:that.sourceNode.x, y:that.sourceNode.y };
                 endPoint  ={ x:that.targetNode.x, y:that.targetNode.y };
-                controlPoints=calculateMultiLinkPath(startPoint, endPoint, cpPoint);
+                if(cpDragged)
+                    controlPoints=calculateMultiLinkPath(startPoint, endPoint, cpPoint);
+                else {
+                    controlPoints=calculateMultiLinkPath(startPoint, endPoint);
+                    cpPoint.x = controlPoints[1].x;
+                    cpPoint.y = controlPoints[1].y;
+                }
                 that.pathElement.attr("d", lineFunction(controlPoints));
                 textRenderingElement.attr("x", cpPoint.x).attr("y", cpPoint.y);
                 cpEllipse.attr("cx", cpPoint.x)
