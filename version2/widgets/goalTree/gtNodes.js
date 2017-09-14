@@ -85,7 +85,12 @@ function GTNode(graph) {
 
     this.clearDisplayLabelText=function(){
       this.labelRenderingElement.text("");
-    }
+    };
+
+    this.setChipText=function(val) {
+        //update the chip text of the node in the controls tab
+        d3.select("#gtChipField").text(val);
+    };
 
     this.drawNode=function(){
 

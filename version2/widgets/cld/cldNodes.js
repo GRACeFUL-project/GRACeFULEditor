@@ -35,10 +35,9 @@ function CLDNode(graph) {
 
     this.setLabelText=function(val){
         this.label=val;
-
         if (this.toolTipElement && (this.label.length > that.DISPLAY_LABEL_LENGTH) ){
-          this.toolTipElement.text(this.label);
-        }
+          this.toolTipElement.text(this.label);          
+        }        
     };
 
     this.clearLabelText=function(){
@@ -67,7 +66,12 @@ function CLDNode(graph) {
 
     this.clearDisplayLabelText=function(){
       this.labelRenderingElement.text("");
-    }
+    };
+
+    this.setChipText=function(val) {
+        //update the chip text of the node in the controls tab
+        d3.select("#cldChipField").text(val);
+    };
 
     this.changeClass=function(cssClassName){
       that.nodeElement.classed(cssClassName,true);
