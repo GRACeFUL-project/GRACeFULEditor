@@ -36,7 +36,9 @@ function CLDControls(parentWidget) {
         commentLink = that.addTextEdit(linksGroup, "Comments", "", true, that.onChangeLinkComment);
         delLinkBtn = that.addButtons(linksGroup, "Delete", "linkDelete", that.deleteLinks);
 
-        additionalSettings = that.createAccordionGroup(that.divControlsGroupNode, "Settings");
+        additionalSettings = that.createAccordionGroup(that.divControlsGroupNode, "Model Controls");
+        graphControls = that.createAccordionGroup(that.divControlsGroupNode, "Graph Controls");
+
         loadcld = that.addHrefButton(additionalSettings,"Load",that.loadFunction,true);
         loadcld.setAttribute("class", "btn btn-default btn-sm");
         loadcld.parentNode.setAttribute("id", "basic");
@@ -57,13 +59,13 @@ function CLDControls(parentWidget) {
         sendCld.setAttribute("class", "btn btn-default btn-sm pull-right");
         sendCld.innerHTML = '<span class="glyphicon glyphicon-log-out"></span> Send Model';
 
-        importCriteria = that.addHrefButton(additionalSettings, "Import Criteria", that.onCriteriaImport, true);
+        importCriteria = that.addHrefButton(graphControls, "Import Criteria", that.onCriteriaImport, true);
         importCriteria.setAttribute("class", "btn btn-default btn-sm btn-block");
 
-        extFactorBtn = that.addHrefButton(additionalSettings, "Identify External Factors", that.identifyExtFact, true);
+        extFactorBtn = that.addHrefButton(graphControls, "Identify External Factors", that.identifyExtFact, true);
         extFactorBtn.setAttribute("class", "btn btn-default btn-sm btn-block");
 
-        loopBtn = that.addHrefButton(additionalSettings, "Identify Feeback Loops", that.feedbackLoop, true);
+        loopBtn = that.addHrefButton(graphControls, "Identify Feeback Loops", that.feedbackLoop, true);
         loopBtn.setAttribute("class", "btn btn-default btn-sm btn-block");
         loopBtn.setAttribute("data-toggle", "modal");
         loopBtn.setAttribute("data-target", "#loopModal");

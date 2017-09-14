@@ -92,6 +92,10 @@ main {
 	width: 100%;
 }
 
+.snackwarning {
+	background-color: red;
+	color: white;
+}
 .navbar-brand {
   padding: 0px;
 }
