@@ -128,6 +128,10 @@ function BaseNode(graph) {
       this.labelRenderingElement.text("");
     };
 
+    this.setChipText=function(val) {
+        //update the chip text of the node in the controls tab
+    };
+
     this.setPosition=function(x,y){
         that.x=x;
         that.y=y;
@@ -368,7 +372,7 @@ function BaseNode(graph) {
             // pseude cklick on the graph
             graph.simulateClickOnGraph();
             console.log(d3.event);
-
+            that.setChipText(this.textContent);
         });
 
 

@@ -221,6 +221,12 @@ function SimpleSFDControls(parentWidget) {
 
     };
 
+    this.onSFDNodeDelete=function(){
+        console.log("delete sfd node");
+        that.parent.nodeDeletion(that.selectedNode);
+        that.selectedNode = null;
+        nodeGroup.collapseBody();
+    };
 
     this.generateControls=function() {
 
@@ -323,12 +329,7 @@ function SimpleSFDControls(parentWidget) {
 
     };
 
-    this.start();
-
-
-    this.onSFDNodeDelete=function(){
-
-    }
+    this.start();    
 
     this.handleNodeSelection=function(node){
         // should be overwritten by the real options thing
