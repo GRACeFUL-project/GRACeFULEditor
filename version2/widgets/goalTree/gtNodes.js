@@ -10,7 +10,7 @@ function GTNode(graph) {
     BaseNode.apply(this,arguments);
     this.goalTypeId = 1;
     var goalClass="baseRoundNode";
-    var allGoalClasses=['undefined','goalOptionA','goalOptionB','goalOptionC'];
+    var allGoalClasses=['undefined','goalOptionA','goalOptionB','goalOptionC', 'goalOptionD'];
     this.allClasss=['undefined','goalOptionA','goalOptionB','goalOptionC'];
     this.criteriaUnit = "";
 
@@ -28,7 +28,9 @@ function GTNode(graph) {
       else if(that.goalTypeId==2)
        return "./images/nodes/subgoal.png";
       else if(that.goalTypeId==3)
-       return "./images/nodes/criteria.png";
+       return "./images/nodes/criteria.png"
+      else if(that.goalTypeId==4)
+       return "./images/nodes/stakeholder.png";
 
 
     };

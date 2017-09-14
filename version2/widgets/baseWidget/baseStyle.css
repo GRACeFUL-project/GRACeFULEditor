@@ -138,6 +138,10 @@ p[contenteditable]:focus {
     fill: var(--main-node-color-three);
 }
 
+.goalOptionD {
+    fill: var(--main-node-color-eight);
+}
+
 .externalFactors {
-    fill: var(--main-node-color-four);
+    fill: var(--main-node-color-two);
 }
