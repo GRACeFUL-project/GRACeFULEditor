@@ -11,7 +11,7 @@ function CLDNode(graph) {
     this.selectedTypeId=1;
     this.typeName = undefined;
     var allPossibleClasses=['undefined','nodeOptionA','nodeOptionB','nodeOptionC', 'externalFactors'];
-    this.allClasss=['undefined','nodeOptionA','nodeOptionB','nodeOptionC', 'externalFactors'];
+    this.allClasss=["Undefined", "Factor", "Action", "Criteria", "External Factor"];
 
     this.getTypeId=function(){
       return that.selectedTypeId;
