@@ -67,7 +67,22 @@ function BaseDragger(graph) {
                 .attr("x2", 0)
                 .attr("y2", 0);
 
-            that.nodeElement = that.rootNodeLayer.append('circle').attr("r", 20);
+          var lineData = [ { "x": 0,   "y": 0},  { "x": 0,  "y": -40},
+                           { "x": 40, "y":0}, { "x": 0,   "y": 40},
+                           {"x": 0, "y":0}
+                         ];
+
+          var lineFunction = d3.svg.line()
+                           .x(function(d) { return d.x; })
+                           .y(function(d) { return d.y; })
+                          .interpolate("linear");
+
+            that.nodeElement = that.rootNodeLayer.append('path').attr("d", lineFunction(lineData))
+                                                                .attr("stroke", "blue")
+                                                                .attr("stroke-width", 2)
+                                                                .attr("fill", "blue");
+
+            // that.nodeElement = that.rootNodeLayer.append('circle').attr("r", 50);
         }
 
     };

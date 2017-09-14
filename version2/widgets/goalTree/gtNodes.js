@@ -123,7 +123,7 @@ function GTNode(graph) {
 
         //add delete image
         that.rootNodeLayer.append("image")
-            .attr("xlink:href", "images/delete.png")
+            .attr("xlink:href", "images/delete.svg")
             .attr("display", "none")
             .attr("x", 0.5*that.elementWidth-10)
             .attr("y", -0.5*that.elementHeight)

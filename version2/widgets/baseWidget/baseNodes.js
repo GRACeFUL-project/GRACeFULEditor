@@ -272,7 +272,7 @@ function BaseNode(graph) {
 
        // d3.event.stopPropagation();
        if(d3.event.ctrlKey) {
-            console.log("Controllll");            
+            console.log("Controllll");
             graph.hideDraggerElement();
             graph.selectMultiples(that);
             return;

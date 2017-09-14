@@ -30,6 +30,11 @@ function CLDControls(parentWidget) {
 
 
         linksGroup = that.createAccordionGroup(that.divControlsGroupNode, "Links");
+
+        linkNode=that.addNodeTypeChip(linksGroup,"Undefined","#fafafa",that.deleteLinks,"cldLinkChipField",false,"undefined","cld","./images/nodes/factor.png");
+        cldChip = cldChipNode[0];
+        cldChipImage=cldChipNode[1];
+
         linkClass = that.addSelectionOpts(linksGroup, "Class type", ["Undefined", "Causal Relation", "Other Relation"], that.onChangeLinkClass);
         causalSelection = that.addSelectionOpts(linksGroup, "Value", getClassValues, that.onChangeLinkType);
         d3.select(causalSelection.node().parentNode).classed("hidden", true);
@@ -228,6 +233,7 @@ function CLDControls(parentWidget) {
     this.deleteLinks = function() {
         that.parent.linkDeletion(that.selectedNode);
         that.selectedNode = null;
+        linksGroup.collapseBody();
     };
 
     this.onCriteriaImport = function() {
@@ -295,6 +301,8 @@ function CLDControls(parentWidget) {
                 };
             }
         });
+
+
     };
 
     this.sendModel = function() {

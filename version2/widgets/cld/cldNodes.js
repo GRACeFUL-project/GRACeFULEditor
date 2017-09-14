@@ -107,7 +107,7 @@ function CLDNode(graph) {
 
         //add delete image
         that.rootNodeLayer.append("image")
-            .attr("xlink:href", "images/delete.png")
+            .attr("xlink:href", "images/delete.svg")
             .attr("display", "none")
             .attr("x", that.getRadius()/2)
             .attr("y", -(that.getRadius())+5)
