@@ -39,36 +39,49 @@ function CLDControls(parentWidget) {
         additionalSettings = that.createAccordionGroup(that.divControlsGroupNode, "Model Controls");
         graphControls = that.createAccordionGroup(that.divControlsGroupNode, "Graph Controls");
 
-        loadcld = that.addHrefButton(additionalSettings,"Load",that.loadFunction,true);
-        loadcld.setAttribute("class", "btn btn-default btn-sm");
-        loadcld.parentNode.setAttribute("id", "basic");
-        loadcld.innerHTML = '<span class="glyphicon glyphicon-floppy-open"></span> Load Model';
+        loadcld= that.addButton(additionalSettings, "LOAD MODEL", "cldLoadModel", that.loadFunction, "flat", true, "cloud_upload" );
 
-        saveCld = that.addHrefButton(additionalSettings,"Save",that.saveFunction,false);
-        document.getElementById("basic").appendChild(saveCld);
-        saveCld.setAttribute("class", "btn btn-default btn-sm pull-right");
-        saveCld.innerHTML = '<span class="glyphicon glyphicon-floppy-save"></span> Save Model';
+        // loadcld = that.addHrefButton(additionalSettings,"Load",that.loadFunction,true);
+        // loadcld.setAttribute("class", "btn btn-default btn-sm");
+        // loadcld.parentNode.setAttribute("id", "basic");
+        // loadcld.innerHTML = '<span class="glyphicon glyphicon-floppy-open"></span> Load Model';
 
-        libCld = that.addHrefButton(additionalSettings,"Get Library",that.getLibrary,true);
-        libCld.setAttribute("class", "btn btn-default btn-sm");
-        libCld.parentNode.setAttribute("id", "basic1");
-        libCld.innerHTML = '<span class="glyphicon glyphicon-log-in"></span> Get Library';
+        saveCld= that.addButton(additionalSettings, "SAVE MODEL", "cldSaveModel", that.saveFunction, "flat", true, "save" );
+        // saveCld = that.addHrefButton(additionalSettings,"Save",that.saveFunction,false);
+        // document.getElementById("basic").appendChild(saveCld);
+        // saveCld.setAttribute("class", "btn btn-default btn-sm pull-right");
+        // saveCld.innerHTML = '<span class="glyphicon glyphicon-floppy-save"></span> Save Model';
+        //
 
-        sendCld = that.addHrefButton(additionalSettings,"Send Model",that.sendModel,false);
-        document.getElementById("basic1").appendChild(sendCld);
-        sendCld.setAttribute("class", "btn btn-default btn-sm pull-right");
-        sendCld.innerHTML = '<span class="glyphicon glyphicon-log-out"></span> Send Model';
+        libCld = that.addButton(additionalSettings, "GET LIBRARY", "cldGetLibrary", that.getLibrary, "flat", true, "get_app" );
+        // libCld = that.addHrefButton(additionalSettings,"Get Library",that.getLibrary,true);
+        // libCld.setAttribute("class", "btn btn-default btn-sm");
+        // libCld.parentNode.setAttribute("id", "basic1");
+        // libCld.innerHTML = '<span class="glyphicon glyphicon-log-in"></span> Get Library';
+        //
 
-        importCriteria = that.addHrefButton(graphControls, "Import Criteria", that.onCriteriaImport, true);
-        importCriteria.setAttribute("class", "btn btn-default btn-sm btn-block");
+        sendCld= that.addButton(additionalSettings, "SEND MODEL", "cldSendModel", that.sendModel, "flat", true, "send" );
+        // sendCld = that.addHrefButton(additionalSettings,"Send Model",that.sendModel,false);
+        // document.getElementById("basic1").appendChild(sendCld);
+        // sendCld.setAttribute("class", "btn btn-default btn-sm pull-right");
+        // sendCld.innerHTML = '<span class="glyphicon glyphicon-log-out"></span> Send Model';
+        //
 
-        extFactorBtn = that.addHrefButton(graphControls, "Identify External Factors", that.identifyExtFact, true);
-        extFactorBtn.setAttribute("class", "btn btn-default btn-sm btn-block");
+        importCriteria = that.addButton(graphControls, "IMPORT CRITERIA", "cldImportCriteria", that.onCriteriaImport, "flat", true, "import_export" );
+        // importCriteria = that.addHrefButton(graphControls, "Import Criteria", that.onCriteriaImport, true);
+        // importCriteria.setAttribute("class", "btn btn-default btn-sm btn-block");
+        //
 
-        loopBtn = that.addHrefButton(graphControls, "Identify Feeback Loops", that.feedbackLoop, true);
-        loopBtn.setAttribute("class", "btn btn-default btn-sm btn-block");
-        loopBtn.setAttribute("data-toggle", "modal");
-        loopBtn.setAttribute("data-target", "#loopModal");
+        extFactorBtn = that.addButton(graphControls, "IDENTIFY EXTERNAL FACTORS", "cldIdentifyExtFactors", that.identifyExtFact, "flat", true, "explicit" );
+        // extFactorBtn = that.addHrefButton(graphControls, "Identify External Factors", that.identifyExtFact, true);
+        // extFactorBtn.setAttribute("class", "btn btn-default btn-sm btn-block");
+        //
+
+        loopBtn = that.addButton(graphControls, "IDENTIFY FEEDBACK LOOPS", "cldIdentifyFeedbacks", that.feedbackLoop, "flat", true, "loop" );
+        // loopBtn = that.addHrefButton(graphControls, "Identify Feeback Loops", that.feedbackLoop, true);
+        // loopBtn.setAttribute("class", "btn btn-default btn-sm btn-block");
+        // loopBtn.setAttribute("data-toggle", "modal");
+        // loopBtn.setAttribute("data-target", "#loopModal");
     };
 
     this.handleNodeSelection=function(node){
