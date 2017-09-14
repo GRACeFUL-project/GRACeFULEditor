@@ -34,6 +34,11 @@ function CLDWidget(){
       //  console.log("Is Goal Tree?"+this.gtInstance.className);
     };
 
+    this.clearGraph=function () {
+      that.graphObject.emptyGraphStructure();
+      that.graphObject.forceRedrawContent();
+    };
+
     this.getCriteria = function() {
         var gtGraph = this.gtInstance.graphObject;
         console.log("number of nodes are: "+ gtGraph.nodeElementArray.length);

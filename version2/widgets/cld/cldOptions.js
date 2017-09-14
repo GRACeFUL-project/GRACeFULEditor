@@ -31,9 +31,9 @@ function CLDControls(parentWidget) {
 
         linksGroup = that.createAccordionGroup(that.divControlsGroupNode, "Links");
 
-        linkNode=that.addNodeTypeChip(linksGroup,"Undefined","#fafafa",that.deleteLinks,"cldLinkChipField",false,"undefined","cld","./images/nodes/factor.png");
-        cldChip = cldChipNode[0];
-        cldChipImage=cldChipNode[1];
+        // linkNode=that.addNodeTypeChip(linksGroup,"Undefined","#fafafa",that.deleteLinks,"cldLinkChipField",false,"undefined","cld","./images/nodes/factor.png");
+        // cldChip = cldChipNode[0];
+        // cldChipImage=cldChipNode[1];
 
         linkClass = that.addSelectionOpts(linksGroup, "Class type", ["Undefined", "Causal Relation", "Other Relation"], that.onChangeLinkClass);
         causalSelection = that.addSelectionOpts(linksGroup, "Value", getClassValues, that.onChangeLinkType);
@@ -87,6 +87,9 @@ function CLDControls(parentWidget) {
         // loopBtn.setAttribute("class", "btn btn-default btn-sm btn-block");
         // loopBtn.setAttribute("data-toggle", "modal");
         // loopBtn.setAttribute("data-target", "#loopModal");
+
+        clearCLD= that.addButton(graphControls, "CLEAR GRAPH", "cldClearGraph", that.clearGraph, "flat", true, "clear_all" );
+
     };
 
     this.handleNodeSelection=function(node){
@@ -234,6 +237,13 @@ function CLDControls(parentWidget) {
         that.parent.linkDeletion(that.selectedNode);
         that.selectedNode = null;
         linksGroup.collapseBody();
+    };
+
+    this.clearGraph=function(){
+        parentWidget.clearGraph();
+        var snackbarContainer = document.querySelector('#demo-toast-example');
+        var data = {message: 'The graph has been cleared'};
+        snackbarContainer.MaterialSnackbar.showSnackbar(data);
     };
 
     this.onCriteriaImport = function() {

@@ -126,7 +126,7 @@ main {
 */
 
 #sidebar {
-	height: 994px;
+	height: 97vh;
 	overflow-y: scroll;
 	color: #fff;
 	background-color: white ;
@@ -170,7 +170,7 @@ main {
 }
 
 .widgitListToolbar {
-	height: 994px;
+	height: 91vh;
 	overflow-y: scroll;
 	background-color: white;
 	/*height: 994px;*/

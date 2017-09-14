@@ -40,6 +40,9 @@ function GTControls(parentWidget) {
         // document.getElementById("goalBasic").appendChild(saveCld);
         // saveCld.setAttribute("class", "btn btn-default btn-sm pull-right");
         // saveCld.innerHTML = '<span class="glyphicon glyphicon-floppy-save"></span> Save Goal Tree';
+
+        clearGT= that.addButton(additionalSettings, "CLEAR GRAPH", "gtClearGraph", that.clearGraph, "flat", true, "clear_all" );
+
     };
 
     this.handleNodeSelection = function(node) {
@@ -126,6 +129,13 @@ function GTControls(parentWidget) {
         var action={};
         action.task="ACTION_SAVE_JSON";
         that.parent.requestAction(action);
+    };
+
+    this.clearGraph=function(){
+        parentWidget.clearGraph();
+        var snackbarContainer = document.querySelector('#demo-toast-example');
+        var data = {message: 'The graph has been cleared'};
+        snackbarContainer.MaterialSnackbar.showSnackbar(data);
     };
 
     this.loadFunction=function(){

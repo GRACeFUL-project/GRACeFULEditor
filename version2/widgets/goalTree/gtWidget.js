@@ -18,6 +18,11 @@ function GTWidget(){
         that.setupControls();
     };
 
+    this.clearGraph=function () {
+      that.graphObject.emptyGraphStructure();
+      that.graphObject.forceRedrawContent();
+    };
+
 
     this.setupGraph=function(){
      // console.log("Setting up my own graph");
