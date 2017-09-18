@@ -36,19 +36,19 @@ function PortDragger(graph) {
 
 
     /** DRAWING FUNCTIONS ------------------------------------------------- **/
-    this.drawNode=function(){
-        if (that.nodeElement===undefined) {
-            that.pathElement = that.rootNodeLayer.append('line')
-                .classed("baseDragPath",true);
-            that.pathElement.attr("x1", 0)
-                .attr("y1", 0)
-                .attr("x2", 0)
-                .attr("y2", 0);
+    // this.drawNode=function(){
+    //     if (that.nodeElement===undefined) {
+    //         that.pathElement = that.rootNodeLayer.append('line')
+    //             .classed("baseDragPath",true);
+    //         that.pathElement.attr("x1", 0)
+    //             .attr("y1", 0)
+    //             .attr("x2", 0)
+    //             .attr("y2", 0);
 
-            that.nodeElement = that.rootNodeLayer.append('circle').attr("r", 10);
-        }
+    //         that.nodeElement = that.rootNodeLayer.append('circle').attr("r", 10);
+    //     }
 
-    };
+    // };
 
 }
 
