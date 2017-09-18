@@ -34,6 +34,14 @@ function CLDLink(graph) {
     this.setSelectionStatus=function(val){
         that.elementIsFocused=val;
         that.pathElement.classed("cldLinkSelected", val);
+
+        if (that.rootElement.selectAll("image")!=null) {
+            if (val===true)
+                that.rootElement.selectAll("image").attr("display", null);
+            else{
+                that.rootElement.selectAll("image").attr("display", "none");
+            }
+        }
     };
 
     this.getTypeId=function() {
@@ -167,6 +175,20 @@ function CLDLink(graph) {
                                 .classed("controlPoint", true)
                                 .call(that.dragControlPoints);
 
+        that.rootElement.append("image")
+                        .attr("id", "linkDeleteIcon")
+                        .attr("xlink:href", "images/delete.svg")
+                        .attr("display", "none")
+                        .attr("width", 17)
+                        .attr("height", 17)
+                        .attr("x", cpPoint.x - 0.5 * 17 - 15)
+                        .attr("y", cpPoint.y - 10)
+                        .on('click', function() {
+                            d3.event.stopPropagation();
+                            console.log("this link has to be deleted: "+that.id());
+                            graph.handleLinkDeletion(that);
+                        });
+
         addTypeString();
     };
 
@@ -212,7 +234,7 @@ function CLDLink(graph) {
                 textRenderingElement.attr("x", cpPoint.x).attr("y", cpPoint.y);
                 cpEllipse.attr("cx", cpPoint.x)
                         .attr("cy", cpPoint.y);
-                that.rootElement.selectAll("image").attr("x", cpPoint.x).attr("y", cpPoint.y);
+                that.rootElement.selectAll("image").attr("x", cpPoint.x - 0.5 * 17 - 15).attr("y", cpPoint.y - 10);
         }
     };
 
@@ -222,12 +244,16 @@ function CLDLink(graph) {
             that.elementIsFocused=true;
             that.pathElement.classed("LinkFocused", true);
             graph.handleLinkSelection(that);
+            that.rootElement.selectAll("image")
+                        .attr("display", null);
             return;
         }
         if (that.elementIsFocused===true) {
             that.elementIsFocused=false;
             that.pathElement.classed("LinkFocused", false);
             graph.handleLinkSelection(undefined);
+            that.rootElement.selectAll("image")
+                        .attr("display", "none");
         }
         that.mouseEnteredFunc(false);
         that.onMouseOver();

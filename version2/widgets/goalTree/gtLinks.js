@@ -18,7 +18,7 @@ function GTLink(graph) {
         //add delete image
         that.rootElement.append("image")
             .attr("id", "linkDeleteIcon")
-            .attr("xlink:href", "images/delete.png")
+            .attr("xlink:href", "images/delete.svg")
             .attr("display", "none")
             .attr("width", 17)
             .attr("height", 17)
