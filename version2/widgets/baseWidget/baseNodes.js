@@ -324,7 +324,7 @@ function BaseNode(graph) {
         graph.selectNode(that);
         that.nodeElement.classed("focused", true);
         if (fobj!=undefined){
-            that.rootNodeLayer.selectAll("foreignObject").remove();
+            that.rootNodeLayer.selectAll(".foreignelements").remove();
         }
         that.editingTextElement=true;
         that.labelRenderingElement.classed("hidden",true);
@@ -333,12 +333,17 @@ function BaseNode(graph) {
             // .attr("y","-30")
             .attr("y","-12")
             .attr("height", 200)
+            .attr("class","foreignelements")
             .on("dragstart",function(){return false;}) // remove drag operations of text element)
             .attr("width", that.elementWidth);
-        var editText=fobj.append("xhtml:p")
+
+        var editText=fobj.append("xhtml:body")
+            .attr("class","bodyNode")
+            .append('span')
             .attr("id", that.id())
             .attr("align","center")
             .attr("contentEditable", "true")
+            .attr("class","editingxhtml")
             .on("dragstart",function(){return false;}) // remove drag operations of text element)
             .text(that.label);
 
@@ -353,6 +358,7 @@ function BaseNode(graph) {
                     that.nodeElement.classed("focused", true);
                     that.nodeIsFocused=true;
                  }
+
              })
         .on("blur", function(){
        //     console.log("CALLING BLUR FUNCTION ----------------------"+d3.event);
@@ -362,7 +368,7 @@ function BaseNode(graph) {
             that.setDisplayLabelText(this.textContent);
             // remove the object and redraw the node;
 
-            that.rootNodeLayer.selectAll("foreignObject").remove();
+            that.rootNodeLayer.selectAll(".foreignelements").remove();
             that.labelRenderingElement.classed("hidden",false);
 
 

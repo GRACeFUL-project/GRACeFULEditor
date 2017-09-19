@@ -128,7 +128,7 @@ main {
 #sidebar {
 	height: 97vh;
 	overflow-y: scroll;
-	color: #fff;
+	color: #757575;
 	background-color: white ;
 	border-left:1px solid #E0E0E0;
 	padding-left: 0px;
@@ -208,6 +208,22 @@ main {
 }
 
 /**/
+
+.editingxhtml {
+	color: red ;
+	background-color: #fff;
+	height: 10%;
+	width: 100%;
+
+}
+
+.bodyNode {
+	display: block;
+	text-align: center;
+	width: 100%;
+	max-height: 10%;
+	 background-color: transparent;
+}
 
 #library {
 	top: 0;
