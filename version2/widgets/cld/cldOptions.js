@@ -5,7 +5,7 @@ function CLDControls(parentWidget) {
 
     var nodesGroup,linksGroup, additionalSettings;
 
-    var selectionNode,lineEditNode,commentNode;
+    var selectionNode,lineEditNode,commentNode, checkObserve, nodeTrend;
     var linkClass, causalSelection,commentLink;
     var getClassValues = [undefined];
     var cldChip, cldChipImage, cldChipNode,  delNodeBtn, delLinkBtn, extFactorBtn, loopBtn, loadcld, saveCld, libCld, sendCld;
@@ -23,6 +23,11 @@ function CLDControls(parentWidget) {
         selectionNode = that.addSelectionOpts(nodesGroup, "Class type", ["Undefined", "Factor", "Action", "Criteria", "External Factor"], that.onChangeNodeType);
         var hideClass = selectionNode.node().options[selectionNode.node().length - 1];
         hideClass.hidden = true;
+        
+        checkObserve = that.addCheckBox(nodesGroup, "Decided/Observe", "observeNode", false, that.observeNode);
+        nodeTrend = that.addSelectionOpts(nodesGroup, "Trend", ["Undefined", "Ambigous", "Decreasing", "Increasing", "Stable"], that.trendFunc);
+        d3.select(nodeTrend.node().parentNode).classed("hidden", true);
+
         commentNode = that.addTextEdit(nodesGroup, "Comments", "", true, that.onChangeNodeComment);
         // delNodeBtn = that.addButtons(nodesGroup, "Delete", "nodeDelete", that.deleteNodes);
         nodesGroup.collapseBody();
@@ -113,6 +118,16 @@ function CLDControls(parentWidget) {
                 //
                 cldChip.innerHTML=that.selectedNode.label;
                 cldChipImage.setAttribute('src',that.selectedNode.getImageURL());
+
+                checkObserve.node().checked = that.selectedNode.getObserve();
+                if(that.selectedNode.getObserve()) {
+                    d3.select(nodeTrend.node().parentNode).classed("hidden", false);
+                    var temp = that.selectedNode.getTrend();
+                    nodeTrend.node().options[temp].selected = "selected";
+                }
+                else
+                    d3.select(nodeTrend.node().parentNode).classed("hidden", true);
+                
                 commentNode.node().disabled = false;
                 commentNode.node().value = that.selectedNode.hoverText;
 
@@ -212,6 +227,23 @@ function CLDControls(parentWidget) {
     //   that.selectedNode.clearClass();
     //   that.selectedNode.changeClass("baseRoundNode");
     // };
+
+    this.observeNode = function(val) {
+        that.selectedNode.setObserve(val);
+        var temp = that.selectedNode.getObserve();
+        if(temp)
+            d3.select(nodeTrend.node().parentNode).classed("hidden", false);
+        else{
+            d3.select(nodeTrend.node().parentNode).classed("hidden", true);
+            that.selectedNode.setTrend(0, undefined);
+        }
+    };
+
+    this.trendFunc = function(selectionContainer) {
+        var strUser = selectionContainer.options[selectionContainer.selectedIndex].value;
+        console.log(selectionContainer.selectedIndex+" the user string is "+strUser);
+        that.selectedNode.setTrend(selectionContainer.selectedIndex, strUser);
+    };
 
     this.onChangeNodeComment=function(){
         that.selectedNode.setHoverText(commentNode.node().value);

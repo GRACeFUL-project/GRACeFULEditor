@@ -13,6 +13,10 @@ function CLDNode(graph) {
     var allPossibleClasses=['undefined','nodeOptionA','nodeOptionB','nodeOptionC', 'externalFactors'];
     this.allClasss=["Undefined", "Factor", "Action", "Criteria", "External Factor"];
 
+    this.isObserved = false;
+    this.trendId = 0;
+    this.trendName = undefined;
+
     this.getTypeId=function(){
       return that.selectedTypeId;
     };
@@ -75,11 +79,28 @@ function CLDNode(graph) {
 
     this.changeClass=function(cssClassName){
       that.nodeElement.classed(cssClassName,true);
-    }
+    };
 
     this.clearClass=function(){
       that.nodeElement.attr('class', null);
-    }
+    };
+
+    this.setObserve = function(val) {
+        that.isObserved = val;
+    };
+
+    this.getObserve = function() {
+        return that.isObserved;
+    };
+
+    this.setTrend = function(tid, tname) {
+        that.trendId = tid;
+        that.trendName = tname;
+    };
+
+    this.getTrend = function() {
+        return that.trendId;
+    };
 
     this.drawNode=function(){
 
