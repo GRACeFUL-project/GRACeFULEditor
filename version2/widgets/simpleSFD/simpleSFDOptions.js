@@ -74,8 +74,8 @@ function SimpleSFDControls(parentWidget) {
     };
 
     this. loadLibraryFromJSON=function(){
-      console.log("Button Requesting a load function");
-        console.log("loading was pressed");
+      // console.log("Button Requesting a load function");
+      //   console.log("loading was pressed");
         // create a temporary file loader
         var hidden_solutionInput=document.createElement('input');
         hidden_solutionInput.id="HIDDEN_SOLUTION_JSON_INPUT";
@@ -91,12 +91,12 @@ function SimpleSFDControls(parentWidget) {
         var fileName;
         var readText;
         // simulate click event;
-        console.log("hidden thing is clicked");
+        // console.log("hidden thing is clicked");
         hidden_solutionInput.click();
         loaderSolutionPathNode.remove(loaderSolutionPathNode);
         // tell what to do when clicked
         loaderSolutionPathNode.on("change",function(){
-            console.log("hidden thing is clicked");
+           // console.log("hidden thing is clicked");
             var files= loaderSolutionPathNode.property("files");
             if (files.length>0){
                 console.log("file?"+files[0].name);

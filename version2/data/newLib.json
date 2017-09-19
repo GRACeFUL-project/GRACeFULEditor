@@ -18,7 +18,7 @@
     ],
     "imgURL"      : "./data/svg/rain.svg",
     "description" : "This is Rain", 
-    "type"        : "SINGLE"
+    "type"        : "NODAL"
   },
 
   {
@@ -48,7 +48,7 @@
     ],
     "imgURL"      : "./data/svg/pump.svg",
     "description" : "This is a pump",
-    "type"        : "INTERLINK"
+    "type"        : "RELATIONAL"
   },
 
   { "name": "runoff area",
@@ -87,7 +87,7 @@
     ],
     "imgURL"      : "./data/img/runOffArea.png",
     "description" : "This is RUN off Area",
-    "type"        : "SINGLE"
+    "type"        : "NODAL"
   },
   { "name": "sink",
 
@@ -108,7 +108,7 @@
     ],
     "imgURL"      : "./data/img/sink.png",
     "description" : "This is a Sink",
-    "type"        : "SINGLE"
+    "type"        : "NODAL"
   }
 
 

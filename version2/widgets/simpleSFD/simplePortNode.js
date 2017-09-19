@@ -102,8 +102,8 @@ function SimplePortNode(parent,portDesc) {
     };
 
     function parseDescription(portdesc) {
-        console.log("parsing port Description");
-        console.log(portdesc);
+       // console.log("parsing port Description");
+      //  console.log(portdesc);
         imageUrl=portdesc.imgURL;
         hoverText=portdesc.hoverText;
         if ( portdesc.hoverText===undefined) {
@@ -210,7 +210,7 @@ function SimplePortNode(parent,portDesc) {
 
         nodeRoot.on("mouseover", function () {onImageHover() ;});
         nodeRoot.on("mouseout" , function () {outImageHover();});
-        console.log("adding hover Text"+hoverText);
+  //      console.log("adding hover Text"+hoverText);
         nodeRoot.append("title").text(hoverText);
         nodeRoot.on("click", onClicked);
     };

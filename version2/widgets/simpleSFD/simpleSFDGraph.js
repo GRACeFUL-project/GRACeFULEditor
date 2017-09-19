@@ -88,7 +88,7 @@ function SimpleSFDGraph(){
             }
         }
         exampleNode.setType(that.selectedOverlayId);
-        console.log(that.selectedOverlayId+"it is the one");
+        // console.log(that.selectedOverlayId+"it is the one");
         return exampleNode;
     };
 
@@ -667,6 +667,7 @@ function SimpleSFDGraph(){
             nodeDescription.imgUrl=imgURL;
             nodeDescription.hoverText=description;
             nodeDescription.params=params;
+            nodeDescription.type=libDisc.type;
             nodeDescription.ports=libDisc.interface;
             inputClasses.push(nodeDescription);
         }
@@ -748,6 +749,10 @@ function SimpleSFDGraph(){
     // owerwrite dragger release function;
     this.draggerElementReleaseFunction=function(d){
 
+        // check if we have to perform a interlink operation;
+        var nodeDesc=inputClasses[that.selectedOverlayId];
+
+
         that.draggerLayer.classed("hidden",true);
         // check he the node stoped
         that.draggingObject=false;
@@ -773,7 +778,7 @@ function SimpleSFDGraph(){
 
             console.log("Source("+sourcePort.getName()+": INPUT="+s_portIT);
             console.log("Source("+sourcePort.getName()+": OUTPUT="+s_portOT);
-            console.log("Source("+sourcePort.getName()+": OUTPUT="+sourcePort.isUsed());
+            console.log("Source("+sourcePort.getName()+": USED="+sourcePort.isUsed());
             console.log("-----------------");
 
             var aLink,sourceNode, targetNode,seenLink;
@@ -803,6 +808,7 @@ function SimpleSFDGraph(){
                 }
             }
             if (newLibType===true){
+                // TODO: RE-EVALUATE ALL USE CASES!!! <<
                 console.log("validating link connection in the new lib format");
                 // ah now it gets more complex;
 
@@ -812,6 +818,10 @@ function SimpleSFDGraph(){
                     return;
                 }
                 if (s_portIT==="SINGLE" && sourcePort.isUsed()===true){
+                    console.log("Well Nope this does not allow also source port already used");
+                    return;
+                }
+                if (s_portOT==="SINGLE" && sourcePort.isUsed()===true){
                     console.log("Well Nope this does not allow also source port already used");
                     return;
                 }
@@ -829,23 +839,104 @@ function SimpleSFDGraph(){
                 // everthing that forbids connections should be handled now
                 // now we can create the connections;
 
-                aLink = that.createLink(that);
+                // check if relational type is selected
                 sourceNode=d.parentNode().getParentNode();
                 targetNode=targetPort.getParentNode();
-                seenLink=aLink.validateConnection(sourceNode,targetNode);
-                if (seenLink===false) {
-                    aLink.source(sourceNode);
-                    aLink.target(targetNode);
-                    aLink.addPortConnection(sourcePort,targetPort);
-                    that.pathElementArray.push(aLink);
+
+                var sourceDesc=inputClasses[sourceNode.getTypeId()];
+                var targetDesc=inputClasses[targetNode.getTypeId()];
+                if (nodeDesc.type==="RELATIONAL" && sourceDesc.type!=="RELATIONAL" && targetDesc.type!=="RELATIONAL"){
+                    console.log("Creating relational Type Node and its connection");
+                    // get the positions of the parents;
+
+                    var x=sourceNode.x+0.5*(targetNode.x-sourceNode.x);
+                    var y=sourceNode.y+0.5*(targetNode.y-sourceNode.y);
+
+
+                    // create a interlink node and set its position in the middle;
+                    var interLinkNode=that.createNode(that,inputClasses);
+                    interLinkNode.setPosition(x,y);
+                    that.nodeElementArray.push(interLinkNode);
+                    // force a redraw so the port elements of this node are generated
+                    that.forceRedrawContent();
+
+                    // figure out the interlink port candiates;
+                    var IL_InPort;
+                    var IL_OUTPort;
+
+                    /** TODO: currently a vague assumption that there exist only on suitable port
+                        (using types=NONE for disambiguation)
+                    **/
+                    var allInterlinkPorts=interLinkNode.getPortElements();
+                    for (var q=0;q<allInterlinkPorts.length;q++){
+                        var tempPort=allInterlinkPorts[q];
+                        if (tempPort.getOutgoingConnectionType()==="NONE" && tempPort.getIncomingConnectionType()!=="NONE"){
+                            // todo: check for validation of candidate
+                            //found canditate
+                            IL_InPort=tempPort;
+                        }
+                        if (tempPort.getOutgoingConnectionType()!=="NONE" && tempPort.getIncomingConnectionType()==="NONE"){
+                            // todo: check for validation of candidate
+                            //found canditate
+                            IL_OUTPort=tempPort;
+                        }
+                    }
+                    console.log("Found Candidates for connection");
+                    if (IL_InPort===undefined || IL_OUTPort===undefined){
+                        console.log("SOMETHING BAD HAS HAPPEND------------------------------------------------------" );
+                    }else{
+                        // Build up the connection
+
+                        // todo: validate the connection of the interlink type if this is allow by the definition
+                        // but for now this should be fine
+
+                        // we need to create two links
+                        // aLink means from source to interlink
+                        aLink = that.createLink(that);
+                        sourceNode=d.parentNode().getParentNode();
+                        aLink.source(sourceNode);
+                        aLink.target(interLinkNode);
+                        aLink.addPortConnection(sourcePort,IL_InPort);
+                        that.pathElementArray.push(aLink);
+
+                        // blink means form interlink to target node;
+                        var bLink = that.createLink(that);
+                        bLink.source(interLinkNode);
+                        bLink.target(targetNode);
+                        bLink.addPortConnection(IL_OUTPort,targetPort);
+                        that.pathElementArray.push(bLink);
+
+                        // update usage of the ports;
+                        IL_InPort.isUsed(true);
+                        IL_OUTPort.isUsed(true);
+                        targetPort.isUsed(true);
+                        d.parentNode().isUsed(true);
+                    }
+                    // force a redraw : updates the new links
+                    that.forceRedrawContent();
+
+
+
+
                 }else{
-                    seenLink.setMultiLinkType(true);
-                    seenLink.addPortConnection(sourcePort,targetPort);
+                    aLink = that.createLink(that);
+                    sourceNode=d.parentNode().getParentNode();
+                    targetNode=targetPort.getParentNode();
+                    seenLink=aLink.validateConnection(sourceNode,targetNode);
+                    if (seenLink===false) {
+                        aLink.source(sourceNode);
+                        aLink.target(targetNode);
+                        aLink.addPortConnection(sourcePort,targetPort);
+                        that.pathElementArray.push(aLink);
+                    }else{
+                        seenLink.setMultiLinkType(true);
+                        seenLink.addPortConnection(sourcePort,targetPort);
+                    }
+                    targetPort.isUsed(true);
+                    d.parentNode().isUsed(true);
+                    // force draw of link;
+                    that.forceRedrawContent();
                 }
-                targetPort.isUsed(true);
-                d.parentNode().isUsed(true);
-                // force draw of link;
-                that.forceRedrawContent();
 
 
             }
