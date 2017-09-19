@@ -11,6 +11,7 @@ function SimpleSFDNode(graph,nodeDescriptions) {
     var imageUrls=[];
     var portDescriptions=[];
     var parametersDescriptions=[];
+    var nodeHoverDescriptions=[]; // aka hover text
     var parameterElements=[];
     var portElements=[];
     var nodeName="noName";
@@ -38,8 +39,8 @@ function SimpleSFDNode(graph,nodeDescriptions) {
             labelTags.push(m_nodeDescriptions[i].name);
             typesArray.push("baseRoundNode");
             imageUrls.push(m_nodeDescriptions[i].imgUrl);
+            nodeHoverDescriptions.push(m_nodeDescriptions[i].hoverText);
             portDescriptions.push(m_nodeDescriptions[i].ports);
-            console.log(m_nodeDescriptions[i]);
             parametersDescriptions.push(m_nodeDescriptions[i].params);
             numTypes++; // increase if number of node types has increased
         }
@@ -93,7 +94,7 @@ function SimpleSFDNode(graph,nodeDescriptions) {
     };
 
     function createParameterObjects(){
-      console.log(parametersDescriptions);
+    //  console.log(parametersDescriptions);
         var parDesc=parametersDescriptions[that.getTypeId()];
         for (var i=0;i<parDesc.length;i++){
             var parObj={};
@@ -112,7 +113,8 @@ function SimpleSFDNode(graph,nodeDescriptions) {
     };
 
     this.setType=function(typeId) {
-
+        that.hoverTextEnabled=true;
+        that.hoverText=nodeHoverDescriptions[typeId];
         that.setTypeId(typeId);
         that.label=labelTags[that.getTypeId()];
         nodeName=labelTags[that.getTypeId()];
@@ -125,10 +127,6 @@ function SimpleSFDNode(graph,nodeDescriptions) {
             }
             that.nodeElement.classed(that.nodeClass, true);
         }
-
-        // hard coded sfd nodes have always ports;
-
-
     };
 
     this.drawNode=function(){
@@ -136,9 +134,9 @@ function SimpleSFDNode(graph,nodeDescriptions) {
             .classed(that.nodeClass,true);
 
         // add hover text if you want
-        if (that.hoverTextEnabled===true)
-            that.rootNodeLayer.append('title').text(that.hoverText);
-
+        if (that.hoverTextEnabled===true) {
+            that.rootNodeLayer.append("title").text(that.hoverText);
+        }
         // add title
         that.labelRenderingElement=  that.rootNodeLayer.append("text")
             .attr('y',-that.getRadius()-5)

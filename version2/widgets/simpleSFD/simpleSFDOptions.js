@@ -77,8 +77,8 @@ function SimpleSFDControls(parentWidget) {
     };
 
     this. loadLibraryFromJSON=function(){
-      console.log("Button Requesting a load function");
-        console.log("loading was pressed");
+      // console.log("Button Requesting a load function");
+      //   console.log("loading was pressed");
         // create a temporary file loader
         var hidden_solutionInput=document.createElement('input');
         hidden_solutionInput.id="HIDDEN_SOLUTION_JSON_INPUT";
@@ -94,12 +94,12 @@ function SimpleSFDControls(parentWidget) {
         var fileName;
         var readText;
         // simulate click event;
-        console.log("hidden thing is clicked");
+        // console.log("hidden thing is clicked");
         hidden_solutionInput.click();
         loaderSolutionPathNode.remove(loaderSolutionPathNode);
         // tell what to do when clicked
         loaderSolutionPathNode.on("change",function(){
-            console.log("hidden thing is clicked");
+           // console.log("hidden thing is clicked");
             var files= loaderSolutionPathNode.property("files");
             if (files.length>0){
                 console.log("file?"+files[0].name);
@@ -269,19 +269,16 @@ function SimpleSFDControls(parentWidget) {
           // var tempIcon = document.createElement('i');
           nodeGroup.collapseBody();
 
-
+          controlsMenuLibrary=that.createAccordionGroup(that.divControlsGroupNode, "Graph Controls");
           controlsMenu= that.createAccordionGroup(that.divControlsGroupNode, "Model Controls");
           // solverLineEdit=that.addLineEdit(controlsMenu,"SolverAddress","http://localhost:4000",true,that.changeSolverAddress);
-          controlsMenuLibrary=that.createAccordionGroup(that.divControlsGroupNode, "Graph Controls");
           // clearSFD = that.addHrefButton(controlsMenu,"Clear",that.clearGraph,true);
           //@ Rohan could you realign the buttons?
         // something like this:
         // -----------------------------------------------
         // Load Model, Save Model, Send Model
         // Load Library, Get Library, Clear Graph
-        // -----------------------------------------------
-
-        clearSFD= that.addButton(controlsMenuLibrary, "CLEAR GRAPH", "sfdClearGraph", that.clearGraph, "flat", true, "clear_all" );
+        // -----------------------------------------------        
 
         // clearSFD = that.addHrefButton(controlsMenu,"Clear Graph",that.clearGraph,true);
         //
@@ -290,26 +287,28 @@ function SimpleSFDControls(parentWidget) {
         //   clearSFD.parentNode.setAttribute("class", "form-group col-lg-12");
         //
         //
-        loadSFD= that.addButton(controlsMenu, "LOAD MODEL", "sfdLoadModel", that.loadFunction, "flat", true, "cloud_upload" );
+        loadSFD= that.addButton(controlsMenuLibrary, "LOAD GRAPH", "sfdLoadModel", that.loadFunction, "flat", true, "cloud_upload" );
 
         //   loadSFD = that.addHrefButton(controlsMenu,"Load Model",that.loadFunction,true);
         //   document.getElementById("sfd_basic").appendChild(loadSFD.parentNode);
         //   loadSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
         //   loadSFD.parentNode.setAttribute("class", "col-xs-4 text-center");
         //
-        saveSFD= that.addButton(controlsMenu, "SAVE MODEL", "sfdSaveModel", that.saveFunction, "flat", true, "save" );
+        saveSFD= that.addButton(controlsMenuLibrary, "SAVE GRAPH", "sfdSaveModel", that.saveFunction, "flat", true, "save" );
         //   saveSFD = that.addHrefButton(controlsMenu,"Save Model",that.saveFunction,true);
         //   document.getElementById("sfd_basic").appendChild(saveSFD.parentNode);
         //   saveSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
         //   saveSFD.parentNode.setAttribute("class", "col-xs-4");
-        //
-        reqSFD= that.addButton(controlsMenuLibrary, "GET LIBRARY", "sfdGetLibrary", that.serverRequest, "flat", true, "get_app" );
+        
+        clearSFD= that.addButton(controlsMenuLibrary, "CLEAR GRAPH", "sfdClearGraph", that.clearGraph, "flat", true, "clear_all" );
+        
+        reqSFD= that.addButton(controlsMenu, "GET LIBRARY", "sfdGetLibrary", that.serverRequest, "flat", true, "get_app" );
         //   reqSFD = that.addHrefButton(controlsMenu,"Get Library",that.serverRequest,true);
         //   reqSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
         //   reqSFD.parentNode.setAttribute("id", "sfd_basic1");
         //   reqSFD.parentNode.setAttribute("class", "form-group col-lg-12");
         //
-        reqLoadLIB= that.addButton(controlsMenuLibrary, "LOAD LIBRARY", "sfdLoadLibrary", that.loadLibraryFromJSON, "flat", true, "file_upload" );
+        reqLoadLIB= that.addButton(controlsMenu, "LOAD LIBRARY", "sfdLoadLibrary", that.loadLibraryFromJSON, "flat", true, "file_upload" );
 
         //   // @ Rohan : could you realign the Buttons?
         // reqLoadLIB = that.addHrefButton(controlsMenu,"load Library",that.loadLibraryFromJSON,true);

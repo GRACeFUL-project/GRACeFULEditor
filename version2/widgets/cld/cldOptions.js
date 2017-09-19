@@ -39,24 +39,25 @@ function CLDControls(parentWidget) {
         causalSelection = that.addSelectionOpts(linksGroup, "Value", getClassValues, that.onChangeLinkType);
         d3.select(causalSelection.node().parentNode).classed("hidden", true);
         commentLink = that.addTextEdit(linksGroup, "Comments", "", true, that.onChangeLinkComment);
-        delLinkBtn = that.addButtons(linksGroup, "Delete", "linkDelete", that.deleteLinks);
+        // delLinkBtn = that.addButtons(linksGroup, "Delete", "linkDelete", that.deleteLinks);
 
-        additionalSettings = that.createAccordionGroup(that.divControlsGroupNode, "Model Controls");
         graphControls = that.createAccordionGroup(that.divControlsGroupNode, "Graph Controls");
+        additionalSettings = that.createAccordionGroup(that.divControlsGroupNode, "Model Controls");        
 
-        loadcld= that.addButton(additionalSettings, "LOAD MODEL", "cldLoadModel", that.loadFunction, "flat", true, "cloud_upload" );
+        loadcld= that.addButton(graphControls, "LOAD GRAPH", "cldLoadModel", that.loadFunction, "flat", true, "cloud_upload" );
 
         // loadcld = that.addHrefButton(additionalSettings,"Load",that.loadFunction,true);
         // loadcld.setAttribute("class", "btn btn-default btn-sm");
         // loadcld.parentNode.setAttribute("id", "basic");
         // loadcld.innerHTML = '<span class="glyphicon glyphicon-floppy-open"></span> Load Model';
 
-        saveCld= that.addButton(additionalSettings, "SAVE MODEL", "cldSaveModel", that.saveFunction, "flat", true, "save" );
+        saveCld= that.addButton(graphControls, "SAVE GRAPH", "cldSaveModel", that.saveFunction, "flat", true, "save" );
         // saveCld = that.addHrefButton(additionalSettings,"Save",that.saveFunction,false);
         // document.getElementById("basic").appendChild(saveCld);
         // saveCld.setAttribute("class", "btn btn-default btn-sm pull-right");
         // saveCld.innerHTML = '<span class="glyphicon glyphicon-floppy-save"></span> Save Model';
-        //
+        
+        clearCLD= that.addButton(graphControls, "CLEAR GRAPH", "cldClearGraph", that.clearGraph, "flat", true, "clear_all" );
 
         libCld = that.addButton(additionalSettings, "GET LIBRARY", "cldGetLibrary", that.getLibrary, "flat", true, "get_app" );
         // libCld = that.addHrefButton(additionalSettings,"Get Library",that.getLibrary,true);
@@ -72,24 +73,19 @@ function CLDControls(parentWidget) {
         // sendCld.innerHTML = '<span class="glyphicon glyphicon-log-out"></span> Send Model';
         //
 
-        importCriteria = that.addButton(graphControls, "IMPORT CRITERIA", "cldImportCriteria", that.onCriteriaImport, "flat", true, "import_export" );
+        importCriteria = that.addButton(additionalSettings, "IMPORT CRITERIA", "cldImportCriteria", that.onCriteriaImport, "flat", true, "import_export" );
         // importCriteria = that.addHrefButton(graphControls, "Import Criteria", that.onCriteriaImport, true);
         // importCriteria.setAttribute("class", "btn btn-default btn-sm btn-block");
         //
 
-        extFactorBtn = that.addButton(graphControls, "IDENTIFY EXTERNAL FACTORS", "cldIdentifyExtFactors", that.identifyExtFact, "flat", true, "explicit" );
+        extFactorBtn = that.addButton(additionalSettings, "IDENTIFY EXTERNAL FACTORS", "cldIdentifyExtFactors", that.identifyExtFact, "flat", true, "explicit" );
         // extFactorBtn = that.addHrefButton(graphControls, "Identify External Factors", that.identifyExtFact, true);
         // extFactorBtn.setAttribute("class", "btn btn-default btn-sm btn-block");
         //
 
-        loopBtn = that.addButton(graphControls, "IDENTIFY FEEDBACK LOOPS", "cldIdentifyFeedbacks", that.feedbackLoop, "flat", true, "loop" );
-        // loopBtn = that.addHrefButton(graphControls, "Identify Feeback Loops", that.feedbackLoop, true);
-        // loopBtn.setAttribute("class", "btn btn-default btn-sm btn-block");
-        // loopBtn.setAttribute("data-toggle", "modal");
-        // loopBtn.setAttribute("data-target", "#loopModal");
-
-        clearCLD= that.addButton(graphControls, "CLEAR GRAPH", "cldClearGraph", that.clearGraph, "flat", true, "clear_all" );
-
+        loopBtn = that.addButton(additionalSettings, "IDENTIFY FEEDBACK LOOPS", "cldIdentifyFeedbacks", that.feedbackLoop, "flat", true, "loop" );
+        loopBtn.setAttribute("data-toggle", "modal");
+        loopBtn.setAttribute("data-target", "#loopModal");        
     };
 
     this.handleNodeSelection=function(node){
@@ -233,11 +229,11 @@ function CLDControls(parentWidget) {
 
     };
 
-    this.deleteLinks = function() {
-        that.parent.linkDeletion(that.selectedNode);
-        that.selectedNode = null;
-        linksGroup.collapseBody();
-    };
+    // this.deleteLinks = function() {
+    //     that.parent.linkDeletion(that.selectedNode);
+    //     that.selectedNode = null;
+    //     linksGroup.collapseBody();
+    // };
 
     this.clearGraph=function(){
         parentWidget.clearGraph();

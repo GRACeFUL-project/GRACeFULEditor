@@ -67,8 +67,8 @@ function BaseDragger(graph) {
                 .attr("x2", 0)
                 .attr("y2", 0);
 
-          var lineData = [ { "x": 0,   "y": 0},  { "x": 0,  "y": -40},
-                           { "x": 40, "y":0}, { "x": 0,   "y": 40},
+          var lineData = [ { "x": 0,   "y": 0},  { "x": 0,  "y": 40},
+                           { "x": -40, "y":0}, { "x": 0,   "y": -40},
                            {"x": 0, "y":0}
                          ];
 
@@ -78,11 +78,9 @@ function BaseDragger(graph) {
                           .interpolate("linear");
 
             that.nodeElement = that.rootNodeLayer.append('path').attr("d", lineFunction(lineData))
-                                                                .attr("stroke", "blue")
-                                                                .attr("stroke-width", 2)
+                                                                .attr("stroke", "white")
+                                                                .attr("stroke-width", 0.5)
                                                                 .attr("fill", "blue");
-
-            // that.nodeElement = that.rootNodeLayer.append('circle').attr("r", 50);
         }
 
     };
@@ -96,6 +94,8 @@ function BaseDragger(graph) {
                 .attr("x2", that.parent.x - this.x)
                 .attr("y2", that.parent.y - this.y);
         }
+        var angle = Math.atan2(that.parent.y - this.y, that.parent.x - this.x) * 180 / Math.PI;
+        that.nodeElement.attr("transform", function(d) { return "rotate("+ angle +")"; });
     };
 
     /** MOUSE HANDLING FUNCTIONS ------------------------------------------------- **/

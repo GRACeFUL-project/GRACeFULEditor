@@ -81,47 +81,122 @@ function loadGoalTreeDiagram(gtw){
 // Loading of widget Items
 
 function reloadWidgetItems(jsonOBJ){
-    console.log("hey you, kill all the perv elements please");
+    // console.log("hey you, kill all the perv elements please");
     var domElement = document.getElementById('widgetList') ;
 
     var htmlCollection = domElement.children;
     var numEntries = htmlCollection.length;
-    for (var i = 0; i < numEntries; i++) {
+    var i,temp;
+    var widgetItemDiv,imgItem,nameDiv;
+    for ( i = 0; i < numEntries; i++) {
         htmlCollection[0].remove();
     }
     // create the new elements
     var object= jsonOBJ['library'];
-    var iterator;
     var label = "sample";
     var srcToImg = "./data/img/test.svg";
-    //do the presentation logic here as following ..
-    for( i=0; i < object.length ; i++ ){
-        var temp = object[i];
 
-        label = temp.name ;
-        srcToImg = temp.icon;
-        // sanity check
-        if (srcToImg===undefined) { // try img url
-            srcToImg = temp.imgURL;
+    // check for new or old library format;
+    var newLibFormat=false;
+    for( i=0; i < object.length ; i++ ) {
+        if (object[i].type==="NODAL" || object[i].type==="RELATIONAL") {
+            newLibFormat = true;
+            break;
         }
-        // srcToImg = "./data/svg/test.svg";
-        //srcToImg = item.icon ;
-        console.log(label);
-        var widgetItemDiv = document.createElement("div");
-        widgetItemDiv.setAttribute("class","widgetItem");
-        widgetItemDiv.setAttribute("id","sfd"+i);
-        widgetItemDiv.setAttribute("onclick", "setDivActive("+i+")");
-        var imgItem = document.createElement("img");
-        imgItem.setAttribute("src",srcToImg);
-        imgItem.setAttribute("height","96px");
-        imgItem.setAttribute("width","96px");
-        // widgetItemDiv.innerHTML = label;
-        widgetItemDiv.appendChild(imgItem);
-        widgetItemDiv.appendChild(document.createElement("br"));
-        var nameDiv = document.createElement("div");
-        nameDiv.innerHTML=label;
-        widgetItemDiv.appendChild(nameDiv);
-        domElement.appendChild(widgetItemDiv);
+    }
+
+    if (newLibFormat===true){
+        // sort the elements
+        var nodes=[];
+        var relations=[];
+
+        for( i=0; i < object.length ; i++ ) {
+            temp = object[i];
+            label = temp.name ;
+            srcToImg = temp.icon;
+            // sanity check
+            if (srcToImg===undefined) { // try img url
+                srcToImg = temp.imgURL;
+            }
+            // srcToImg = "./data/svg/test.svg";
+            //srcToImg = item.icon ;
+            console.log(label);
+            widgetItemDiv = document.createElement("div");
+            widgetItemDiv.setAttribute("class","widgetItem");
+            widgetItemDiv.setAttribute("id","sfd"+i);
+            widgetItemDiv.setAttribute("onclick", "setDivActive("+i+")");
+
+            imgItem = document.createElement("img");
+            imgItem.setAttribute("src",srcToImg);
+            imgItem.setAttribute("height","96px");
+            imgItem.setAttribute("width","96px");
+            // widgetItemDiv.innerHTML = label;
+            widgetItemDiv.appendChild(imgItem);
+            widgetItemDiv.appendChild(document.createElement("br"));
+
+            nameDiv = document.createElement("div");
+            nameDiv.innerHTML=label;
+            widgetItemDiv.appendChild(nameDiv);
+            if (object[i].type==="NODAL" ) {
+                nodes.push(widgetItemDiv)
+            }
+            if (object[i].type==="RELATIONAL" ) {
+                relations.push(widgetItemDiv)
+            }
+        }
+        // add them in the correct order to the dom objects;l
+        var nodalTag= document.createElement("div");
+        nodalTag.innerHTML="NODES";
+        nodalTag.setAttribute("class","tabHighlight");
+        domElement.appendChild(nodalTag);
+        for (i=0;i<nodes.length;i++) {
+            domElement.appendChild(nodes[i]);
+        }
+        // todo: add seperator;
+        var relationalTag= document.createElement("div");
+        relationalTag.innerHTML="RELATIONS";
+        relationalTag.setAttribute("class","tabHighlight");
+        domElement.appendChild(relationalTag);
+        // adding relational nodes
+        for (i=0;i<relations.length;i++) {
+            domElement.appendChild(relations[i]);
+        }
+    }
+
+
+
+    if (newLibFormat===false){
+        //do the presentation logic here as following ..
+        for( i=0; i < object.length ; i++ ){
+            temp = object[i];
+
+            label = temp.name ;
+            srcToImg = temp.icon;
+            // sanity check
+            if (srcToImg===undefined) { // try img url
+                srcToImg = temp.imgURL;
+            }
+            // srcToImg = "./data/svg/test.svg";
+            //srcToImg = item.icon ;
+            console.log(label);
+            widgetItemDiv = document.createElement("div");
+            widgetItemDiv.setAttribute("class","widgetItem");
+            widgetItemDiv.setAttribute("id","sfd"+i);
+            widgetItemDiv.setAttribute("onclick", "setDivActive("+i+")");
+
+            imgItem = document.createElement("img");
+            imgItem.setAttribute("src",srcToImg);
+            imgItem.setAttribute("height","96px");
+            imgItem.setAttribute("width","96px");
+            // widgetItemDiv.innerHTML = label;
+            widgetItemDiv.appendChild(imgItem);
+            widgetItemDiv.appendChild(document.createElement("br"));
+
+            nameDiv = document.createElement("div");
+            nameDiv.innerHTML=label;
+            widgetItemDiv.appendChild(nameDiv);
+            domElement.appendChild(widgetItemDiv);
+        }
     }
     libObject=jsonOBJ;
 
@@ -176,9 +251,13 @@ function loadWidgetItems(gracefulLib){
 function clearAllDiv(){
     var object= libObject['library'];
     for(var i=0 ; i < object.length ; i++ ) {
-        document.getElementById("sfd" + i).style.backgroundColor = "white";
+        if (document.getElementById("sfd" + i)){
+            document.getElementById("sfd" + i).style.backgroundColor = "white";
+        }
     }
 }
+
+
 
 function setDivActive(id){
     clearAllDiv();

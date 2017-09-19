@@ -26,16 +26,16 @@ function GTControls(parentWidget) {
         goalsGroup.collapseBody();
         // delGoal = that.addButtons(goalsGroup, "Delete", "goalDelete", that.onDeleteGoal);
 
-        additionalSettings = that.createAccordionGroup(that.divControlsGroupNode, "Controls");
+        additionalSettings = that.createAccordionGroup(that.divControlsGroupNode, "Graph Controls");
 
 
-        loadcld= that.addButton(additionalSettings, "LOAD", "gtLOAD", that.loadFunction, "flat", true, "file_upload" );
+        loadcld= that.addButton(additionalSettings, "LOAD GRAPH", "gtLOAD", that.loadFunction, "flat", true, "cloud_upload" );
         // loadcld = that.addHrefButton(additionalSettings,"Load",that.loadFunction,true);
         // loadcld.setAttribute("class", "btn btn-default btn-sm");
         // loadcld.parentNode.setAttribute("id", "goalBasic");
         // loadcld.innerHTML = '<span class="glyphicon glyphicon-floppy-open"></span> Load Goal Tree';
         //
-        saveCld= that.addButton(additionalSettings, "SAVE", "gtSAVE", that.saveFunction, "flat", true, "save" );
+        saveCld= that.addButton(additionalSettings, "SAVE GRAPH", "gtSAVE", that.saveFunction, "flat", true, "save" );
         // saveCld = that.addHrefButton(additionalSettings,"Save",that.saveFunction,false);
         // document.getElementById("goalBasic").appendChild(saveCld);
         // saveCld.setAttribute("class", "btn btn-default btn-sm pull-right");
