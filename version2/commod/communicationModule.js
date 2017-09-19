@@ -12,7 +12,7 @@
     function new_object(initializer) {
         // some variables
         var that = this;
-
+        this.erroLog="Error Message";
         //var registeredWidgets;
         //http://localhost:4000/static/index.html
         //var solverAddress="http://localhost:4000";

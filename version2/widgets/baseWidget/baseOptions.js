@@ -148,9 +148,12 @@ function BaseControls(parentWidget) {
       deleteIcon.innerHTML="cancel";
       d3.select(deleteIcon).classed("material-icons",true);
 
-      var breakElement=document.createElement('br');
-      parent.getBody().node().appendChild(breakElement);
-      d3.select(breakElement).classed("separator",true);
+      parent.getBody().node().appendChild(document.createElement('br'));
+      parent.getBody().node().appendChild(document.createElement('br'));
+
+      // If need to stylize spacing customly..
+      // var breakElement=document.createElement('br');
+      // d3.select(breakElement).classed("separator",true);
 
       var returnElements = new Array();
         returnElements[0]=text;
@@ -176,10 +179,16 @@ function BaseControls(parentWidget) {
         var thisDiv=document.createElement('div');
         thisForm.appendChild(thisDiv);
         // parent.getBody().node().appendChild(thisDiv);
-        d3.select(thisDiv).classed("mdl-textfield mdl-js-textfield mdl-textfield--floating-label",true);
+        // d3.select(thisDiv).classed("mdl-textfield mdl-js-textfield mdl-textfield--floating-label",true);
 
 
         //'<input type="text" class="form-control" id="nTitle" disabled>' +
+        var lb=document.createElement('label');
+        lb.innerHTML=label;
+        // lb.setAttribute("for",timeStampInMs);
+        // d3.select(lb).classed("mdl-textfield__label", true);
+        thisDiv.appendChild(lb);
+
         var le=document.createElement('input');
         thisDiv.appendChild(le);
         le.setAttribute("type","text");
@@ -188,13 +197,6 @@ function BaseControls(parentWidget) {
         leNode.classed("mdl-textfield__input",true);
         le.disabled=!enabled;
         le.value=defaultText;
-
-
-        var lb=document.createElement('label');
-        // lb.innerHTML=label;
-        lb.setAttribute("for",timeStampInMs);
-        d3.select(lb).classed("mdl-textfield__label", true);
-        thisDiv.appendChild(lb);
 
         leNode.on("change",function(){onChangeFunction();});
         return leNode;
@@ -238,7 +240,7 @@ function BaseControls(parentWidget) {
       var button = document.createElement('button');
       parent.getBody().node().appendChild(button);
       d3.select(button).classed(buttonClass+" mdl-cell mdl-cell--12-col",true);
-
+      button.setAttribute('id',btnId);
       // adding Icon to the button if required
       if(btnIcon==true)
       {
@@ -259,7 +261,7 @@ function BaseControls(parentWidget) {
       d3.select(button).on("click", function() {
           onClickFunction();
       });
-
+      return button;
     }
 
     this.addHrefButton = function(parent, label, onClickFunction,ownDiv) {
@@ -363,8 +365,8 @@ function BaseControls(parentWidget) {
     this.addTable=function(parent,tableName,headerArray){
         var thisDiv=document.createElement('div');
         parent.getBody().node().appendChild(thisDiv);
-        d3.select(thisDiv).classed("form-group",true);
-        d3.select(thisDiv).classed("mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp",true);
+        // d3.select(thisDiv).classed("form-group",true);
+        // d3.select(thisDiv).classed("mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--1dp",true);
         var lb=document.createElement('label');
         lb.innerHTML=tableName;
         thisDiv.appendChild(lb);
@@ -373,17 +375,28 @@ function BaseControls(parentWidget) {
         var table=document.createElement('table');
 
         // add table to div
-        d3.select(table).classed("mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp", true);
+        d3.select(table).classed("mdl-data-table mdl-js-data-table mdl-shadow--1dp", true);
         var percentage=100;
 
         d3.select(table).style("width",percentage+"%");
         thisDiv.appendChild(table);
 
         var row = table.insertRow(0);
+        var head = table.createTHead();
+        var tablerow=head.insertRow(0);
         for (var i=0; i<headerArray.length;i++){
-            var cell = row.insertCell(i);
-            cell.innerHTML=headerArray[i];
+              var cell = tablerow.insertCell(i);
+              cell.innerHTML=headerArray[i];
+
         }
+
+        d3.select(tablerow).classed("headerTable",true);
+        // var body = table.appendChild(document.createElement('tbody'));
+
+        thisDiv.appendChild(document.createElement('br'));
+        thisDiv.appendChild(document.createElement('br'));
+
+        // var tablerefody=table.getElementsByTagName('tbody')[0];
 
         return d3.select(table);
     };

@@ -13,7 +13,7 @@ function CLDControls(parentWidget) {
 
     this.generateControls=function() {
         // testing stuff,
-        nodesGroup = that.createAccordionGroup(that.divControlsGroupNode, "Nodes"); 
+        nodesGroup = that.createAccordionGroup(that.divControlsGroupNode, "Nodes");
 
         // lineEditNode = that.addLineEdit(nodesGroup, "Name", "", true, that.onChangeNodeName);
           cldChipNode=that.addNodeTypeChip(nodesGroup,"Enter Node Name","#fafafa",that.deleteNodes,"cldChipField",false,"undefined","cld","./images/nodes/factor.png");
@@ -30,43 +30,62 @@ function CLDControls(parentWidget) {
 
 
         linksGroup = that.createAccordionGroup(that.divControlsGroupNode, "Links");
+
+        // linkNode=that.addNodeTypeChip(linksGroup,"Undefined","#fafafa",that.deleteLinks,"cldLinkChipField",false,"undefined","cld","./images/nodes/factor.png");
+        // cldChip = cldChipNode[0];
+        // cldChipImage=cldChipNode[1];
+
         linkClass = that.addSelectionOpts(linksGroup, "Class type", ["Undefined", "Causal Relation", "Other Relation"], that.onChangeLinkClass);
         causalSelection = that.addSelectionOpts(linksGroup, "Value", getClassValues, that.onChangeLinkType);
         d3.select(causalSelection.node().parentNode).classed("hidden", true);
         commentLink = that.addTextEdit(linksGroup, "Comments", "", true, that.onChangeLinkComment);
-        delLinkBtn = that.addButtons(linksGroup, "Delete", "linkDelete", that.deleteLinks);
+        // delLinkBtn = that.addButtons(linksGroup, "Delete", "linkDelete", that.deleteLinks);
 
-        additionalSettings = that.createAccordionGroup(that.divControlsGroupNode, "Settings");
-        loadcld = that.addHrefButton(additionalSettings,"Load",that.loadFunction,true);
-        loadcld.setAttribute("class", "btn btn-default btn-sm");
-        loadcld.parentNode.setAttribute("id", "basic");
-        loadcld.innerHTML = '<span class="glyphicon glyphicon-floppy-open"></span> Load Model';
+        graphControls = that.createAccordionGroup(that.divControlsGroupNode, "Graph Controls");
+        additionalSettings = that.createAccordionGroup(that.divControlsGroupNode, "Model Controls");        
 
-        saveCld = that.addHrefButton(additionalSettings,"Save",that.saveFunction,false);
-        document.getElementById("basic").appendChild(saveCld);
-        saveCld.setAttribute("class", "btn btn-default btn-sm pull-right");
-        saveCld.innerHTML = '<span class="glyphicon glyphicon-floppy-save"></span> Save Model';
+        loadcld= that.addButton(graphControls, "LOAD GRAPH", "cldLoadModel", that.loadFunction, "flat", true, "cloud_upload" );
 
-        libCld = that.addHrefButton(additionalSettings,"Get Library",that.getLibrary,true);
-        libCld.setAttribute("class", "btn btn-default btn-sm");
-        libCld.parentNode.setAttribute("id", "basic1");
-        libCld.innerHTML = '<span class="glyphicon glyphicon-log-in"></span> Get Library';
+        // loadcld = that.addHrefButton(additionalSettings,"Load",that.loadFunction,true);
+        // loadcld.setAttribute("class", "btn btn-default btn-sm");
+        // loadcld.parentNode.setAttribute("id", "basic");
+        // loadcld.innerHTML = '<span class="glyphicon glyphicon-floppy-open"></span> Load Model';
 
-        sendCld = that.addHrefButton(additionalSettings,"Send Model",that.sendModel,false);
-        document.getElementById("basic1").appendChild(sendCld);
-        sendCld.setAttribute("class", "btn btn-default btn-sm pull-right");
-        sendCld.innerHTML = '<span class="glyphicon glyphicon-log-out"></span> Send Model';
+        saveCld= that.addButton(graphControls, "SAVE GRAPH", "cldSaveModel", that.saveFunction, "flat", true, "save" );
+        // saveCld = that.addHrefButton(additionalSettings,"Save",that.saveFunction,false);
+        // document.getElementById("basic").appendChild(saveCld);
+        // saveCld.setAttribute("class", "btn btn-default btn-sm pull-right");
+        // saveCld.innerHTML = '<span class="glyphicon glyphicon-floppy-save"></span> Save Model';
+        
+        clearCLD= that.addButton(graphControls, "CLEAR GRAPH", "cldClearGraph", that.clearGraph, "flat", true, "clear_all" );
 
-        importCriteria = that.addHrefButton(additionalSettings, "Import Criteria", that.onCriteriaImport, true);
-        importCriteria.setAttribute("class", "btn btn-default btn-sm btn-block");
+        libCld = that.addButton(additionalSettings, "GET LIBRARY", "cldGetLibrary", that.getLibrary, "flat", true, "get_app" );
+        // libCld = that.addHrefButton(additionalSettings,"Get Library",that.getLibrary,true);
+        // libCld.setAttribute("class", "btn btn-default btn-sm");
+        // libCld.parentNode.setAttribute("id", "basic1");
+        // libCld.innerHTML = '<span class="glyphicon glyphicon-log-in"></span> Get Library';
+        //
 
-        extFactorBtn = that.addHrefButton(additionalSettings, "Identify External Factors", that.identifyExtFact, true);
-        extFactorBtn.setAttribute("class", "btn btn-default btn-sm btn-block");
+        sendCld= that.addButton(additionalSettings, "SEND MODEL", "cldSendModel", that.sendModel, "flat", true, "send" );
+        // sendCld = that.addHrefButton(additionalSettings,"Send Model",that.sendModel,false);
+        // document.getElementById("basic1").appendChild(sendCld);
+        // sendCld.setAttribute("class", "btn btn-default btn-sm pull-right");
+        // sendCld.innerHTML = '<span class="glyphicon glyphicon-log-out"></span> Send Model';
+        //
 
-        loopBtn = that.addHrefButton(additionalSettings, "Identify Feeback Loops", that.feedbackLoop, true);
-        loopBtn.setAttribute("class", "btn btn-default btn-sm btn-block");
+        importCriteria = that.addButton(additionalSettings, "IMPORT CRITERIA", "cldImportCriteria", that.onCriteriaImport, "flat", true, "import_export" );
+        // importCriteria = that.addHrefButton(graphControls, "Import Criteria", that.onCriteriaImport, true);
+        // importCriteria.setAttribute("class", "btn btn-default btn-sm btn-block");
+        //
+
+        extFactorBtn = that.addButton(additionalSettings, "IDENTIFY EXTERNAL FACTORS", "cldIdentifyExtFactors", that.identifyExtFact, "flat", true, "explicit" );
+        // extFactorBtn = that.addHrefButton(graphControls, "Identify External Factors", that.identifyExtFact, true);
+        // extFactorBtn.setAttribute("class", "btn btn-default btn-sm btn-block");
+        //
+
+        loopBtn = that.addButton(additionalSettings, "IDENTIFY FEEDBACK LOOPS", "cldIdentifyFeedbacks", that.feedbackLoop, "flat", true, "loop" );
         loopBtn.setAttribute("data-toggle", "modal");
-        loopBtn.setAttribute("data-target", "#loopModal");
+        loopBtn.setAttribute("data-target", "#loopModal");        
     };
 
     this.handleNodeSelection=function(node){
@@ -199,15 +218,28 @@ function CLDControls(parentWidget) {
     };
 
     this.deleteNodes = function() {
+        var nodeName=that.selectedNode.label;
         that.parent.nodeDeletion(that.selectedNode);
         that.selectedNode = null;
         nodesGroup.collapseBody();
 
+        var snackbarContainer = document.querySelector('#demo-toast-example');
+        var data = {message: 'The node '+ nodeName +' has been deleted'};
+        snackbarContainer.MaterialSnackbar.showSnackbar(data);
+
     };
 
-    this.deleteLinks = function() {
-        that.parent.linkDeletion(that.selectedNode);
-        that.selectedNode = null;
+    // this.deleteLinks = function() {
+    //     that.parent.linkDeletion(that.selectedNode);
+    //     that.selectedNode = null;
+    //     linksGroup.collapseBody();
+    // };
+
+    this.clearGraph=function(){
+        parentWidget.clearGraph();
+        var snackbarContainer = document.querySelector('#demo-toast-example');
+        var data = {message: 'The graph has been cleared'};
+        snackbarContainer.MaterialSnackbar.showSnackbar(data);
     };
 
     this.onCriteriaImport = function() {
@@ -275,6 +307,8 @@ function CLDControls(parentWidget) {
                 };
             }
         });
+
+
     };
 
     this.sendModel = function() {

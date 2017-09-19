@@ -12,7 +12,7 @@ function BaseLink(graph) {
     var id = linkId++;
     this.elementType="LinkElement";
     this.hoverText="";
-    this.elementIsFocused=false;
+    this.elementIsFocused=false;    
 
     this.getSelectionStatus=function(){
         return that.elementIsFocused;
@@ -91,13 +91,19 @@ function BaseLink(graph) {
                 .attr("y1", that.sourceNode.y)
                 .attr("x2", that.targetNode.x)
                 .attr("y2", that.targetNode.y);
+            // var iW = parseInt(that.rootElement.selectAll("image").attr("width"));
+            // var iH = parseInt(that.rootElement.selectAll("image").attr("height"));
+            
+            that.rootElement.selectAll("image")
+                .attr("x", that.sourceNode.x + 0.5 * (that.targetNode.x - that.sourceNode.x) - 0.5 * 17)
+                .attr("y", that.sourceNode.y + 0.5 * (that.targetNode.y - that.sourceNode.y) - 0.5 * 17);
         }
     };
 
 
     this.addMouseEvents = function () {
         if (that.pathElement) {
-            // console.log("adding mouse events");
+            console.log("adding mouse events");
             that.pathElement.on("mouseover", that.onMouseOver)
                 .on("mouseout", that.onMouseOut)
                 .on("click", that.onClicked)
@@ -134,9 +140,9 @@ function BaseLink(graph) {
             that.elementIsFocused=true;
             that.pathElement.classed("LinkFocused", true);
             graph.handleLinkSelection(that);
-            if (that.rootElement.selectAll("image")!=null) {
+            if (that.rootElement.selectAll("image")!=null) { 
                 var iW = parseInt(that.rootElement.selectAll("image").attr("width"));
-                var iH = parseInt(that.rootElement.selectAll("image").attr("height"));
+                var iH = parseInt(that.rootElement.selectAll("image").attr("height"));               
                 that.rootElement.selectAll("image")
                     .attr("display", null)
                     .attr("x", that.sourceNode.x + 0.5 * (that.targetNode.x - that.sourceNode.x) - 0.5 * iW)

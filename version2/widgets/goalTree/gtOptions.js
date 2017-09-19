@@ -18,7 +18,7 @@ function GTControls(parentWidget) {
 
         // goalName = that.addLineEdit(goalsGroup, "Name", "", true, that.onChangeGoalName);
         // d3.select(goalName.node()).attr("placeholder" , "Enter Node name");
-        goalType = that.addSelectionOpts(goalsGroup, "Type", ["Undefined", "Goal", "Sub Goal", "Criteria"], that.onChangeGoalType);
+        goalType = that.addSelectionOpts(goalsGroup, "Type", ["Undefined", "Goal", "Sub Goal", "Criteria", "Stakeholder"], that.onChangeGoalType);
         goalComment = that.addTextEdit(goalsGroup, "Comments", "", true, that.onChangeGoalComment);
         //TODO: form fields when the goal type = criteria
         criteriaUnit = that.addLineEdit(goalsGroup, "Unit", "", true, that.onChangeUnit);
@@ -26,20 +26,23 @@ function GTControls(parentWidget) {
         goalsGroup.collapseBody();
         // delGoal = that.addButtons(goalsGroup, "Delete", "goalDelete", that.onDeleteGoal);
 
-        additionalSettings = that.createAccordionGroup(that.divControlsGroupNode, "Controls");
+        additionalSettings = that.createAccordionGroup(that.divControlsGroupNode, "Graph Controls");
 
 
-        loadcld= that.addButton(additionalSettings, "LOAD", "gtLOAD", that.loadFunction, "flat", true, "file_upload" );
+        loadcld= that.addButton(additionalSettings, "LOAD GRAPH", "gtLOAD", that.loadFunction, "flat", true, "cloud_upload" );
         // loadcld = that.addHrefButton(additionalSettings,"Load",that.loadFunction,true);
         // loadcld.setAttribute("class", "btn btn-default btn-sm");
         // loadcld.parentNode.setAttribute("id", "goalBasic");
         // loadcld.innerHTML = '<span class="glyphicon glyphicon-floppy-open"></span> Load Goal Tree';
         //
-        saveCld= that.addButton(additionalSettings, "SAVE", "gtSAVE", that.saveFunction, "flat", true, "save" );
+        saveCld= that.addButton(additionalSettings, "SAVE GRAPH", "gtSAVE", that.saveFunction, "flat", true, "save" );
         // saveCld = that.addHrefButton(additionalSettings,"Save",that.saveFunction,false);
         // document.getElementById("goalBasic").appendChild(saveCld);
         // saveCld.setAttribute("class", "btn btn-default btn-sm pull-right");
         // saveCld.innerHTML = '<span class="glyphicon glyphicon-floppy-save"></span> Save Goal Tree';
+
+        clearGT= that.addButton(additionalSettings, "CLEAR GRAPH", "gtClearGraph", that.clearGraph, "flat", true, "clear_all" );
+
     };
 
     this.handleNodeSelection = function(node) {
@@ -105,9 +108,15 @@ function GTControls(parentWidget) {
     };
 
     this.onDeleteGoal = function() {
+        var nameNode=that.selectedNode.label;
         that.parent.nodeDeletion(that.selectedNode);
         that.selectedNode = null;
         goalsGroup.collapseBody();
+
+
+        var snackbarContainer = document.querySelector('#demo-toast-example');
+        var data = {message: 'The node '+ nameNode +' has been deleted'};
+        snackbarContainer.MaterialSnackbar.showSnackbar(data);
 
     };
 
@@ -120,6 +129,13 @@ function GTControls(parentWidget) {
         var action={};
         action.task="ACTION_SAVE_JSON";
         that.parent.requestAction(action);
+    };
+
+    this.clearGraph=function(){
+        parentWidget.clearGraph();
+        var snackbarContainer = document.querySelector('#demo-toast-example');
+        var data = {message: 'The graph has been cleared'};
+        snackbarContainer.MaterialSnackbar.showSnackbar(data);
     };
 
     this.loadFunction=function(){

@@ -34,7 +34,7 @@ function BaseDragger(graph) {
         if (that.parent.getRadius && that.parent.getRadius()){
             this.x=that.parent.x+10+that.parent.getRadius();
         }else {
-            this.x = that.parent.x + 50;
+            this.x = that.parent.x + 60;
         }
         this.y=that.parent.y;
         this.updateElement();
@@ -67,7 +67,20 @@ function BaseDragger(graph) {
                 .attr("x2", 0)
                 .attr("y2", 0);
 
-            that.nodeElement = that.rootNodeLayer.append('circle').attr("r", 20);
+          var lineData = [ { "x": 0,   "y": 0},  { "x": 0,  "y": 40},
+                           { "x": -40, "y":0}, { "x": 0,   "y": -40},
+                           {"x": 0, "y":0}
+                         ];
+
+          var lineFunction = d3.svg.line()
+                           .x(function(d) { return d.x; })
+                           .y(function(d) { return d.y; })
+                          .interpolate("linear");
+
+            that.nodeElement = that.rootNodeLayer.append('path').attr("d", lineFunction(lineData))
+                                                                .attr("stroke", "white")
+                                                                .attr("stroke-width", 0.5)
+                                                                .attr("fill", "blue");
         }
 
     };
@@ -81,6 +94,8 @@ function BaseDragger(graph) {
                 .attr("x2", that.parent.x - this.x)
                 .attr("y2", that.parent.y - this.y);
         }
+        var angle = Math.atan2(that.parent.y - this.y, that.parent.x - this.x) * 180 / Math.PI;
+        that.nodeElement.attr("transform", function(d) { return "rotate("+ angle +")"; });
     };
 
     /** MOUSE HANDLING FUNCTIONS ------------------------------------------------- **/

@@ -10,8 +10,8 @@ function GTNode(graph) {
     BaseNode.apply(this,arguments);
     this.goalTypeId = 1;
     var goalClass="baseRoundNode";
-    var allGoalClasses=['undefined','goalOptionA','goalOptionB','goalOptionC'];
-    this.allClasss=['undefined','goalOptionA','goalOptionB','goalOptionC'];
+    var allGoalClasses=['undefined','goalOptionA','goalOptionB','goalOptionC', 'goalOptionD'];
+    this.allClasss=["Undefined", "Goal", "Sub Goal", "Criteria", "Stakeholder"];
     this.criteriaUnit = "";
 
     this.getTypeId=function(){
@@ -28,7 +28,9 @@ function GTNode(graph) {
       else if(that.goalTypeId==2)
        return "./images/nodes/subgoal.png";
       else if(that.goalTypeId==3)
-       return "./images/nodes/criteria.png";
+       return "./images/nodes/criteria.png"
+      else if(that.goalTypeId==4)
+       return "./images/nodes/stakeholder.png";
 
 
     };
@@ -83,7 +85,12 @@ function GTNode(graph) {
 
     this.clearDisplayLabelText=function(){
       this.labelRenderingElement.text("");
-    }
+    };
+
+    this.setChipText=function(val) {
+        //update the chip text of the node in the controls tab
+        d3.select("#gtChipField").text(val);
+    };
 
     this.drawNode=function(){
 
@@ -121,7 +128,7 @@ function GTNode(graph) {
 
         //add delete image
         that.rootNodeLayer.append("image")
-            .attr("xlink:href", "images/delete.png")
+            .attr("xlink:href", "images/delete.svg")
             .attr("display", "none")
             .attr("x", 0.5*that.elementWidth-10)
             .attr("y", -0.5*that.elementHeight)

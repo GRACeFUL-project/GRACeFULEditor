@@ -11,7 +11,7 @@ function CLDNode(graph) {
     this.selectedTypeId=1;
     this.typeName = undefined;
     var allPossibleClasses=['undefined','nodeOptionA','nodeOptionB','nodeOptionC', 'externalFactors'];
-    this.allClasss=['undefined','nodeOptionA','nodeOptionB','nodeOptionC', 'externalFactors'];
+    this.allClasss=["Undefined", "Factor", "Action", "Criteria", "External Factor"];
 
     this.getTypeId=function(){
       return that.selectedTypeId;
@@ -28,15 +28,16 @@ function CLDNode(graph) {
       else if(that.selectedTypeId==2)
        return "./images/nodes/action.png";
       else if(that.selectedTypeId==3)
-       return "./images/nodes/criteria.png";
+       return "./images/nodes/criteria.png"
+      else if(that.selectedTypeId==4)
+       return "./images/nodes/extFactor.png";
     };
 
     this.setLabelText=function(val){
         this.label=val;
-
         if (this.toolTipElement && (this.label.length > that.DISPLAY_LABEL_LENGTH) ){
-          this.toolTipElement.text(this.label);
-        }
+          this.toolTipElement.text(this.label);          
+        }        
     };
 
     this.clearLabelText=function(){
@@ -65,7 +66,12 @@ function CLDNode(graph) {
 
     this.clearDisplayLabelText=function(){
       this.labelRenderingElement.text("");
-    }
+    };
+
+    this.setChipText=function(val) {
+        //update the chip text of the node in the controls tab
+        d3.select("#cldChipField").text(val);
+    };
 
     this.changeClass=function(cssClassName){
       that.nodeElement.classed(cssClassName,true);
@@ -105,7 +111,7 @@ function CLDNode(graph) {
 
         //add delete image
         that.rootNodeLayer.append("image")
-            .attr("xlink:href", "images/delete.png")
+            .attr("xlink:href", "images/delete.svg")
             .attr("display", "none")
             .attr("x", that.getRadius()/2)
             .attr("y", -(that.getRadius())+5)
