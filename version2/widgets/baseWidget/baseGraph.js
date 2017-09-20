@@ -154,6 +154,9 @@ function BaseGraph(parentWidget) {
     this.getDragBehavoir=function(){
         return that.dragBehaviour;
     };
+    this.getD3Object=function(){
+        return d3.behavior;
+    };
 
 
     this.addMouseEvents=function(){
@@ -191,7 +194,8 @@ function BaseGraph(parentWidget) {
                 var oldY=d.y;
                 d.x=d3.event.x;
                 d.y=d3.event.y;
-                // console.log(d3.event);
+                console.log(d.type());
+
                 if(d.type()==="Node") {
 
                     // console.log("OLD:"+oldX+" "+oldY+"  - vs - "+d.x+" "+d.y);

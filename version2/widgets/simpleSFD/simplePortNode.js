@@ -10,6 +10,7 @@ function SimplePortNode(parent,portDesc) {
 
     /** variable defs **/
     var that = this;
+    var portDragActionStart=false;
     var radius=10;
     var imageUrl=undefined;
     var hoverText="none";
@@ -19,6 +20,8 @@ function SimplePortNode(parent,portDesc) {
     var assosiatedLinks=[];
     var portIsUsed=false;
     var portIdInNode=0;
+
+    var dragRoot=undefined;
     var value=0;
     var rotationEnabled=true;
     // default one to one mapping using undefined as not defined type
@@ -27,6 +30,8 @@ function SimplePortNode(parent,portDesc) {
     var outgoingConnectionTYPE=SINGLE;
     var valueSetFromOutside=false;
     var parentNode=parent;
+    var elementType="PortDragger";
+    this.type=function(){return elementType;};
 
 
     this.getProvidedPortConnectionTypes=function(){
@@ -172,6 +177,65 @@ function SimplePortNode(parent,portDesc) {
         return portObj;
 
     };
+    this.drawDragElement=function(){
+        dragRoot=parent.getPortSvgRoot().append('g');
+
+        // just render the port in the center of the node
+        // alignment will be done by the parent node;
+        var circ=dragRoot.append("circle");
+        circ.attr("r", radius);
+        if (valueSetFromOutside===true)
+            circ.attr("style","fill:#fff; stroke: #000; stroke-width:3");
+        else
+            circ.attr("style","fill:#fff;");
+
+        // console.log("Adding Image"+ portObj.imageURL());
+        dragRoot.append("image")
+            .attr('x', -radius)
+            .attr('y', -radius)
+            .attr('width', 2 * radius)
+            .attr('height', 2 * radius)
+            .attr("xlink:href", imageUrl);
+
+    };
+
+    this.updateDragElement=function(x,y){
+        if (dragRoot) {
+            var px=x-parent.x+50;
+            var py=y-parent.y;
+            // currently allow to rotate the port in the vis;
+         //   console.log("is Rotation Enabeld :  "+rotationEnabled);
+            if (rotationEnabled===true) {
+                var angle=Math.atan2(py,px)* (180 / Math.PI);
+                var image=dragRoot.select("image");
+
+                image.attr("transform", "rotate("+angle+")");
+                dragRoot.attr("transform", "translate(" + px + "," + py + ")");
+            }
+            else
+                dragRoot.attr("transform", "translate(" + px + "," + py + ")");
+        }
+        // update the position of the portElement and draw a link;
+        if (svgRoot){
+            // todo: remove hard coded radii of parent elements;
+            var dx=x-parent.x+50;
+            var dy=y-parent.y;
+            // get normalized direction;
+            var len=Math.sqrt(dx*dx+dy*dy);
+            var nx=dx/len;
+            var ny=dy/len;
+            if (rotationEnabled===true) {
+                var portAngle = Math.atan2(ny, nx) * (180 / Math.PI);
+                var portImage = svgRoot.select("image");
+                portImage.attr("transform", "rotate(" + portAngle + ")");
+                var ppx = 50 * nx;
+                var ppy = 50 * ny;
+                svgRoot.attr("transform", "translate(" + ppx + "," + ppy + ")");
+            }
+        }
+
+    };
+
     this.drawPort=function(){
         svgRoot=parent.getPortSvgRoot().append('g');
 
@@ -195,6 +259,7 @@ function SimplePortNode(parent,portDesc) {
         if (getPortObjectType()===that.GRAPH_OBJECT_NODE){
             // add dragger and mouse actions to this elements;
             that.addMouseEvents();
+
         }
 
     };
@@ -213,7 +278,79 @@ function SimplePortNode(parent,portDesc) {
   //      console.log("adding hover Text"+hoverText);
         nodeRoot.append("title").text(hoverText);
         nodeRoot.on("click", onClicked);
+        // try simple drag behav
+
+        // console.log("adding drag Behaviour");
+        // var mD3=parentNode.getGraphObject().getD3Object();
+        // console.log(mD3);
+        //
+        // portDragBehaviour=mD3.drag()
+        //     .origin(function (d) {
+        //         //  console.log("origin"+d.x+"  "+d.y);
+        //         return d;
+        //
+        //     })
+        //     .on("dragstart", function (d) {
+        //         console.log("this is port draggerStart");
+        //         portDragActionStart=true;
+        //         that.drawDragElement();
+        //         // init drag elements position;
+        //         var image=svgRoot.select("image");
+        //         var imgAngle=image.attr("transform");
+        //         var portPos=svgRoot.attr("transform");
+        //         dragRoot.attr("transform",portPos);
+        //
+        //
+        //         d3.event.sourceEvent.stopPropagation(); // Prevent panning
+        //
+        //     })
+        //     .on("drag", function (d) {
+        //         // console.log(" prevented by drag?"+d3.event.sourceEvent.defaultPrevented);
+        //         // var oldX=d.x;
+        //         // var oldY=d.y;
+        //         // d.x=d3.event.x;
+        //         // d.y=d3.event.y;
+        //         console.log("port drag call");
+        //         that.updateDragElement(d3.event.x,d3.event.y);
+        //
+        //
+        //         d3.event.sourceEvent.stopPropagation(); // Prevent panning
+        //     })
+        //     .on("dragend", function (d) {
+        //         // kill the dragger element on end
+        //         portDragActionStart=false;
+        //         outImageHover();
+        //         d3.event.sourceEvent.stopPropagation(); // Prevent panning
+        //
+        //
+        //     });
+        // svgRoot.call(portDragBehaviour);
+
+        // svgRoot.on("dragstart",function(){onPortDragStart();});
+        // svgRoot.on("dragend"  ,function(){onPortDragEnd()  ;});
+        // svgRoot.on("drag"     ,function(){onPortDrag()     ;});
     };
+
+    function onPortDragStart(){
+        console.log("port starts to drag");
+        parentNode.getGraphObject().ignoreEvents();
+
+        console.log("stoppend drag propagation");
+
+    }
+    function onPortDrag(){
+        console.log("port drags");
+        svgRoot.classed("hidden",true);
+
+    }
+
+    function onPortDragEnd(){
+        console.log("port end to drag");
+        svgRoot.classed("hidden",false);
+        parentNode.getGraphObject().ignoreEvents();
+
+    }
+
 
     function onClicked(){
         d3.event.stopPropagation();
@@ -238,6 +375,11 @@ function SimplePortNode(parent,portDesc) {
     }
 
     function outImageHover(){
+        if (portDragActionStart===true) {
+            console.log("this shoud end here");
+            parentNode.onMouseOver()
+            return; // ignore the out hover when we are an portDargAction;
+        }
         that.mouseEntered(false);
         if (valueSetFromOutside===false)
             svgRoot.select("circle").attr("style","fill:#fff;");
