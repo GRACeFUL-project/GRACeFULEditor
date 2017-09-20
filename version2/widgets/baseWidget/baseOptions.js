@@ -310,37 +310,35 @@ function BaseControls(parentWidget) {
     this.addCheckBox= function(parent, label, identifier, defaultValue, onClickFunction) {
 
         // todo: align the text element with the checkbox element...
-        // TODO: done aligning
+
         // var div_checkbox=  document.createElement("div");
         // div_checkbox.id=identifier;
         // parent.getBody().node().appendChild(div_checkbox);
 
         var moduleOptionContainer = parent.getBody()
-            .append("div").classed("form-horizontal checkboxMargin",true)
-                .append("label")
-                .classed("mdl-checkbox mdl-js-checkbox", true)
-                .attr("for", identifier + "ModuleCheckbox");
+            .append("div").classed("form-horizontal",true)
+                .append("div")
+                .classed("checkbox-inline", true);
 
             var moduleCheckbox = moduleOptionContainer.append("input")
               //  .classed("moduleCheckbox", true)
 
                 .attr("id", identifier + "ModuleCheckbox")
                 .attr("type", "checkbox")
-                .classed("mdl-checkbox__input",true)
                 .property("checked", defaultValue);
 
             moduleCheckbox.on("click", function () {
                 var isEnabled = moduleCheckbox.property("checked");
                 onClickFunction(isEnabled);
             });
-            moduleOptionContainer.append("span")
+            moduleOptionContainer.append("label")
                 .attr("for", identifier + "ModuleCheckbox")
-                .classed("mdl-checkbox__label",true)
+                .classed("textStyleForCHeckBox",true)
                 .text(label);
 
         parent.getBody().append("br");
         return moduleCheckbox;
-    };
+};
 
 
 
