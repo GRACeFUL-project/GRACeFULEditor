@@ -15,7 +15,7 @@ function BaseNode(graph) {
 
     this.nodeClass="baseRoundNode";
 
-    this.nodeId = nodeId++;
+    this.nodeId = graph.idInNumber++;
     this.elementType="NodeElement";
     this.label = "empty";
     this.displayLabel = "empty";
@@ -36,7 +36,7 @@ function BaseNode(graph) {
     var drY=0;
     var id;
     var type="Node";
-    var assosiatedLinks=[];
+    this.assosiatedLinks=[];
     var txtNode=undefined;
     this.elementWidth=100; // 2*radius
     this.nodeIsFocused=false;
@@ -54,7 +54,7 @@ function BaseNode(graph) {
     };
 
     this.addLink=function(aLink){
-        assosiatedLinks.push(aLink);
+        that.assosiatedLinks.push(aLink);
         console.log("adding a link to "+that.id());
     };
 
@@ -189,9 +189,9 @@ function BaseNode(graph) {
     this.updateElement=function(){
         that.rootElement.attr("transform", "translate(" + that.x + "," + that.y + ")");
 
-        for (var i=0;i<assosiatedLinks.length;i++){
+        for (var i=0;i<that.assosiatedLinks.length;i++){
             // if (assosiatedLinks[i])
-                assosiatedLinks[i].updateElement();
+                that.assosiatedLinks[i].updateElement();
         }
 
     };
@@ -199,13 +199,13 @@ function BaseNode(graph) {
 
     this.updateAssisiatedLinks=function(){
         var remainingLink=[];
-        for (var i=0;i<assosiatedLinks.length;i++){
-            console.log("assosiatedLinks: "+assosiatedLinks[i]);
-            if (assosiatedLinks[i])
-                remainingLink.push(assosiatedLinks[i]);
+        for (var i=0;i<that.assosiatedLinks.length;i++){
+            console.log("assosiatedLinks: "+that.assosiatedLinks[i]);
+            if (that.assosiatedLinks[i])
+                remainingLink.push(that.assosiatedLinks[i]);
         }
 
-        assosiatedLinks=remainingLink;
+        that.assosiatedLinks=remainingLink;
 
     };
 

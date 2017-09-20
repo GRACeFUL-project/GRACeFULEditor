@@ -15,7 +15,10 @@ function CLDNode(graph) {
 
     this.isObserved = false;
     this.trendId = 0;
-    this.trendName = undefined;
+    this.trendName = null;
+    this.numIn = 0;
+    this.interfaces = [];
+    this.parameters = [];
 
     this.getTypeId=function(){
       return that.selectedTypeId;
@@ -93,9 +96,66 @@ function CLDNode(graph) {
         return that.isObserved;
     };
 
-    this.setTrend = function(tid, tname) {
+    this.getFinalData = function() {        
+        //updating node's interfaces
+        for(var i=0; i<that.assosiatedLinks.length; i++) {
+            var t = that.assosiatedLinks[i];
+
+            if(t.sourceNode.id() === that.id()) {
+                var p = that.interfaces.find(function(temp) {
+                    return temp.name === "outSign";
+                });
+                console.log("P: "+p);
+                if(p === undefined) {
+                    var q={};
+                    q.name = "outSign";
+                    q.type = [t.sign];
+                    that.interfaces.push(q); 
+                }
+                else {
+                    p.type.push(t.sign);
+                }
+            }
+
+            if(t.targetNode.id() === that.id()) {
+                that.numIn++;
+
+                var p = that.interfaces.find(function(temp) {
+                    return temp.name === "influences";
+                });
+                console.log("P: "+p);
+                if(p === undefined) {
+                    var q={};
+                    q.name = "influences";
+                    q.type = [t.sign];
+                    that.interfaces.push(q); 
+                }
+                else {
+                    p.type.push(t.sign);
+                }
+            }
+        }
+        //updating nodes's parameters
+        this.parameters = [];
+        var param1 = {"name": "obsSign", "value": that.trendName, "type": "Maybe Sign"};
+        that.parameters.push(param1);
+        var param2 = {"name": "numIn", "value": that.numIn, "type": "Int"};
+        that.parameters.push(param2);
+    };
+
+    this.setTrend = function(tid) {
         that.trendId = tid;
-        that.trendName = tname;
+        // that.trendName = tname;
+        if(tid == 0)
+            that.trendName = null;
+        else if(tid == 1)
+            that.trendName = 2;
+        else if(tid == 2)
+            that.trendName = -1;
+        else if(tid == 3)
+            that.trendName = 1;
+        else if(tid == 4)
+            that.trendName = 0;
     };
 
     this.getTrend = function() {

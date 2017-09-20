@@ -77,9 +77,12 @@ function CLDGraph(){
         for(var i=0; i<that.nodeElementArray.length; i++) {
             var node = that.nodeElementArray[i];
             var obj = {};
-            obj.id = node.id();
+            node.getFinalData();
             obj.name = node.label;
             obj.nodeType = node.typeName;
+            obj.parameters = node.parameters;
+            obj.interface = node.interfaces;
+            obj.identity = node.id();            
             //need to add more attributes
             modelObj.nodes.push(obj);
         }
@@ -87,10 +90,11 @@ function CLDGraph(){
         for(var i=0; i<that.pathElementArray.length; i++) {
             var link = that.pathElementArray[i];
             var obj = {};
-            obj.id = link.id();
-            obj.source_target = [link.sourceNode.id(), link.targetNode.id()];
-            obj.className = link.className;
-            obj.value = link.cldTypeString;
+            link.getFinalData();
+            obj.name = link.name;
+            obj.parameters = link.parameters;
+            obj.interface = link.interfaces;
+            obj.identity = link.id();
             //need to add more attributes
             modelObj.links.push(obj);
         }

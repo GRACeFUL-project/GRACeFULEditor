@@ -118,7 +118,7 @@ function CLDWidget(){
     };
 
     this.requestModelDataForSolver = function() {
-        that.graphObject.requestModelDataAsJson();
+        return that.graphObject.requestModelDataAsJson();
     };
 
     this.loadLibrary = function(jsonData) {

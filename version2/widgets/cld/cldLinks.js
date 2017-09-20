@@ -15,14 +15,19 @@ function CLDLink(graph) {
     console.log("Generating a link with id "+that.id());
     var cldType="unknown";
     this.className = undefined;
+    this.name = undefined;
     this.classId = 0;
     this.cldTypeString=undefined;
     this.cldTypeId = 0;
+    this.sign = undefined;
     this.isLoop = false;
     that.hoverText="";
     var linkDir=[]; // normal vector;
     var endPos=[]; // end position for the line
     var dynamicLinkWidth=false;
+
+    this.parameters = [];
+    this.interfaces = [];
 
     var startPoint,endPoint,cpPoint;
     var cpDragged = false;
@@ -54,6 +59,27 @@ function CLDLink(graph) {
         // update textRendering element
         if (textRenderingElement)
             textRenderingElement.text(that.cldTypeString);
+
+        if(typeId == 0) {
+            that.sign = null;
+            that.name = null;
+        }
+        else if(typeId == 1) {
+            that.sign = 1;
+            that.name = "plus arrow";
+        }
+        else if(typeId == 2) {
+            that.sign = -1;
+            that.name = "minus arrow";
+        }
+        else if(typeId == 3) {
+            that.sign = 2;
+            that.name = "ambiguious arrow";
+        }
+        else if(typeId == 4) {
+            that.sign = 0;
+            that.name = "stable arrow";
+        }
     };
 
     this.setClassType = function(classId, className) {
@@ -63,6 +89,12 @@ function CLDLink(graph) {
 
     this.getClassType = function() {
         return that.classId;
+    };
+
+    this.getFinalData = function() {
+        //update link's interface
+        that.interfaces = [ {"connection": [that.sourceNode.id(), "outSign", null], "name":"fromNode", "type": "Sign"}, 
+                                {"connection": [that.targetNode.id(), "influences", null], "name":"toNode", "type": "Sign"}];
     };
 
     var arrowHead=undefined;

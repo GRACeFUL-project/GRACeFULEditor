@@ -36,6 +36,7 @@ function BaseGraph(parentWidget) {
 
     this.needUpdateRedraw=false;
     this.multipleNodes = [];
+    this.idInNumber = 0;
 
 
     // some state of graph functionality

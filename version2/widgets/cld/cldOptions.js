@@ -40,7 +40,7 @@ function CLDControls(parentWidget) {
         // cldChip = cldChipNode[0];
         // cldChipImage=cldChipNode[1];
 
-        linkClass = that.addSelectionOpts(linksGroup, "Class type", ["Undefined", "Causal Relation", "Other Relation"], that.onChangeLinkClass);
+        linkClass = that.addSelectionOpts(linksGroup, "Class type", ["Undefined", "Causal Relation"], that.onChangeLinkClass);
         causalSelection = that.addSelectionOpts(linksGroup, "Value", getClassValues, that.onChangeLinkType);
         d3.select(causalSelection.node().parentNode).classed("hidden", true);
         commentLink = that.addTextEdit(linksGroup, "Comments", "", true, that.onChangeLinkComment);
@@ -127,6 +127,8 @@ function CLDControls(parentWidget) {
                 }
                 else
                     d3.select(nodeTrend.node().parentNode).classed("hidden", true);
+
+                console.log("the trend is: "+that.selectedNode.trendName);
                 
                 commentNode.node().disabled = false;
                 commentNode.node().value = that.selectedNode.hoverText;
@@ -165,7 +167,7 @@ function CLDControls(parentWidget) {
     function appendLinkType(className) {
         d3.select(causalSelection.node()).selectAll("option").remove();
         if(className === "Causal Relation") {
-                getClassValues = [undefined, '+', '-', '?'];
+                getClassValues = [undefined, '+', '-', '?', '0'];
                 for (var i=0;i<getClassValues.length;i++){
                     d3.select(causalSelection.node()).append("option").text(getClassValues[i]);
                 }
@@ -242,7 +244,7 @@ function CLDControls(parentWidget) {
     this.trendFunc = function(selectionContainer) {
         var strUser = selectionContainer.options[selectionContainer.selectedIndex].value;
         console.log(selectionContainer.selectedIndex+" the user string is "+strUser);
-        that.selectedNode.setTrend(selectionContainer.selectedIndex, strUser);
+        that.selectedNode.setTrend(selectionContainer.selectedIndex);
     };
 
     this.onChangeNodeComment=function(){
@@ -350,6 +352,7 @@ function CLDControls(parentWidget) {
         action.requestType = "SEND_MODEL";
         action.data = that.parent.requestModelDataForSolver();
         that.parent.requestAction(action);
+        console.log("DATA: "+action.data);
     };
 
     this.getLibrary = function() {

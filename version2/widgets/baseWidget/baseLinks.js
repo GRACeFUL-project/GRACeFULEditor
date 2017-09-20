@@ -9,7 +9,7 @@ function BaseLink(graph) {
     this.targetNode = undefined;
     this.rootElement = undefined;
     this.pathElement = undefined;
-    var id = linkId++;
+    var id = graph.idInNumber++;
     this.elementType="LinkElement";
     this.hoverText="";
     this.elementIsFocused=false;    
