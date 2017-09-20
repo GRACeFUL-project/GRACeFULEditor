@@ -62,6 +62,11 @@
                 // get the model
                 var modelText = localAction.data;
                 var send_requestAddress=solverAddress+"/submit";
+
+                if (localAction.libraryName && localAction.libraryName.length>0) {
+                    send_requestAddress = solverAddress + "/submit/" + localAction.libraryName;
+                }
+
                 console.log("do we have a lib address:"+send_requestAddress);
                 var xhr_post = new XMLHttpRequest();   // new HttpRequest instance
                 xhr_post.open("POST", send_requestAddress);

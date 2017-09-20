@@ -348,8 +348,9 @@ function CLDControls(parentWidget) {
     this.sendModel = function() {
         console.log("Send the model");
         var action = {};
-        action.task = "SERVER_REQUEST"
+        action.task = "SERVER_REQUEST";
         action.requestType = "SEND_MODEL";
+        action.libraryName="cld";
         action.data = that.parent.requestModelDataForSolver();
         that.parent.requestAction(action);
         console.log("DATA: "+action.data);
