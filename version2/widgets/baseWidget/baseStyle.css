@@ -90,7 +90,7 @@ p[contenteditable]:focus {
 
 
 .baseDragPath{
-    stroke: #00f;
+    stroke: var(--main-link-one);
     stroke-width: 5px;
 
 }
@@ -106,7 +106,7 @@ p[contenteditable]:focus {
 }
 
 .baseHoveredPath{
-    stroke:#f00;
+    stroke: var(--hovered-link-one);
     stroke-width: 5px;
 }
 
