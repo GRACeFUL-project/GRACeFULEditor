@@ -48,23 +48,36 @@ function BaseControls(parentWidget) {
 
 
     this.addTextEdit=function(parent,label,defaultText,enabled,onChangeFunction){
+
+        var thisForm=document.createElement('form');
+        parent.getBody().node().appendChild(thisForm);
+
         var thisDiv=document.createElement('div');
-        parent.getBody().node().appendChild(thisDiv);
-        d3.select(thisDiv).classed("form-group",true);
+        thisForm.appendChild(thisDiv);
+        d3.select(thisDiv).classed("mdl-cell mdl-cell--12-col mdl-textfield mdl-js-textfield",true);
+
+        var textEdit=document.createElement('textarea');
+        thisDiv.appendChild(textEdit);
+        var textEditNode=d3.select(textEdit);
+        textEditNode.classed("mdl-textfield__input",true);
+        textEditNode.attr("rows", "4")
+                    .attr("type", "text")
+                    .attr("id","textEditCLD");
+        // textEdit.placeholder = "Notes";
+        textEdit.disabled=!enabled;
+        // textEdit.value=defaultText;
+        textEditNode.on("change",function(){onChangeFunction();});
+
 
         var lb=document.createElement('label');
+        var labelText=d3.select(lb);
+        labelText.attr("for","textEditCLD")
+                 .classed("mdl-textfield__label labelmdl",true);
         lb.innerHTML=label;
         thisDiv.appendChild(lb);
 
         //<textarea class="form-control" id="lComments" placeholder="notes"></textarea>' +
-        var textEdit=document.createElement('textarea');
-        thisDiv.appendChild(textEdit);
-        var textEditNode=d3.select(textEdit);
-        textEditNode.classed("form-control",true);
-        textEdit.placeholder = "notes";
-        textEdit.disabled=!enabled;
-        textEdit.value=defaultText;
-        textEditNode.on("change",function(){onChangeFunction();});
+
         return textEditNode;
 
     };
