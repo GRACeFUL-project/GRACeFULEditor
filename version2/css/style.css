@@ -406,3 +406,7 @@ path.link.selected {
 		margin-top: 24px;
 		margin-bottom: 4px;
 }
+
+.labelmdl {
+	margin-bottom: 0px;
+}

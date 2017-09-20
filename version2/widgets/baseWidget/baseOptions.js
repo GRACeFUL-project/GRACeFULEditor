@@ -178,16 +178,9 @@ function BaseControls(parentWidget) {
 
         var thisDiv=document.createElement('div');
         thisForm.appendChild(thisDiv);
+        d3.select(thisDiv).classed("mdl-cell mdl-cell--12-col mdl-textfield mdl-js-textfield mdl-textfield--floating-label",true);
         // parent.getBody().node().appendChild(thisDiv);
         // d3.select(thisDiv).classed("mdl-textfield mdl-js-textfield mdl-textfield--floating-label",true);
-
-
-        //'<input type="text" class="form-control" id="nTitle" disabled>' +
-        var lb=document.createElement('label');
-        lb.innerHTML=label;
-        // lb.setAttribute("for",timeStampInMs);
-        // d3.select(lb).classed("mdl-textfield__label", true);
-        thisDiv.appendChild(lb);
 
         var le=document.createElement('input');
         thisDiv.appendChild(le);
@@ -197,6 +190,17 @@ function BaseControls(parentWidget) {
         leNode.classed("mdl-textfield__input",true);
         le.disabled=!enabled;
         le.value=defaultText;
+
+        //'<input type="text" class="form-control" id="nTitle" disabled>' +
+        var lb=document.createElement('label');
+        lb.setAttribute("for", timeStampInMs);
+        d3.select(lb).classed("mdl-textfield__label labelmdl",true);
+        lb.innerHTML=label;
+        // lb.setAttribute("for",timeStampInMs);
+        // d3.select(lb).classed("mdl-textfield__label", true);
+        thisDiv.appendChild(lb);
+
+
 
         leNode.on("change",function(){onChangeFunction();});
         return leNode;
