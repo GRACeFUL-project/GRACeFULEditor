@@ -48,23 +48,36 @@ function BaseControls(parentWidget) {
 
 
     this.addTextEdit=function(parent,label,defaultText,enabled,onChangeFunction){
+
+        var thisForm=document.createElement('form');
+        parent.getBody().node().appendChild(thisForm);
+
         var thisDiv=document.createElement('div');
-        parent.getBody().node().appendChild(thisDiv);
-        d3.select(thisDiv).classed("form-group",true);
+        thisForm.appendChild(thisDiv);
+        d3.select(thisDiv).classed("mdl-cell mdl-cell--12-col mdl-textfield mdl-js-textfield",true);
+
+        var textEdit=document.createElement('textarea');
+        thisDiv.appendChild(textEdit);
+        var textEditNode=d3.select(textEdit);
+        textEditNode.classed("mdl-textfield__input",true);
+        textEditNode.attr("rows", "4")
+                    .attr("type", "text")
+                    .attr("id","textEditCLD");
+        // textEdit.placeholder = "Notes";
+        textEdit.disabled=!enabled;
+        // textEdit.value=defaultText;
+        textEditNode.on("change",function(){onChangeFunction();});
+
 
         var lb=document.createElement('label');
+        var labelText=d3.select(lb);
+        labelText.attr("for","textEditCLD")
+                 .classed("mdl-textfield__label labelmdl",true);
         lb.innerHTML=label;
         thisDiv.appendChild(lb);
 
         //<textarea class="form-control" id="lComments" placeholder="notes"></textarea>' +
-        var textEdit=document.createElement('textarea');
-        thisDiv.appendChild(textEdit);
-        var textEditNode=d3.select(textEdit);
-        textEditNode.classed("form-control",true);
-        textEdit.placeholder = "notes";
-        textEdit.disabled=!enabled;
-        textEdit.value=defaultText;
-        textEditNode.on("change",function(){onChangeFunction();});
+
         return textEditNode;
 
     };
@@ -178,16 +191,9 @@ function BaseControls(parentWidget) {
 
         var thisDiv=document.createElement('div');
         thisForm.appendChild(thisDiv);
+        d3.select(thisDiv).classed("mdl-cell mdl-cell--12-col mdl-textfield mdl-js-textfield mdl-textfield--floating-label",true);
         // parent.getBody().node().appendChild(thisDiv);
         // d3.select(thisDiv).classed("mdl-textfield mdl-js-textfield mdl-textfield--floating-label",true);
-
-
-        //'<input type="text" class="form-control" id="nTitle" disabled>' +
-        var lb=document.createElement('label');
-        lb.innerHTML=label;
-        // lb.setAttribute("for",timeStampInMs);
-        // d3.select(lb).classed("mdl-textfield__label", true);
-        thisDiv.appendChild(lb);
 
         var le=document.createElement('input');
         thisDiv.appendChild(le);
@@ -197,6 +203,17 @@ function BaseControls(parentWidget) {
         leNode.classed("mdl-textfield__input",true);
         le.disabled=!enabled;
         le.value=defaultText;
+
+        //'<input type="text" class="form-control" id="nTitle" disabled>' +
+        var lb=document.createElement('label');
+        lb.setAttribute("for", timeStampInMs);
+        d3.select(lb).classed("mdl-textfield__label labelmdl",true);
+        lb.innerHTML=label;
+        // lb.setAttribute("for",timeStampInMs);
+        // d3.select(lb).classed("mdl-textfield__label", true);
+        thisDiv.appendChild(lb);
+
+
 
         leNode.on("change",function(){onChangeFunction();});
         return leNode;
@@ -293,30 +310,32 @@ function BaseControls(parentWidget) {
     this.addCheckBox= function(parent, label, identifier, defaultValue, onClickFunction) {
 
         // todo: align the text element with the checkbox element...
-
+        // TODO: done aligning
         // var div_checkbox=  document.createElement("div");
         // div_checkbox.id=identifier;
         // parent.getBody().node().appendChild(div_checkbox);
 
         var moduleOptionContainer = parent.getBody()
-            .append("div").classed("form-horizontal",true)
-                .append("div")
-                .classed("checkbox-inline", true);
+            .append("div").classed("form-horizontal checkboxMargin",true)
+                .append("label")
+                .classed("mdl-checkbox mdl-js-checkbox", true)
+                .attr("for", identifier + "ModuleCheckbox");
 
             var moduleCheckbox = moduleOptionContainer.append("input")
               //  .classed("moduleCheckbox", true)
 
                 .attr("id", identifier + "ModuleCheckbox")
                 .attr("type", "checkbox")
+                .classed("mdl-checkbox__input",true)
                 .property("checked", defaultValue);
 
             moduleCheckbox.on("click", function () {
                 var isEnabled = moduleCheckbox.property("checked");
                 onClickFunction(isEnabled);
             });
-            moduleOptionContainer.append("label")
+            moduleOptionContainer.append("span")
                 .attr("for", identifier + "ModuleCheckbox")
-                .classed("textStyleForCHeckBox",true)
+                .classed("mdl-checkbox__label",true)
                 .text(label);
 
         parent.getBody().append("br");

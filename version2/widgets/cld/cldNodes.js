@@ -43,8 +43,8 @@ function CLDNode(graph) {
     this.setLabelText=function(val){
         this.label=val;
         if (this.toolTipElement && (this.label.length > that.DISPLAY_LABEL_LENGTH) ){
-          this.toolTipElement.text(this.label);          
-        }        
+          this.toolTipElement.text(this.label);
+        }
     };
 
     this.clearLabelText=function(){
@@ -169,13 +169,19 @@ function CLDNode(graph) {
             .classed("baseRoundNode",true)
             .classed(nodeClass,true);
 
+            console.log("THE NODE CLASS IS ::: ****"+nodeClass);
         // add hover text if you want
         if (that.hoverTextEnabled===true)
             that.rootNodeLayer.append('title').text(that.hoverText);
 
+            // TODO: Commented for now, but for later the color, size and weight of
+            // the node text should be changed. White is not readable.
         // add title
         this.labelRenderingElement=  that.rootNodeLayer.append("text")
             .attr("text-anchor","middle")
+            // .attr("fill","#757575")
+            // .attr("font-size","16px")
+            .classed("nodeText",true)
             // .text(that.label)
             .style("cursor","default");
 

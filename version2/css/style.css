@@ -397,3 +397,16 @@ path.link.selected {
 	display:none;
 	z-index: 9999;
 }
+
+/*
+	Base Widget's Hooked with MDL Additional
+	Styles
+*/
+.checkboxMargin {
+		margin-top: 24px;
+		margin-bottom: 4px;
+}
+
+.labelmdl {
+	margin-bottom: 0px;
+}
