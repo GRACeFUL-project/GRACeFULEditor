@@ -80,7 +80,7 @@ function BaseDragger(graph) {
             that.nodeElement = that.rootNodeLayer.append('path').attr("d", lineFunction(lineData))
                                                                 .attr("stroke", "white")
                                                                 .attr("stroke-width", 0.5)
-                                                                .attr("fill", "blue");
+                                                                .attr("fill", "#616161");
         }
 
     };

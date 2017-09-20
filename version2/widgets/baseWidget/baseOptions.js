@@ -319,8 +319,8 @@ function BaseControls(parentWidget) {
                 .classed("textStyleForCHeckBox",true)
                 .text(label);
 
-        parent.getBody().append("br")
-
+        parent.getBody().append("br");
+        return moduleCheckbox;
     };
 
 

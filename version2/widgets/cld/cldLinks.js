@@ -139,7 +139,7 @@ function CLDLink(graph) {
 
         var arrowOffset=10;
         var sourceRadius=that.sourceNode.getRadius();
-        
+
         if (hovered===true){
             arrowOffset=20;
         }
@@ -442,7 +442,7 @@ function CLDLink(graph) {
 
                     that.rootElement.append("image")
                         .attr("id", "loop")
-                        .attr("xlink:href", "images/loop.png")
+                        .attr("xlink:href", "images/loop.svg")
                         .attr("display", null)
                         .attr("width", 30)
                         .attr("height", 30)
