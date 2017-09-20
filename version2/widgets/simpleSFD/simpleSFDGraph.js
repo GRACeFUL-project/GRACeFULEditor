@@ -529,7 +529,11 @@ function SimpleSFDGraph(){
 
     // testing hud properties;
 
-
+    this.ignoreEvents=function(){
+        console.log("graph object ignores drag event");
+        d3.event.stopPropagation();
+        console.log("works");
+    };
 
     // testing sfd library load functions
     this.libraryLoaded=function(val){

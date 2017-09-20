@@ -325,6 +325,7 @@ function CLDControls(parentWidget) {
         var action = {};
         action.task = "SERVER_REQUEST";
         action.requestType = "GET_LIBRARY";
+        action.libraryName = "cld";
         that.parent.requestAction(action);
     };
 

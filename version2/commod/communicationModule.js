@@ -106,7 +106,14 @@
             if (localAction.task===SERVER_REQUEST && localAction.requestType==="GET_LIBRARY"){
                 console.log("requesting an action that talks with docker ");
                 // docker image name
-                var get_requestAddress=solverAddress+"/library/crud";
+                var get_requestAddress;
+                if (localAction.libraryName && localAction.libraryName.length>0) {
+                    get_requestAddress = solverAddress + "/library/" + localAction.libraryName;
+                }
+                else{
+                    get_requestAddress = solverAddress + "/library/crud";
+                }
+
                 console.log("address :"+get_requestAddress);
                 d3.xhr(get_requestAddress, "application/json",function (error, request) {
                    if (request){

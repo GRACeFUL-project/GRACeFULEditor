@@ -16,11 +16,16 @@ function SimpleSFDNode(graph,nodeDescriptions) {
     var portElements=[];
     var nodeName="noName";
     var assosiatedLinks=[];
+    var graph_object=graph;
     var superDrawFunction = that.drawNode;
     var superClickFunction= that.onClicked;
     var m_nodeDescriptions=nodeDescriptions;
 
     var portSvgRoot=undefined;
+    this.getGraphObject=function(){
+        return graph_object;
+    };
+
 
     this.getPortSvgRoot=function(){
         return portSvgRoot;
