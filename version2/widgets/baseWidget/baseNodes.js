@@ -173,6 +173,7 @@ function BaseNode(graph) {
           tempDisplayLabel = tempDisplayLabel.slice(0,that.DISPLAY_LABEL_LIMIT).concat("...");
 
         that.labelRenderingElement=  that.rootNodeLayer.append("text")
+            // .attr("fill","red")
             .attr("text-anchor","middle")
             .text(tempDisplayLabel)
             .style("cursor","default");
