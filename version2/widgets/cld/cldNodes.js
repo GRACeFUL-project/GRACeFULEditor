@@ -20,6 +20,9 @@ function CLDNode(graph) {
     this.interfaces = [];
     this.parameters = [];
 
+    var portId = 0;
+    this.ports = [];
+
     this.getTypeId=function(){
       return that.selectedTypeId;
     };
@@ -96,6 +99,29 @@ function CLDNode(graph) {
         return that.isObserved;
     };
 
+    this.setPortDetails = function(id) {
+        var obj = {};
+        obj.linkId = id;
+        obj.value = portId++;
+        that.ports.push(obj);  
+
+        // console.log("The node is: "+ that.id()+"The link is: "+obj.linkId+ " value: "+obj.value);
+    };
+
+    this.getPortDetails = function(id) {
+
+        // console.log("id is: "+id+"Port details: "+JSON.stringify(that.ports, null, ''));
+        var w = that.ports.find(function(temp) {
+            return temp.linkId == id;
+        });
+
+        if(w === undefined) {
+            return null;
+        }
+        else
+            return w.value;
+    };
+
     this.getFinalData = function() {        
         //updating node's interfaces
         for(var i=0; i<that.assosiatedLinks.length; i++) {
@@ -109,11 +135,12 @@ function CLDNode(graph) {
                 if(p === undefined) {
                     var q={};
                     q.name = "outSign";
-                    q.type = [t.sign];
+                    // q.type = [t.sign];
+                    q.type = "Sign";
                     that.interfaces.push(q); 
                 }
                 else {
-                    p.type.push(t.sign);
+                    // p.type.push(t.sign);
                 }
             }
 
@@ -127,11 +154,27 @@ function CLDNode(graph) {
                 if(p === undefined) {
                     var q={};
                     q.name = "influences";
-                    q.type = [t.sign];
+                    // q.type = [t.sign];
+                    q.type = "[Sign]";
                     that.interfaces.push(q); 
                 }
                 else {
-                    p.type.push(t.sign);
+                    // p.type.push(t.sign);
+                }
+
+                var a = that.interfaces.find(function(temp) {
+                    return temp.name === "outSign";
+                });
+                console.log("A: "+a);
+                if(a === undefined) {
+                    var b={};
+                    b.name = "outSign";
+                    // q.type = [t.sign];
+                    b.type = "Sign";
+                    that.interfaces.push(b); 
+                }
+                else {
+                    // p.type.push(t.sign);
                 }
             }
         }

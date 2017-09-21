@@ -72,14 +72,14 @@ function CLDGraph(){
     this.requestModelDataAsJson = function() {
         var modelObj = {};
         modelObj.nodes = [];
-        modelObj.links = [];
+        // modelObj.links = [];
 
         for(var i=0; i<that.nodeElementArray.length; i++) {
             var node = that.nodeElementArray[i];
             var obj = {};
             node.getFinalData();
             obj.name = node.label;
-            obj.nodeType = node.typeName;
+            // obj.nodeType = node.typeName;
             obj.parameters = node.parameters;
             obj.interface = node.interfaces;
             obj.identity = node.id();            
@@ -96,7 +96,7 @@ function CLDGraph(){
             obj.interface = link.interfaces;
             obj.identity = link.id();
             //need to add more attributes
-            modelObj.links.push(obj);
+            modelObj.nodes.push(obj);
         }
 
         return JSON.stringify(modelObj, null, '');

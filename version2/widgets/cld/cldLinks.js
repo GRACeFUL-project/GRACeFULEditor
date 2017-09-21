@@ -53,6 +53,20 @@ function CLDLink(graph) {
         return that.cldTypeId;
     };
 
+    this.source = function (src) {
+        this.sourceNode = src;
+        console.log("Source Add");
+        src.addLink(that);
+        src.setPortDetails(that.id());
+
+    };
+    this.target = function (target) {
+        console.log("Target Add");
+        this.targetNode = target;
+        target.addLink(that);
+        target.setPortDetails(that.id());
+    };
+
     this.setCLDTypeString=function(typeId, typeName){
         that.cldTypeId = typeId;
         that.cldTypeString = typeName;
@@ -93,8 +107,9 @@ function CLDLink(graph) {
 
     this.getFinalData = function() {
         //update link's interface
+        // console.log("The link id is: "+that.id()+ " port: "+that.targetNode.getPortDetails(that.id()));
         that.interfaces = [ {"connection": [that.sourceNode.id(), "outSign", null], "name":"fromNode", "type": "Sign"}, 
-                                {"connection": [that.targetNode.id(), "influences", null], "name":"toNode", "type": "Sign"}];
+                                {"connection": [that.targetNode.id(), "influences", that.targetNode.getPortDetails(that.id())], "name":"toNode", "type": "Sign"}];
     };
 
     var arrowHead=undefined;
