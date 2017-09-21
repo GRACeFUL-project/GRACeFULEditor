@@ -187,12 +187,12 @@ function BaseNode(graph) {
     };
 
 
-    this.updateElement=function(){
+    this.updateElement=function(dX,dY){
         that.rootElement.attr("transform", "translate(" + that.x + "," + that.y + ")");
 
         for (var i=0;i<that.assosiatedLinks.length;i++){
             // if (assosiatedLinks[i])
-                that.assosiatedLinks[i].updateElement();
+                that.assosiatedLinks[i].updateElement(dX,dY);
         }
 
     };

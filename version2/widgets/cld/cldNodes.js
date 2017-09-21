@@ -49,7 +49,7 @@ function CLDNode(graph) {
 
     this.clearLabelText=function(){
         this.toolTipElement.text("");
-    }
+    };
 
     this.setDisplayLabelText=function(val){
         this.displayLabel=val;

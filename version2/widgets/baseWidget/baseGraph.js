@@ -199,8 +199,8 @@ function BaseGraph(parentWidget) {
 
                 if(d.type()==="Node") {
 
-                    // console.log("OLD:"+oldX+" "+oldY+"  - vs - "+d.x+" "+d.y);
-                    d.updateElement();
+                    console.log("OLD:"+oldX+" "+oldY+"  - vs - "+d.x+" "+d.y);
+                    d.updateElement(oldX-d.x,oldY-d.y);
                     if (d.getSelectionStatus()===true) {
                         that.draggerElement.setParentNode(d);
                         that.draggerElement.updateElement();

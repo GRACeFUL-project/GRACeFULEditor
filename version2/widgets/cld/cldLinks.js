@@ -236,10 +236,12 @@ function CLDLink(graph) {
                                 controlPoints[1].y = cpPoint.y;
                                 that.pathElement.attr("d", lineFunction(controlPoints));
                                 textRenderingElement.attr("x", cpPoint.x).attr("y", cpPoint.y);
-                                that.updateElement();
+                                that.updateElement(0,0);
+                                d3.event.sourceEvent.stopPropagation();
                             })
                             .on("dragend", function(d) {
-                                that.updateElement();
+                                that.updateElement(0,0);
+                                d3.event.sourceEvent.stopPropagation();
                             });
 
     function addTypeString(){
@@ -251,13 +253,27 @@ function CLDLink(graph) {
             .attr("dy", "0.35em");
     }
 
-    this.updateElement=function(){
+    this.updateElement=function(dX,dY){
+        console.log("have Dx"+ dX +" and dY "+dY);
         if (that.pathElement) {
                 startPoint={ x:that.sourceNode.x, y:that.sourceNode.y };
                 endPoint  ={ x:that.targetNode.x, y:that.targetNode.y };
-                if(cpDragged)
-                    controlPoints=calculateMultiLinkPath(startPoint, endPoint, cpPoint);
-                else {
+                if(cpDragged && dY===0 && dX===0) {
+                    // cpPoint.x+=dX;
+                    // cpPoint.y+=dY;
+                    // console.log("control point:");
+                    // console.log(cpPoint)
+                    controlPoints = calculateMultiLinkPath(startPoint, endPoint, cpPoint);
+                }
+            else if(cpDragged && dY!==undefined && dX!==undefined) {
+                 cpPoint.x-=dX;
+                 cpPoint.y-=dY;
+                 console.log("control point:");
+                 console.log(cpPoint);
+                controlPoints = calculateMultiLinkPath(startPoint, endPoint, cpPoint);
+            }
+                else {console.log("version single");
+
                     controlPoints=calculateMultiLinkPath(startPoint, endPoint);
                     cpPoint.x = controlPoints[1].x;
                     cpPoint.y = controlPoints[1].y;
