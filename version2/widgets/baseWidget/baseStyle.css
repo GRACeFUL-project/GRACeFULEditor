@@ -145,3 +145,24 @@ p[contenteditable]:focus {
 .externalFactors {
     fill: var(--main-node-color-two);
 }
+
+.strokeAmbigous {
+    stroke-width: 5;
+    stroke: #8B8B70;
+    stroke-dasharray: 20, 10, 5, 5, 5, 10;
+}
+
+.strokeDecreasing {
+    stroke-width: 5;
+    stroke: #3CFF33;
+}
+
+.strokeIncreasing {
+    stroke-width: 5;
+    stroke: #FF3333;
+}
+
+.strokeStable {
+    stroke-width: 5;
+    stroke: #338DFF;
+}

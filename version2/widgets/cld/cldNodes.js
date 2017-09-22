@@ -8,9 +8,11 @@ function CLDNode(graph) {
    // this.parentWidget=parentWidget; // tells the graph which widget it talks to
     BaseNode.apply(this,arguments);
     var nodeClass="baseRoundNode";
+    var nodeObs = "baseRoundNode";
     this.selectedTypeId=1;
     this.typeName = undefined;
     var allPossibleClasses=['undefined','nodeOptionA','nodeOptionB','nodeOptionC', 'externalFactors'];
+    var observeClasses = ['undefined', 'strokeAmbigous', 'strokeDecreasing', 'strokeIncreasing', 'strokeStable'];
     this.allClasss=["Undefined", "Factor", "Action", "Criteria", "External Factor"];
 
     this.isObserved = false;
@@ -188,29 +190,53 @@ function CLDNode(graph) {
 
     this.setTrend = function(tid) {
         that.trendId = tid;
-        // that.trendName = tname;
+        
         if(tid == 0)
             that.trendName = null;
-        else if(tid == 1)
+        else if(tid == 1) {
             that.trendName = 2;
-        else if(tid == 2)
+            // that.nodeElement.classed(nodeObs, true);
+        }
+        else if(tid == 2) {
             that.trendName = -1;
-        else if(tid == 3)
+            // that.nodeElement.classed(nodeObs, true);
+        }
+        else if(tid == 3) {
             that.trendName = 1;
-        else if(tid == 4)
+            // that.nodeElement.classed(nodeObs, true);
+        }
+        else if(tid == 4) {
             that.trendName = 0;
+            // that.nodeElement.classed(nodeObs, true);
+        }
+
+        that.setTrendStyle(tid);
     };
 
     this.getTrend = function() {
         return that.trendId;
     };
 
+    this.setTrendStyle = function(tid) {
+        nodeObs=observeClasses[tid];
+        // apply the classes ;
+        console.log("The tid is: "+tid+" node observeClasses is: "+nodeObs);
+        if (that.nodeElement){
+            for (var i=0;i<observeClasses.length;i++){
+                // console.log("disabling :"+observeClasses[i]);
+                that.nodeElement.classed(observeClasses[i],false);
+            }
+            that.nodeElement.classed(nodeObs,true);
+        }
+    }
+
     this.drawNode=function(){
 
         that.nodeElement= that.rootNodeLayer.append('circle')
             .attr("r", that.getRadius())
             .classed("baseRoundNode",true)
-            .classed(nodeClass,true);
+            .classed(nodeClass,true)
+            .classed(nodeObs, true);
 
             console.log("THE NODE CLASS IS ::: ****"+nodeClass);
         // add hover text if you want
@@ -304,6 +330,8 @@ function CLDNode(graph) {
             console.log("Setting final class :"+nodeClass);
             that.nodeElement.classed(nodeClass,true);
         }
+
+        that.setTrendStyle(that.getTrend());
     };
 
     this.setExternalFactors = function() {
