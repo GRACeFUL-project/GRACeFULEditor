@@ -154,7 +154,7 @@ function SimpleSFDControls(parentWidget) {
         //requestData from widget
 
         // request data form sfd widget
-        //action.libraryName="crud";
+        action.libraryName="crud";
         action.data=that.parent.requestModelDataForSolver();
         that.parent.requestAction(action);
     };
