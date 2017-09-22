@@ -102,6 +102,10 @@ function CLDGraph(){
         return JSON.stringify(modelObj, null, '');
     };
 
+    this.deliverResultsForNodes = function(result) {
+
+    };
+
     this.addLinkFromJSON=function(jsonLink){
         var s_t =jsonLink.source_target;
         var sourceId=s_t[0];

@@ -25,6 +25,9 @@ function CLDNode(graph) {
     var portId = 0;
     this.ports = [];
 
+    this.result = undefined;
+    var resultClasses = ['undefined', 'resultAmbigous', 'resultDecreasing', 'resultIncreasing', 'resultStable'];
+
     this.getTypeId=function(){
       return that.selectedTypeId;
     };
@@ -220,7 +223,7 @@ function CLDNode(graph) {
     this.setTrendStyle = function(tid) {
         nodeObs=observeClasses[tid];
         // apply the classes ;
-        console.log("The tid is: "+tid+" node observeClasses is: "+nodeObs);
+        // console.log("The tid is: "+tid+" node observeClasses is: "+nodeObs);
         if (that.nodeElement){
             for (var i=0;i<observeClasses.length;i++){
                 // console.log("disabling :"+observeClasses[i]);
@@ -228,7 +231,39 @@ function CLDNode(graph) {
             }
             that.nodeElement.classed(nodeObs,true);
         }
-    }
+    };
+
+    this.setResult = function(rid) {
+        that.result = rid;
+        var rOffset = 0;
+
+        if(rid == 0)
+            that.result = null;
+        else if(rid == 2) {
+            rOffset = 1;
+        }
+        else if(tid == 2) {
+            rOffset = 2;
+        }
+        else if(tid == 3) {
+            rOffset = 3;
+        }
+        else if(tid == 4) {
+            rOffset = 4;
+        }
+
+        that.setresultStyle(rOffset);
+    };
+
+    this.setresultStyle = function(rid) {
+        nodeRes = resultClasses[rid];
+        if (that.nodeElement){
+            for (var i=0;i<resultClasses.length;i++){
+                that.nodeElement.classed(resultClasses[i],false);
+            }
+            that.nodeElement.classed(nodeRes,true);
+        }
+    };
 
     this.drawNode=function(){
 

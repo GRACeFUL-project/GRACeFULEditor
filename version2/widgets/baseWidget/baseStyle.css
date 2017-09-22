@@ -166,3 +166,19 @@ p[contenteditable]:focus {
     stroke-width: 5;
     stroke: #338DFF;
 }
+
+.resultAmbigous {
+    fill: #8B8B70;
+}
+
+.resultDecreasing {
+    fill: #3CFF33;
+}
+
+.resultIncreasing {
+    fill: #FF3333;
+}
+
+.resultStable {
+    fill: #338DFF;
+}

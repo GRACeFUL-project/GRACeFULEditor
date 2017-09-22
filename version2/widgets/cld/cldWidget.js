@@ -129,6 +129,7 @@ function CLDWidget(){
     this.parseResult = function(result) {
         console.log("handle the result");
         //TODO
+        that.graphObject.deliverResultsForNodes(result);
     };
 
     this.createLoopModal = function(id, header, content) {
