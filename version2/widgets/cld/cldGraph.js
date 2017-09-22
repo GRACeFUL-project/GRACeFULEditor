@@ -78,7 +78,7 @@ function CLDGraph(){
             var node = that.nodeElementArray[i];
             var obj = {};
             node.getFinalData();
-            obj.name = node.label;
+            obj.name = "node";
             // obj.nodeType = node.typeName;
             obj.parameters = node.parameters;
             obj.interface = node.interfaces;
