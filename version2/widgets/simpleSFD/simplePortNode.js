@@ -172,6 +172,8 @@ function SimplePortNode(parent,portDesc) {
                 portObj.connection = [];
                 portObj.connection.push(pId);
                 portObj.connection.push(parentPortName);
+                portObj.connection.push(null);
+
             }
         }
         return portObj;
