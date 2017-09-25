@@ -128,6 +128,7 @@ function CLDWidget(){
 
     this.parseResult = function(result) {
         //TODO        
+        console.log("CLDWidget result: "+JSON.stringify(result, null, ""));
         that.graphObject.deliverResultsForNodes(result);
     };
 

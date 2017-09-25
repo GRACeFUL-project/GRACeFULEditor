@@ -104,7 +104,7 @@ function CLDGraph(){
 
     this.deliverResultsForNodes = function(result) {
         var resultObject = result.result;
-
+        console.log("CLDGraph result: "+JSON.stringify(result, null, ""));
         for(var key in resultObject) {
             if(resultObject.hasOwnProperty(key)) {
                 console.log(key + "-->" +resultObject[key]);
