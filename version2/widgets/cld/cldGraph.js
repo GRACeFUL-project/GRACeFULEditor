@@ -103,7 +103,21 @@ function CLDGraph(){
     };
 
     this.deliverResultsForNodes = function(result) {
+        var resultObject = result.result;
 
+        for(var key in resultObject) {
+            if(resultObject.hasOwnProperty(key)) {
+                console.log(key + "-->" +resultObject[key]);
+                var outsign = key.split(/(\d+)/).filter(Boolean);
+                if(outsign[0] === "outSign") {
+                    that.nodeElementArray.filter(function(temp) {
+                        if(temp.id() == Number(outsign[1])) {
+                            temp.setResult(resultObject[key]);
+                        } 
+                    });
+                }
+            }
+        }
     };
 
     this.addLinkFromJSON=function(jsonLink){

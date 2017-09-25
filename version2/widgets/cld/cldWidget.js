@@ -127,8 +127,7 @@ function CLDWidget(){
     };
 
     this.parseResult = function(result) {
-        console.log("handle the result");
-        //TODO
+        //TODO        
         that.graphObject.deliverResultsForNodes(result);
     };
 

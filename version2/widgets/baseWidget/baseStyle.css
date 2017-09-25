@@ -169,16 +169,20 @@ p[contenteditable]:focus {
 
 .resultAmbigous {
     fill: #8B8B70;
+    fill-opacity: 0.5;
 }
 
 .resultDecreasing {
     fill: #3CFF33;
+    fill-opacity: 0.5;
 }
 
 .resultIncreasing {
     fill: #FF3333;
+    fill-opacity: 0.5;
 }
 
 .resultStable {
     fill: #338DFF;
+    fill-opacity: 0.5;
 }

@@ -236,19 +236,19 @@ function CLDNode(graph) {
     this.setResult = function(rid) {
         that.result = rid;
         var rOffset = 0;
-
+        console.log("Result: "+rid);
         if(rid == 0)
             that.result = null;
         else if(rid == 2) {
             rOffset = 1;
         }
-        else if(tid == 2) {
+        else if(rid == -1) {
             rOffset = 2;
         }
-        else if(tid == 3) {
+        else if(rid == 1) {
             rOffset = 3;
         }
-        else if(tid == 4) {
+        else if(rid == 0) {
             rOffset = 4;
         }
 
@@ -261,7 +261,10 @@ function CLDNode(graph) {
             for (var i=0;i<resultClasses.length;i++){
                 that.nodeElement.classed(resultClasses[i],false);
             }
-            that.nodeElement.classed(nodeRes,true);
+            // that.nodeElement.classed(nodeRes,true);
+            var innerCircle = that.rootNodeLayer.append('circle')
+                .attr("r", that.getRadius()/2)
+                .classed(nodeRes, true);
         }
     };
 
@@ -274,6 +277,7 @@ function CLDNode(graph) {
             .classed(nodeObs, true);
 
             console.log("THE NODE CLASS IS ::: ****"+nodeClass);
+
         // add hover text if you want
         if (that.hoverTextEnabled===true)
             that.rootNodeLayer.append('title').text(that.hoverText);
