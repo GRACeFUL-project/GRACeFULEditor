@@ -128,8 +128,9 @@ function CLDWidget(){
 
     this.parseResult = function(result) {
         //TODO        
-        console.log("CLDWidget result: "+JSON.stringify(result, null, ""));
-        that.graphObject.deliverResultsForNodes(result);
+        var parsedResult = JSON.parse(result);
+        console.log("CLDWidget result: "+JSON.stringify(parsedResult, null, ""));
+        that.graphObject.deliverResultsForNodes(parsedResult);
     };
 
     this.createLoopModal = function(id, header, content) {
