@@ -53,6 +53,9 @@ function CLDGraph(){
             obj.name=node.label;
             obj.nodeType=node.typeName;
             obj.nodeTypeId = node.getTypeId();
+            obj.observe = node.getObserve();
+            obj.trend = node.getTrend();
+            obj.comments = node.hoverText;
             obj.pos=[node.x,node.y];
             retObj.nodes.push(obj);
         }
@@ -62,8 +65,11 @@ function CLDGraph(){
             var linkObj={};
             linkObj.id=link.id();
             linkObj.source_target=[link.sourceNode.id(),link.targetNode.id()];
+            linkObj.linkClassId = link.getClassType();
+            linkObj.linkClassName = link.className;
             linkObj.linkTypeId = link.getTypeId();
             linkObj.linkType = link.cldTypeString;
+            linkObj.comments = link.hoverText;
             retObj.links.push(linkObj);
         }
         return  JSON.stringify(retObj, null, '  ');
@@ -124,6 +130,9 @@ function CLDGraph(){
         var s_t =jsonLink.source_target;
         var sourceId=s_t[0];
         var targetId=s_t[1];
+        var classId = jsonLink.linkClassId;
+        var className = jsonLink.linkClassName;
+        var comments = jsonLink.comments;
 
         // find it
         // todo : fix the for loop searching with filter function of array ...
@@ -141,7 +150,9 @@ function CLDGraph(){
             var newLink=that.createLink(that);
             newLink.source(sourceNode);
             newLink.target(targetNode);
-            newLink.setCLDTypeString(jsonLink.linkTypeId);
+            newLink.setClassType(classId, className);
+            newLink.setHoverText(comments);
+            newLink.setCLDTypeString(jsonLink.linkTypeId, jsonLink.linkType);
             that.pathElementArray.push(newLink);
             that.needsRedraw(true);
         }
@@ -153,6 +164,9 @@ function CLDGraph(){
         var nodeId=jsonNode.id;
         var typeId = jsonNode.nodeTypeId;
         var typeName = jsonNode.nodeType;
+        var observe = jsonNode.observe;
+        var trend = jsonNode.trend;
+        var comments = jsonNode.comments;
 
         console.log("Graph should add now a node with : " );
         console.log("   Name : "+nodeName );
@@ -163,7 +177,11 @@ function CLDGraph(){
         // todo: check how to handle the data;
         newNode.id(nodeId);
         newNode.setLabelText(nodeName);
+        newNode.setDisplayLabelText(nodeName);
         newNode.setType(typeId, typeName);
+        newNode.setObserve(observe);
+        newNode.setTrend(trend);
+        newNode.setHoverText(comments);
         var x=parseFloat(nodePos[0]);
         var y=parseFloat(nodePos[1]);
         newNode.setPosition(x,y);

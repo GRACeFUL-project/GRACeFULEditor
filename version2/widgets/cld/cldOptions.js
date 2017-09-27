@@ -153,6 +153,8 @@ function CLDControls(parentWidget) {
             if(temp !== "Undefined") {
                 appendLinkType(temp);
                 causalSelection.node().options[selId_2].selected="selected";
+                d3.select(causalSelection.node().parentNode).classed("hidden", false);
+                console.log("Link type id: "+causalSelection.node().options[selId_2].value);
             }
             else
                 d3.select(causalSelection.node().parentNode).classed("hidden", true);
