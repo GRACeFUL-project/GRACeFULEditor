@@ -222,7 +222,7 @@ function BaseWidget(parentElement) {
 
         that.controlsObject.divControlsGroupNode.node().appendChild(tempHref);
         tempHref.href="data:text/json;charset=utf-8," + encodeURIComponent(saveObj);
-        tempHref.download="someFileName.json";
+        tempHref.download="example.json";
         tempHref.click();
         tempHref.hidden = true;
         // remove that thing

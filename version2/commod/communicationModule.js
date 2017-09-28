@@ -8,6 +8,7 @@
     var ACTION_LOAD_LIBRARY="ACTION_LOAD_LIBRARY";
     var ACTION_REQUEST_MODEL="ACTION_REQUEST_MODEL";
     var SERVER_REQUEST="SERVER_REQUEST";
+    var ACTION_LOAD_STAKEHOLDERS = "ACTION_LOAD_STAKEHOLDERS";
 
     function new_object(initializer) {
         // some variables
@@ -50,6 +51,10 @@
             if (localAction.task===ACTION_LOAD_LIBRARY){
                 // here we have already the data from the action, so we put this directly to the widget
                 widget.loadJSON_Library(localAction.data);
+            }
+
+            if(localAction.task === ACTION_LOAD_STAKEHOLDERS) {
+                widget.loadStakeholders(localAction.data);
             }
 
             if (localAction.task===ACTION_SAVE_JSON){

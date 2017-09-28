@@ -77,7 +77,31 @@ function GTWidget(){
             that.graphObject.addLinkFromJSON(jsonLink);
         }
 
-    }
+    };
+
+    this.loadStakeholders = function(csvdata) {
+        var data = csvdata.data;
+        console.log("CSV stakeholder data: "+JSON.stringify(data));
+        var stakeholdersObj = {};
+        if(data) {            
+            for(var i=0; i<data.length; i++) {
+                var stakeholders= data[i].Stakeholder;
+                var participants = data[i].Participants;
+
+                if(stakeholders !== "" && !stakeholdersObj.hasOwnProperty(stakeholders)) {
+                    stakeholdersObj[stakeholders] = [];
+                    stakeholdersObj[stakeholders].push(participants);
+                }
+                else if(stakeholders !== "" && stakeholdersObj.hasOwnProperty(stakeholders)){
+                    stakeholdersObj[stakeholders].push(participants);
+                }
+
+            }            
+        }
+        console.log("Stakeholder Object: "+JSON.stringify(stakeholdersObj));
+        if(stakeholdersObj)
+            that.graphObject.addStakeholders(stakeholdersObj);
+    };
 }
 
 

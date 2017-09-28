@@ -71,6 +71,7 @@ function GTGraph(){
             obj.name=node.label;
             obj.nodeType=node.goalType;
             obj.nodeTypeId = node.getTypeId();
+            obj.comments = node.hoverText;
             obj.pos=[node.x,node.y];
             retObj.nodes.push(obj);
         }
@@ -117,6 +118,7 @@ function GTGraph(){
         var nodeId=jsonNode.id;
         var typeId = jsonNode.nodeTypeId;
         var typeName = jsonNode.nodeType;
+        var comments = jsonNode.comments;
 
         console.log("Graph should add now a node with : " );
         console.log("   Name : "+nodeName );
@@ -128,6 +130,7 @@ function GTGraph(){
         newNode.id(nodeId);
         newNode.setLabelText(nodeName);
         newNode.setType(typeId, typeName);
+        newNode.setHoverText(comments);
         var x=parseFloat(nodePos[0]);
         var y=parseFloat(nodePos[1]);
         newNode.setPosition(x,y);
@@ -136,6 +139,33 @@ function GTGraph(){
         that.nodeElementArray.push(newNode);
         that.needsRedraw(true);
 
+    };
+
+    this.addStakeholders = function(data) {
+        var randomPointX = Math.random() * 1000;
+        var randomPointY = randomPointX;
+        console.log("adding stakeholder nodes");
+        for(var key in data) {
+            var node = key;
+            var values = data[key];
+            var newNode=that.createNode(that);
+            newNode.setLabelText(key);
+            newNode.setType(4, "Stakeholder");
+            var x=parseFloat(randomPointX);
+            var y=parseFloat(randomPointY);
+            randomPointX += 200;
+            newNode.setPosition(x,y);
+            var str = "";
+            for(var i=0; i<values.length; i++) {
+                str += values[i] + "\n";
+            }
+            console.log("values: "+str);
+            newNode.setHoverText(str);
+            // push to array of nodes
+            console.log("newNode  "+newNode);
+            that.nodeElementArray.push(newNode);
+            that.needsRedraw(true);
+        }        
     };
 
 }

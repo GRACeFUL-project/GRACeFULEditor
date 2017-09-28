@@ -7,7 +7,7 @@ function GTControls(parentWidget) {
     // tells the graph which widget it talks to
     this.parent=parentWidget;
 
-    var goalchip, goalimage, goalChipNode, goalsGroup, goalName, goalType, goalComment, delGoal, criteriaUnit, additionalSettings, loadcld, saveCld;
+    var goalchip, goalimage, goalChipNode, goalsGroup, goalName, goalType, goalComment, delGoal, criteriaUnit, additionalSettings, loadcld, saveCld, clearGT, importSt;
 
     this.generateControls=function(){
         goalsGroup = that.createAccordionGroup(that.divControlsGroupNode, "Goal");
@@ -43,6 +43,8 @@ function GTControls(parentWidget) {
 
         clearGT= that.addButton(additionalSettings, "CLEAR GRAPH", "gtClearGraph", that.clearGraph, "flat", true, "clear_all" );
 
+        importSt= that.addButton(additionalSettings, "IMPORT STAKEHOLDERS", "buttonStake", that.importStakeholders, "flat", true, "get_app" );
+
     };
 
     this.handleNodeSelection = function(node) {
@@ -60,7 +62,7 @@ function GTControls(parentWidget) {
             goalchip.innerHTML=that.selectedNode.label;
             goalimage.setAttribute('src',that.selectedNode.getImageURL());
 
-            // goalName.node().disabled = false;
+            goalType.node().disabled = false;
             goalComment.node().disabled = false;
             goalComment.node().value = that.selectedNode.hoverText;
             criteriaUnit.node().value = that.selectedNode.criteriaUnit;
@@ -73,6 +75,10 @@ function GTControls(parentWidget) {
             }
             if(selectType !== "Criteria") {
                 d3.select(criteriaUnit.node().parentNode).classed("hidden", true);
+            }
+            if(selectType === "Stakeholder") {
+                goalType.node().disabled = true;
+                goalComment.node().disabled = true;
             }
         }
 
@@ -181,6 +187,49 @@ function GTControls(parentWidget) {
                     // kill the action object;
                     action=null;
                 };
+            }
+        });
+    };
+
+    this.importStakeholders = function() {
+        console.log("loading stakeholders");
+
+        var hidden_solutionInput=document.createElement('input');
+        hidden_solutionInput.id="IMPORT_STAKEHOLDERS";
+        hidden_solutionInput.type="file";
+        hidden_solutionInput.autocomplete="off";
+        hidden_solutionInput.placeholder="load a csv File";
+        hidden_solutionInput.setAttribute("class", "inputPath");
+        // hidden_solutionInput.style.display="none";
+        additionalSettings.getBody().node().appendChild(hidden_solutionInput);
+        var loaderSolutionPathNode=d3.select("#IMPORT_STAKEHOLDERS");
+        var fileElement;
+        var fileName;
+        // simulate click event;
+        hidden_solutionInput.click();
+        loaderSolutionPathNode.remove(loaderSolutionPathNode);
+        // tell what to do when clicked
+        loaderSolutionPathNode.on("change",function(){
+            var files= loaderSolutionPathNode.property("files");
+            if (files.length>0){
+                console.log("file?"+files[0].name);
+                fileElement=files[0];
+                fileName=fileElement.name;
+                loaderSolutionPathNode.remove();
+
+                var results = Papa.parse(fileElement, {
+                    header: true,
+                    complete: function(results) {
+                        console.log("CSV results: "+JSON.stringify(results));
+                        // the the communication module about this
+                        var action={};
+                        action.task="ACTION_LOAD_STAKEHOLDERS";
+                        action.data=results;
+                        that.parent.requestAction(action);
+                        // kill the action object;
+                        action=null;
+                    }
+                });
             }
         });
     };
