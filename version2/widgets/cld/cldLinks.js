@@ -74,6 +74,7 @@ function CLDLink(graph) {
         if (textRenderingElement)
             textRenderingElement.text(that.cldTypeString);
 
+        that.pathElement.classed("cldLinkType0", false);
         if(typeId == 0) {
             that.sign = null;
             that.name = null;
@@ -93,6 +94,7 @@ function CLDLink(graph) {
         else if(typeId == 4) {
             that.sign = 0;
             that.name = "stable arrow";
+            that.pathElement.classed("cldLinkType0", true);
         }
     };
 
@@ -205,6 +207,9 @@ function CLDLink(graph) {
         addArrowHead();
         // addArrowTail();
         // clds have no arrow tails
+
+        if(that.getTypeId() === 4)
+            that.pathElement.classed("cldLinkType0", true);
 
         that.pathElement.append('title').text(that.hoverText);
         that.addMouseEvents();

@@ -24,6 +24,10 @@
     fill:none;
 }
 
+.cldLinkType0{
+    stroke-dasharray: 4, 4;
+}
+
 .cldLinkHovered{
     stroke: #f00;
     stroke-width: 8px;
