@@ -23,7 +23,9 @@ function GTNode(graph) {
     };
 
     this.getImageURL=function(){
-      if(that.goalTypeId==1)
+      if(that.goalTypeId==0)
+       return "./images/nodes/undefined.png";
+      else if(that.goalTypeId==1)
         return "./images/nodes/goal.png";
       else if(that.goalTypeId==2)
        return "./images/nodes/subgoal.png";
@@ -31,8 +33,6 @@ function GTNode(graph) {
        return "./images/nodes/criteria.png"
       else if(that.goalTypeId==4)
        return "./images/nodes/stakeholder.png";
-
-
     };
 
     this.setType=function(typeId, typeName){

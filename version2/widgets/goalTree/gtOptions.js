@@ -19,6 +19,9 @@ function GTControls(parentWidget) {
         // goalName = that.addLineEdit(goalsGroup, "Name", "", true, that.onChangeGoalName);
         // d3.select(goalName.node()).attr("placeholder" , "Enter Node name");
         goalType = that.addSelectionOpts(goalsGroup, "Type", ["Undefined", "Goal", "Sub Goal", "Criteria", "Stakeholder"], that.onChangeGoalType);
+        var hideClass = goalType.node().options[goalType.node().length - 1];
+        hideClass.hidden = true;
+        
         goalComment = that.addTextEdit(goalsGroup, "Comments", "", true, that.onChangeGoalComment);
         //TODO: form fields when the goal type = criteria
         criteriaUnit = that.addLineEdit(goalsGroup, "Unit", "", true, that.onChangeUnit);

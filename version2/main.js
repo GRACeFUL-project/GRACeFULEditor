@@ -202,7 +202,7 @@ function reloadWidgetItems(jsonOBJ){
 
     setDivActive(0);
     setDivActiveCLD(1);
-    setDivActiveGTW(1);
+    setDivActiveGTW(0);
   // sfdRef.setupNode(0);
 }
 
@@ -281,7 +281,7 @@ function setDivActiveCLD(id){
 
 function clearAllDivGTW() {
     var numElements = 4;
-    for (var i = 1; i <= numElements; i++) {
+    for (var i = 0; i < numElements; i++) {
         document.getElementById("gt" + i).style.backgroundColor = "white";
     }
 }
