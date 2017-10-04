@@ -6,6 +6,19 @@ function SimpleSFDWidget(){
 
     var libraryLoaded=true;
 
+
+    this.cldGraphObj=undefined;
+    this.gtwGraphObj=undefined;
+
+
+    this.setPtrToGTWGraphObject=function(gtwGraphObj){
+        this.gtwGraphObj=gtwGraphObj;
+    };
+    this.setPtrToCLDGraphObject=function(cldGraphObj){
+        this.cldGraphObj=cldGraphObj;
+    };
+
+
     this.setupMyGraphAndControls=function(){
         // required overwritten function
         // since each widget generates its own graph,options, etc

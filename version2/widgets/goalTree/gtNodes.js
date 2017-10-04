@@ -49,19 +49,26 @@ function GTNode(graph) {
             console.log("Setting final class :"+goalClass);
             that.nodeElement.classed(goalClass,true);
         }
-    }
+    };
 
     this.setLabelText=function(val){
         this.label=val;
 
+        if (this.getGlobalNodePtr()!=undefined){
+            console.log(this.getGlobalNodePtr());
+            this.getGlobalNodePtr().setGlobalName(val);
+        }
         if (this.toolTipElement && (this.label.length > that.DISPLAY_LABEL_LENGTH) ){
           this.toolTipElement.text(this.label);
         }
+
+
+
     };
 
     this.clearLabelText=function(){
         this.toolTipElement.text("");
-    }
+    };
 
     this.setDisplayLabelText=function(val){
         this.displayLabel=val;

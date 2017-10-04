@@ -3,6 +3,7 @@ function CLDGraph(){
     BaseGraph.apply(this,arguments);
     var that=this;
     this.nodeTypeGraph=1;
+    this.graphName="CLD";
 
     // call the baseGraph init function
     // that.initializeGraph();

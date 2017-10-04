@@ -14,11 +14,20 @@ function BaseWidget(parentElement) {
     this.graphCssStyle="";
     this.graphSchema="default";
     this.parentElement=parentElement;
+    this.handlerModule=undefined;
 
     this.setCommunicationModule=function(mod){
         this.communicationModule=mod;
     };
 
+
+    /** Setter and Getter for the handler module**/
+    this.setHandlerModule=function(handler){
+        this.handlerModule=handler;
+    };
+    this.getHandler=function(){
+        return that.handlerModule;
+    };
 
     this.getOptionsArea=function(){
       return parentElement.getOptionsArea();

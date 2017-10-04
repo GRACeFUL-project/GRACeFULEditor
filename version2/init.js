@@ -57,6 +57,8 @@ var example;
 
         // create communication module;
         var com=commod.create();
+        var gHandler=handler.create();
+
 
         // create an example widget;
         // keep it for debugging purpose.
@@ -79,6 +81,7 @@ var example;
             initializer.getOptionsArea() );
         gtw.forceGraphCssStyle("goalTreeGraphStyle");
         gtw.setCommunicationModule(com);
+        gtw.setHandlerModule(gHandler);
 
         cld= new CLDWidget(initializer);
         cld.setTabTitle("Causal Loop Diagram");
@@ -88,7 +91,7 @@ var example;
             initializer.getOptionsArea() );
         cld.forceGraphCssStyle("cldGraphStyle");
         cld.setCommunicationModule(com);
-
+        cld.setHandlerModule(gHandler);
         // create simple sfd widget for testing (copy of example widget
         var sfd= new SimpleSFDWidget(initializer);
         sfd.setTabTitle("GRACeFUL Concept Map");
@@ -102,6 +105,7 @@ var example;
         action.task="SERVER_REQUEST";
         action.requestType="GET_LIBRARY";
         sfd.setCommunicationModule(com);
+        sfd.setHandlerModule(gHandler);
         sfd.requestAction(action);
 
         // adding to widget list
@@ -117,10 +121,24 @@ var example;
         //gtw.widgetIsActivated();
       //  example.widgetIsActivated();
         sfd.widgetIsActivated();
+
+        // set the ptrs; // a bit hardCoded stuff for the communication
+        cld.setPtrToGoalTreeGraphObject(gtw.getGraphObject());
+        cld.setPtrToSFDGraphObject(sfd.getGraphObject());
+
+        gtw.setPtrToCLDGraphObject(cld.getGraphObject());
+        gtw.setPtrToSFDGraphObject(sfd.getGraphObject());
+
+        sfd.setPtrToGoalTreeGraphObject(gtw.getGraphObject());
+        sfd.setPtrToCLDGraphObject(cld.getGraphObject());
+
+
     };
 
     initializer.initializeWidgets();
     cld.connectGt(gtw);
+
+
 
 
     // overwrite the window resize function

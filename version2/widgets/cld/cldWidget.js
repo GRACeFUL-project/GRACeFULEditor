@@ -6,6 +6,19 @@ function CLDWidget(){
     this.gtInstance = undefined;
     this.NodeType = undefined;
 
+    this.gtGraphObj=undefined;
+    this.sfdGraphObj=undefined;
+
+
+    this.setPtrToGoalTreeGraphObject=function(gtGraphObj){
+        this.gtGraphObj=gtGraphObj;
+    };
+    this.setPtrToSFDGraphObject=function(sfdGraphObj){
+        this.sfdGraphObj=sfdGraphObj;
+    };
+
+
+
     this.setupMyGraphAndControls=function(){
         // required overwritten function
         // since each widget generates its own graph,options, etc
@@ -18,7 +31,7 @@ function CLDWidget(){
     this.setNodeType=function(typeId)
     {
       that.graphObject.changeNodeType(typeId);
-    }
+    };
 
     this.setupGraph=function(){
       this.graphObject=new CLDGraph(that);

@@ -43,16 +43,24 @@ function CLDNode(graph) {
       else if(that.selectedTypeId==2)
        return "./images/nodes/action.png";
       else if(that.selectedTypeId==3)
-       return "./images/nodes/criteria.png"
+       return "./images/nodes/criteria.png";
       else if(that.selectedTypeId==4)
        return "./images/nodes/extFactor.png";
     };
 
     this.setLabelText=function(val){
         this.label=val;
+
+        if (this.getGlobalNodePtr()!=undefined){
+            console.log("setting global name")
+            console.log(this.getGlobalNodePtr());
+            this.getGlobalNodePtr().setGlobalName(val);
+        }
+
         if (this.toolTipElement && (this.label.length > that.DISPLAY_LABEL_LENGTH) ){
           this.toolTipElement.text(this.label);
         }
+
     };
 
     this.clearLabelText=function(){

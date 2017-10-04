@@ -6,6 +6,16 @@ function GTWidget(){
 
     var that=this;
 
+    this.cldGraphObj=undefined;
+    this.sfdGraphObj=undefined;
+
+
+    this.setPtrToSFDGraphObject=function(sfdGraphObj){
+        this.sfdGraphObj=sfdGraphObj;
+    };
+    this.setPtrToCLDGraphObject=function(cldGraphObj){
+        this.cldGraphObj=cldGraphObj;
+    };
 
 
 
@@ -25,24 +35,18 @@ function GTWidget(){
 
 
     this.setupGraph=function(){
-     // console.log("Setting up my own graph");
       this.graphObject=new GTGraph(that);
       that.graphObject.initializeGraph();
     };
 
     this.setupControls=function(){
-      //  console.log("test oA");
-       // console.log("oA:"+that.getOptionsArea());
-
         this.controlsObject=new GTControls(that);
     };
 
 
-    this.setNodeType=function(typeId)
-    {
+    this.setNodeType=function(typeId)    {
       that.graphObject.changeNodeType(typeId);
-      console.log(typeId+":this is the id");
-    }
+    };
 
     this.loadJSON=function(jsonData){
         // LOAD JSON ACTION

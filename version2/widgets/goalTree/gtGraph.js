@@ -20,21 +20,62 @@ function GTGraph(){
     // };
 
     this.dblClick=function(){
-        console.log("Hello From Example graph");
+        var handler=that.parentWidget.getHandler();
+        console.log("DoubleClick in GoalTree");
+        console.log("do we have a handler?");
+        console.log(handler);
 
-        var aNode=that.createNode(that);
-        aNode.setTypeId(that.nodeTypeGraph);
-        var coordinatesRelativeToCanvasArea= [0,0];
+        var globalNode=handler.createGlobalNode(that);
+        console.log("Setting the functions");
+        globalNode.setNodeType(that,that.nodeTypeGraph,that.createNode(that));
+        handler.addGlobalNode(globalNode);
+        var repR=globalNode.filterInformation(that);
+        repR.setGlobalNodePtr(globalNode);
+
+
+        var coordinatesRelativeToCanvasArea;
         coordinatesRelativeToCanvasArea=d3.mouse(this);
         var grPos=getScreenCoords(coordinatesRelativeToCanvasArea[0],coordinatesRelativeToCanvasArea[1],that.translation,that.zoomFactor);
-        aNode.x=grPos.x;
-        aNode.y=grPos.y;
-        that.nodeElementArray.push(aNode);
-        that.clearRendering();
-        that.redrawGraphContent();
-        aNode.editInitialText();
-        console.log(that.nodeTypeGraph + ": this is the nodeType Graph");
-        aNode.setType(that.nodeTypeGraph, aNode.allClasss[that.nodeTypeGraph]);
+        globalNode.setNodePos(that,grPos);
+
+        // if the selected thing is createria
+        if (that.nodeTypeGraph===3){
+            //
+            console.log("woop whoop we have a criteria");
+            var friendlyWidget=that.parentWidget.cldGraphObj;
+            console.log(friendlyWidget);
+            globalNode.setVisibleInWidget(friendlyWidget,true);
+            // lets hope for the best :)
+            console.log("Calling SetNodeTypeFrom OUTSIDE ");
+            var friendlyNode=friendlyWidget.createNode(that.parentWidget.cldGraphObj);
+            console.log("there should be a friendly node ndoe");
+            console.log(friendlyNode);
+            console.log("yes?" );
+            globalNode.setNodeType(friendlyWidget,3,friendlyNode);
+            friendlyNode.setGlobalNodePtr(globalNode);
+
+        }
+
+
+//         var widgetNodeElement=globalNode.filterInformation(that);
+//
+//
+// //        var aNode=that.createNode(that);
+//        widgetNodeElement.setTypeId(that.nodeTypeGraph);
+//
+//          var coordinatesRelativeToCanvasArea;
+//          coordinatesRelativeToCanvasArea=d3.mouse(this);
+//          var grPos=getScreenCoords(coordinatesRelativeToCanvasArea[0],coordinatesRelativeToCanvasArea[1],that.translation,that.zoomFactor);
+//         widgetNodeElement.x=grPos.x;
+//         widgetNodeElement.y=grPos.y;
+//         that.nodeElementArray.push(widgetNodeElement);
+//         // add this global nodes info to
+//
+         that.clearRendering();
+         that.redrawGraphContent();
+//         widgetNodeElement.editInitialText();
+//         console.log(that.nodeTypeGraph + ": this is the nodeType Graph");
+//         widgetNodeElement.setType(that.nodeTypeGraph, widgetNodeElement.allClasss[that.nodeTypeGraph]);
 
     };
 
@@ -44,7 +85,7 @@ function GTGraph(){
 
     this.changeNodeType=function(nodeT){
       that.nodeTypeGraph=nodeT;
-    }
+    };
 
     this.createLink=function(parent){
         return new GTLink(parent);

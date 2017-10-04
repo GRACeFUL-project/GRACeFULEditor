@@ -90,8 +90,10 @@ function BaseGraph(parentWidget) {
 
     this.activateGraph=function(val){
         // console.log("A graph wants to be rendered "+ val);
-        if (val===true)
+        if (val===true){
             this.svgElement.classed("hidden",false);
+            this.forceRedrawContent();
+        }
         else
             this.svgElement.classed("hidden",true);
     };
@@ -289,9 +291,9 @@ function BaseGraph(parentWidget) {
 
 
     this.dblClick=function(){
-        // console.log("A Double Click "+d3.event);
-        // console.log("BaseGraph does not implement this");
-        // console.log("Debugging ");
+         // console.log("A Double Click "+d3.event);
+         // console.log("BaseGraph does not implement this");
+         // console.log("Debugging ");
 
         that.deselectLastLink();
         that.deselectLastNode();
@@ -401,6 +403,15 @@ function BaseGraph(parentWidget) {
 
 
     this.redrawGraphContent=function(){
+
+        // clear all the nodeElments array and get the filterd data from global handler;
+        console.log("Redrawing Elements");
+        var gHandler=that.parentWidget.getHandler();
+        var nodeArray=gHandler.collectNodesForWidget(that);
+        console.log("we have an array of nodes");
+        console.log(nodeArray);
+        that.nodeElementArray=nodeArray;
+
         var nodeElements = that.nodeLayer.selectAll(".node")
             .data(that.nodeElementArray).enter()
             .append("g")
@@ -548,7 +559,7 @@ function BaseGraph(parentWidget) {
         }
 
         console.log("Total no of nodes are: "+that.multipleNodes.length);
-    }
+    };
 
     this.handleNodeDeletion = function(node) {
         // console.log("node deleting button. Selected node is: "+node.nodeId);
@@ -562,6 +573,8 @@ function BaseGraph(parentWidget) {
             that.pathElementArray.splice(that.pathElementArray.indexOf(l), 1);
         });
         //redraw the graph
+        var globalNode=node.getGlobalNodePtr();
+        parentWidget.getHandler().removeGlobalNode(globalNode);
         that.forceRedrawContent();
         that.removeDeletedElements();
     };

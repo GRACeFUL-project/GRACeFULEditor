@@ -41,6 +41,15 @@ function BaseNode(graph) {
     this.elementWidth=100; // 2*radius
     this.nodeIsFocused=false;
     this.nodeObjectType=that.GRAPH_OBJECT_NODE;
+    this.globalNodePtr=undefined;
+
+    this.setGlobalNodePtr=function(gptr){
+        this.globalNodePtr=gptr;
+    };
+
+    this.getGlobalNodePtr=function(){
+        return this.globalNodePtr;
+    };
 
     this.getNodeObjectType=function(){
         return that.nodeObjectType;
@@ -107,8 +116,15 @@ function BaseNode(graph) {
     };
     this.setLabelText=function(val){
         this.label= val;
+
+        if (this.getGlobalNodePtr()!=undefined){
+            console.log(this.getGlobalNodePtr());
+            this.getGlobalNodePtr().setGlobalName(val);
+        }
+
         if (this.toolTipElement && (this.toolTipElement > this.DISPLAY_LABEL_LENGTH)){
             this.toolTipElement.text(that.label);
+
         }
     };
 
