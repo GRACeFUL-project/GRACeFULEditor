@@ -28,7 +28,7 @@ function GTLink(graph) {
             var viewBoxString = vx + " " + vy + " " + lx + " " + ly;
 
             arrowHead = that.rootElement.append("marker")
-                .attr("id", "arrowHead" + that.id())
+                .attr("id", "arrowHeadGT" + that.id())
                 .attr("viewBox", viewBoxString) // temp
                 .attr("markerWidth", mw)
                 .attr("markerHeight", mh)
@@ -38,7 +38,7 @@ function GTLink(graph) {
             arrowHead.append("path")
                 .attr("d", "M"+sX+","+sY+"L" + m1X + "," + m1Y + "L" + m2X + "," + m2Y +  "Z" )
                 .classed("cldArrowHeadStyle",true);
-            that.pathElement.attr('marker-end', 'url(#arrowHead' + that.id() + ')');
+            that.pathElement.attr('marker-end', 'url(#arrowHeadGT' + that.id() + ')');
         }
     }
 
