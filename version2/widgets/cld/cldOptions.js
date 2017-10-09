@@ -5,7 +5,7 @@ function CLDControls(parentWidget) {
 
     var nodesGroup,linksGroup, additionalSettings;
 
-    var selectionNode,lineEditNode,commentNode, checkObserve, nodeTrend;
+    var selectionNode,lineEditNode,commentNode, checkObserve, nodeTrend, actionDiv, actionTable, valApplied;
     var linkClass, causalSelection,commentLink;
     var getClassValues = [undefined];
     var cldChip, cldChipImage, cldChipNode,  delNodeBtn, delLinkBtn, extFactorBtn, loopBtn, loadcld, saveCld, libCld, sendCld;
@@ -27,6 +27,16 @@ function CLDControls(parentWidget) {
         checkObserve = that.addCheckBox(nodesGroup, "Decided/Observe", "observeNode", false, that.observeNode);
         nodeTrend = that.addSelectionOpts(nodesGroup, "Trend", ["Undefined", "Ambigous", "Decreasing", "Increasing", "Stable"], that.trendFunc);
         d3.select(nodeTrend.node().parentNode).classed("hidden", true);
+
+        //Action related fields        
+        actionTable=that.addTable(nodesGroup,"Action Pairs",["Value", "Can be applied","Cost"]);
+        actionDiv = actionTable.node().parentNode;        
+        d3.select(actionDiv).classed("hidden",true);
+        var value = ["+", "-", "0"];
+        valApplied = ["plusAction", "minusAction", "zeroAction"];
+        for(var i=0; i<value.length; i++) {
+            addRowsAction(i+1, value[i], valApplied[i], that.onValueChange, that.onCostChange);
+        }        
 
         commentNode = that.addTextEdit(nodesGroup, "Comments", "", true, that.onChangeNodeComment);
         // delNodeBtn = that.addButtons(nodesGroup, "Delete", "nodeDelete", that.deleteNodes);
@@ -119,6 +129,9 @@ function CLDControls(parentWidget) {
                 cldChip.innerHTML=that.selectedNode.label;
                 cldChipImage.setAttribute('src',that.selectedNode.getImageURL());
 
+                d3.select(checkObserve.node().parentNode).classed("hidden", false);
+                d3.select(actionDiv).classed("hidden",true);
+
                 checkObserve.node().checked = that.selectedNode.getObserve();
                 if(that.selectedNode.getObserve()) {
                     d3.select(nodeTrend.node().parentNode).classed("hidden", false);
@@ -135,6 +148,28 @@ function CLDControls(parentWidget) {
 
                 var selId = that.selectedNode.getTypeId();
                 selectionNode.node().options[selId].selected = "selected";
+
+                var selectType = selectionNode.node().options[selId].value;
+                if(selectType === "Action") {
+                    d3.select(checkObserve.node().parentNode).classed("hidden", true);
+                    d3.select(nodeTrend.node().parentNode).classed("hidden", true);
+                    d3.select(actionDiv).classed("hidden",false);
+
+                    console.log("ACTION: "+JSON.stringify(that.selectedNode.actionPairs));
+                    for(var i=0; i<valApplied.length; i++) {
+                        var aTypes = valApplied[i];
+                        var val = document.getElementById(aTypes);
+                        var cost = document.getElementById(aTypes+"Cost");
+
+                        var actionPairs = that.selectedNode.getAction();
+                        val.checked = actionPairs[aTypes];
+                        cost.value = actionPairs[aTypes+"Cost"];
+                        if(cost.value === "")
+                            cost.disabled = true;
+                        else
+                            cost.disabled = false;
+                    }
+                }
         }
 
         if (node.getElementType()==="LinkElement") {
@@ -181,6 +216,51 @@ function CLDControls(parentWidget) {
             }
         }
     }
+
+    function addRowsAction(rowId, val, valId, onValueChange, onCostChange) {
+        var row=actionTable.node().insertRow(rowId);
+        var r11 = row.insertCell(0);
+        r11.innerHTML = val;
+
+        var r12 = row.insertCell(1);
+        var p1 = document.createElement('input');
+        r12.appendChild(p1);
+        var aValue = d3.select(p1);
+        aValue.attr("id", valId).attr("type", "checkbox").property("checked", false);
+        aValue.on("click", function() {
+            that.onValueChange(aValue.attr("id"), aValue.property("checked"));
+        });
+        
+        var r13 = row.insertCell(2);
+        var aCost = document.createElement('input');
+        aCost.type = "text";
+        aCost.id = valId+"Cost";
+        aCost.disabled = true;
+        d3.select(aCost).on("change", function() {
+            that.onCostChange(d3.select(aCost).attr("id"));
+        });
+        r13.appendChild(aCost);
+    }
+
+    this.onValueChange = function(id, val) {
+        console.log("Value change. ID:"+id+" boolean: "+val);
+        that.selectedNode.setActionValues(id, val);
+        var c1 = document.getElementById(id+"Cost");
+        if(val === true) {
+            c1.disabled = false;
+        }
+        else {
+            c1.value = "";
+            c1.disabled = true;
+            that.selectedNode.setActionCost(c1.id, c1.value);
+        }        
+    };
+
+    this.onCostChange = function(id) {
+        console.log("Cost change:"+id);
+        var c1 = document.getElementById(id);
+        that.selectedNode.setActionCost(id, c1.value);
+    };
 
     this.onChangeLinkComment=function(){
         that.selectedNode.setHoverText(commentLink.node().value);
@@ -250,6 +330,7 @@ function CLDControls(parentWidget) {
     };
 
     this.onChangeNodeComment=function(){
+        console.log("hear me!!!");
         that.selectedNode.setHoverText(commentNode.node().value);
     };
 

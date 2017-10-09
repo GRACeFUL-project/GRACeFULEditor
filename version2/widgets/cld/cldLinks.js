@@ -41,10 +41,13 @@ function CLDLink(graph) {
         that.pathElement.classed("cldLinkSelected", val);
 
         if (that.rootElement.selectAll("image")!=null) {
-            if (val===true)
+            if (val===true) {
                 that.rootElement.selectAll("image").attr("display", null);
+                that.rootElement.selectAll("ellipse").attr("display", null);
+            }
             else{
                 that.rootElement.selectAll("image").attr("display", "none");
+                that.rootElement.selectAll("ellipse").attr("display", "none");
             }
         }
     };
@@ -224,6 +227,7 @@ function CLDLink(graph) {
                                 .attr("cy", cpPoint.y)
                                 .attr("rx", 15)
                                 .attr("ry", 10)
+                                .attr("display", "none")
                                 .classed("controlPoint", true)
                                 .call(that.dragControlPoints);
 
@@ -269,6 +273,7 @@ function CLDLink(graph) {
             .classed("text", true)
             .attr("text-anchor", "middle")
             .attr("style", "fill: black")
+            .attr("font-size", "35")
             .text(that.cldTypeString)
             .attr("dy", "0.35em");
     }
@@ -299,7 +304,7 @@ function CLDLink(graph) {
                     cpPoint.y = controlPoints[1].y;
                 }
                 that.pathElement.attr("d", lineFunction(controlPoints));
-                textRenderingElement.attr("x", cpPoint.x).attr("y", cpPoint.y);
+                textRenderingElement.attr("x", cpPoint.x).attr("y", cpPoint.y - 20);
                 cpEllipse.attr("cx", cpPoint.x)
                         .attr("cy", cpPoint.y);
                 that.rootElement.selectAll("image").attr("x", cpPoint.x - 0.5 * 17 - 15).attr("y", cpPoint.y - 10);
@@ -314,6 +319,7 @@ function CLDLink(graph) {
             graph.handleLinkSelection(that);
             that.rootElement.selectAll("image")
                         .attr("display", null);
+            that.rootElement.selectAll("ellipse").attr("display", null);
             return;
         }
         if (that.elementIsFocused===true) {
@@ -322,6 +328,7 @@ function CLDLink(graph) {
             graph.handleLinkSelection(undefined);
             that.rootElement.selectAll("image")
                         .attr("display", "none");
+            that.rootElement.selectAll("ellipse").attr("display", "none");
         }
         that.mouseEnteredFunc(false);
         that.onMouseOver();
