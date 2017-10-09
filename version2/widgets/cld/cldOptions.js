@@ -9,6 +9,7 @@ function CLDControls(parentWidget) {
     var linkClass, causalSelection,commentLink;
     var getClassValues = [undefined];
     var cldChip, cldChipImage, cldChipNode,  delNodeBtn, delLinkBtn, extFactorBtn, loopBtn, loadcld, saveCld, libCld, sendCld;
+    var budgetBtn;
 
 
     this.generateControls=function() {
@@ -36,7 +37,7 @@ function CLDControls(parentWidget) {
         valApplied = ["plusAction", "minusAction", "zeroAction"];
         for(var i=0; i<value.length; i++) {
             addRowsAction(i+1, value[i], valApplied[i], that.onValueChange, that.onCostChange);
-        }        
+        }
 
         commentNode = that.addTextEdit(nodesGroup, "Comments", "", true, that.onChangeNodeComment);
         // delNodeBtn = that.addButtons(nodesGroup, "Delete", "nodeDelete", that.deleteNodes);
@@ -100,7 +101,11 @@ function CLDControls(parentWidget) {
 
         loopBtn = that.addButton(additionalSettings, "IDENTIFY FEEDBACK LOOPS", "cldIdentifyFeedbacks", that.feedbackLoop, "flat", true, "loop" );
         loopBtn.setAttribute("data-toggle", "modal");
-        loopBtn.setAttribute("data-target", "#loopModal");        
+        loopBtn.setAttribute("data-target", "#loopModal");    
+
+        budgetBtn = that.addButton(additionalSettings, "ENTER BUDGET", "budget", that.enterBudget, "flat", true, "input");
+        budgetBtn.setAttribute("data-toggle", "modal");
+        budgetBtn.setAttribute("data-target", "#budgetModal");
     };
 
     this.handleNodeSelection=function(node){
@@ -184,9 +189,9 @@ function CLDControls(parentWidget) {
             var selId_1 = that.selectedNode.getClassType();
             linkClass.node().options[selId_1].selected = "selected";
             var selId_2 = that.selectedNode.getTypeId();
-            var temp = linkClass.node().options[selId_1].value;
+            var temp = linkClass.node().options[selId_1].value;            
             if(temp !== "Undefined") {
-                appendLinkType(temp);
+                appendLinkType(temp, node);
                 causalSelection.node().options[selId_2].selected="selected";
                 d3.select(causalSelection.node().parentNode).classed("hidden", false);
                 console.log("Link type id: "+causalSelection.node().options[selId_2].value);
@@ -201,9 +206,12 @@ function CLDControls(parentWidget) {
 
     };
 
-    function appendLinkType(className) {
+    function appendLinkType(className, selNode) {
         d3.select(causalSelection.node()).selectAll("option").remove();
         if(className === "Causal Relation") {
+            if(selNode.sourceNode.typeName === "Action")
+                getClassValues = [undefined, '+', '-', '0'];
+            else
                 getClassValues = [undefined, '+', '-', '?', '0'];
                 for (var i=0;i<getClassValues.length;i++){
                     d3.select(causalSelection.node()).append("option").text(getClassValues[i]);
@@ -219,6 +227,7 @@ function CLDControls(parentWidget) {
 
     function addRowsAction(rowId, val, valId, onValueChange, onCostChange) {
         var row=actionTable.node().insertRow(rowId);
+        row.align = "center";
         var r11 = row.insertCell(0);
         r11.innerHTML = val;
 
@@ -271,7 +280,7 @@ function CLDControls(parentWidget) {
         if(strUser !== "Undefined") {
             that.selectedNode.setClassType(selectionContainer.selectedIndex, strUser);
             d3.select(causalSelection.node().parentNode).classed("hidden", false);
-            appendLinkType(strUser);
+            appendLinkType(strUser, that.selectedNode);
         }
         else
             d3.select(causalSelection.node().parentNode).classed("hidden", true);
@@ -330,7 +339,6 @@ function CLDControls(parentWidget) {
     };
 
     this.onChangeNodeComment=function(){
-        console.log("hear me!!!");
         that.selectedNode.setHoverText(commentNode.node().value);
     };
 
@@ -370,6 +378,15 @@ function CLDControls(parentWidget) {
 
     this.feedbackLoop = function() {
         that.parent.identifyLoops();
+    };
+
+    this.enterBudget = function() {
+        var bud = "<input type=\"text\" id=\"budgetVal\">";        
+        that.createModal("budgetModal", "Enter Budget", bud);
+        d3.select("#budgetVal").on("change", function() {
+            var c1 = document.getElementById("budgetVal");
+            that.parent.cldBudget(c1.value);
+        });
     };
 
     this.saveFunction=function(){

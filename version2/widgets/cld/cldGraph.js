@@ -3,6 +3,7 @@ function CLDGraph(){
     BaseGraph.apply(this,arguments);
     var that=this;
     this.nodeTypeGraph=1;
+    this.budget = 0;
 
     // call the baseGraph init function
     // that.initializeGraph();
@@ -36,6 +37,11 @@ function CLDGraph(){
 
     this.createLink=function(parent){
         return new CLDLink(parent);
+    };
+
+    this.setBudget = function(val) {
+        that.budget = val;
+        console.log("New budget is: "+that.budget);
     };
 
     this.requestSaveDataAsJson=function(){
