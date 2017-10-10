@@ -25,6 +25,7 @@ function CLDLink(graph) {
     var linkDir=[]; // normal vector;
     var endPos=[]; // end position for the line
     var dynamicLinkWidth=false;
+    var loopImg = undefined;
 
     this.parameters = [];
     this.interfaces = [];
@@ -76,28 +77,29 @@ function CLDLink(graph) {
         // update textRendering element
         if (textRenderingElement)
             textRenderingElement.text(that.cldTypeString);
-
-        that.pathElement.classed("cldLinkType0", false);
-        if(typeId == 0) {
+        if(that.pathElement!== undefined)
+            that.pathElement.classed("cldLinkType0", false);
+        if(typeName === undefined) {
             that.sign = null;
             that.name = null;
         }
-        else if(typeId == 1) {
+        else if(typeName === '+') {
             that.sign = 1;
             that.name = "plus arrow";
         }
-        else if(typeId == 2) {
+        else if(typeName === '-') {
             that.sign = -1;
             that.name = "minus arrow";
         }
-        else if(typeId == 3) {
+        else if(typeName === '?') {
             that.sign = 2;
             that.name = "ambiguious arrow";
         }
-        else if(typeId == 4) {
+        else if(typeName === '0') {
             that.sign = 0;
             that.name = "stable arrow";
-            that.pathElement.classed("cldLinkType0", true);
+            if(that.pathElement!== undefined)
+                that.pathElement.classed("cldLinkType0", true);
         }
     };
 
@@ -498,9 +500,16 @@ function CLDLink(graph) {
         that.mouseEnteredFunc(false);
     };
 
-    this.setLoopStyle = function() {
+    this.setLoopStyle = function(ret) {
         that.isLoop = true;
-        that.pathElement.classed("feedbackLoops", true);
+        if(ret === "Balancing") {
+            that.pathElement.classed("feedbackLoopsNegative", true);
+            loopImg = "images/loopBalance.png";
+        }
+        else if (ret === "Reinforcing") {
+            that.pathElement.classed("feedbackLoopsPositive", true);
+            loopImg = "images/loopReinforce.png";
+        }        
         that.pathElement.on("contextmenu", that.onLoopContextMenu);
     };
 
@@ -517,10 +526,10 @@ function CLDLink(graph) {
 
                     that.rootElement.append("image")
                         .attr("id", "loop")
-                        .attr("xlink:href", "images/loop.svg")
+                        .attr("xlink:href", loopImg)
                         .attr("display", null)
-                        .attr("width", 30)
-                        .attr("height", 30)
+                        .attr("width", 50)
+                        .attr("height", 50)
                         .attr("x", cpPoint.x - 0.5 * 17)
                         .attr("y", cpPoint.y - 0.5 * 17);
                 }

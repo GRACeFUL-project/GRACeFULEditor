@@ -404,26 +404,34 @@ function CLDGraph(){
         var loopNodeNames = [];
         for(var i=0; i<allTheLoops.length; i++) {
             var tempLoop = allTheLoops[i];
+            var tempLinks = [];
             loopNodeNames[i] = [];
             for(var j=0; j<tempLoop.length; j++) {
                 for(var k=0; k<that.pathElementArray.length; k++) {
                     if(tempLoop[j+1] !== undefined) {
-                        if(tempLoop[j] === that.pathElementArray[k].sourceNode.id() && tempLoop[j+1] === that.pathElementArray[k].targetNode.id())
-                            feedbackLoops.push(that.pathElementArray[k]);
-                    }
-                }
+                        if(tempLoop[j] === that.pathElementArray[k].sourceNode.id() && tempLoop[j+1] === that.pathElementArray[k].targetNode.id()) {
+                            tempLinks.push(that.pathElementArray[k]);
+                        }                            
+                    }                    
+                }                                
                 that.nodeElementArray.filter(function(n) {
                     if(tempLoop[j] === n.id())
                         loopNodeNames[i].push(n.label);
                 });
             }
+            feedbackLoops.push(tempLinks);
         }
 
         for(var i=0; i<feedbackLoops.length; i++) {
-            console.log("The feedback loop id is: "+feedbackLoops[i].id());
-            feedbackLoops[i].setLoopStyle();
-        }
+            var tLinks = feedbackLoops[i];
+            var loopType = determineLoops(tLinks);
+            for(var j=0; j<tLinks.length; j++) {
+                console.log("The feedback loop id is: "+tLinks[j].id()+" and its loop type: "+loopType);
+                tLinks[j].setLoopStyle(loopType);
+            }            
+        }        
 
+        //display the loop nodes in a modal
         var strLoop = "";
         for(var i=0; i<loopNodeNames.length; i++) {
             var aLoop = loopNodeNames[i];
@@ -468,6 +476,22 @@ function CLDGraph(){
             // console.log("coloring vertex: "+vertex+" as black");
             loops[vertex] = 2;
             path.pop();
+        }
+
+        //determine positive or negative loops
+        function determineLoops(loopLinks) {
+            var minus = 0;            
+            for(var k=0; k<loopLinks.length; k++) {
+                if(loopLinks[k].cldTypeString === "-") {
+                    minus++;
+                }
+            }
+            if(minus % 2 == 1) {
+                return "Balancing";
+            }
+            else {
+                return "Reinforcing";
+            }
         }
 
         //************************************************************************
