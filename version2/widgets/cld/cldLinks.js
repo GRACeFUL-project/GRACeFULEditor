@@ -12,7 +12,7 @@ function CLDLink(graph) {
     var that = this;
     BaseLink.apply(this,arguments);
 
-    console.log("Generating a link with id "+that.id());
+   // console.log("Generating a link with id "+that.id());
     var cldType="unknown";
     this.className = undefined;
     this.name = undefined;
@@ -31,6 +31,27 @@ function CLDLink(graph) {
 
     var startPoint,endPoint,cpPoint;
     var cpDragged = false;
+
+
+    this.setControlPoint=function(pos){
+        // sets the control point position in the widget and tells it that cpDragged is true;
+        cpDragged=true;
+        cpPoint=pos;
+    };
+
+    this.getControlPointPosition=function(){
+        return cpPoint;
+    };
+
+
+    this.getControlPointStatus=function(){
+        return cpDragged;
+    };
+
+
+    this.getValueString=function(){
+        return that.cldTypeString;
+    };
 
     this.type=function(){
         return cldType;
@@ -55,17 +76,37 @@ function CLDLink(graph) {
 
     this.source = function (src) {
         this.sourceNode = src;
-        console.log("Source Add");
+      //  console.log("Source Add");
         src.addLink(that);
         src.setPortDetails(that.id());
 
     };
     this.target = function (target) {
-        console.log("Target Add");
+      //  console.log("Target Add");
         this.targetNode = target;
         target.addLink(that);
         target.setPortDetails(that.id());
     };
+
+
+    this.setCLDLinkTypeFromOutside=function(type,value){
+        var temp= [undefined, '+', '-', '?', '0']; // hard coded stuff , yeah! -.-
+
+
+        if (type>=0) {
+            that.classId = type;
+          //  that.className = className;
+        }
+
+        if (value>=0) {
+            that.cldTypeId = value;
+            that.cldTypeString = temp[value];
+        }
+
+
+
+    };
+
 
     this.setCLDTypeString=function(typeId, typeName){
         that.cldTypeId = typeId;
@@ -261,6 +302,8 @@ function CLDLink(graph) {
                             })
                             .on("dragend", function(d) {
                                 that.updateElement(0,0);
+                                console.log("drag end ");
+                                console.log(cpPoint);
                                 d3.event.sourceEvent.stopPropagation();
                             });
 
@@ -274,29 +317,27 @@ function CLDLink(graph) {
     }
 
     this.updateElement=function(dX,dY){
-        console.log("have Dx"+ dX +" and dY "+dY);
         if (that.pathElement) {
                 startPoint={ x:that.sourceNode.x, y:that.sourceNode.y };
                 endPoint  ={ x:that.targetNode.x, y:that.targetNode.y };
                 if(cpDragged && dY===0 && dX===0) {
                     // cpPoint.x+=dX;
                     // cpPoint.y+=dY;
-                    // console.log("control point:");
-                    // console.log(cpPoint)
+
                     controlPoints = calculateMultiLinkPath(startPoint, endPoint, cpPoint);
                 }
             else if(cpDragged && dY!==undefined && dX!==undefined) {
                  cpPoint.x-=dX;
                  cpPoint.y-=dY;
-                 console.log("control point:");
-                 console.log(cpPoint);
                 controlPoints = calculateMultiLinkPath(startPoint, endPoint, cpPoint);
             }
-                else {console.log("version single");
+                else {
+                    if (cpDragged===false) {
 
-                    controlPoints=calculateMultiLinkPath(startPoint, endPoint);
-                    cpPoint.x = controlPoints[1].x;
-                    cpPoint.y = controlPoints[1].y;
+                        controlPoints = calculateMultiLinkPath(startPoint, endPoint);
+                        cpPoint.x = controlPoints[1].x;
+                        cpPoint.y = controlPoints[1].y;
+                    }
                 }
                 that.pathElement.attr("d", lineFunction(controlPoints));
                 textRenderingElement.attr("x", cpPoint.x).attr("y", cpPoint.y);
@@ -310,6 +351,7 @@ function CLDLink(graph) {
         console.log("link click");
         if (that.elementIsFocused===false) {
             that.elementIsFocused=true;
+            if (!that.pathElement) return;
             that.pathElement.classed("LinkFocused", true);
             graph.handleLinkSelection(that);
             that.rootElement.selectAll("image")

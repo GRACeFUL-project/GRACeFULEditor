@@ -11,7 +11,7 @@ function CLDNode(graph) {
     var nodeObs = "baseRoundNode";
     this.selectedTypeId=1;
     this.typeName = undefined;
-    var allPossibleClasses=['undefined','nodeOptionA','nodeOptionB','nodeOptionC', 'externalFactors'];
+    var allPossibleClasses=['undefined','nodeOptionA','nodeOptionB','nodeOptionC', 'externalFactors','stakeHolders'];
     var observeClasses = ['undefined', 'strokeAmbigous', 'strokeDecreasing', 'strokeIncreasing', 'strokeStable'];
     this.allClasss=["Undefined", "Factor", "Action", "Criteria", "External Factor"];
 
@@ -38,6 +38,7 @@ function CLDNode(graph) {
 
     this.getImageURL=function(){
 
+
       if(that.selectedTypeId==1)
         return "./images/nodes/factor.png";
       else if(that.selectedTypeId==2)
@@ -46,14 +47,14 @@ function CLDNode(graph) {
        return "./images/nodes/criteria.png";
       else if(that.selectedTypeId==4)
        return "./images/nodes/extFactor.png";
+      else if(that.selectedTypeId==5)
+          return "./images/nodes/stakeholder.png";
     };
 
     this.setLabelText=function(val){
         this.label=val;
 
         if (this.getGlobalNodePtr()!=undefined){
-            console.log("setting global name")
-            console.log(this.getGlobalNodePtr());
             this.getGlobalNodePtr().setGlobalName(val);
         }
 
@@ -278,14 +279,32 @@ function CLDNode(graph) {
 
     this.drawNode=function(){
 
-        that.nodeElement= that.rootNodeLayer.append('circle')
-            .attr("r", that.getRadius())
-            .classed("baseRoundNode",true)
-            .classed(nodeClass,true)
-            .classed(nodeObs, true);
+        // makeing the stakeholder nodes;
+        // if (that.selectedTypeId===5){
+        //
+        //     console.log("oh i have a stackholder");
+        //     that.nodeElement= that.rootNodeLayer.append('rect')
+        //         .attr("rx", 6)
+        //         .attr("ry", 6)
+        //         .attr("x", -0.5*100)
+        //         .attr("y", -0.5*50)
+        //         .attr("width", 100)
+        //         .attr("height", 50)
+        //         .classed("baseRoundNode",true)
+        //         .classed('goalOptionD', true);
+        // }else {
 
-            console.log("THE NODE CLASS IS ::: ****"+nodeClass);
+            that.nodeElement = that.rootNodeLayer.append('circle')
+                .attr("r", that.getRadius())
+                .classed("baseRoundNode", true)
+                .classed(nodeClass, true)
+                .classed(nodeObs, true);
+            if (that.selectedTypeId===5){
+                that.nodeElement .classed('goalOptionD', true);
+            }
 
+            // console.log("THE NODE CLASS IS ::: ****" + nodeClass);
+        // }
         // add hover text if you want
         if (that.hoverTextEnabled===true)
             that.rootNodeLayer.append('title').text(that.hoverText);
@@ -367,18 +386,35 @@ function CLDNode(graph) {
         that.selectedTypeId=typeId;
         nodeClass=allPossibleClasses[typeId];
         that.typeName = typeName;
-        console.log("Node class is"+nodeClass);
+        // console.log("Node class is"+nodeClass);
         // apply the classes ;
         if (that.nodeElement){
             for (var i=0;i<allPossibleClasses.length;i++){
-                console.log("disabling :"+allPossibleClasses[i]);
+                //console.log("disabling :"+allPossibleClasses[i]);
                 that.nodeElement.classed(allPossibleClasses[i],false);
             }
             console.log("Setting final class :"+nodeClass);
             that.nodeElement.classed(nodeClass,true);
         }
-
         that.setTrendStyle(that.getTrend());
+
+        // type update in other widgets
+        var friendlyWidget=graph.parentWidget.gtGraphObj;
+        var globalNode=that.getGlobalNodePtr();
+
+        if (typeId===3 && that.getGlobalNodePtr()!=undefined){
+            // tell the graph object to add the reference into the cld
+            globalNode.setVisibleInWidget(friendlyWidget,true);
+            var friendlyNode=friendlyWidget.createNode(friendlyWidget);
+            globalNode.setNodeType(friendlyWidget,3,friendlyNode);
+            friendlyNode.setGlobalNodePtr(globalNode);
+        }
+        // remove the constructed element if type was changed
+        if (typeId!=3 && that.getGlobalNodePtr()!=undefined){
+            globalNode.removeNodeRepresentationInWidget(friendlyWidget);
+        }
+
+
     };
 
     this.setExternalFactors = function() {

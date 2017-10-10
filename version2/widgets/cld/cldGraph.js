@@ -3,28 +3,32 @@ function CLDGraph(){
     BaseGraph.apply(this,arguments);
     var that=this;
     this.nodeTypeGraph=1;
-    this.graphName="CLD";
-
     // call the baseGraph init function
     // that.initializeGraph();
     that.setZoomExtent(0.1,6);
     this.dblClick=function(){
-        console.log("Hello From CLD Graph");
+        var handler=that.parentWidget.getHandler();
+        var globalNode=handler.createGlobalNode(that);
+        globalNode.setNodeType(that,that.nodeTypeGraph,that.createNode(that));
+        handler.addGlobalNode(globalNode);
+        var repR=globalNode.filterInformation(that);
+        repR.setGlobalNodePtr(globalNode);
 
-        var coordinatesRelativeToCanvasArea = [0,0] ;
-        coordinatesRelativeToCanvasArea = d3.mouse(this);
-        var aNode=that.createNode(that);
+        var coordinatesRelativeToCanvasArea;
+        coordinatesRelativeToCanvasArea=d3.mouse(this);
         var grPos=getScreenCoords(coordinatesRelativeToCanvasArea[0],coordinatesRelativeToCanvasArea[1],that.translation,that.zoomFactor);
-        aNode.setTypeId(that.nodeTypeGraph);
-        aNode.x=grPos.x;
-        aNode.y=grPos.y;
-        that.nodeElementArray.push(aNode);
+        globalNode.setNodePos(that,grPos);
+
+        // if the selected thing is createria
+        if (that.nodeTypeGraph===3){
+            var friendlyWidget=that.parentWidget.gtGraphObj;
+            globalNode.setVisibleInWidget(friendlyWidget,true);
+            var friendlyNode=friendlyWidget.createNode(that.parentWidget.gtGraphObj);
+            globalNode.setNodeType(friendlyWidget,3,friendlyNode);
+            friendlyNode.setGlobalNodePtr(globalNode);
+        }
         that.clearRendering();
         that.redrawGraphContent();
-        aNode.editInitialText();
-        console.log("New node id is: "+aNode.id());
-        console.log("Mouse Coordinates relative to the div:"+d3.mouse(this));
-        aNode.setType(that.nodeTypeGraph, aNode.allClasss[that.nodeTypeGraph]);
     };
 
     this.changeNodeType=function(nodeT){
@@ -240,24 +244,140 @@ function CLDGraph(){
         // console.log("dragger End pos"+draggeEndPos);
         if (targetNode) {
             // console.log("Target node name" + targetNode.label);
-            // create a link between these;
-            var aLink=that.createLink(that);
-            aLink.source(d.parentNode());
-            aLink.target(targetNode);
+            // create a link be
+            // tween these;
 
-            that.pathElementArray.push(aLink);
+            var srcRen=d.parentNode();
+            var tarRen=targetNode;
+
+            if (srcRen===tarRen){
+                console.log("No Capes allowd, i mean loops!");
+                return;
+            }
+
+            // crreate a global links
+            var handler=that.parentWidget.getHandler();
+            var globalLink=handler.createGlobalLink(that);
+
+            console.log("global LInk obj");
+            console.log(globalLink);
+
+            globalLink.setLinkGenerator(that,that.createLink(that));
+            handler.addGlobalLink(globalLink);
+            var repR=globalLink.filterInformation(that);
+            repR.setGlobalLinkPtr(globalLink);
+
+
+            repR.source(srcRen);
+            repR.target(tarRen);
+
+            globalLink.setSource(srcRen.getGlobalNodePtr());
+            globalLink.setTarget(tarRen.getGlobalNodePtr());
+
+            console.log("Node Types are: "+srcRen.getTypeId()+" "+tarRen.getTypeId());
+            if ((srcRen.getTypeId()===3 || srcRen.getTypeId()===5)
+                && (tarRen.getTypeId()===3 || tarRen.getTypeId()===5)
+            ){
+                console.log("this should also be visible in CLD ");
+                //
+                var friendlyWidget=that.parentWidget.gtGraphObj;
+                globalLink.setVisibleInWidget(friendlyWidget,true);
+                var friendlyLink=friendlyWidget.createLink(friendlyWidget);
+
+                globalLink.setLinkGenerator(friendlyWidget,friendlyLink);
+                friendlyLink.setGlobalLinkPtr(globalLink);
+            }
+
 
             that.forceRedrawContent();
-            // that.parentWidget.handleSelection(aLink);
-            aLink.onClicked();
-            aLink.pathElement.classed("cldLinkSelected", true);
+
+
+
+            // //*****************
+            // var aLink=that.createLink(that);
+            // aLink.source(d.parentNode());
+            // aLink.target(targetNode);
+            //
+            // that.pathElementArray.push(aLink);
+            //
+            // that.forceRedrawContent();
+            // // that.parentWidget.handleSelection(aLink);
+            // aLink.onClicked();
+            // aLink.pathElement.classed("cldLinkSelected", true);
         }
     };
 
+    this.redrawGraphContent=function(){
+
+   //     console.log("redraw functin for CLD");
+        var gHandler=that.parentWidget.getHandler();
+        that.nodeElementArray=gHandler.collectNodesForWidget(that);
+        that.pathElementArray=gHandler.collectLinkForWidget(that);
+
+        var nodeElements = that.nodeLayer.selectAll(".node")
+            .data(that.nodeElementArray).enter()
+            .append("g")
+            .classed("node", true)
+            .attr("id", function (d) {
+                return d.id();
+            })
+            .call(that.dragBehaviour);
+
+        nodeElements.each(function (node) {
+            node.svgRoot(d3.select(this));
+            node.drawNode();
+            node.updateElement();
+        });
+
+
+        // todo : FILTER GLOBAL LINKS FOR THIS WIDGET
+       // console.log("draw global links");
+        var pathElements= that.pathLayer.selectAll(".path")
+            .data(that.pathElementArray).enter()
+            .append("g")
+            .classed("path", true)
+            .attr("id", function (d) {
+                return d.id();
+            })
+            .call(that.dragBehaviour);
+
+
+        pathElements.each(function (node) {
+            node.svgRoot(d3.select(this));
+            node.drawElement();
+            node.updateElement(0,0);
+        });
+
+
+       // console.log("draw global links---Dpone");
+        // add the drag behavior to the dragger element;
+        var draggerElments = that.draggerLayer.selectAll(".node")
+            .data(that.draggerObjectsArray).enter()
+            .append("g")
+            .classed("node", true)
+            .attr("id", function (d) {
+                return d.id();
+            })
+            .call(that.dragBehaviour);
+
+        draggerElments.each(function (node) {
+            node.svgRoot(d3.select(this));
+            node.drawNode();
+        });
+        // hide the dragger layer;
+        that.draggerLayer.classed("hidden",true);
+
+    };
+
     this.handleLinkDeletion = function(link) {
-        that.pathElementArray.splice(that.pathElementArray.indexOf(link), 1);
+
+        // handle the delete in the handler
+        var handler=that.parentWidget.getHandler();
+        handler.deleteGlobalLink(link);
+
+        //that.pathElementArray.splice(that.pathElementArray.indexOf(link), 1);
         that.forceRedrawContent();
-        that.removeDeletedElements();
+        //that.removeDeletedElements();
     };
 
     // debug things
@@ -276,7 +396,7 @@ function CLDGraph(){
                 //do not delete the nodes, but we need to display a single svg element with all selected nodes inside it
             }
         }
-    }
+    };
 
     this.identifyExternalFactors = function() {
         console.log("Looking for External factors...");

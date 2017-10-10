@@ -1,13 +1,12 @@
 var baseInstanceIds=0;
 
-function BaseWidget(parentElement) {
+function StakeHolderWidget(parentElement) {
     /** variable defs **/
     var that=this;
-    this.className = "BaseWidget";
-    this.communicationModule = undefined;
-    this.tabName = "Unnamed";
-    this.myInstanceId = baseInstanceIds++;
-    this.uniqueIdentifyer="";
+    this.className = "QWidget";
+    this.tabName = "Questioner";
+    this.myInstanceId = 500;
+    this.uniqueIdentifyer="qwidget";
     this.widgetTabItem=undefined;
     this.graphObject=undefined;
     this.controlsObject=undefined;
@@ -16,10 +15,21 @@ function BaseWidget(parentElement) {
     this.parentElement=parentElement;
     this.handlerModule=undefined;
 
+    this.gloatTreePtr=undefined;
+
+    this.setGoalTreePtr=function(gtw){
+        this.gloatTreePtr=gtw;
+    };
+
     this.setCommunicationModule=function(mod){
         this.communicationModule=mod;
     };
 
+    this.shadow_requestAction=function(action){
+        // forward to the goalTree
+        that.gloatTreePtr.requestAction(action);
+
+    };
 
     /** Setter and Getter for the handler module**/
     this.setHandlerModule=function(handler){
@@ -48,7 +58,7 @@ function BaseWidget(parentElement) {
         this.controlsArea=controls;
         // setup the visualizations
          that.setupWidget();
-         that.setupMyGraphAndControls();
+        // that.setupMyGraphAndControls();
 
     };
 
@@ -73,11 +83,10 @@ function BaseWidget(parentElement) {
             widgetTabItem.href = "#";
             widgetTabItem.innerHTML = that.tabName;
             widgetTabItem.onclick = function () {
-
-                resurectToolBar();
+                killToolBar();
                 that.widgetIsActivated();
-
             };
+
             widgetTabItem.ondragstart=function(){return false;}; // remove drag operations of tabs items
             listItem.appendChild(widgetTabItem);
             tabWidgetHolder.appendChild(listItem);
@@ -87,16 +96,23 @@ function BaseWidget(parentElement) {
         }
     };
 
+    this.setupControls=function(){
+        that.controlsObject=new QWControls(that);
+        console.log("generating graph");
+        this.graphObject=new qGraph(that);
+        that.graphObject.initializeGraph();
+    };
+
     this.setupMyGraphAndControls=function(){
         //this is related to individual widgets it self
         // MUST BE OVERWRITTEN BU THE WIDGET
+
+        // initialize graph;
+
+
+        that.setupControls();
     };
 
-
-    this.setupControls=function(){
-        console.log("Base class does not implement this");
-
-    };
 
 
     this.setClassName = function (uniqueClassName) {
@@ -161,38 +177,39 @@ function BaseWidget(parentElement) {
         tabNode.classed("tabHighlightNot",false);
         //tell the main container about this
         that.parentElement.widgetActivated(this);
-        if (that.graphObject)
-            that.graphObject.activateGraph(true);
 
 
         if (that.controlsObject)
             that.controlsObject.activateControls(true);
 
+        if (that.graphObject)
+            that.graphObject.activateGraph(true);
+
+
         if (that.getUniqueId() == "SimpleSFDWidget2") {
           clearAllToolbars();
           setActiveToolbar('widgetList');
-          resurectToolBar();
 
         }else if (that.getUniqueId() == "CLDWidget1"){
           clearAllToolbars();
           setActiveToolbar('widgetListCLD');
-          resurectToolBar();
 
         }else if (that.getUniqueId() == "GoalTreeWidget0"){
           clearAllToolbars();
           setActiveToolbar('widgetListGT');
-            resurectToolBar();
         }else if (that.getUniqueId == "ExampleWidget0"){
           clearAllToolbars();
           setActiveToolbar('widgetListExampleB  ');
-          resurectToolBar();
         }else {
-            console.log("Error matching the tab name" + that.getUniqueId());
+            // hide the tool bar
             killToolBar();
+           // console.log("Error matching the tab name" + that.getUniqueId());
         }
-
     };
 
+    this.widgetLoadModel=function(){
+      that.graphObject.integrateTheModel();
+    };
 
     // selection stuff;
     this.handleSelection=function(node){
@@ -242,7 +259,6 @@ function BaseWidget(parentElement) {
                 var nodeTypeId=s_node.nodeTypeId;
                 var globalHoverText=s_node.comments;
                 var storedPositions=s_node.pos;
-                var storedEmail=s_node.email;
 
 
                 // create the global node
@@ -250,9 +266,6 @@ function BaseWidget(parentElement) {
                 globalNode.id(storedId);
               //  console.log("have global hover text"+globalHoverText);
                 globalNode.setGlobalHoverText(globalHoverText);
-
-                globalNode.setNodeEmail(storedEmail);
-
                 for ( v=0;v<visible.length;v++){
                     globalNode.setVisibleInWidget(reprGraphObjects[v],visible[v]);
                     if (visible[v]===true){
@@ -431,15 +444,22 @@ function BaseWidget(parentElement) {
         // so we can here combine the classes and attributes or what ever
         // and then give this to the graph object;
         // for now only nodes are given;
-
-
-
-
-
     };
+
+    this.loadStakeholderModel=function(text){
+        console.log("loading text"+text);
+        // create json object;
+        var j_obj=JSON.parse(text);
+        console.log("parsed text");
+        console.log(j_obj);
+
+        // create the elements in the graph object;
+        that.graphObject.createModelObjects(j_obj);
+    };
+
 
 
 
     /** -------------------------------------------------------------**/
 }// end of baseWidget def
-BaseWidget.prototype.constructor = BaseWidget;
+StakeHolderWidget.prototype.constructor = StakeHolderWidget;

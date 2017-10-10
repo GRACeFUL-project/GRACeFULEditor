@@ -9,6 +9,8 @@
     var ACTION_REQUEST_MODEL="ACTION_REQUEST_MODEL";
     var SERVER_REQUEST="SERVER_REQUEST";
     var ACTION_LOAD_STAKEHOLDERS = "ACTION_LOAD_STAKEHOLDERS";
+    var ACTION_SAVE_GLOBAL_JSON="ACTION_SAVE_GLOBAL_JSON";
+    var ACTION_LOAD_GLOBAL_JSON="ACTION_LOAD_GLOBAL_JSON";
 
     function new_object(initializer) {
         // some variables
@@ -61,6 +63,17 @@
                 // here we have already the data from the action, so we put this directly to the widget
                 widget.saveAsJSON();
             }
+
+            if (localAction.task===ACTION_SAVE_GLOBAL_JSON){
+                // here we have already the data from the action, so we put this directly to the widget
+                widget.saveGlobalModelAsJSON();
+            }
+            if (localAction.task===ACTION_LOAD_GLOBAL_JSON){
+                // here we have already the data from the action, so we put this directly to the widget
+                widget.loadGlobalModelAsJSON(localAction.data);
+            }
+
+
 
             if (localAction.task===SERVER_REQUEST && localAction.requestType==="SEND_MODEL"){
                 console.log("requesting an action that talks with docker ");

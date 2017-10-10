@@ -1,0 +1,107 @@
+{
+  "type": "GLOBAL_MODEL",
+  "graphSchema": "NO_SCHEMA",
+  "nodes": [
+    {
+      "id": 0,
+      "name": "empty",
+      "visibleInWidgets": [
+        false,
+        true,
+        false
+      ],
+      "nodeTypeId": [
+        -1,
+        1,
+        -1
+      ],
+      "comments": "",
+      "pos": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 512.1666870117188,
+          "y": 388
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "empty",
+      "visibleInWidgets": [
+        false,
+        true,
+        false
+      ],
+      "nodeTypeId": [
+        -1,
+        1,
+        -1
+      ],
+      "comments": "",
+      "pos": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 908.1666870117188,
+          "y": 349
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "id": 0,
+      "source_target": [
+        0,
+        1
+      ],
+      "linkTypesInWidgets": [
+        -1,
+        1,
+        -1
+      ],
+      "linkValuesInWidgets": [
+        -1,
+        1,
+        -1
+      ],
+      "visibleInWidgets": [
+        false,
+        true,
+        false
+      ],
+      "controlPointsStatus": [
+        false,
+        false,
+        false
+      ],
+      "controlPointsPosition": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 710.1666870117188,
+          "y": 368.5
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    }
+  ]
+}

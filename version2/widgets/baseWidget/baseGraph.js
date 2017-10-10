@@ -77,6 +77,11 @@ function BaseGraph(parentWidget) {
     this.emptyGraphStructure=function(){
         this.nodeElementArray=[];
         this.pathElementArray=[];
+
+        // do we kill the whole model? sure!
+
+        that.parentWidget.getHandler().emptyGraphStructure();
+
     };
 
     this.updateSvgSize=function(){
@@ -197,11 +202,7 @@ function BaseGraph(parentWidget) {
                 var oldY=d.y;
                 d.x=d3.event.x;
                 d.y=d3.event.y;
-                console.log(d.type());
-
                 if(d.type()==="Node") {
-
-                    console.log("OLD:"+oldX+" "+oldY+"  - vs - "+d.x+" "+d.y);
                     d.updateElement(oldX-d.x,oldY-d.y);
                     if (d.getSelectionStatus()===true) {
                         that.draggerElement.setParentNode(d);
@@ -240,10 +241,34 @@ function BaseGraph(parentWidget) {
         if (targetNode) {
             // console.log("Target node name" + targetNode.label);
             // create a link between these;
-            var aLink=that.createLink(that);
-            aLink.source(d.parentNode());
-            aLink.target(targetNode);
-            that.pathElementArray.push(aLink);
+
+            // crreate a global links
+            var handler=that.parentWidget.getHandler();
+            var globalLink=handler.createGlobalLink(that);
+
+            console.log("global LInk obj");
+            console.log(globalLink);
+
+            globalLink.setLinkGenerator(that,that.createLink(that));
+            handler.addGlobalLink(globalLink);
+            var repR=globalLink.filterInformation(that);
+            repR.setGlobalLinkPtr(globalLink);
+
+            var srcRen=d.parentNode();
+            var tarRen=targetNode;
+
+            repR.source(srcRen);
+            repR.target(tarRen);
+
+            globalLink.setSource(srcRen.getGlobalNodePtr());
+            globalLink.setTarget(tarRen.getGlobalNodePtr());
+
+
+            // add the global pointers for the connection;
+
+
+
+
             that.forceRedrawContent();
         }
     };
@@ -403,14 +428,9 @@ function BaseGraph(parentWidget) {
 
 
     this.redrawGraphContent=function(){
-
-        // clear all the nodeElments array and get the filterd data from global handler;
-        console.log("Redrawing Elements");
         var gHandler=that.parentWidget.getHandler();
-        var nodeArray=gHandler.collectNodesForWidget(that);
-        console.log("we have an array of nodes");
-        console.log(nodeArray);
-        that.nodeElementArray=nodeArray;
+        that.nodeElementArray=gHandler.collectNodesForWidget(that);
+        that.pathElementArray=gHandler.collectLinkForWidget(that);
 
         var nodeElements = that.nodeLayer.selectAll(".node")
             .data(that.nodeElementArray).enter()
@@ -428,7 +448,7 @@ function BaseGraph(parentWidget) {
         });
 
 
-
+        // todo : FILTER GLOBAL LINKS FOR THIS WIDGET
         var pathElements= that.pathLayer.selectAll(".path")
             .data(that.pathElementArray).enter()
             .append("g")
@@ -440,7 +460,7 @@ function BaseGraph(parentWidget) {
 
         pathElements.each(function (node) {
             node.svgRoot(d3.select(this));
-            node.drawElement();
+            node.drawElement(0,0);
             node.updateElement();
         });
 
@@ -483,7 +503,6 @@ function BaseGraph(parentWidget) {
         return {x: xn, y: yn};
     }
 
-
     this.deselectLastNode=function(){
         if (that.prevSelectedNode!=undefined){
             that.prevSelectedNode.setSelectionStatus(false);
@@ -503,7 +522,7 @@ function BaseGraph(parentWidget) {
     // node and other element selections
     this.selectNode=function(node){
         // graph handles node selection
-        that.deselectLastLink();
+      //  that.deselectLastLink();
         // console.log("handling selection stuff");
         if (node===undefined){
 
@@ -563,25 +582,23 @@ function BaseGraph(parentWidget) {
 
     this.handleNodeDeletion = function(node) {
         // console.log("node deleting button. Selected node is: "+node.nodeId);
-        that.nodeElementArray.splice(that.nodeElementArray.indexOf(node), 1);
-        //remove links associated with the node
-        var spliceLinks = that.pathElementArray.filter(function(l) {
-            return (l.sourceNode === node || l.targetNode === node);
-        });
-        spliceLinks.map(function(l) {
-            // console.log("the index of links are: "+l.id());
-            that.pathElementArray.splice(that.pathElementArray.indexOf(l), 1);
-        });
-        //redraw the graph
-        var globalNode=node.getGlobalNodePtr();
-        parentWidget.getHandler().removeGlobalNode(globalNode);
+
+        // get the global Node pointer and let the handler perform this option;
+
+        var handler=that.parentWidget.getHandler();
+        handler.deleteNodeAndLinks(node);
+
+
+
         that.forceRedrawContent();
         that.removeDeletedElements();
     };
 
     this.handleLinkDeletion = function(link) {
         // console.log("link deleting button. Selected link is: "+link.id());
-        that.pathElementArray.splice(that.pathElementArray.indexOf(link), 1);
+        // let the handler do that;
+        var handler=that.parentWidget.getHandler();
+        handler.deleteGlobalLink(link);
         that.forceRedrawContent();
         that.removeDeletedElements();
     };

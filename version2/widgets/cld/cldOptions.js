@@ -11,6 +11,58 @@ function CLDControls(parentWidget) {
     var cldChip, cldChipImage, cldChipNode,  delNodeBtn, delLinkBtn, extFactorBtn, loopBtn, loadcld, saveCld, libCld, sendCld;
 
 
+    this.saveGlobalFunction=function(){
+        var action={};
+        action.task="ACTION_SAVE_GLOBAL_JSON";
+        that.parent.requestAction(action);
+    };
+
+    this.loadGlobalFunction=function()    {
+        var hidden_solutionInput=document.createElement('input');
+        hidden_solutionInput.id="HIDDEN_SOLUTION_JSON_INPUT";
+        hidden_solutionInput.type="file";
+        //hidden_solutionInput.style.display="none";
+        hidden_solutionInput.autocomplete="off";
+        hidden_solutionInput.placeholder="load a json File";
+        hidden_solutionInput.setAttribute("class", "inputPath");
+        // hidden_solutionInput.style.display="none";
+        additionalSettings.getBody().node().appendChild(hidden_solutionInput);
+        var loaderSolutionPathNode=d3.select("#HIDDEN_SOLUTION_JSON_INPUT");
+        var fileElement;
+        var fileName;
+        var readText;
+        // simulate click event;
+        // console.log("hidden thing is clicked");
+        hidden_solutionInput.click();
+        loaderSolutionPathNode.remove(loaderSolutionPathNode);
+        // tell what to do when clicked
+        loaderSolutionPathNode.on("input",function(){
+            // console.log("hidden thing is clicked");
+            var files= loaderSolutionPathNode.property("files");
+            if (files.length>0){
+                // console.log("file?"+files[0].name);
+                fileElement=files[0];
+                fileName=fileElement.name;
+                loaderSolutionPathNode.remove();
+
+                // read this file;
+                var reader = new FileReader();
+                reader.readAsText(fileElement);
+                reader.onload = function () {
+                    readText = reader.result;
+                    // the the communication module about this
+                    var action={};
+                    action.task="ACTION_LOAD_GLOBAL_JSON";
+                    action.data=readText;
+                    that.parent.requestAction(action);
+                    // kill the action object;
+                    action=null;
+                };
+            }
+        });
+
+    };
+
     this.generateControls=function() {
         // testing stuff,
         nodesGroup = that.createAccordionGroup(that.divControlsGroupNode, "Nodes");
@@ -20,7 +72,7 @@ function CLDControls(parentWidget) {
           cldChip = cldChipNode[0];
           cldChipImage=cldChipNode[1];
 
-        selectionNode = that.addSelectionOpts(nodesGroup, "Class type", ["Undefined", "Factor", "Action", "Criteria", "External Factor"], that.onChangeNodeType);
+        selectionNode = that.addSelectionOpts(nodesGroup, "Class type", ["Undefined", "Factor", "Action", "Criteria", "External Factor","Stake Holder"], that.onChangeNodeType);
         var hideClass = selectionNode.node().options[selectionNode.node().length - 1];
         hideClass.hidden = true;
         
@@ -46,49 +98,61 @@ function CLDControls(parentWidget) {
         commentLink = that.addTextEdit(linksGroup, "Comments", "", true, that.onChangeLinkComment);
         // delLinkBtn = that.addButtons(linksGroup, "Delete", "linkDelete", that.deleteLinks);
 
+        additionalSettings = that.createAccordionGroup(that.divControlsGroupNode, "Model Controls");
         graphControls = that.createAccordionGroup(that.divControlsGroupNode, "Graph Controls");
-        additionalSettings = that.createAccordionGroup(that.divControlsGroupNode, "Model Controls");        
 
-        loadcld= that.addButton(graphControls, "LOAD GRAPH", "cldLoadModel", that.loadFunction, "flat", true, "cloud_upload" );
+        // adding load global and save global graph things;
+        that.addButton(additionalSettings, "LOAD GLOBAL MODEL", "cldGetLibrary", that.loadGlobalFunction, "flat", true, "cloud_upload" );
+        that.addButton(additionalSettings, "SAVE GLOBAL MODEL", "cldGetLibrary", that.saveGlobalFunction, "flat", true, "save" );
+        that.addButton(additionalSettings, "CLEAR GRAPH", "gtClearGraph", that.clearGraph, "flat", true, "clear_all" );
+
+
+
+        //loadcld= that.addButton(graphControls, "LOAD GRAPH", "cldLoadModel", that.loadFunction, "flat", true, "cloud_upload" );
 
         // loadcld = that.addHrefButton(additionalSettings,"Load",that.loadFunction,true);
         // loadcld.setAttribute("class", "btn btn-default btn-sm");
         // loadcld.parentNode.setAttribute("id", "basic");
         // loadcld.innerHTML = '<span class="glyphicon glyphicon-floppy-open"></span> Load Model';
 
-        saveCld= that.addButton(graphControls, "SAVE GRAPH", "cldSaveModel", that.saveFunction, "flat", true, "save" );
+       // saveGlobalModel=that.addButton(graphControls, "SAVE GLOBAL", "cldSendModel", that.saveGlobalFunction, "flat", true, "save");
+
+       // saveCld= that.addButton(graphControls, "SAVE GRAPH", "cldSaveModel", that.saveFunction, "flat", true, "save" );
         // saveCld = that.addHrefButton(additionalSettings,"Save",that.saveFunction,false);
         // document.getElementById("basic").appendChild(saveCld);
         // saveCld.setAttribute("class", "btn btn-default btn-sm pull-right");
         // saveCld.innerHTML = '<span class="glyphicon glyphicon-floppy-save"></span> Save Model';
-        
-        clearCLD= that.addButton(graphControls, "CLEAR GRAPH", "cldClearGraph", that.clearGraph, "flat", true, "clear_all" );
 
-        libCld = that.addButton(additionalSettings, "GET LIBRARY", "cldGetLibrary", that.getLibrary, "flat", true, "get_app" );
+
+
+       // clearCLD= that.addButton(graphControls, "CLEAR GRAPH", "cldClearGraph", that.clearGraph, "flat", true, "clear_all" );
+
+
+        libCld = that.addButton(graphControls, "GET LIBRARY", "cldGetLibrary", that.getLibrary, "flat", true, "get_app" );
         // libCld = that.addHrefButton(additionalSettings,"Get Library",that.getLibrary,true);
         // libCld.setAttribute("class", "btn btn-default btn-sm");
         // libCld.parentNode.setAttribute("id", "basic1");
         // libCld.innerHTML = '<span class="glyphicon glyphicon-log-in"></span> Get Library';
         //
 
-        sendCld= that.addButton(additionalSettings, "SEND MODEL", "cldSendModel", that.sendModel, "flat", true, "send" );
+        sendCld= that.addButton(graphControls, "SEND MODEL", "cldSendModel", that.sendModel, "flat", true, "send" );
         // sendCld = that.addHrefButton(additionalSettings,"Send Model",that.sendModel,false);
         // document.getElementById("basic1").appendChild(sendCld);
         // sendCld.setAttribute("class", "btn btn-default btn-sm pull-right");
         // sendCld.innerHTML = '<span class="glyphicon glyphicon-log-out"></span> Send Model';
         //
 
-        importCriteria = that.addButton(additionalSettings, "IMPORT CRITERIA", "cldImportCriteria", that.onCriteriaImport, "flat", true, "import_export" );
+       // importCriteria = that.addButton(additionalSettings, "IMPORT CRITERIA", "cldImportCriteria", that.onCriteriaImport, "flat", true, "import_export" );
         // importCriteria = that.addHrefButton(graphControls, "Import Criteria", that.onCriteriaImport, true);
         // importCriteria.setAttribute("class", "btn btn-default btn-sm btn-block");
         //
 
-        extFactorBtn = that.addButton(additionalSettings, "IDENTIFY EXTERNAL FACTORS", "cldIdentifyExtFactors", that.identifyExtFact, "flat", true, "explicit" );
+        extFactorBtn = that.addButton(graphControls, "IDENTIFY EXTERNAL FACTORS", "cldIdentifyExtFactors", that.identifyExtFact, "flat", true, "explicit" );
         // extFactorBtn = that.addHrefButton(graphControls, "Identify External Factors", that.identifyExtFact, true);
         // extFactorBtn.setAttribute("class", "btn btn-default btn-sm btn-block");
         //
 
-        loopBtn = that.addButton(additionalSettings, "IDENTIFY FEEDBACK LOOPS", "cldIdentifyFeedbacks", that.feedbackLoop, "flat", true, "loop" );
+        loopBtn = that.addButton(graphControls, "IDENTIFY FEEDBACK LOOPS", "cldIdentifyFeedbacks", that.feedbackLoop, "flat", true, "loop" );
         loopBtn.setAttribute("data-toggle", "modal");
         loopBtn.setAttribute("data-target", "#loopModal");        
     };
@@ -110,6 +174,9 @@ function CLDControls(parentWidget) {
             // should be overwritten by the real options thing
             // console.log("controls handle node operation" + node);
             this.selectedNode = node;
+
+
+
                 nodesGroup.expandBody();
                 linksGroup.collapseBody();
                 // should be overwritten by the real options thing
@@ -129,12 +196,23 @@ function CLDControls(parentWidget) {
                     d3.select(nodeTrend.node().parentNode).classed("hidden", true);
 
                 console.log("the trend is: "+that.selectedNode.trendName);
-                
+
                 commentNode.node().disabled = false;
                 commentNode.node().value = that.selectedNode.hoverText;
 
                 var selId = that.selectedNode.getTypeId();
                 selectionNode.node().options[selId].selected = "selected";
+                console.log("The Selection Id is "+selId);
+                if(selId === 5) {
+                    commentNode.node().innerHTML = that.selectedNode.hoverText;
+                    checkObserve.node().disabled=true;
+                    nodeTrend.node().disabled=true;
+                    selectionNode.node().disabled=true;
+                    commentNode.node().disabled = true;
+                    d3.select(checkObserve.node().parentNode).classed("hidden", true);
+                    d3.select(nodeTrend.node().parentNode).classed("hidden", true);
+
+            }
         }
 
         if (node.getElementType()==="LinkElement") {
@@ -147,6 +225,13 @@ function CLDControls(parentWidget) {
 
             // todo overwrite the values;
             var selId_1 = that.selectedNode.getClassType();
+            if (selId_1===-1){
+                // nothing to do; this is a goal tree link without any information!
+                linksGroup.collapseBody();
+                return;
+
+            }
+
             linkClass.node().options[selId_1].selected = "selected";
             var selId_2 = that.selectedNode.getTypeId();
             var temp = linkClass.node().options[selId_1].value;

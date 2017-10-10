@@ -30,7 +30,7 @@ function GTNode(graph) {
       else if(that.goalTypeId==2)
        return "./images/nodes/subgoal.png";
       else if(that.goalTypeId==3)
-       return "./images/nodes/criteria.png"
+       return "./images/nodes/criteria.png";
       else if(that.goalTypeId==4)
        return "./images/nodes/stakeholder.png";
     };
@@ -39,23 +39,37 @@ function GTNode(graph) {
         that.goalTypeId=typeId;
         goalClass=allGoalClasses[typeId];
         that.goalType = typeName;
-        console.log("Goal class is"+goalClass);
+        var friendlyWidget=graph.parentWidget.cldGraphObj;
+        var globalNode=that.getGlobalNodePtr();
+       // console.log("Goal class is"+goalClass);
         // apply the classes ;
         if (that.nodeElement){
             for (var i=0;i<allGoalClasses.length;i++){
-                console.log("disabling :"+allGoalClasses[i]);
+              //  console.log("disabling :"+allGoalClasses[i]);
                 that.nodeElement.classed(allGoalClasses[i],false);
             }
-            console.log("Setting final class :"+goalClass);
+           // console.log("Setting final class :"+goalClass);
             that.nodeElement.classed(goalClass,true);
         }
+        if (typeId===3 && that.getGlobalNodePtr()!=undefined){
+            // tell the graph object to add the reference into the cld
+
+            globalNode.setVisibleInWidget(friendlyWidget,true);
+            var friendlyNode=friendlyWidget.createNode(friendlyWidget);
+            globalNode.setNodeType(friendlyWidget,3,friendlyNode);
+            friendlyNode.setGlobalNodePtr(globalNode);
+        }
+        // remove the constructed element if type was changed
+        if (typeId!=3 && that.getGlobalNodePtr()!=undefined){
+            globalNode.removeNodeRepresentationInWidget(friendlyWidget);
+        }
+
+
     };
 
     this.setLabelText=function(val){
         this.label=val;
-
         if (this.getGlobalNodePtr()!=undefined){
-            console.log(this.getGlobalNodePtr());
             this.getGlobalNodePtr().setGlobalName(val);
         }
         if (this.toolTipElement && (this.label.length > that.DISPLAY_LABEL_LENGTH) ){
@@ -112,8 +126,11 @@ function GTNode(graph) {
             .classed(goalClass, true);
 
         // add hover text if you want
-        if (that.hoverTextEnabled===true)
+        if (that.hoverTextEnabled===true) {
+          //  console.log("adding hover text  :"+that.hoverText);
             that.rootNodeLayer.append('title').text(that.hoverText);
+            that.nodeElement.append('title').text(that.hoverText);
+        }
 
         // add title
         that.labelRenderingElement=  that.rootNodeLayer.append("text")

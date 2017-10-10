@@ -75,32 +75,14 @@ var gHandlerObj=handler.create();
         //
 
         // widget generation
-        gtw= new GTWidget(initializer);
-        gtw.setTabTitle("GoalTree");
-        gtw.setupGuiElements(initializer.getNavigationObject(),
-            initializer.getTabsObject(),
-            initializer.getCanvasArea(),
-            initializer.getOptionsArea() );
-        gtw.forceGraphCssStyle("goalTreeGraphStyle");
-        gtw.setCommunicationModule(com);
-        gtw.setHandlerModule(gHandlerObj);
 
-        cld= new CLDWidget(initializer);
-        cld.setTabTitle("Causal Loop Diagram");
-        cld.setupGuiElements(initializer.getNavigationObject(),
-            initializer.getTabsObject(),
-            initializer.getCanvasArea(),
-            initializer.getOptionsArea() );
-        cld.forceGraphCssStyle("cldGraphStyle");
-        cld.setCommunicationModule(com);
-        cld.setHandlerModule(gHandlerObj);
 
         // create simple sfd widget for testing (copy of example widget
 
 
         // create that questioner tool;
-        var qWidget=new QuestionerWidget(initializer);
-        qWidget.setTabTitle("Questioner");
+        var qWidget=new StakeHolderWidget(initializer);
+        qWidget.setTabTitle("StakeHolder Questioner");
         qWidget.setupGuiElements(initializer.getNavigationObject(),
             initializer.getTabsObject(),
             initializer.getCanvasArea(),
@@ -108,61 +90,15 @@ var gHandlerObj=handler.create();
         qWidget.setupControls();
         qWidget.setCommunicationModule(com);
         qWidget.setHandlerModule(gHandlerObj);
-        qWidget.setGoalTreePtr(gtw);
 
 
-        sfd= new SimpleSFDWidget(initializer);
-        sfd.setTabTitle("GRACeFUL Concept Map");
-        sfd.setupGuiElements(initializer.getNavigationObject(),
-            initializer.getTabsObject(),
-            initializer.getCanvasArea(),
-            initializer.getOptionsArea() );
-        sfd.forceGraphCssStyle("sdfGraphStyle");
-        //load the node types from backend.
-        var action={};
-        action.task="SERVER_REQUEST";
-        action.requestType="GET_LIBRARY";
-        sfd.setCommunicationModule(com);
-        sfd.setHandlerModule(gHandlerObj);
-        sfd.requestAction(action);
 
-        // adding to widget list
-    //    widgetList.push(example);
-        widgetList.push(gtw);
-        widgetList.push(cld);
-        widgetList.push(qWidget);
-        widgetList.push(sfd);
-        loadGracefulConceptMapToolbar(sfd);
-        loadCausalLoopDiagramToolbar(cld);
-        loadGoalTreeDiagram(gtw);
-        //sfd.setupNode();
-        // set default tab
-        //gtw.widgetIsActivated();
-      //  example.widgetIsActivated();
-        gtw.widgetIsActivated();
-
-        // set the ptrs; // a bit hardCoded stuff for the communication
-        cld.setPtrToGoalTreeGraphObject(gtw.getGraphObject());
-        cld.setPtrToSFDGraphObject(sfd.getGraphObject());
-
-        gtw.setPtrToCLDGraphObject(cld.getGraphObject());
-        gtw.setPtrToSFDGraphObject(sfd.getGraphObject());
-
-        sfd.setPtrToGTWGraphObject(gtw.getGraphObject());
-        sfd.setPtrToCLDGraphObject(cld.getGraphObject());
+       qWidget.widgetIsActivated();
 
 
     };
 
     initializer.initializeWidgets();
-    cld.connectGt(gtw);
-    console.log("Initializing things");
-    console.log(gtw);
-    console.log(cld);
-    console.log(sfd);
-    gHandlerObj.setWidgetList(gtw,cld,sfd);
-
-
 
     // overwrite the window resize function
     window.onresize = function(){

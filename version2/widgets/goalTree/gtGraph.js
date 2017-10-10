@@ -18,65 +18,89 @@ function GTGraph(){
     //     // det a double click event if needed
     //     //that.setDoubleClickEvent(that.dblClick);
     // };
+    // have to overwrite this one
+    this.draggerElementReleaseFunction=function(d){
+        // overwrite if needed;
+
+        that.draggerLayer.classed("hidden",true);
+        // check he the node stoped
+        that.draggingObject=false;
+        var draggeEndPos=[that.draggerElement.x, that.draggerElement.y];
+        var targetNode=that.getTargetNode(draggeEndPos);
+        // console.log("dragger End pos"+draggeEndPos);
+        if (targetNode) {
+            // console.log("Target node name" + targetNode.label);
+            // create a link between these;
+
+            // crreate a global links
+            var handler=that.parentWidget.getHandler();
+            var globalLink=handler.createGlobalLink(that);
+
+            console.log("global LInk obj");
+            console.log(globalLink);
+
+            globalLink.setLinkGenerator(that,that.createLink(that));
+            handler.addGlobalLink(globalLink);
+            var repR=globalLink.filterInformation(that);
+            repR.setGlobalLinkPtr(globalLink);
+
+            var srcRen=d.parentNode();
+            var tarRen=targetNode;
+
+            repR.source(srcRen);
+            repR.target(tarRen);
+            globalLink.setSource(srcRen.getGlobalNodePtr());
+            globalLink.setTarget(tarRen.getGlobalNodePtr());
+
+
+            if ((srcRen.getTypeId()===3 || srcRen.getTypeId()===4)
+                && (tarRen.getTypeId()===3 || tarRen.getTypeId()===4)
+            ){
+                console.log("this should also be visible in CLD ");
+                //
+                var friendlyWidget=that.parentWidget.cldGraphObj;
+                globalLink.setVisibleInWidget(friendlyWidget,true);
+                var friendlyLink=friendlyWidget.createLink(friendlyWidget);
+                 friendlyLink.setClassType(-1,"InterestLink");
+                 globalLink.setLinkGenerator(friendlyWidget,friendlyLink);
+                 friendlyLink.setGlobalLinkPtr(globalLink);
+                }
+            }
+
+
+
+            // add the global pointers for the connection;
+
+
+
+
+            that.forceRedrawContent();
+
+    };
+
 
     this.dblClick=function(){
         var handler=that.parentWidget.getHandler();
-        console.log("DoubleClick in GoalTree");
-        console.log("do we have a handler?");
-        console.log(handler);
-
         var globalNode=handler.createGlobalNode(that);
-        console.log("Setting the functions");
         globalNode.setNodeType(that,that.nodeTypeGraph,that.createNode(that));
         handler.addGlobalNode(globalNode);
         var repR=globalNode.filterInformation(that);
         repR.setGlobalNodePtr(globalNode);
-
 
         var coordinatesRelativeToCanvasArea;
         coordinatesRelativeToCanvasArea=d3.mouse(this);
         var grPos=getScreenCoords(coordinatesRelativeToCanvasArea[0],coordinatesRelativeToCanvasArea[1],that.translation,that.zoomFactor);
         globalNode.setNodePos(that,grPos);
 
-        // if the selected thing is createria
         if (that.nodeTypeGraph===3){
-            //
-            console.log("woop whoop we have a criteria");
             var friendlyWidget=that.parentWidget.cldGraphObj;
-            console.log(friendlyWidget);
             globalNode.setVisibleInWidget(friendlyWidget,true);
-            // lets hope for the best :)
-            console.log("Calling SetNodeTypeFrom OUTSIDE ");
-            var friendlyNode=friendlyWidget.createNode(that.parentWidget.cldGraphObj);
-            console.log("there should be a friendly node ndoe");
-            console.log(friendlyNode);
-            console.log("yes?" );
+            var friendlyNode=friendlyWidget.createNode(friendlyWidget);
             globalNode.setNodeType(friendlyWidget,3,friendlyNode);
             friendlyNode.setGlobalNodePtr(globalNode);
-
         }
-
-
-//         var widgetNodeElement=globalNode.filterInformation(that);
-//
-//
-// //        var aNode=that.createNode(that);
-//        widgetNodeElement.setTypeId(that.nodeTypeGraph);
-//
-//          var coordinatesRelativeToCanvasArea;
-//          coordinatesRelativeToCanvasArea=d3.mouse(this);
-//          var grPos=getScreenCoords(coordinatesRelativeToCanvasArea[0],coordinatesRelativeToCanvasArea[1],that.translation,that.zoomFactor);
-//         widgetNodeElement.x=grPos.x;
-//         widgetNodeElement.y=grPos.y;
-//         that.nodeElementArray.push(widgetNodeElement);
-//         // add this global nodes info to
-//
-         that.clearRendering();
-         that.redrawGraphContent();
-//         widgetNodeElement.editInitialText();
-//         console.log(that.nodeTypeGraph + ": this is the nodeType Graph");
-//         widgetNodeElement.setType(that.nodeTypeGraph, widgetNodeElement.allClasss[that.nodeTypeGraph]);
-
+        that.clearRendering();
+        that.redrawGraphContent();
     };
 
     this.createNode=function(parent){
@@ -189,22 +213,43 @@ function GTGraph(){
         for(var key in data) {
             var node = key;
             var values = data[key];
-            var newNode=that.createNode(that);
-            newNode.setLabelText(key);
-            newNode.setType(4, "Stakeholder");
+
+
+            // refactoring for global dataStructure;
+            var handler=that.parentWidget.getHandler();
+            var globalNode=handler.createGlobalNode(that);
+            globalNode.setNodeType(that,4,that.createNode(that));
+            handler.addGlobalNode(globalNode);
+            var repR=globalNode.filterInformation(that);
+            repR.setGlobalNodePtr(globalNode);
+            repR.setLabelText(key);
+            repR.setType(4, "Stakeholder");
+
+            // var newNode=that.createNode(that);
+            // newNode.setLabelText(key);
+            // newNode.setType(4, "Stakeholder");
             var x=parseFloat(randomPointX);
             var y=parseFloat(randomPointY);
             randomPointX += 200;
-            newNode.setPosition(x,y);
+            repR.setPosition(x,y);
             var str = "";
             for(var i=0; i<values.length; i++) {
                 str += values[i] + "\n";
             }
             console.log("values: "+str);
-            newNode.setHoverText(str);
+            repR.setHoverText(str);
+            globalNode.setGlobalHoverText(str);
             // push to array of nodes
-            console.log("newNode  "+newNode);
-            that.nodeElementArray.push(newNode);
+            console.log("newNode  "+repR);
+
+            // adding friendly widget for stakeHolders;
+            var friendlyWidget=that.parentWidget.cldGraphObj;
+            globalNode.setVisibleInWidget(friendlyWidget,true);
+            var friendlyNode=friendlyWidget.createNode(friendlyWidget);
+            globalNode.setNodeType(friendlyWidget,5,friendlyNode);
+            friendlyNode.setGlobalNodePtr(globalNode);
+            friendlyNode.setHoverText(str);
+
             that.needsRedraw(true);
         }        
     };

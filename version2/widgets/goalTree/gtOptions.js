@@ -9,6 +9,13 @@ function GTControls(parentWidget) {
 
     var goalchip, goalimage, goalChipNode, goalsGroup, goalName, goalType, goalComment, delGoal, criteriaUnit, additionalSettings, loadcld, saveCld, clearGT, importSt;
 
+
+    this.loadGlobalLibraries=function(){
+        // not used atm
+        console.log("request the handler load libs");
+        gHandlerObj.requestGlobalLibraryLoading();
+    };
+
     this.generateControls=function(){
         goalsGroup = that.createAccordionGroup(that.divControlsGroupNode, "Goal");
         // goal Chip for the goalNames
@@ -29,16 +36,18 @@ function GTControls(parentWidget) {
         goalsGroup.collapseBody();
         // delGoal = that.addButtons(goalsGroup, "Delete", "goalDelete", that.onDeleteGoal);
 
-        additionalSettings = that.createAccordionGroup(that.divControlsGroupNode, "Graph Controls");
+        additionalSettings = that.createAccordionGroup(that.divControlsGroupNode, "Model Controls");
 
 
-        loadcld= that.addButton(additionalSettings, "LOAD GRAPH", "gtLOAD", that.loadFunction, "flat", true, "cloud_upload" );
+       // loadcld= that.addButton(additionalSettings, "LOAD GRAPH", "gtLOAD", that.loadFunction, "flat", true, "cloud_upload" );
+        loadGlobalModel= that.addButton(additionalSettings, "LOAD GLOBAL MODEL", "gtLOAD", that.loadGlobalFunction, "flat", true, "cloud_upload" );
         // loadcld = that.addHrefButton(additionalSettings,"Load",that.loadFunction,true);
         // loadcld.setAttribute("class", "btn btn-default btn-sm");
         // loadcld.parentNode.setAttribute("id", "goalBasic");
         // loadcld.innerHTML = '<span class="glyphicon glyphicon-floppy-open"></span> Load Goal Tree';
         //
-        saveCld= that.addButton(additionalSettings, "SAVE GRAPH", "gtSAVE", that.saveFunction, "flat", true, "save" );
+       // saveCld= that.addButton(additionalSettings, "SAVE GRAPH", "gtSAVE", that.saveFunction, "flat", true, "save" );
+        saveGlobalModel= that.addButton(additionalSettings, "SAVE GLOBAL MODEL", "gtSAVE", that.saveGlobalFunction, "flat", true, "save" );
         // saveCld = that.addHrefButton(additionalSettings,"Save",that.saveFunction,false);
         // document.getElementById("goalBasic").appendChild(saveCld);
         // saveCld.setAttribute("class", "btn btn-default btn-sm pull-right");
@@ -47,6 +56,7 @@ function GTControls(parentWidget) {
         clearGT= that.addButton(additionalSettings, "CLEAR GRAPH", "gtClearGraph", that.clearGraph, "flat", true, "clear_all" );
 
         importSt= that.addButton(additionalSettings, "IMPORT STAKEHOLDERS", "buttonStake", that.importStakeholders, "flat", true, "get_app" );
+        //loadLIbs= that.addButton(additionalSettings, "LOAD GLOBAL LIBRARIES", "buttonStake", that.loadGlobalLibraries, "flat", true, "file_upload" );
 
     };
 
@@ -97,8 +107,7 @@ function GTControls(parentWidget) {
       // change the value of the tooltip.
       that.selectedNode.clearLabelText();
       that.selectedNode.setLabelText(goalName.node().value);
-
-    }
+    };
 
     this.onChangeGoalType = function(selectionContainer) {
         var selectType = selectionContainer.options[selectionContainer.selectedIndex].value;
@@ -138,6 +147,59 @@ function GTControls(parentWidget) {
         var action={};
         action.task="ACTION_SAVE_JSON";
         that.parent.requestAction(action);
+    };
+
+    this.saveGlobalFunction=function(){
+        var action={};
+        action.task="ACTION_SAVE_GLOBAL_JSON";
+        that.parent.requestAction(action);
+    };
+
+    this.loadGlobalFunction=function(){
+      //  console.log("loading global model function ");
+
+        var hidden_solutionInput=document.createElement('input');
+        hidden_solutionInput.id="HIDDEN_SOLUTION_JSON_INPUT";
+        hidden_solutionInput.type="file";
+        //hidden_solutionInput.style.display="none";
+        hidden_solutionInput.autocomplete="off";
+        hidden_solutionInput.placeholder="load a json File";
+        hidden_solutionInput.setAttribute("class", "inputPath");
+        // hidden_solutionInput.style.display="none";
+        additionalSettings.getBody().node().appendChild(hidden_solutionInput);
+        var loaderSolutionPathNode=d3.select("#HIDDEN_SOLUTION_JSON_INPUT");
+        var fileElement;
+        var fileName;
+        var readText;
+        // simulate click event;
+       // console.log("hidden thing is clicked");
+        hidden_solutionInput.click();
+        loaderSolutionPathNode.remove(loaderSolutionPathNode);
+        // tell what to do when clicked
+        loaderSolutionPathNode.on("input",function(){
+           // console.log("hidden thing is clicked");
+            var files= loaderSolutionPathNode.property("files");
+            if (files.length>0){
+               // console.log("file?"+files[0].name);
+                fileElement=files[0];
+                fileName=fileElement.name;
+                loaderSolutionPathNode.remove();
+
+                // read this file;
+                var reader = new FileReader();
+                reader.readAsText(fileElement);
+                reader.onload = function () {
+                    readText = reader.result;
+                    // the the communication module about this
+                    var action={};
+                    action.task="ACTION_LOAD_GLOBAL_JSON";
+                    action.data=readText;
+                    that.parent.requestAction(action);
+                    // kill the action object;
+                    action=null;
+                };
+            }
+        });
     };
 
     this.clearGraph=function(){

@@ -3,6 +3,7 @@ var libObject;
 var sfdRef;
 var cldRef;
 var goalTreeRef;
+var visibleLeftBar=true;
 
 /**
   * Toolbar Type
@@ -24,6 +25,10 @@ function setActiveToolbar(toolBarDiv) {
 **/
 
 function hideToolbar(){
+
+     if (visibleLeftBar===false) return;
+     visibleLeftBar=false;
+    // console.log("called hide ToolBar");
  $( "#toolbar" ).toggle( "slide" );
  $( "#btn-opentoolBar" ).delay(350).fadeIn();
 
@@ -40,6 +45,9 @@ function hideToolbar(){
 
 
 function showToolbar(){
+     if (visibleLeftBar===true) return;
+     visibleLeftBar=true;
+    console.log("called show ToolBar");
  $( "#toolbar" ).toggle( "slide" );
  $( "#btn-opentoolBar" ).delay(350).fadeOut();
 
@@ -79,6 +87,47 @@ function loadGoalTreeDiagram(gtw){
 }
 
 // Loading of widget Items
+
+function killToolBar(){
+
+    d3.select("#btn-opentoolBar").classed("hidden",true);
+
+    var tb=d3.select("#toolbar");
+     tb.classed("hidden",true);
+
+    $('#drawingArea').removeClass('col-lg-8 col-xs-8 col-sm-8 col-md-8');
+    $('#drawingArea').addClass('col-lg-9 col-xs-10 col-sm-10 col-md-10');
+    $('#canvasArea').removeClass('col-lg-8 col-xs-8 col-sm-8 col-md-8');
+    $('#canvasArea').addClass('col-lg-9 col-xs-10 col-sm-10 col-md-10');
+    d3.select("#btn-opentoolBar").classed("hidden",true);
+
+
+}
+
+function resurectToolBar(){
+
+    d3.select("#toolbar").classed("hidden",false);
+    d3.select("#btn-opentoolBar").classed("hidden",false);
+    if (visibleLeftBar===true) {
+        $('#drawingArea').removeClass('col-lg-9 col-xs-10 col-sm-10 col-md-10');
+        $('#drawingArea').addClass('col-lg-8 col-xs-8 col-sm-8 col-md-8');
+        $('#canvasArea').removeClass('col-lg-9 col-xs-10 col-sm-10 col-md-10');
+        $('#canvasArea').addClass('col-lg-8 col-xs-8 col-sm-8 col-md-8');
+
+    }
+    else{
+        $('#drawingArea').removeClass('col-lg-8 col-xs-8 col-sm-8 col-md-8');
+        $('#drawingArea').addClass('col-lg-9 col-xs-10 col-sm-10 col-md-10');
+        $('#canvasArea').removeClass('col-lg-8 col-xs-8 col-sm-8 col-md-8');
+        $('#canvasArea').addClass('col-lg-9 col-xs-10 col-sm-10 col-md-10');
+
+    }
+    sfdRef.updateSvgSize();
+    goalTreeRef.updateSvgSize();
+    cldRef.updateSvgSize();
+
+}
+
 
 function reloadWidgetItems(jsonOBJ){
     // console.log("hey you, kill all the perv elements please");

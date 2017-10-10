@@ -1,0 +1,591 @@
+{
+  "type": "GLOBAL_MODEL",
+  "graphSchema": "NO_SCHEMA",
+  "nodes": [
+    {
+      "id": 0,
+      "name": "City",
+      "visibleInWidgets": [
+        true,
+        true,
+        false
+      ],
+      "nodeTypeId": [
+        4,
+        5,
+        -1
+      ],
+      "comments": "Mr. A\nMr. B\nMr. C\n",
+      "pos": [
+        {
+          "x": 136.72581735023226,
+          "y": 136.72581735023226
+        },
+        {
+          "x": 136.72581735023226,
+          "y": 136.72581735023226
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "State",
+      "visibleInWidgets": [
+        true,
+        true,
+        false
+      ],
+      "nodeTypeId": [
+        4,
+        5,
+        -1
+      ],
+      "comments": "Mrs. X\nMr. P\n",
+      "pos": [
+        {
+          "x": 336.72581735023226,
+          "y": 136.72581735023226
+        },
+        {
+          "x": 336.72581735023226,
+          "y": 136.72581735023226
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Council",
+      "visibleInWidgets": [
+        true,
+        true,
+        false
+      ],
+      "nodeTypeId": [
+        4,
+        5,
+        -1
+      ],
+      "comments": "Mr. Q\nMrs. Z\n",
+      "pos": [
+        {
+          "x": 536.7258173502323,
+          "y": 136.72581735023226
+        },
+        {
+          "x": 536.7258173502323,
+          "y": 136.72581735023226
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Municipality",
+      "visibleInWidgets": [
+        true,
+        true,
+        false
+      ],
+      "nodeTypeId": [
+        4,
+        5,
+        -1
+      ],
+      "comments": "Mrs. Y\n",
+      "pos": [
+        {
+          "x": 736.7258173502323,
+          "y": 136.72581735023226
+        },
+        {
+          "x": 736.7258173502323,
+          "y": 136.72581735023226
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "empty",
+      "visibleInWidgets": [
+        true,
+        false,
+        false
+      ],
+      "nodeTypeId": [
+        1,
+        -1,
+        -1
+      ],
+      "comments": "",
+      "pos": [
+        {
+          "x": 428.1666717529297,
+          "y": -250
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "empty",
+      "visibleInWidgets": [
+        true,
+        false,
+        false
+      ],
+      "nodeTypeId": [
+        2,
+        -1,
+        -1
+      ],
+      "comments": "",
+      "pos": [
+        {
+          "x": 40.16667175292969,
+          "y": -116
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "empty",
+      "visibleInWidgets": [
+        true,
+        false,
+        false
+      ],
+      "nodeTypeId": [
+        2,
+        -1,
+        -1
+      ],
+      "comments": "",
+      "pos": [
+        {
+          "x": 429.1666717529297,
+          "y": -119
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "empty",
+      "visibleInWidgets": [
+        true,
+        true,
+        false
+      ],
+      "nodeTypeId": [
+        3,
+        3,
+        -1
+      ],
+      "comments": "",
+      "pos": [
+        {
+          "x": 25.166671752929688,
+          "y": 20
+        },
+        {
+          "x": 25.166671752929688,
+          "y": 20
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "empty",
+      "visibleInWidgets": [
+        true,
+        true,
+        false
+      ],
+      "nodeTypeId": [
+        3,
+        3,
+        -1
+      ],
+      "comments": "",
+      "pos": [
+        {
+          "x": 202.1666717529297,
+          "y": 8
+        },
+        {
+          "x": 202.1666717529297,
+          "y": 8
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "empty",
+      "visibleInWidgets": [
+        true,
+        true,
+        false
+      ],
+      "nodeTypeId": [
+        3,
+        3,
+        -1
+      ],
+      "comments": "",
+      "pos": [
+        {
+          "x": 433.1666717529297,
+          "y": 21
+        },
+        {
+          "x": 517.1666717529297,
+          "y": 13
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "empty",
+      "visibleInWidgets": [
+        true,
+        true,
+        false
+      ],
+      "nodeTypeId": [
+        3,
+        3,
+        -1
+      ],
+      "comments": "",
+      "pos": [
+        {
+          "x": 771.1666107177734,
+          "y": 1
+        },
+        {
+          "x": 771.1666107177734,
+          "y": 1
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "id": 0,
+      "source_target": [
+        4,
+        5
+      ],
+      "visibleInWidgets": [
+        true,
+        false,
+        false
+      ],
+      "linkTypesInWidgets": [
+        -1,
+        -1,
+        -1
+      ],
+      "linkValuesInWidgets": [
+        0,
+        -1,
+        -1
+      ]
+    },
+    {
+      "id": 1,
+      "source_target": [
+        5,
+        7
+      ],
+      "linkTypesInWidgets": [
+        -1,
+        -1,
+        -1
+      ],
+      "visibleInWidgets": [
+        true,
+        false,
+        false
+      ],
+      "linkValuesInWidgets": [
+        0,
+        -1,
+        -1
+      ]
+    },
+    {
+      "id": 2,
+      "source_target": [
+        5,
+        8
+      ],
+      "linkTypesInWidgets": [
+        -1,
+        -1,
+        -1
+      ],
+      "visibleInWidgets": [
+        true,
+        false,
+        false
+      ],
+      "linkValuesInWidgets": [
+        0,
+        -1,
+        -1
+      ]
+    },
+    {
+      "id": 3,
+      "source_target": [
+        8,
+        0
+      ],
+      "linkTypesInWidgets": [
+        -1,
+        -1,
+        -1
+      ],
+      "visibleInWidgets": [
+        true,
+        true,
+        false
+      ],
+      "linkValuesInWidgets": [
+        0,
+        0,
+        -1
+      ]
+    },
+    {
+      "id": 4,
+      "source_target": [
+        7,
+        0
+      ],
+      "linkTypesInWidgets": [
+        -1,
+        -1,
+        -1
+      ],
+      "visibleInWidgets": [
+        true,
+        true,
+        false
+      ],
+      "linkValuesInWidgets": [
+        0,
+        0,
+        -1
+      ]
+    },
+    {
+      "id": 5,
+      "source_target": [
+        1,
+        9
+      ],
+      "linkTypesInWidgets": [
+        -1,
+        -1,
+        -1
+      ],
+      "visibleInWidgets": [
+        true,
+        true,
+        false
+      ],
+      "linkValuesInWidgets": [
+        0,
+        0,
+        -1
+      ]
+    },
+    {
+      "id": 6,
+      "source_target": [
+        2,
+        9
+      ],
+      "linkTypesInWidgets": [
+        -1,
+        -1,
+        -1
+      ],
+      "visibleInWidgets": [
+        true,
+        true,
+        false
+      ],
+      "linkValuesInWidgets": [
+        0,
+        0,
+        -1
+      ]
+    },
+    {
+      "id": 7,
+      "source_target": [
+        6,
+        9
+      ],
+      "linkTypesInWidgets": [
+        -1,
+        -1,
+        -1
+      ],
+      "visibleInWidgets": [
+        true,
+        false,
+        false
+      ],
+      "linkValuesInWidgets": [
+        0,
+        -1,
+        -1
+      ]
+    },
+    {
+      "id": 8,
+      "source_target": [
+        6,
+        10
+      ],
+      "linkTypesInWidgets": [
+        -1,
+        -1,
+        -1
+      ],
+      "visibleInWidgets": [
+        true,
+        false,
+        false
+      ],
+      "linkValuesInWidgets": [
+        0,
+        -1,
+        -1
+      ]
+    },
+    {
+      "id": 9,
+      "source_target": [
+        4,
+        6
+      ],
+      "linkTypesInWidgets": [
+        -1,
+        -1,
+        -1
+      ],
+      "visibleInWidgets": [
+        true,
+        false,
+        false
+      ],
+      "linkValuesInWidgets": [
+        0,
+        -1,
+        -1
+      ]
+    },
+    {
+      "id": 10,
+      "source_target": [
+        6,
+        8
+      ],
+      "linkTypesInWidgets": [
+        -1,
+        -1,
+        -1
+      ],
+      "visibleInWidgets": [
+        true,
+        false,
+        false
+      ],
+      "linkValuesInWidgets": [
+        0,
+        -1,
+        -1
+      ]
+    },
+    {
+      "id": 11,
+      "source_target": [
+        3,
+        10
+      ],
+      "visibleInWidgets": [
+        true,
+        true,
+        false
+      ],
+      "linkTypesInWidgets": [
+        -1,
+        -1,
+        -1
+      ],
+      "linkValuesInWidgets": [
+        0,
+        0,
+        -1
+      ]
+    }
+  ]
+}

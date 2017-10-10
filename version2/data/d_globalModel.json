@@ -1,0 +1,889 @@
+{
+  "type": "GLOBAL_MODEL",
+  "graphSchema": "NO_SCHEMA",
+  "nodes": [
+    {
+      "id": 0,
+      "name": "City",
+      "visibleInWidgets": [
+        true,
+        true,
+        false
+      ],
+      "nodeTypeId": [
+        4,
+        5,
+        -1
+      ],
+      "comments": "Mr. A\nMr. B\nMr. C\n",
+      "pos": [
+        {
+          "x": 578.1844023144589,
+          "y": 947.5560453808652
+        },
+        {
+          "x": 567.8837431347714,
+          "y": 1014.2700956738339
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "State",
+      "visibleInWidgets": [
+        true,
+        true,
+        false
+      ],
+      "nodeTypeId": [
+        4,
+        5,
+        -1
+      ],
+      "comments": "Mrs. X\nMr. P\n",
+      "pos": [
+        {
+          "x": 904.3054350293028,
+          "y": 1019.6186674511777
+        },
+        {
+          "x": 1014.5538481152403,
+          "y": 1053.856521455084
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Municipality",
+      "visibleInWidgets": [
+        true,
+        true,
+        false
+      ],
+      "nodeTypeId": [
+        4,
+        5,
+        -1
+      ],
+      "comments": "Mrs. Y\n",
+      "pos": [
+        {
+          "x": 1708.3327177441465,
+          "y": 625.6603544628964
+        },
+        {
+          "x": 1737.808669892584,
+          "y": 637.0653837597714
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Goal",
+      "visibleInWidgets": [
+        true,
+        false,
+        false
+      ],
+      "nodeTypeId": [
+        1,
+        -1,
+        -1
+      ],
+      "comments": "",
+      "pos": [
+        {
+          "x": 1085.1666870117188,
+          "y": 481
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "SGA",
+      "visibleInWidgets": [
+        true,
+        false,
+        false
+      ],
+      "nodeTypeId": [
+        2,
+        -1,
+        -1
+      ],
+      "comments": "",
+      "pos": [
+        {
+          "x": 915.1666870117188,
+          "y": 639
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "SGB",
+      "visibleInWidgets": [
+        true,
+        false,
+        false
+      ],
+      "nodeTypeId": [
+        2,
+        -1,
+        -1
+      ],
+      "comments": "",
+      "pos": [
+        {
+          "x": 1303.1666870117188,
+          "y": 640
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "C1",
+      "visibleInWidgets": [
+        true,
+        true,
+        false
+      ],
+      "nodeTypeId": [
+        3,
+        3,
+        -1
+      ],
+      "comments": "",
+      "pos": [
+        {
+          "x": 768.9265747070312,
+          "y": 703.818359375
+        },
+        {
+          "x": 808.3419799804688,
+          "y": 796.060546875
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "C2",
+      "visibleInWidgets": [
+        true,
+        true,
+        false
+      ],
+      "nodeTypeId": [
+        3,
+        3,
+        -1
+      ],
+      "comments": "",
+      "pos": [
+        {
+          "x": 1079.1666259765625,
+          "y": 780
+        },
+        {
+          "x": 1194.7032470703125,
+          "y": 1176.4406127929688
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "C3",
+      "visibleInWidgets": [
+        true,
+        true,
+        false
+      ],
+      "nodeTypeId": [
+        3,
+        3,
+        -1
+      ],
+      "comments": "",
+      "pos": [
+        {
+          "x": 1320.1666870117188,
+          "y": 785
+        },
+        {
+          "x": 1437.9434204101562,
+          "y": 748.4676513671875
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "A",
+      "visibleInWidgets": [
+        false,
+        true,
+        false
+      ],
+      "nodeTypeId": [
+        -1,
+        1,
+        -1
+      ],
+      "comments": "",
+      "pos": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 797.1813587407366,
+          "y": 1039.6278581841457
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "name": "B",
+      "visibleInWidgets": [
+        false,
+        true,
+        false
+      ],
+      "nodeTypeId": [
+        -1,
+        1,
+        -1
+      ],
+      "comments": "",
+      "pos": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1650.421555403715,
+          "y": 1322.9432361302588
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "name": "C",
+      "visibleInWidgets": [
+        false,
+        true,
+        false
+      ],
+      "nodeTypeId": [
+        -1,
+        1,
+        -1
+      ],
+      "comments": "",
+      "pos": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1248.509203316821,
+          "y": 542.1789522952042
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "id": 0,
+      "source_target": [
+        4,
+        5
+      ],
+      "linkTypesInWidgets": [
+        -1,
+        -1,
+        -1
+      ],
+      "linkValuesInWidgets": [
+        0,
+        -1,
+        -1
+      ],
+      "visibleInWidgets": [
+        true,
+        false,
+        false
+      ],
+      "controlPointsStatus": [
+        false,
+        false,
+        false
+      ],
+      "controlPointsPosition": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "source_target": [
+        4,
+        6
+      ],
+      "linkTypesInWidgets": [
+        -1,
+        -1,
+        -1
+      ],
+      "linkValuesInWidgets": [
+        0,
+        -1,
+        -1
+      ],
+      "visibleInWidgets": [
+        true,
+        false,
+        false
+      ],
+      "controlPointsStatus": [
+        false,
+        false,
+        false
+      ],
+      "controlPointsPosition": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "source_target": [
+        6,
+        9
+      ],
+      "linkTypesInWidgets": [
+        -1,
+        -1,
+        -1
+      ],
+      "linkValuesInWidgets": [
+        0,
+        -1,
+        -1
+      ],
+      "visibleInWidgets": [
+        true,
+        false,
+        false
+      ],
+      "controlPointsStatus": [
+        false,
+        false,
+        false
+      ],
+      "controlPointsPosition": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "source_target": [
+        6,
+        8
+      ],
+      "linkTypesInWidgets": [
+        -1,
+        -1,
+        -1
+      ],
+      "linkValuesInWidgets": [
+        0,
+        -1,
+        -1
+      ],
+      "visibleInWidgets": [
+        true,
+        false,
+        false
+      ],
+      "controlPointsStatus": [
+        false,
+        false,
+        false
+      ],
+      "controlPointsPosition": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "source_target": [
+        5,
+        8
+      ],
+      "linkTypesInWidgets": [
+        -1,
+        -1,
+        -1
+      ],
+      "linkValuesInWidgets": [
+        0,
+        -1,
+        -1
+      ],
+      "visibleInWidgets": [
+        true,
+        false,
+        false
+      ],
+      "controlPointsStatus": [
+        false,
+        false,
+        false
+      ],
+      "controlPointsPosition": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "source_target": [
+        5,
+        7
+      ],
+      "linkTypesInWidgets": [
+        -1,
+        -1,
+        -1
+      ],
+      "linkValuesInWidgets": [
+        0,
+        -1,
+        -1
+      ],
+      "visibleInWidgets": [
+        true,
+        false,
+        false
+      ],
+      "controlPointsStatus": [
+        false,
+        false,
+        false
+      ],
+      "controlPointsPosition": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "source_target": [
+        0,
+        7
+      ],
+      "linkTypesInWidgets": [
+        -1,
+        1,
+        -1
+      ],
+      "linkValuesInWidgets": [
+        0,
+        0,
+        -1
+      ],
+      "visibleInWidgets": [
+        true,
+        true,
+        false
+      ],
+      "controlPointsStatus": [
+        false,
+        false,
+        false
+      ],
+      "controlPointsPosition": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 688.1128615576201,
+          "y": 905.165321274417
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "source_target": [
+        1,
+        8
+      ],
+      "linkTypesInWidgets": [
+        -1,
+        0,
+        -1
+      ],
+      "linkValuesInWidgets": [
+        0,
+        0,
+        -1
+      ],
+      "visibleInWidgets": [
+        true,
+        true,
+        false
+      ],
+      "controlPointsStatus": [
+        false,
+        false,
+        false
+      ],
+      "controlPointsPosition": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1104.6285475927764,
+          "y": 1115.1485671240264
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "source_target": [
+        1,
+        7
+      ],
+      "linkTypesInWidgets": [
+        -1,
+        0,
+        -1
+      ],
+      "linkValuesInWidgets": [
+        0,
+        0,
+        -1
+      ],
+      "visibleInWidgets": [
+        true,
+        true,
+        false
+      ],
+      "controlPointsStatus": [
+        false,
+        false,
+        false
+      ],
+      "controlPointsPosition": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 911.4479140478545,
+          "y": 924.958534165042
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "source_target": [
+        3,
+        9
+      ],
+      "linkTypesInWidgets": [
+        -1,
+        0,
+        -1
+      ],
+      "linkValuesInWidgets": [
+        0,
+        0,
+        -1
+      ],
+      "visibleInWidgets": [
+        true,
+        true,
+        false
+      ],
+      "controlPointsStatus": [
+        false,
+        false,
+        false
+      ],
+      "controlPointsPosition": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1587.8760451513701,
+          "y": 692.7665175634795
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "source_target": [
+        10,
+        7
+      ],
+      "linkTypesInWidgets": [
+        -1,
+        1,
+        -1
+      ],
+      "linkValuesInWidgets": [
+        -1,
+        3,
+        -1
+      ],
+      "visibleInWidgets": [
+        false,
+        true,
+        false
+      ],
+      "controlPointsStatus": [
+        false,
+        false,
+        false
+      ],
+      "controlPointsPosition": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 802.7616693606027,
+          "y": 917.8442025295728
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "source_target": [
+        11,
+        8
+      ],
+      "linkTypesInWidgets": [
+        -1,
+        1,
+        -1
+      ],
+      "linkValuesInWidgets": [
+        -1,
+        2,
+        -1
+      ],
+      "visibleInWidgets": [
+        false,
+        true,
+        false
+      ],
+      "controlPointsStatus": [
+        false,
+        false,
+        false
+      ],
+      "controlPointsPosition": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1422.5624012370138,
+          "y": 1249.6919244616138
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "source_target": [
+        12,
+        9
+      ],
+      "linkTypesInWidgets": [
+        -1,
+        1,
+        -1
+      ],
+      "linkValuesInWidgets": [
+        -1,
+        1,
+        -1
+      ],
+      "visibleInWidgets": [
+        false,
+        true,
+        false
+      ],
+      "controlPointsStatus": [
+        false,
+        true,
+        false
+      ],
+      "controlPointsPosition": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1468.2747802734375,
+          "y": 474.07098388671875
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    }
+  ]
+}
