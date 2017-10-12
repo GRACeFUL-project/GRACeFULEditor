@@ -5,10 +5,11 @@ function CLDControls(parentWidget) {
 
     var nodesGroup,linksGroup, additionalSettings;
 
-    var selectionNode,lineEditNode,commentNode, checkObserve, nodeTrend;
+    var selectionNode,lineEditNode,commentNode, checkObserve, nodeTrend, actionDiv, actionTable, valApplied;
     var linkClass, causalSelection,commentLink;
     var getClassValues = [undefined];
     var cldChip, cldChipImage, cldChipNode,  delNodeBtn, delLinkBtn, extFactorBtn, loopBtn, loadcld, saveCld, libCld, sendCld;
+    var budgetBtn;
 
 
     this.saveGlobalFunction=function(){
@@ -79,6 +80,16 @@ function CLDControls(parentWidget) {
         checkObserve = that.addCheckBox(nodesGroup, "Decided/Observe", "observeNode", false, that.observeNode);
         nodeTrend = that.addSelectionOpts(nodesGroup, "Trend", ["Undefined", "Ambigous", "Decreasing", "Increasing", "Stable"], that.trendFunc);
         d3.select(nodeTrend.node().parentNode).classed("hidden", true);
+
+        //Action related fields        
+        actionTable=that.addTable(nodesGroup,"Action Pairs",["Value", "Can be applied","Cost"]);
+        actionDiv = actionTable.node().parentNode;        
+        d3.select(actionDiv).classed("hidden",true);
+        var value = ["+", "-", "0"];
+        valApplied = ["plusAction", "minusAction", "zeroAction"];
+        for(var i=0; i<value.length; i++) {
+            addRowsAction(i+1, value[i], valApplied[i], that.onValueChange, that.onCostChange);
+        }
 
         commentNode = that.addTextEdit(nodesGroup, "Comments", "", true, that.onChangeNodeComment);
         // delNodeBtn = that.addButtons(nodesGroup, "Delete", "nodeDelete", that.deleteNodes);
@@ -154,7 +165,11 @@ function CLDControls(parentWidget) {
 
         loopBtn = that.addButton(graphControls, "IDENTIFY FEEDBACK LOOPS", "cldIdentifyFeedbacks", that.feedbackLoop, "flat", true, "loop" );
         loopBtn.setAttribute("data-toggle", "modal");
-        loopBtn.setAttribute("data-target", "#loopModal");        
+        loopBtn.setAttribute("data-target", "#loopModal");    
+
+        budgetBtn = that.addButton(additionalSettings, "ENTER BUDGET", "budget", that.enterBudget, "flat", true, "input");
+        budgetBtn.setAttribute("data-toggle", "modal");
+        budgetBtn.setAttribute("data-target", "#budgetModal");
     };
 
     this.handleNodeSelection=function(node){
@@ -186,6 +201,9 @@ function CLDControls(parentWidget) {
                 cldChip.innerHTML=that.selectedNode.label;
                 cldChipImage.setAttribute('src',that.selectedNode.getImageURL());
 
+                d3.select(checkObserve.node().parentNode).classed("hidden", false);
+                d3.select(actionDiv).classed("hidden",true);
+
                 checkObserve.node().checked = that.selectedNode.getObserve();
                 if(that.selectedNode.getObserve()) {
                     d3.select(nodeTrend.node().parentNode).classed("hidden", false);
@@ -202,17 +220,42 @@ function CLDControls(parentWidget) {
 
                 var selId = that.selectedNode.getTypeId();
                 selectionNode.node().options[selId].selected = "selected";
-                console.log("The Selection Id is "+selId);
-                if(selId === 5) {
-                    commentNode.node().innerHTML = that.selectedNode.hoverText;
-                    checkObserve.node().disabled=true;
-                    nodeTrend.node().disabled=true;
-                    selectionNode.node().disabled=true;
-                    commentNode.node().disabled = true;
+// <<<<<<< HEAD
+//                 console.log("The Selection Id is "+selId);
+//                 if(selId === 5) {
+//                     commentNode.node().innerHTML = that.selectedNode.hoverText;
+//                     checkObserve.node().disabled=true;
+//                     nodeTrend.node().disabled=true;
+//                     selectionNode.node().disabled=true;
+//                     commentNode.node().disabled = true;
+//                     d3.select(checkObserve.node().parentNode).classed("hidden", true);
+//                     d3.select(nodeTrend.node().parentNode).classed("hidden", true);
+//
+//             }
+// =======
+
+                var selectType = selectionNode.node().options[selId].value;
+                if(selectType === "Action") {
                     d3.select(checkObserve.node().parentNode).classed("hidden", true);
                     d3.select(nodeTrend.node().parentNode).classed("hidden", true);
+                    d3.select(actionDiv).classed("hidden",false);
 
-            }
+                    console.log("ACTION: "+JSON.stringify(that.selectedNode.actionPairs));
+                    for(var i=0; i<valApplied.length; i++) {
+                        var aTypes = valApplied[i];
+                        var val = document.getElementById(aTypes);
+                        var cost = document.getElementById(aTypes+"Cost");
+
+                        var actionPairs = that.selectedNode.getAction();
+                        val.checked = actionPairs[aTypes];
+                        cost.value = actionPairs[aTypes+"Cost"];
+                        if(cost.value === "")
+                            cost.disabled = true;
+                        else
+                            cost.disabled = false;
+                    }
+                }
+// >>>>>>> 12f2be01fa6b861437810b6cb9faf59798065791
         }
 
         if (node.getElementType()==="LinkElement") {
@@ -234,9 +277,9 @@ function CLDControls(parentWidget) {
 
             linkClass.node().options[selId_1].selected = "selected";
             var selId_2 = that.selectedNode.getTypeId();
-            var temp = linkClass.node().options[selId_1].value;
+            var temp = linkClass.node().options[selId_1].value;            
             if(temp !== "Undefined") {
-                appendLinkType(temp);
+                appendLinkType(temp, node);
                 causalSelection.node().options[selId_2].selected="selected";
                 d3.select(causalSelection.node().parentNode).classed("hidden", false);
                 console.log("Link type id: "+causalSelection.node().options[selId_2].value);
@@ -251,9 +294,12 @@ function CLDControls(parentWidget) {
 
     };
 
-    function appendLinkType(className) {
+    function appendLinkType(className, selNode) {
         d3.select(causalSelection.node()).selectAll("option").remove();
         if(className === "Causal Relation") {
+            if(selNode.sourceNode.typeName === "Action")
+                getClassValues = [undefined, '+', '-', '0'];
+            else
                 getClassValues = [undefined, '+', '-', '?', '0'];
                 for (var i=0;i<getClassValues.length;i++){
                     d3.select(causalSelection.node()).append("option").text(getClassValues[i]);
@@ -267,6 +313,52 @@ function CLDControls(parentWidget) {
         }
     }
 
+    function addRowsAction(rowId, val, valId, onValueChange, onCostChange) {
+        var row=actionTable.node().insertRow(rowId);
+        row.align = "center";
+        var r11 = row.insertCell(0);
+        r11.innerHTML = val;
+
+        var r12 = row.insertCell(1);
+        var p1 = document.createElement('input');
+        r12.appendChild(p1);
+        var aValue = d3.select(p1);
+        aValue.attr("id", valId).attr("type", "checkbox").property("checked", false);
+        aValue.on("click", function() {
+            that.onValueChange(aValue.attr("id"), aValue.property("checked"));
+        });
+        
+        var r13 = row.insertCell(2);
+        var aCost = document.createElement('input');
+        aCost.type = "text";
+        aCost.id = valId+"Cost";
+        aCost.disabled = true;
+        d3.select(aCost).on("change", function() {
+            that.onCostChange(d3.select(aCost).attr("id"));
+        });
+        r13.appendChild(aCost);
+    }
+
+    this.onValueChange = function(id, val) {
+        console.log("Value change. ID:"+id+" boolean: "+val);
+        that.selectedNode.setActionValues(id, val);
+        var c1 = document.getElementById(id+"Cost");
+        if(val === true) {
+            c1.disabled = false;
+        }
+        else {
+            c1.value = "";
+            c1.disabled = true;
+            that.selectedNode.setActionCost(c1.id, c1.value);
+        }        
+    };
+
+    this.onCostChange = function(id) {
+        console.log("Cost change:"+id);
+        var c1 = document.getElementById(id);
+        that.selectedNode.setActionCost(id, c1.value);
+    };
+
     this.onChangeLinkComment=function(){
         that.selectedNode.setHoverText(commentLink.node().value);
     };
@@ -276,7 +368,7 @@ function CLDControls(parentWidget) {
         if(strUser !== "Undefined") {
             that.selectedNode.setClassType(selectionContainer.selectedIndex, strUser);
             d3.select(causalSelection.node().parentNode).classed("hidden", false);
-            appendLinkType(strUser);
+            appendLinkType(strUser, that.selectedNode);
         }
         else
             d3.select(causalSelection.node().parentNode).classed("hidden", true);
@@ -374,6 +466,15 @@ function CLDControls(parentWidget) {
 
     this.feedbackLoop = function() {
         that.parent.identifyLoops();
+    };
+
+    this.enterBudget = function() {
+        var bud = "<input type=\"text\" id=\"budgetVal\">";        
+        that.createModal("budgetModal", "Enter Budget", bud);
+        d3.select("#budgetVal").on("change", function() {
+            var c1 = document.getElementById("budgetVal");
+            that.parent.cldBudget(c1.value);
+        });
     };
 
     this.saveFunction=function(){

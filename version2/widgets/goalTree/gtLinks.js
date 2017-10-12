@@ -11,7 +11,6 @@ function GTLink(graph) {
       return 0;
     };
 
-
     function addArrowHead(){
         if (that.pathElement) {
             var scale=2.0;

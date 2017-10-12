@@ -22,6 +22,8 @@ function CLDNode(graph) {
     this.interfaces = [];
     this.parameters = [];
 
+    this.actionPairs = {"plusAction":false, "plusActionCost":"", "minusAction":false, "minusActionCost":"", "zeroAction":false, "zeroActionCost": ""};
+
     var portId = 0;
     this.ports = [];
 
@@ -111,6 +113,28 @@ function CLDNode(graph) {
 
     this.getObserve = function() {
         return that.isObserved;
+    };
+
+    this.setActionValues = function(id, val) {
+        if(id === "plusAction")
+            that.actionPairs[id] = val;
+        else if(id === "minusAction")
+            that.actionPairs[id] = val;
+        else if(id === "zeroAction")
+            that.actionPairs[id] = val;
+    };
+
+    this.setActionCost = function(id, val) {
+        if(id === "plusActionCost")
+            that.actionPairs[id] = val;
+        else if(id === "minusActionCost")
+            that.actionPairs[id] = val;
+        else if(id === "zeroActionCost")
+            that.actionPairs[id] = val;  
+    };
+
+    this.getAction = function() {
+        return that.actionPairs;
     };
 
     this.setPortDetails = function(id) {

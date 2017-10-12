@@ -91,6 +91,10 @@ function CLDWidget(){
         this.graphObject.identifyFeedbackLoops();
     };
 
+    this.cldBudget = function(val) {
+        this.graphObject.setBudget(val);
+    };
+
     this.merger = function() {
         this.graphObject.mergeTheNodes();
     }

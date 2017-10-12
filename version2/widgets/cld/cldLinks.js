@@ -25,6 +25,7 @@ function CLDLink(graph) {
     var linkDir=[]; // normal vector;
     var endPos=[]; // end position for the line
     var dynamicLinkWidth=false;
+    var loopImg = undefined;
 
     this.parameters = [];
     this.interfaces = [];
@@ -62,10 +63,13 @@ function CLDLink(graph) {
         that.pathElement.classed("cldLinkSelected", val);
 
         if (that.rootElement.selectAll("image")!=null) {
-            if (val===true)
+            if (val===true) {
                 that.rootElement.selectAll("image").attr("display", null);
+                that.rootElement.selectAll("ellipse").attr("display", null);
+            }
             else{
                 that.rootElement.selectAll("image").attr("display", "none");
+                that.rootElement.selectAll("ellipse").attr("display", "none");
             }
         }
     };
@@ -114,28 +118,29 @@ function CLDLink(graph) {
         // update textRendering element
         if (textRenderingElement)
             textRenderingElement.text(that.cldTypeString);
-
-        that.pathElement.classed("cldLinkType0", false);
-        if(typeId == 0) {
+        if(that.pathElement!== undefined)
+            that.pathElement.classed("cldLinkType0", false);
+        if(typeName === undefined) {
             that.sign = null;
             that.name = null;
         }
-        else if(typeId == 1) {
+        else if(typeName === '+') {
             that.sign = 1;
             that.name = "plus arrow";
         }
-        else if(typeId == 2) {
+        else if(typeName === '-') {
             that.sign = -1;
             that.name = "minus arrow";
         }
-        else if(typeId == 3) {
+        else if(typeName === '?') {
             that.sign = 2;
             that.name = "ambiguious arrow";
         }
-        else if(typeId == 4) {
+        else if(typeName === '0') {
             that.sign = 0;
             that.name = "stable arrow";
-            that.pathElement.classed("cldLinkType0", true);
+            if(that.pathElement!== undefined)
+                that.pathElement.classed("cldLinkType0", true);
         }
     };
 
@@ -265,6 +270,7 @@ function CLDLink(graph) {
                                 .attr("cy", cpPoint.y)
                                 .attr("rx", 15)
                                 .attr("ry", 10)
+                                .attr("display", "none")
                                 .classed("controlPoint", true)
                                 .call(that.dragControlPoints);
 
@@ -312,6 +318,7 @@ function CLDLink(graph) {
             .classed("text", true)
             .attr("text-anchor", "middle")
             .attr("style", "fill: black")
+            .attr("font-size", "35")
             .text(that.cldTypeString)
             .attr("dy", "0.35em");
     }
@@ -340,7 +347,7 @@ function CLDLink(graph) {
                     }
                 }
                 that.pathElement.attr("d", lineFunction(controlPoints));
-                textRenderingElement.attr("x", cpPoint.x).attr("y", cpPoint.y);
+                textRenderingElement.attr("x", cpPoint.x).attr("y", cpPoint.y - 20);
                 cpEllipse.attr("cx", cpPoint.x)
                         .attr("cy", cpPoint.y);
                 that.rootElement.selectAll("image").attr("x", cpPoint.x - 0.5 * 17 - 15).attr("y", cpPoint.y - 10);
@@ -356,6 +363,7 @@ function CLDLink(graph) {
             graph.handleLinkSelection(that);
             that.rootElement.selectAll("image")
                         .attr("display", null);
+            that.rootElement.selectAll("ellipse").attr("display", null);
             return;
         }
         if (that.elementIsFocused===true) {
@@ -364,6 +372,7 @@ function CLDLink(graph) {
             graph.handleLinkSelection(undefined);
             that.rootElement.selectAll("image")
                         .attr("display", "none");
+            that.rootElement.selectAll("ellipse").attr("display", "none");
         }
         that.mouseEnteredFunc(false);
         that.onMouseOver();
@@ -533,9 +542,16 @@ function CLDLink(graph) {
         that.mouseEnteredFunc(false);
     };
 
-    this.setLoopStyle = function() {
+    this.setLoopStyle = function(ret) {
         that.isLoop = true;
-        that.pathElement.classed("feedbackLoops", true);
+        if(ret === "Balancing") {
+            that.pathElement.classed("feedbackLoopsNegative", true);
+            loopImg = "images/loopBalance.png";
+        }
+        else if (ret === "Reinforcing") {
+            that.pathElement.classed("feedbackLoopsPositive", true);
+            loopImg = "images/loopReinforce.png";
+        }        
         that.pathElement.on("contextmenu", that.onLoopContextMenu);
     };
 
@@ -552,10 +568,10 @@ function CLDLink(graph) {
 
                     that.rootElement.append("image")
                         .attr("id", "loop")
-                        .attr("xlink:href", "images/loop.svg")
+                        .attr("xlink:href", loopImg)
                         .attr("display", null)
-                        .attr("width", 30)
-                        .attr("height", 30)
+                        .attr("width", 50)
+                        .attr("height", 50)
                         .attr("x", cpPoint.x - 0.5 * 17)
                         .attr("y", cpPoint.y - 0.5 * 17);
                 }

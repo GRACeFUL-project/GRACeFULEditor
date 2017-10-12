@@ -398,7 +398,7 @@ function BaseControls(parentWidget) {
         d3.select(table).style("width",percentage+"%");
         thisDiv.appendChild(table);
 
-        var row = table.insertRow(0);
+        // var row = table.insertRow(0);
         var head = table.createTHead();
         var tablerow=head.insertRow(0);
         for (var i=0; i<headerArray.length;i++){
