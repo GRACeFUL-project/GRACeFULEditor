@@ -171,15 +171,19 @@ function QWControls(parentWidget) {
             if (files.length>0){
                 // console.log("file?"+files[0].name);
                 for (var i=0;i<files.length;i++){
-                    fileElement=files[i];
-                    fileName=fileElement.name;
-                    console.log("reading FileName "+fileName)
-                    var reader = new FileReader();
-                    reader.readAsText(fileElement);
-                    reader.onload = function () {
-                        readText = reader.result;
-                        that.parent.graphObject.integrateStakeHolderResults(readText);
+                    var i_fileElement=files[i];
+                    var i_fileName=i_fileElement.name;
+                    console.log("reading FileName "+i_fileName);
+                    var i_reader = new FileReader();
+                    i_reader.readAsText(i_fileElement);
+                    i_reader.onload = function () {
+                        console.log("the reader inLoad function "+i_reader);
+                        console.log(i_reader);
+                       var i_text= i_reader.result;
+
+                        that.parent.graphObject.integrateStakeHolderResults(i_text);
                     }
+
 
                 }
                 loaderSolutionPathNode.remove();
