@@ -15,7 +15,7 @@ function CLDLink(graph) {
    // console.log("Generating a link with id "+that.id());
     var cldType="unknown";
     this.className = undefined;
-    this.name = undefined;
+    this.name = "edge";
     this.classId = 0;
     this.cldTypeString=undefined;
     this.cldTypeId = 0;
@@ -122,23 +122,23 @@ function CLDLink(graph) {
             that.pathElement.classed("cldLinkType0", false);
         if(typeName === undefined) {
             that.sign = null;
-            that.name = null;
+            // that.name = null;
         }
         else if(typeName === '+') {
             that.sign = 1;
-            that.name = "plus arrow";
+            // that.name = "plus arrow";
         }
         else if(typeName === '-') {
             that.sign = -1;
-            that.name = "minus arrow";
+            // that.name = "minus arrow";
         }
         else if(typeName === '?') {
             that.sign = 2;
-            that.name = "ambiguious arrow";
+            // that.name = "ambiguious arrow";
         }
         else if(typeName === '0') {
             that.sign = 0;
-            that.name = "stable arrow";
+            // that.name = "stable arrow";
             if(that.pathElement!== undefined)
                 that.pathElement.classed("cldLinkType0", true);
         }
@@ -154,10 +154,12 @@ function CLDLink(graph) {
     };
 
     this.getFinalData = function() {
+        //update link's parameters
+        that.parameters = [{ "name": "sign",  "value": that.sign, "type": "Sign"}];
+
         //update link's interface
-        // console.log("The link id is: "+that.id()+ " port: "+that.targetNode.getPortDetails(that.id()));
-        that.interfaces = [ {"connection": [that.sourceNode.id(), "outSign", null], "name":"fromNode", "type": "Sign"}, 
-                                {"connection": [that.targetNode.id(), "influences", that.targetNode.getPortDetails(that.id())], "name":"toNode", "type": "Sign"}];
+        that.interfaces = [ {"connection": [that.sourceNode.id(), "outgoing", that.sourceNode.getPortDetails(that.id())], "name":"fromNode", "type": "(Sign,Sign)"}, 
+                                {"connection": [that.targetNode.id(), "incoming", that.targetNode.getPortDetails(that.id())], "name":"toNode", "type": "(Sign,Sign)"}];
     };
 
     var arrowHead=undefined;
