@@ -60,6 +60,9 @@ function qGraph(parentWidget) {
 
         var stakeHolders=gHandlerObj.requestDataForQuestionair();
 
+        console.log("Stakeholders");
+        console.log(stakeHolders);
+
         // craetea fancy table;
         var table=document.createElement('table');
 
@@ -128,18 +131,51 @@ function qGraph(parentWidget) {
 
         // get a name of the stakeHolder
         var name=jOb.stakeholderName;
+        var globalNodeId=undefined;
         console.log("stakeHolder Name"+name);
 
 
+        var globalNodes=gHandlerObj.getAllGlobalNodes();
         // get the stakeHolders;
         var stakeHolders=gHandlerObj.requestDataForQuestionair();
         // find the id of that thing;
-
+        var st_node;
         for (var i=0;i<stakeHolders.length;i++){
             if (stakeHolders[i].objectName===name){
                 cellResults[i].innerHTML='RECEIVED';
+                if (globalNodeId===undefined) {
+                    // find the corresponding node;
+                    console.log("searching for corresponding stakeholder node");
+                    for (var g=0;g<globalNodes.length;g++){
+                        if (globalNodes[g].getNodeName()===name){
+                            st_node=globalNodes[g];
+                            break;
+                        }
+                    }
+                }
             }
         }
+        // craete the links for that thing;
+
+        if (st_node){
+            console.log("Found stakeholder node "+st_node.getNodeName());
+
+            // get the criteria elements
+            var critElements=jOb.criteria;
+            for (i=0;i<critElements.length;i++){
+                var targetNodeId=critElements[i].id;
+                var tarNode=gHandlerObj.getNodeById(targetNodeId);
+                if (tarNode){
+                    console.log("found target Node");
+                    gHandlerObj.createStakeholderLink(st_node,tarNode);
+                }
+            }
+
+        }
+
+
+
+
 
 
 

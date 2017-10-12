@@ -14,6 +14,11 @@ function BaseLink(graph) {
     this.hoverText="";
     this.elementIsFocused=false;
     this.globalLinkPtr=undefined;
+    this.superLinkType=0; // default linkType
+
+    this.setLinkTypus=function(val){
+        that.superLinkType=val;
+    };
 
     this.setGlobalLinkPtr=function(ptr){
         this.globalLinkPtr=ptr;
@@ -86,8 +91,15 @@ function BaseLink(graph) {
     };
 
     this.drawElement = function () {
-        that.pathElement = that.rootElement.append('line')
-            .classed("baseDragPath", true);
+        that.pathElement = that.rootElement.append('line');
+        if (that.superLinkType===0) {
+            that.pathElement.classed("baseDragPath", true);
+            that.pathElement.classed("baseDragPathStakeToCrit",false);
+        }
+        else if (that.superLinkType===100){
+            that.pathElement.classed("baseDragPath", false);
+            that.pathElement.classed("baseDragPathStakeToCrit",true);
+        }
         that.pathElement.attr("x1", that.sourceNode.x)
             .attr("y1", that.sourceNode.y)
             .attr("x2", that.targetNode.x)

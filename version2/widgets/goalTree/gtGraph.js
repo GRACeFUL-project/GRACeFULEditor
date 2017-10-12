@@ -33,6 +33,12 @@ function GTGraph(){
             // create a link between these;
 
             // crreate a global links
+
+            // check if target is stakeholder
+            if (targetNode.getTypeId()===100){
+                return; // we are a stakeholder we do now allow manual link generation
+            }
+
             var handler=that.parentWidget.getHandler();
             var globalLink=handler.createGlobalLink(that);
 
@@ -53,8 +59,8 @@ function GTGraph(){
             globalLink.setTarget(tarRen.getGlobalNodePtr());
 
 
-            if ((srcRen.getTypeId()===3 || srcRen.getTypeId()===4)
-                && (tarRen.getTypeId()===3 || tarRen.getTypeId()===4)
+            if ((srcRen.getTypeId()===3 || srcRen.getTypeId()===100)
+                && (tarRen.getTypeId()===3 || tarRen.getTypeId()===100)
             ){
                 console.log("this should also be visible in CLD ");
                 //
@@ -82,6 +88,7 @@ function GTGraph(){
     this.dblClick=function(){
         var handler=that.parentWidget.getHandler();
         var globalNode=handler.createGlobalNode(that);
+        console.log("Double Click in GT GRAPH With node type "+that.nodeTypeGraph);
         globalNode.setNodeType(that,that.nodeTypeGraph,that.createNode(that));
         handler.addGlobalNode(globalNode);
         var repR=globalNode.filterInformation(that);
@@ -206,24 +213,30 @@ function GTGraph(){
 
     };
 
-    this.addStakeholders = function(data) {
-        var randomPointX = Math.random() * 1000;
-        var randomPointY = randomPointX;
+    this.addStakeholders = function(data,email) {
+        //var randomPointX = Math.random() * 1000;
+        var randomPointX = 300;
+        var randomPointY = 300;
         console.log("adding stakeholder nodes");
+        console.log(email);
+        var index=0;
         for(var key in data) {
             var node = key;
             var values = data[key];
+            var mailaddress=email[index];
+            index++;
+
 
 
             // refactoring for global dataStructure;
             var handler=that.parentWidget.getHandler();
             var globalNode=handler.createGlobalNode(that);
-            globalNode.setNodeType(that,4,that.createNode(that));
+            globalNode.setNodeType(that,100,that.createNode(that));
             handler.addGlobalNode(globalNode);
             var repR=globalNode.filterInformation(that);
             repR.setGlobalNodePtr(globalNode);
             repR.setLabelText(key);
-            repR.setType(4, "Stakeholder");
+            repR.setType(100, "Stakeholder");
 
             // var newNode=that.createNode(that);
             // newNode.setLabelText(key);
@@ -239,6 +252,7 @@ function GTGraph(){
             console.log("values: "+str);
             repR.setHoverText(str);
             globalNode.setGlobalHoverText(str);
+            globalNode.setNodeEmail(mailaddress);
             // push to array of nodes
             console.log("newNode  "+repR);
 
@@ -246,7 +260,7 @@ function GTGraph(){
             var friendlyWidget=that.parentWidget.cldGraphObj;
             globalNode.setVisibleInWidget(friendlyWidget,true);
             var friendlyNode=friendlyWidget.createNode(friendlyWidget);
-            globalNode.setNodeType(friendlyWidget,5,friendlyNode);
+            globalNode.setNodeType(friendlyWidget,100,friendlyNode);
             friendlyNode.setGlobalNodePtr(globalNode);
             friendlyNode.setHoverText(str);
 

@@ -13,7 +13,7 @@ function CLDNode(graph) {
     this.typeName = undefined;
     var allPossibleClasses=['undefined','nodeOptionA','nodeOptionB','nodeOptionC', 'externalFactors','stakeHolders'];
     var observeClasses = ['undefined', 'strokeAmbigous', 'strokeDecreasing', 'strokeIncreasing', 'strokeStable'];
-    this.allClasss=["Undefined", "Factor", "Action", "Criteria", "External Factor"];
+    this.allClasss=["Undefined", "Factor", "Action", "Criteria", "External Factor","stakeHolder"];
 
     this.isObserved = false;
     this.trendId = 0;
@@ -355,20 +355,91 @@ function CLDNode(graph) {
         //prepare node display label
         that.setDisplayLabelText(that.label);
 
-        //add delete image
-        that.rootNodeLayer.append("image")
-            .attr("xlink:href", "images/delete.svg")
-            .attr("display", "none")
-            .attr("x", that.getRadius()/2)
-            .attr("y", -(that.getRadius())+5)
-            .attr("width", 17)
-            .attr("height", 17)
-            .attr("cursor", "pointer")
-            .on('click', function() {
-                d3.event.stopPropagation();
-                graph.handleNodeDeletion(that);
-            });
+        if (that.selectedTypeId===5){
+            console.log("removed deletation element");
+        }else {
+            //add delete image
+            that.rootNodeLayer.append("image")
+                .attr("xlink:href", "images/delete.svg")
+                .attr("display", "none")
+                .attr("x", that.getRadius() / 2)
+                .attr("y", -(that.getRadius()) + 5)
+                .attr("width", 17)
+                .attr("height", 17)
+                .attr("cursor", "pointer")
+                .on('click', function () {
+                    d3.event.stopPropagation();
+                    graph.handleNodeDeletion(that);
+                });
+        }
     };
+
+
+
+
+    this.onClicked=function(){
+        // console.log(d3.event);
+        // console.log("single click: prevented by drag?"+d3.event.defaultPrevented);
+        if (d3.event.defaultPrevented) return;
+        //
+        // that.updateAssisiatedLinks();
+        // console.log("--------------------------number of assosiated links "+assosiatedLinks.length);
+
+
+        // d3.event.stopPropagation();
+        if(d3.event.ctrlKey) {
+            console.log("Controllll");
+            graph.hideDraggerElement();
+            graph.selectMultiples(that);
+            return;
+        }
+        if (that.getNodeObjectType()===that.GRAPH_OBJECT_NODE) {
+            graph.multipleNodes = [];
+            if (that.nodeIsFocused === false) {
+                that.nodeIsFocused = true;
+
+
+                graph.selectNode(that);
+                if (that.selectedTypeId!==5) {
+                    console.log("cld simple Selection"+that.selectedTypeId);
+                    that.nodeElement.classed("focused", true);
+                    graph.createDraggerElement(that);
+                }else{
+                    console.log("cld stake selection");
+                    that.nodeElement.classed("focusedStakeHolder", true);
+                }
+
+                //       console.log("this node is focused?" + that.nodeIsFocused);
+                return;
+            }
+            if (that.nodeIsFocused === true) {
+                console.log("removing focused classed");
+                that.nodeIsFocused = false;
+                that.nodeElement.classed("focused", false);
+                that.nodeElement.classed("focusedStakeHolder", false);
+                graph.selectNode(undefined);
+                graph.hideDraggerElement();
+            }
+        }
+        if (that.getNodeObjectType()===that.OVERLAY_OBJECT_NODE){
+            //    console.log("setting overlay Toggle class");
+            if (that.nodeIsFocused === false) {
+                that.nodeIsFocused = true;
+                that.nodeElement.classed("overlayToggle", true);
+                return;
+            }
+            if (that.nodeIsFocused === true) {
+                that.nodeIsFocused = false;
+                that.nodeElement.classed("overlayToggle", false);
+            }
+        }
+
+        // test
+
+
+
+    };
+
 
     // cldNodes are round so they have a radius
     this.getRadius=function(){
@@ -384,7 +455,12 @@ function CLDNode(graph) {
             return;
         }
         that.nodeElement.classed(nodeClass,false);
-        that.nodeElement.classed("baseNodeHovered",true);
+
+        if (that.selectedTypeId!==5) {
+            that.nodeElement.classed("baseNodeHovered", true);
+        }else{
+            that.nodeElement.classed("baseNodeHoveredStakeHolder",true);
+        }
 
         var selectedNode = that.rootElement.node(),
             nodeContainer = selectedNode.parentNode;
@@ -399,6 +475,7 @@ function CLDNode(graph) {
         if (that.mouseButtonPressed===true)
             return;
         that.nodeElement.classed("baseNodeHovered",false);
+        that.nodeElement.classed("baseNodeHoveredStakeHolder",false);
         that.nodeElement.classed(nodeClass,true);
         that.mouseEnteredFunc(false);
 
@@ -406,11 +483,42 @@ function CLDNode(graph) {
     };
 
 
+    this.setSelectionStatus=function(val){
+        that.nodeIsFocused=val;
+        if (that.getNodeObjectType()===that.GRAPH_OBJECT_NODE) {
+            if (that.selectedTypeId!==5) {
+                that.nodeElement.classed("focused", val);
+            }else {
+                that.nodeElement.classed("focusedStakeHolder", val);
+            }
+            if (val === false)
+                graph.hideDraggerElement();
+        }
+        if (that.getNodeObjectType()===that.OVERLAY_OBJECT_NODE){
+            that.nodeElement.classed("overlayToggle", val);
+        }
+    };
+
+
+
     this.setType=function(typeId, typeName){
+        console.log("creating cld Node");
+
+
         that.selectedTypeId=typeId;
-        nodeClass=allPossibleClasses[typeId];
+        if (typeId===100){
+            nodeClass = allPossibleClasses[5];
+            that.selectedTypeId=5;
+        }else{
+            nodeClass =allPossibleClasses[typeId];
+        }
+        //nodeClass=allPossibleClasses[typeId];
         that.typeName = typeName;
-        // console.log("Node class is"+nodeClass);
+
+
+
+         console.log("Node class is"+nodeClass);
+         console.log("Node Type Id"+that.selectedTypeId);
         // apply the classes ;
         if (that.nodeElement){
             for (var i=0;i<allPossibleClasses.length;i++){
@@ -442,7 +550,7 @@ function CLDNode(graph) {
     };
 
     this.setExternalFactors = function() {
-        that.setType(allPossibleClasses.length - 1, "External Factor");
+        that.setType(4, "External Factor");
     };
 }
 

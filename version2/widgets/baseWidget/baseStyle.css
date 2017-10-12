@@ -43,6 +43,11 @@ svg.text{
     stroke: var(--main-node-color-eight);
     stroke-width: 2px;
 }
+.baseNodeHoveredStakeHolder{
+    fill: yellow;
+    stroke: var(--main-node-color-black);
+    stroke-width: 2px;
+}
 /*td {
     text-align: center;
 }*/
@@ -88,6 +93,16 @@ p[contenteditable]:focus {
 
 }
 
+.baseDragPathStakeToCrit{
+    stroke-width: 4px;
+    stroke-dasharray: 16, 4;
+    stroke: #ffff00;
+    fill:none;
+}
+
+
+
+
 
 .baseDragPath{
     stroke: var(--main-link-one);
@@ -102,6 +117,11 @@ p[contenteditable]:focus {
 
 .focused{
     stroke: var(--main-node-color-eight);
+    stroke-width: 2px;
+}
+
+.focusedStakeHolder{
+    stroke: var(--main-node-color-black);
     stroke-width: 2px;
 }
 

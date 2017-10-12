@@ -31,24 +31,30 @@ function GTNode(graph) {
        return "./images/nodes/subgoal.png";
       else if(that.goalTypeId==3)
        return "./images/nodes/criteria.png";
-      else if(that.goalTypeId==4)
+      else if(that.goalTypeId==100)
        return "./images/nodes/stakeholder.png";
     };
 
     this.setType=function(typeId, typeName){
+        console.log("creating new node Type"+typeId+" and type name"+ typeName);
         that.goalTypeId=typeId;
-        goalClass=allGoalClasses[typeId];
+        if (typeId===100){
+            goalClass = allGoalClasses[4];
+        }else{
+            goalClass=allGoalClasses[typeId];
+        }
+
         that.goalType = typeName;
         var friendlyWidget=graph.parentWidget.cldGraphObj;
         var globalNode=that.getGlobalNodePtr();
-       // console.log("Goal class is"+goalClass);
+       console.log("Goal class is"+goalClass);
         // apply the classes ;
         if (that.nodeElement){
             for (var i=0;i<allGoalClasses.length;i++){
               //  console.log("disabling :"+allGoalClasses[i]);
                 that.nodeElement.classed(allGoalClasses[i],false);
             }
-           // console.log("Setting final class :"+goalClass);
+            console.log("Setting final class :"+goalClass);
             that.nodeElement.classed(goalClass,true);
         }
         if (typeId===3 && that.getGlobalNodePtr()!=undefined){
@@ -151,18 +157,20 @@ function GTNode(graph) {
         that.setDisplayLabelText(that.label);
 
         //add delete image
-        that.rootNodeLayer.append("image")
-            .attr("xlink:href", "images/delete.svg")
-            .attr("display", "none")
-            .attr("x", 0.5*that.elementWidth-10)
-            .attr("y", -0.5*that.elementHeight)
-            .attr("width", 17)
-            .attr("height", 17)
-            .attr("cursor", "pointer")
-            .on('click', function() {
-                d3.event.stopPropagation();
-                graph.handleNodeDeletion(that);
-            });
+        if (that.goalTypeId!==100) {
+            that.rootNodeLayer.append("image")
+                .attr("xlink:href", "images/delete.svg")
+                .attr("display", "none")
+                .attr("x", 0.5 * that.elementWidth - 10)
+                .attr("y", -0.5 * that.elementHeight)
+                .attr("width", 17)
+                .attr("height", 17)
+                .attr("cursor", "pointer")
+                .on('click', function () {
+                    d3.event.stopPropagation();
+                    graph.handleNodeDeletion(that);
+                });
+        }
     };
 
 
@@ -171,7 +179,13 @@ function GTNode(graph) {
             return;
         }
         that.nodeElement.classed(goalClass,false);
-        that.nodeElement.classed("baseNodeHovered",true);
+        that.nodeElement.classed("baseNodeHovered",false);
+        that.nodeElement.classed("baseNodeHoveredStakeHolder",false);
+        if (that.goalTypeId===100){
+            that.nodeElement.classed("baseNodeHoveredStakeHolder",true);
+        }else{
+            that.nodeElement.classed("baseNodeHovered", true);
+        }
 
         var selectedNode = that.rootElement.node(),
             nodeContainer = selectedNode.parentNode;
@@ -185,6 +199,7 @@ function GTNode(graph) {
         if (that.mouseButtonPressed===true)
             return;
         that.nodeElement.classed("baseNodeHovered",false);
+        that.nodeElement.classed("baseNodeHoveredStakeHolder",false);
         that.nodeElement.classed(goalClass,true);
         that.mouseEnteredFunc(false);
 
@@ -194,7 +209,107 @@ function GTNode(graph) {
     this.setCriteriaUnit = function(text) {
         that.criteriaUnit = text;
         console.log("the unit is:"+ text);
-    }
+    };
+
+
+
+
+
+    // overwriting some code
+
+
+    this.onClicked=function(){
+        // console.log(d3.event);
+        // console.log("single click: prevented by drag?"+d3.event.defaultPrevented);
+        if (d3.event.defaultPrevented) return;
+        //
+        // that.updateAssisiatedLinks();
+        // console.log("--------------------------number of assosiated links "+assosiatedLinks.length);
+
+
+        // d3.event.stopPropagation();
+        if(d3.event.ctrlKey) {
+            console.log("Controllll");
+            graph.hideDraggerElement();
+            graph.selectMultiples(that);
+            return;
+        }
+        if (that.getNodeObjectType()===that.GRAPH_OBJECT_NODE) {
+            graph.multipleNodes = [];
+            if (that.nodeIsFocused === false) {
+                that.nodeIsFocused = true;
+
+
+                graph.selectNode(that);
+                if (that.goalTypeId!==100) {
+                    console.log("gt simple Selection"+that.selectedTypeId);
+                    that.nodeElement.classed("focused", true);
+                    graph.createDraggerElement(that);
+                }else{
+                    console.log("gt stake selection");
+                    that.nodeElement.classed("focusedStakeHolder", true);
+                }
+
+                //       console.log("this node is focused?" + that.nodeIsFocused);
+                return;
+            }
+            if (that.nodeIsFocused === true) {
+                console.log("removing focused classed");
+                that.nodeIsFocused = false;
+                that.nodeElement.classed("focused", false);
+                that.nodeElement.classed("focusedStakeHolder", false);
+                graph.selectNode(undefined);
+                graph.hideDraggerElement();
+            }
+        }
+        if (that.getNodeObjectType()===that.OVERLAY_OBJECT_NODE){
+            //    console.log("setting overlay Toggle class");
+            if (that.nodeIsFocused === false) {
+                that.nodeIsFocused = true;
+                that.nodeElement.classed("overlayToggle", true);
+                return;
+            }
+            if (that.nodeIsFocused === true) {
+                that.nodeIsFocused = false;
+                that.nodeElement.classed("overlayToggle", false);
+            }
+        }
+
+        // test
+
+
+
+    };
+
+
+    this.setSelectionStatus=function(val){
+        that.nodeIsFocused=val;
+        if (that.getNodeObjectType()===that.GRAPH_OBJECT_NODE) {
+            if (that.goalTypeId!==100) {
+                that.nodeElement.classed("focused", val);
+            }else {
+                that.nodeElement.classed("focusedStakeHolder", val);
+            }
+            if (val === false)
+                graph.hideDraggerElement();
+        }
+        if (that.getNodeObjectType()===that.OVERLAY_OBJECT_NODE){
+            that.nodeElement.classed("overlayToggle", val);
+        }
+    };
+
+
+    this.addMouseEvents=function(){
+        // console.log("adding mouse events");
+        that.rootNodeLayer.on("mouseover", that.onMouseOver)
+            .on("mouseout", that.onMouseOut)
+            .on("click", that.onClicked)
+            .on("dblclick",that.executeUserDblClick)
+            .on("mousedown",that.mouseDown)
+            .on("mouseup",that.mouseUp);
+
+
+    };
 
 }
 

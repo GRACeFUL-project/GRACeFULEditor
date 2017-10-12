@@ -252,7 +252,13 @@ function CLDGraph(){
             // console.log("Target node name" + targetNode.label);
             // create a link be
             // tween these;
+            // check if target is stakeholder
+            if (targetNode.getTypeId()===5){
 
+                d.parentNode().onClicked();
+                d.parentNode().onClicked();
+                return; // we are a stakeholder we do now allow manual link generation
+            }
             var srcRen=d.parentNode();
             var tarRen=targetNode;
 

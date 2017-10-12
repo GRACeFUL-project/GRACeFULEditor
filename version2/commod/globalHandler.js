@@ -26,6 +26,10 @@
 
         };
 
+        this.getAllGlobalNodes=function(){
+            return globalNodeArray;
+        };
+
         this.setWidgetList=function(goal,cld,sfd){
             // stores the widgets;
             widgetList.push(goal);
@@ -44,6 +48,53 @@
             return graphObjectList;
         };
 
+
+
+        this.createStakeholderLink=function(src,tar){
+
+            console.log("globalHelder generates a link;");
+
+            // assume we are goalTree
+            var globalLink=that.createGlobalLink(graphObjectList[0]);
+
+            console.log("global LInk obj");
+            console.log(globalLink);
+
+            globalLink.setLinkGenerator(graphObjectList[0],graphObjectList[0].createLink(graphObjectList[0]));
+            that.addGlobalLink(globalLink);
+            var repR=globalLink.filterInformation(graphObjectList[0]);
+            repR.setGlobalLinkPtr(globalLink);
+            console.log(repR);
+            console.log(repR.setLinkTypus);
+            repR.setLinkTypus(100);
+
+            var srcRep=src.filterInformation(graphObjectList[0]);
+            var tarRep=tar.filterInformation(graphObjectList[0]);
+            repR.source(srcRep);
+            repR.target(tarRep);
+            globalLink.setSource(srcRep.getGlobalNodePtr());
+            globalLink.setTarget(tarRep.getGlobalNodePtr());
+
+
+            if ((srcRep.getTypeId()===3 || srcRep.getTypeId()===100)
+                && (tarRep.getTypeId()===3 || tarRep.getTypeId()===100)
+            ){
+                console.log("this should also be visible in CLD ");
+                //
+                var friendlyWidget=graphObjectList[0].parentWidget.cldGraphObj;
+                globalLink.setVisibleInWidget(friendlyWidget,true);
+                var friendlyLink=friendlyWidget.createLink(friendlyWidget);
+                friendlyLink.setClassType(-1,"InterestLink");
+                friendlyLink.setLinkTypus(100);
+                globalLink.setLinkGenerator(friendlyWidget,friendlyLink);
+                friendlyLink.setGlobalLinkPtr(globalLink);
+            }
+
+
+
+
+
+        };
 
         this.deleteGlobalLink = function (linkElement) {
             var correspondingGlobalLink = linkElement.getGlobalLinkPtr();
@@ -155,7 +206,8 @@
                 var aNode=globalNodeArray[i];
                 var vis=aNode.getVisibleInWidget();
                 var typ=aNode.getNodeTypeInWidgets();
-                if (vis[0]===true && typ[0]===4){
+
+                if (vis[0]===true && typ[0]===100){
                     // this is stackholder node;
                     //stackholderNodes.push(aNode);
 
@@ -209,6 +261,13 @@
 
         };
 
+        this.getNodeById=function(id){
+          for (var i=0;i<globalNodeArray.length;i++){
+              if (globalNodeArray[i].id()===id)
+                  return globalNodeArray[i];
+          }
+        };
+
         this.requestSaveDataAsJson = function () {
             console.log("We should return the global structure of that model");
             // THIS SHOULD BE OVERWRITTEN BY ALL GRAPHS!
@@ -224,6 +283,12 @@
                 obj = {};
                 obj.id = node.id();
                 obj.name = node.getNodeName();
+                console.log("nodeEmail");
+                console.log(node.getNodesEmail());
+                if (node.getNodesEmail()){
+
+                    obj.email=node.getNodesEmail();
+                }
                // / obj.representedInWidgets=node.getRepresentedInWidget();
                 obj.visibleInWidgets=node.getVisibleInWidget();
                 obj.nodeTypeId = node.getNodeTypeInWidgets();

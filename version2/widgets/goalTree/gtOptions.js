@@ -6,7 +6,7 @@ function GTControls(parentWidget) {
     var that = this;
     // tells the graph which widget it talks to
     this.parent=parentWidget;
-
+    this.optionsId=1;
     var goalchip, goalimage, goalChipNode, goalsGroup, goalName, goalType, goalComment, delGoal, criteriaUnit, additionalSettings, loadcld, saveCld, clearGT, importSt;
 
 
@@ -80,7 +80,22 @@ function GTControls(parentWidget) {
             goalComment.node().value = that.selectedNode.hoverText;
             criteriaUnit.node().value = that.selectedNode.criteriaUnit;
             var gtId = that.selectedNode.getTypeId();
+            d3.select('#chipElementId1').classed('hidden',false);
+            if (gtId===100){
+                gtId=4; // map in options to stakeholders
+                d3.select('#chipElementId1').classed('hidden',true);
+
+            }
             goalType.node().options[gtId].selected = "selected";
+
+            // todo: @ rohan  fix the comments label thing;
+            if (that.selectedNode.hoverText.length>0){
+                d3.select("#labelIdForCLD").node().innerHTML='';
+
+            }else {
+                console.log("setting the comments tag");
+                d3.select("#labelIdForCLD").node().innerHTML='Comments';
+            }
 
             var selectType = goalType.node().options[gtId].value;
             if(selectType === "Criteria") {
@@ -92,6 +107,8 @@ function GTControls(parentWidget) {
             if(selectType === "Stakeholder") {
                 goalType.node().disabled = true;
                 goalComment.node().disabled = true;
+
+
             }
         }
 

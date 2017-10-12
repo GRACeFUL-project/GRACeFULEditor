@@ -13,6 +13,8 @@ function BaseControls(parentWidget) {
     this.divControlsGroupNode=undefined;
     this.selectedNode=undefined;
 
+    this.optionsId=0;
+
     var selectionNode;
     var lineEditNode;
     var commentNode;
@@ -70,6 +72,7 @@ function BaseControls(parentWidget) {
 
 
         var lb=document.createElement('label');
+        var lbNode=d3.select(lb).attr("id","labelIdForCLD");
         var labelText=d3.select(lb);
         labelText.attr("for","textEditCLD")
                  .classed("mdl-textfield__label labelmdl",true);
@@ -151,15 +154,21 @@ function BaseControls(parentWidget) {
 
       var link=document.createElement('a');
       thisDiv.appendChild(link);
+      var idWidgetString="chipElementId"+that.optionsId;
+      d3.select(link).attr("id",idWidgetString);
       d3.select(link).on("click", function() {
           deleteGoal();
       });
       d3.select(link).classed('mdl-chip__action',true);
 
+
+
+
       var deleteIcon=document.createElement('i');
       link.appendChild(deleteIcon);
       deleteIcon.innerHTML="cancel";
       d3.select(deleteIcon).classed("material-icons",true);
+
 
       parent.getBody().node().appendChild(document.createElement('br'));
       parent.getBody().node().appendChild(document.createElement('br'));
@@ -173,7 +182,7 @@ function BaseControls(parentWidget) {
         returnElements[1]=image;
 
       return returnElements;
-    }
+    };
 
     this.addSelectType=function(parent, label, options ){
       var thisDiv=document.createElement('div');

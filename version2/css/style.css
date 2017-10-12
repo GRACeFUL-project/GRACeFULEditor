@@ -39,6 +39,7 @@
 
 
 
+
 	/*Flat UI colors and Material UI Colors
 		https://flatuicolors.com/
 		The colors are listed from top to bottom order as displayed on the site.
@@ -59,6 +60,7 @@
 		Link Colors
 	*/
 	--main-link-one: #616161;
+	--main-link-two: #ffff00;
 	--hovered-link-one: #e74c3c;
 
 }

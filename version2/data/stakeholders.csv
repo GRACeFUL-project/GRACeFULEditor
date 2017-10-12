@@ -1,9 +1,9 @@
-Stakeholder,Participants
-City,Mr. A
-City,Mr. B
-City,Mr. C
-State,Mrs. X
-State,Mr. P
-Council,Mr. Q
-Council,Mrs. Z
-Municipality,Mrs. Y
+Stakeholder,Participants,Email
+City,Mr. A,the_city@magic.com
+City,Mr. B,the_city@magic.com
+City,Mr. C,the_city@magic.com
+State,Mrs. X,the_state@magic.com
+State,Mr. P,the_state@magic.com
+Council,Mr. Q,the_council@magic.com
+Council,Mrs. Z,the_council@magic.com
+Municipality,Mrs. Y,the_municipality@magic.com

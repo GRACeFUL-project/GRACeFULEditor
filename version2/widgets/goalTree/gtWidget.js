@@ -87,14 +87,22 @@ function GTWidget(){
         var data = csvdata.data;
         console.log("CSV stakeholder data: "+JSON.stringify(data));
         var stakeholdersObj = {};
+        var stakeholderEmail=[];
         if(data) {            
             for(var i=0; i<data.length; i++) {
                 var stakeholders= data[i].Stakeholder;
                 var participants = data[i].Participants;
+                var email = data[i].Email;
 
                 if(stakeholders !== "" && !stakeholdersObj.hasOwnProperty(stakeholders)) {
                     stakeholdersObj[stakeholders] = [];
+
+                    stakeholderEmail.push( email);
+                    console.log("reading Email addres"+email);
+                  //  stakeholderEmail[stakeholders] = [];
                     stakeholdersObj[stakeholders].push(participants);
+
+
                 }
                 else if(stakeholders !== "" && stakeholdersObj.hasOwnProperty(stakeholders)){
                     stakeholdersObj[stakeholders].push(participants);
@@ -102,9 +110,13 @@ function GTWidget(){
 
             }            
         }
+        console.log(stakeholdersObj);
+
+
         console.log("Stakeholder Object: "+JSON.stringify(stakeholdersObj));
+        console.log("Stakeholder Email Object: "+JSON.stringify(stakeholderEmail));
         if(stakeholdersObj)
-            that.graphObject.addStakeholders(stakeholdersObj);
+            that.graphObject.addStakeholders(stakeholdersObj,stakeholderEmail);
     };
 }
 

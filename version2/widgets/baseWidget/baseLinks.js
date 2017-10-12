@@ -38,6 +38,11 @@ function BaseLink(graph) {
         }
     };
 
+    this.setLinkTypus=function(val){
+        that.superLinkType=val;
+    };
+
+
 
     /** BASE HANDLING FUNCTIONS ------------------------------------------------- **/
     this.id = function (index) {
@@ -86,8 +91,11 @@ function BaseLink(graph) {
     };
 
     this.drawElement = function () {
-        that.pathElement = that.rootElement.append('line')
-            .classed("baseDragPath", true);
+        that.pathElement = that.rootElement.append('line');
+
+            that.pathElement.classed("baseDragPath", true);
+
+
         that.pathElement.attr("x1", that.sourceNode.x)
             .attr("y1", that.sourceNode.y)
             .attr("x2", that.targetNode.x)

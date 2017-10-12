@@ -2,7 +2,7 @@ function CLDControls(parentWidget) {
     BaseControls.apply(this,arguments);
     var that = this;
     this.parent=parentWidget;
-
+    this.optionsId=2;
     var nodesGroup,linksGroup, additionalSettings;
 
     var selectionNode,lineEditNode,commentNode, checkObserve, nodeTrend, actionDiv, actionTable, valApplied;
@@ -233,6 +233,18 @@ function CLDControls(parentWidget) {
 //
 //             }
 // =======
+
+               // check for stakeholder node in cld;
+                d3.select('#chipElementId2').classed('hidden',false);
+                console.log("----------------------------");
+                console.log("Node selecte and has Type"+node.getTypeId());
+                console.log("----------------------------");
+                if (node.getTypeId()===5){
+                    console.log("exisits"+d3.select('#chipElementId2'));
+                    d3.select('#chipElementId2').classed('hidden',true);
+                    console.log(d3.select('#chipElementId2'));
+                }
+
 
                 var selectType = selectionNode.node().options[selId].value;
                 if(selectType === "Action") {

@@ -257,6 +257,13 @@ function CLDLink(graph) {
         if(that.getTypeId() === 4)
             that.pathElement.classed("cldLinkType0", true);
 
+        if (that.superLinkType===100){
+            that.pathElement.classed("cldLink",false);
+            that.pathElement.classed("cldLinkType0", false);
+            that.pathElement.classed("baseDragPath", false);
+            that.pathElement.classed("baseDragPathStakeToCrit", true);
+        }
+
         that.pathElement.append('title').text(that.hoverText);
         that.addMouseEvents();
 
@@ -274,6 +281,9 @@ function CLDLink(graph) {
                                 .classed("controlPoint", true)
                                 .call(that.dragControlPoints);
 
+        if (that.superLinkType===100){
+
+        }else {
         that.rootElement.append("image")
                         .attr("id", "linkDeleteIcon")
                         .attr("xlink:href", "images/delete.svg")
@@ -287,6 +297,7 @@ function CLDLink(graph) {
                             console.log("this link has to be deleted: "+that.id());
                             graph.handleLinkDeletion(that);
                         });
+        }
 
         addTypeString();
     };
