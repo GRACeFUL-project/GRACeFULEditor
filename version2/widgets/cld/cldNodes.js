@@ -19,6 +19,7 @@ function CLDNode(graph) {
     this.trendId = 0;
     this.trendName = null;
     this.numIn = 0;
+    this.numOut = 0;
     this.interfaces = [];
     this.parameters = [];
 
@@ -161,59 +162,16 @@ function CLDNode(graph) {
     };
 
     this.getFinalData = function() {        
-        //updating node's interfaces
+        
         for(var i=0; i<that.assosiatedLinks.length; i++) {
             var t = that.assosiatedLinks[i];
 
-            if(t.sourceNode.id() === that.id()) {
-                var p = that.interfaces.find(function(temp) {
-                    return temp.name === "outSign";
-                });
-                console.log("P: "+p);
-                if(p === undefined) {
-                    var q={};
-                    q.name = "outSign";
-                    // q.type = [t.sign];
-                    q.type = "Sign";
-                    that.interfaces.push(q); 
-                }
-                else {
-                    // p.type.push(t.sign);
-                }
+            if(t.targetNode.id() === that.id()) {
+                that.numIn++;                
             }
 
-            if(t.targetNode.id() === that.id()) {
-                that.numIn++;
-
-                var p = that.interfaces.find(function(temp) {
-                    return temp.name === "influences";
-                });
-                console.log("P: "+p);
-                if(p === undefined) {
-                    var q={};
-                    q.name = "influences";
-                    // q.type = [t.sign];
-                    q.type = "[Sign]";
-                    that.interfaces.push(q); 
-                }
-                else {
-                    // p.type.push(t.sign);
-                }
-
-                var a = that.interfaces.find(function(temp) {
-                    return temp.name === "outSign";
-                });
-                console.log("A: "+a);
-                if(a === undefined) {
-                    var b={};
-                    b.name = "outSign";
-                    // q.type = [t.sign];
-                    b.type = "Sign";
-                    that.interfaces.push(b); 
-                }
-                else {
-                    // p.type.push(t.sign);
-                }
+            else if(t.sourceNode.id() === that.id()) {
+                that.numOut++;
             }
         }
         //updating nodes's parameters
@@ -222,6 +180,22 @@ function CLDNode(graph) {
         that.parameters.push(param1);
         var param2 = {"name": "numIn", "value": that.numIn, "type": "Int"};
         that.parameters.push(param2);
+        var param3 = {"name": "numOut", "value": that.numOut, "type": "Int"};
+        that.parameters.push(param3);
+
+        //updating node's interfaces
+        this.interfaces = [];
+        var param4 = {"name": "value", "type": "Sign"};
+        that.interfaces.push(param4);
+        if(that.numOut > 0) {
+            var param5 = {"name": "outgoing",  "type": "[(Sign,Sign)]"};
+            that.interfaces.push(param5);
+        }
+        if(that.numIn > 0) {
+            var param6 = {"name": "incoming", "type": "[(Sign,Sign)]"};
+            that.interfaces.push(param6);
+        }
+        
     };
 
     this.setTrend = function(tid) {
