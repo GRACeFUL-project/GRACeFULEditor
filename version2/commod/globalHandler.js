@@ -91,8 +91,8 @@
                 var friendlyLink=friendlyWidget.createLink(friendlyWidget);
                 friendlyLink.setClassType(-1,"InterestLink");
                 friendlyLink.setLinkTypus(100);
-                friendlyLink.setNormalizedValue(weight);
-                friendlyLink.setEvaluationString(value);
+                friendlyLink.setNormalizedWeight(weight);
+                friendlyLink.setEvaluationValue(value);
                 globalLink.setLinkGenerator(friendlyWidget,friendlyLink);
                 friendlyLink.setGlobalLinkPtr(globalLink);
             }
