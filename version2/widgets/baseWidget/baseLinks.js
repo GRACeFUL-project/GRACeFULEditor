@@ -42,6 +42,9 @@ function BaseLink(graph) {
         that.superLinkType=val;
     };
 
+    this.getLinkTypus=function(){
+        return that.superLinkType;
+    };
 
 
     /** BASE HANDLING FUNCTIONS ------------------------------------------------- **/

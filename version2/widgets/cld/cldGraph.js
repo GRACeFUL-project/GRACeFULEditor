@@ -83,6 +83,7 @@ function CLDGraph(){
             linkObj.comments = link.hoverText;
             // adding metadata for solver for questioner results
 
+
             retObj.links.push(linkObj);
         }
         return  JSON.stringify(retObj, null, '  ');
