@@ -116,11 +116,12 @@ function CLDLink(graph) {
         }
 
         if (value>=0) {
-            that.cldTypeId = value;
-            that.cldTypeString = temp[value];
+            that.setCLDTypeString(type,temp[value]);
+            // that.cldTypeId = value;
+            // that.cldTypeString = temp[value];
         }
 
-
+        // setCLDTypeString(jsonLink.linkTypeId, jsonLink.linkType);
 
     };
 
