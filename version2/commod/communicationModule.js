@@ -19,8 +19,8 @@
         //var registeredWidgets;
         //http://localhost:4000/static/index.html
         //var solverAddress="http://localhost:4000";
-        //var solverAddress="http://vocol.iais.fraunhofer.de/graceful-rat";
-        var solverAddress="http://localhost:3000";
+        var solverAddress="http://vocol.iais.fraunhofer.de/graceful-rat";
+        //var solverAddress="http://localhost:3000";
         var localAction;
 
         // done from the outside
