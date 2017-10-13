@@ -82,14 +82,14 @@ function CLDLink(graph) {
         this.sourceNode = src;
       //  console.log("Source Add");
         src.addLink(that);
-        src.setPortDetails(that.id());
+        src.setPortDetails("outgoing", that.id());
 
     };
     this.target = function (target) {
       //  console.log("Target Add");
         this.targetNode = target;
         target.addLink(that);
-        target.setPortDetails(that.id());
+        target.setPortDetails("incoming", that.id());
     };
 
 
