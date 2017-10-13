@@ -100,6 +100,12 @@ p[contenteditable]:focus {
     fill:none;
 }
 
+.baseDragPathStakeToCritAlpha{
+    stroke-width: 4px;
+    stroke-dasharray: 16, 4;
+    stroke: #2ccaff;
+    fill:none;
+}
 
 
 

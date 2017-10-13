@@ -141,20 +141,29 @@ function GTLink(graph) {
         addArrowHead();
         that.addMouseEvents();
 
-        //add delete image
-        that.rootElement.append("image")
-            .attr("id", "linkDeleteIcon")
-            .attr("xlink:href", "images/delete.svg")
-            .attr("display", "none")
-            .attr("width", 17)
-            .attr("height", 17)
-            .attr("x",0.5 * ( controlPoints[0].x + controlPoints[1].x ) - 0.5 * 17)
-            .attr("y",0.5 * ( controlPoints[0].y +controlPoints[1].y ) - 0.5 * 17)
-            .on('click', function() {
-                d3.event.stopPropagation();
-                console.log("This link has to be deleted: "+that.id());
-                graph.handleLinkDeletion(that);
-            });
+        if (that.getLinkTypus()===100){
+            // this should be addif (that.superLinkType===100){
+            that.pathElement.classed("baseDragPath", false);
+            // todo
+            that.pathElement.classed("baseDragPathStakeToCritAlpha", true);
+
+
+        }else {
+            //add delete image
+            that.rootElement.append("image")
+                .attr("id", "linkDeleteIcon")
+                .attr("xlink:href", "images/delete.svg")
+                .attr("display", "none")
+                .attr("width", 17)
+                .attr("height", 17)
+                .attr("x", 0.5 * ( controlPoints[0].x + controlPoints[1].x ) - 0.5 * 17)
+                .attr("y", 0.5 * ( controlPoints[0].y + controlPoints[1].y ) - 0.5 * 17)
+                .on('click', function () {
+                    d3.event.stopPropagation();
+                    console.log("This link has to be deleted: " + that.id());
+                    graph.handleLinkDeletion(that);
+                });
+        }
     };
 
 
