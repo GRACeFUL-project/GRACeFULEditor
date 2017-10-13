@@ -126,7 +126,7 @@ function CLDGraph(){
             if(resultObject.hasOwnProperty(key)) {
                 console.log(key + "-->" +resultObject[key]);
                 var outsign = key.split(/(\d+)/).filter(Boolean);
-                if(outsign[0] === "outSign") {
+                if(outsign[0] === "value") {
                     that.nodeElementArray.filter(function(temp) {
                         if(temp.id() == Number(outsign[1])) {
                             temp.setResult(resultObject[key]);

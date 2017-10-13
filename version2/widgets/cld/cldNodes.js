@@ -25,7 +25,8 @@ function CLDNode(graph) {
 
     this.actionPairs = {"plusAction":false, "plusActionCost":"", "minusAction":false, "minusActionCost":"", "zeroAction":false, "zeroActionCost": ""};
 
-    var portId = 0;
+    this.incomingPortId = 0;
+    this.outgoingPortId = 0;
     this.ports = [];
 
     this.result = undefined;
@@ -138,12 +139,16 @@ function CLDNode(graph) {
         return that.actionPairs;
     };
 
-    this.setPortDetails = function(id) {
+    this.setPortDetails = function(type, id) {
         var obj = {};
         obj.linkId = id;
-        obj.value = portId++;
-        that.ports.push(obj);  
-
+        if(type === "outgoing") {
+            obj.value = that.outgoingPortId++;            
+        }
+        else if(type === "incoming") {
+            obj.value = that.incomingPortId++;  
+        }
+        that.ports.push(obj);
         // console.log("The node is: "+ that.id()+"The link is: "+obj.linkId+ " value: "+obj.value);
     };
 
@@ -244,9 +249,9 @@ function CLDNode(graph) {
         that.result = rid;
         var rOffset = 0;
         console.log("Result: "+rid);
-        if(rid == 0)
+        if(rid == undefined)
             that.result = null;
-        else if(rid == 2) {
+        else if(rid == 2 || rid == -2) {
             rOffset = 1;
         }
         else if(rid == -1) {
