@@ -249,9 +249,9 @@ function CLDNode(graph) {
         that.result = rid;
         var rOffset = 0;
         console.log("Result: "+rid);
-        if(rid == 0)
+        if(rid == undefined)
             that.result = null;
-        else if(rid == 2) {
+        else if(rid == 2 || rid == -2) {
             rOffset = 1;
         }
         else if(rid == -1) {
