@@ -142,7 +142,8 @@ function GlobalNode() {
                 // integrate the metaData;
                 nodeMetaData[i]=meta;
                 var aNode=that.filterInformation(representedInWidget[i]);
-                aNode.setMyMetaData(meta);
+                if (aNode)
+                    aNode.setMyMetaData(meta);
             }
 
 
@@ -180,7 +181,7 @@ function GlobalNode() {
 
         if (indexOfWidget===1 && repNode){
             //this is a cldWidget;
-            
+
             metaObject.observe = repNode.getObserve();
             metaObject.trend = repNode.getTrend();
             // metadata for actions;
