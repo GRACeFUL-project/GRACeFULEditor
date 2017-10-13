@@ -104,16 +104,25 @@ function CLDGraph(){
             modelObj.nodes.push(obj);
         }
 
-        for(var i=0; i<that.pathElementArray.length; i++) {
-            var link = that.pathElementArray[i];
-            var obj = {};
-            link.getFinalData();
-            obj.name = link.name;
-            obj.parameters = link.parameters;
-            obj.interface = link.interfaces;
-            obj.identity = link.id();
-            //need to add more attributes
-            modelObj.nodes.push(obj);
+        for(var i=0; i<that.pathElementArray.length; i++) {            
+
+            if(that.pathElementArray[i].superLinkType === 100) {
+                var link = that.pathElementArray[i];
+                var obj = {};
+                obj.name = "evaluates";
+                obj.parameters = {"weight": link.getNormalizedWeight(), "value": link.getEvaluationValue()};
+            }
+            else {
+                var link = that.pathElementArray[i];
+                var obj = {};
+                link.getFinalData();
+                obj.name = link.name;
+                obj.parameters = link.parameters;
+                obj.interface = link.interfaces;
+                obj.identity = link.id();
+                //need to add more attributes
+                modelObj.nodes.push(obj);
+            }
         }
 
         return JSON.stringify(modelObj, null, '');
