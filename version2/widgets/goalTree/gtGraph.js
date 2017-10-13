@@ -98,7 +98,7 @@ function GTGraph(){
         coordinatesRelativeToCanvasArea=d3.mouse(this);
         var grPos=getScreenCoords(coordinatesRelativeToCanvasArea[0],coordinatesRelativeToCanvasArea[1],that.translation,that.zoomFactor);
         globalNode.setNodePos(that,grPos);
-
+        console.log("waht is my type"+that.nodeTypeGraph);
         if (that.nodeTypeGraph===3){
             var friendlyWidget=that.parentWidget.cldGraphObj;
             globalNode.setVisibleInWidget(friendlyWidget,true);

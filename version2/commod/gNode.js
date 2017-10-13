@@ -178,10 +178,9 @@ function GlobalNode() {
         var repNode=that.filterInformation(widget);
         var metaObject=nodeMetaData[indexOfWidget];
 
-        if (indexOfWidget===1){
+        if (indexOfWidget===1 && repNode){
             //this is a cldWidget;
-            console.log("found cld widget thinig");
-            //metaObject.nodeTypeId = repNode.getTypeId();
+            
             metaObject.observe = repNode.getObserve();
             metaObject.trend = repNode.getTrend();
             // metadata for actions;
