@@ -300,7 +300,7 @@ function CLDLink(graph) {
                                 .call(that.dragControlPoints);
 
         if (that.superLinkType===100){
-            pathHoverElement.text(that.getEvaluationString());
+            pathHoverElement.text(that.getEvaluationValue());
         }else {
         that.rootElement.append("image")
                         .attr("id", "linkDeleteIcon")
@@ -384,6 +384,7 @@ function CLDLink(graph) {
                     }
                 }
                 that.pathElement.attr("d", lineFunction(controlPoints));
+
                 textRenderingElement.attr("x", cpPoint.x).attr("y", cpPoint.y - 20);
                 cpEllipse.attr("cx", cpPoint.x)
                         .attr("cy", cpPoint.y);
@@ -492,7 +493,7 @@ function CLDLink(graph) {
             nodeContainer = selectedNode.parentNode;
         nodeContainer.appendChild(selectedNode);
         console.log("Mouse Hover over link , Dynamic Link Width"+dynamicLinkWidth);
-        that.rootElement.append('title').text(that.getNormalizedValue());
+        that.rootElement.append('title').text(that.getNormalizedWeight());
         if (dynamicLinkWidth==false) {
             if (that.getSelectionStatus() === true) {
                 that.pathElement.classed("cldLinkHovered",          false);
