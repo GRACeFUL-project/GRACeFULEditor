@@ -239,6 +239,7 @@ function BaseWidget(parentElement) {
                 var storedId=s_node.id;
                 var storedName=s_node.name;
                 var visible=s_node.visibleInWidgets;
+                var nodeMetaData=s_node.metaData;
                 var nodeTypeId=s_node.nodeTypeId;
                 var globalHoverText=s_node.comments;
                 var storedPositions=s_node.pos;
@@ -259,10 +260,16 @@ function BaseWidget(parentElement) {
                        var correspondingGraphObject=reprGraphObjects[v];
                         // create that node;
                         var correspondingNodeType=nodeTypeId[v];
+
                         globalNode.setNodeType(correspondingGraphObject,correspondingNodeType,
                             correspondingGraphObject.createNode(correspondingGraphObject));
                         var repNode=globalNode.filterInformation(correspondingGraphObject);
                         repNode.setGlobalNodePtr(globalNode);
+                        globalNode.setGlobalMetaDataArray(nodeMetaData);
+
+                        // set globalMetaData for the object;
+
+
                         // set the position of that element;
                         var correspondingPosition=storedPositions[v];
                         if (correspondingPosition.x!==0 && correspondingPosition.y!==0){

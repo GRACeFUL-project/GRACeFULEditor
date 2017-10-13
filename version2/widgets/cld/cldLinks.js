@@ -26,6 +26,19 @@ function CLDLink(graph) {
     var endPos=[]; // end position for the line
     var dynamicLinkWidth=false;
     var loopImg = undefined;
+    var pathHoverElement;
+
+    this.normalizedWeight=0;
+    this.evaluatonString="";
+
+
+    this.getNormalizedValue=function(){return this.normalizedWeight;};
+    this.getEvaluationString=function(){return this.evaluatonString;};
+
+    this.setNormalizedValue=function(val){this.normalizedWeight=val;};
+    this.setEvaluationString=function(str){this.evaluatonString=str;};
+
+
 
     this.parameters = [];
     this.interfaces = [];
@@ -266,7 +279,10 @@ function CLDLink(graph) {
             that.pathElement.classed("baseDragPathStakeToCrit", true);
         }
 
-        that.pathElement.append('title').text(that.hoverText);
+        pathHoverElement=that.pathElement.append('title');
+        pathHoverElement.text(that.hoverText);
+
+
         that.addMouseEvents();
 
         startPoint={ x:that.sourceNode.x, y:that.sourceNode.y };
@@ -284,7 +300,7 @@ function CLDLink(graph) {
                                 .call(that.dragControlPoints);
 
         if (that.superLinkType===100){
-
+            pathHoverElement.text(that.getEvaluationString());
         }else {
         that.rootElement.append("image")
                         .attr("id", "linkDeleteIcon")
@@ -331,9 +347,17 @@ function CLDLink(graph) {
             .classed("text", true)
             .attr("text-anchor", "middle")
             .attr("style", "fill: black")
-            .attr("font-size", "35")
-            .text(that.cldTypeString)
+            .attr("font-size", "34")
             .attr("dy", "0.35em");
+         if (that.superLinkType===100) {
+             textRenderingElement.text("weight")
+                 .attr("font-size", "16");
+             // add hover titile;
+         }
+         else{
+             textRenderingElement.text(that.cldTypeString);
+         }
+
     }
 
     this.updateElement=function(dX,dY){
@@ -468,6 +492,7 @@ function CLDLink(graph) {
             nodeContainer = selectedNode.parentNode;
         nodeContainer.appendChild(selectedNode);
         console.log("Mouse Hover over link , Dynamic Link Width"+dynamicLinkWidth);
+        that.rootElement.append('title').text(that.getNormalizedValue());
         if (dynamicLinkWidth==false) {
             if (that.getSelectionStatus() === true) {
                 that.pathElement.classed("cldLinkHovered",          false);

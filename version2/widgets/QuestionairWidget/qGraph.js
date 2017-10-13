@@ -160,14 +160,35 @@ function qGraph(parentWidget) {
         if (st_node){
             console.log("Found stakeholder node "+st_node.getNodeName());
 
+
+            var normalizedWeights=[];
+            var values_str=[];
+            // normlizing;
+            var sumOfWeights=0;
+
+
             // get the criteria elements
             var critElements=jOb.criteria;
+            console.log("crit elements are");
+            console.log(critElements);
+
+            // compute normalization factor;
+            for (var w=0;w<critElements.length;w++){
+                normalizedWeights.push(critElements[w].weight);
+                values_str.push(critElements[w].value);
+                sumOfWeights+=critElements[w].weight;
+            }
+            // normlize;
+            for ( w=0;w<critElements.length;w++){
+                normalizedWeights[w]/=sumOfWeights;
+            }
+
             for (i=0;i<critElements.length;i++){
                 var targetNodeId=critElements[i].id;
                 var tarNode=gHandlerObj.getNodeById(targetNodeId);
                 if (tarNode){
                     console.log("found target Node");
-                    gHandlerObj.createStakeholderLink(st_node,tarNode);
+                    gHandlerObj.createStakeholderLink(st_node,tarNode,normalizedWeights[i],values_str[i]);
                 }
             }
 

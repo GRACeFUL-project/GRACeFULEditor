@@ -21,6 +21,7 @@ function GlobalNode() {
     var nodeTypeInWidget=[-1,-1,-1];
     var nodePosInWidget=[];
     var nodeConstructors=[];
+    var nodeMetaData=[{},{},{}]; // three empty objects for the metadata;
     var nodeName="empty"; // should be consistent
     var globalHoverText="";
     var nodeEmail; // per default undefined;
@@ -32,6 +33,14 @@ function GlobalNode() {
     this.setNodeEmail=function(mail){
         // sets the email addr for the stakeholders
         nodeEmail=mail;
+    };
+
+    this.getMetaData=function(){
+        nodeMetaData=[{},{},{}];// clear the prev metadata;
+        for (var i=0;i<representedInWidget.length;i++)
+            that.setNodeMetaData(representedInWidget[i]); // updates metadata
+        return nodeMetaData
+
     };
 
     this.getNodeName=function(){ return nodeName;};
@@ -99,7 +108,6 @@ function GlobalNode() {
             if (globalHoverText.length>0)
                 nodeElement.setHoverText(globalHoverText);
 
-
             if(nodeElement.x===0 || nodeElement.y===0){
                 // copy form known position;
                 for (var i=0;i<nodeConstructors.length;i++){
@@ -120,6 +128,34 @@ function GlobalNode() {
     };
 
 
+    this.setGlobalMetaDataArray=function(array){
+        if (array===undefined) return;
+
+        for (var i=0;i<array.length;i++){
+            var meta=array[i];
+            var empty=jQuery.isEmptyObject(meta);
+            if (empty===true) {
+                console.log("the meta object is empty");
+                continue;
+            }
+            else{
+                // integrate the metaData;
+                nodeMetaData[i]=meta;
+                var aNode=that.filterInformation(representedInWidget[i]);
+                aNode.setMyMetaData(meta);
+            }
+
+
+
+
+        }
+
+
+
+    };
+
+
+
     this.setVisibleInWidget=function(widget, visible){
             // set the corresponding value in the visible widgetId;
             var indexOfWidget=that.findWidgetId(widget);
@@ -134,6 +170,27 @@ function GlobalNode() {
         return representedInWidget.indexOf(widget);
     };
 
+
+    // stores the metadataObject;
+    this.setNodeMetaData=function(widget){
+        var indexOfWidget=that.findWidgetId(widget);
+        // get representedNode;
+        var repNode=that.filterInformation(widget);
+        var metaObject=nodeMetaData[indexOfWidget];
+
+        if (indexOfWidget===1){
+            //this is a cldWidget;
+            console.log("found cld widget thinig");
+            //metaObject.nodeTypeId = repNode.getTypeId();
+            metaObject.observe = repNode.getObserve();
+            metaObject.trend = repNode.getTrend();
+            // metadata for actions;
+            metaObject.actions=repNode.getAction();
+
+        }
+
+
+    };
 
     this.setNodeType=function(widget,nodeType,createdNodeInWidget){
         var indexOfWidget=that.findWidgetId(widget);

@@ -409,8 +409,20 @@ function CLDNode(graph) {
         }
 
         // test
+    };
 
+    this.setMyMetaData=function(metaObject){
+        console.log("setting metaData");
+        this.setObserve(metaObject.observe);
+        this.setTrend(metaObject.trend);
 
+        if (metaObject.actions){
+            that.setMetaActions(metaObject.actions);
+        }
+    };
+
+    this.setMetaActions=function(actionPairs){
+        this.actionPairs=actionPairs;
 
     };
 

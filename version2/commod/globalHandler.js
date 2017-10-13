@@ -50,9 +50,14 @@
 
 
 
-        this.createStakeholderLink=function(src,tar){
+        this.createStakeholderLink=function(src,tar,weight,value){
 
             console.log("globalHelder generates a link;");
+
+            console.log("Adding Normalized weights and values");
+
+            console.log("n_weight="+weight);
+            console.log("value_str="+value);
 
             // assume we are goalTree
             var globalLink=that.createGlobalLink(graphObjectList[0]);
@@ -86,6 +91,8 @@
                 var friendlyLink=friendlyWidget.createLink(friendlyWidget);
                 friendlyLink.setClassType(-1,"InterestLink");
                 friendlyLink.setLinkTypus(100);
+                friendlyLink.setNormalizedValue(weight);
+                friendlyLink.setEvaluationString(value);
                 globalLink.setLinkGenerator(friendlyWidget,friendlyLink);
                 friendlyLink.setGlobalLinkPtr(globalLink);
             }
@@ -261,6 +268,9 @@
 
         };
 
+
+
+
         this.getNodeById=function(id){
           for (var i=0;i<globalNodeArray.length;i++){
               if (globalNodeArray[i].id()===id)
@@ -294,6 +304,7 @@
                 obj.nodeTypeId = node.getNodeTypeInWidgets();
                 obj.comments = node.getGlobalHoverText();
                 obj.pos = node.getNodePositionsInWidgets();
+                obj.metaData=node.getMetaData();
 
                 console.log("Object=");
                 console.log(obj);
