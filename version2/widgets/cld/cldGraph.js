@@ -81,6 +81,8 @@ function CLDGraph(){
             linkObj.linkTypeId = link.getTypeId();
             linkObj.linkType = link.cldTypeString;
             linkObj.comments = link.hoverText;
+            // adding metadata for solver for questioner results
+
             retObj.links.push(linkObj);
         }
         return  JSON.stringify(retObj, null, '  ');
