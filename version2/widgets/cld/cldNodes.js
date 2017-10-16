@@ -144,9 +144,11 @@ function CLDNode(graph) {
         obj.linkId = id;
         if(type === "outgoing") {
             obj.value = that.outgoingPortId++;            
+            that.numOut++;
         }
         else if(type === "incoming") {
             obj.value = that.incomingPortId++;  
+            that.numIn++;
         }
         that.ports.push(obj);
         // console.log("The node is: "+ that.id()+"The link is: "+obj.linkId+ " value: "+obj.value);
@@ -167,18 +169,7 @@ function CLDNode(graph) {
     };
 
     this.getFinalData = function() {        
-        
-        for(var i=0; i<that.assosiatedLinks.length; i++) {
-            var t = that.assosiatedLinks[i];
 
-            if(t.targetNode.id() === that.id()) {
-                that.numIn++;                
-            }
-
-            else if(t.sourceNode.id() === that.id()) {
-                that.numOut++;
-            }
-        }
         //updating nodes's parameters
         this.parameters = [];
         var param1 = {"name": "obsSign", "value": that.trendName, "type": "Maybe Sign"};
@@ -497,17 +488,16 @@ function CLDNode(graph) {
 
 
         that.selectedTypeId=typeId;
+        that.typeName = typeName;
         if (typeId===100){
             nodeClass = allPossibleClasses[5];
             that.selectedTypeId=5;
+            that.typeName = "Stake Holder";
         }else{
-            nodeClass =allPossibleClasses[typeId];
+            nodeClass =allPossibleClasses[typeId];            
         }
         //nodeClass=allPossibleClasses[typeId];
-        that.typeName = typeName;
-
-
-
+        
          console.log("Node class is"+nodeClass);
          console.log("Node Type Id"+that.selectedTypeId);
         // apply the classes ;

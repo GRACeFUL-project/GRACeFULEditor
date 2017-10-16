@@ -98,14 +98,16 @@ function CLDGraph(){
         for(var i=0; i<that.nodeElementArray.length; i++) {
             var node = that.nodeElementArray[i];
             var obj = {};
-            node.getFinalData();
-            obj.name = "node";
-            // obj.nodeType = node.typeName;
-            obj.parameters = node.parameters;
-            obj.interface = node.interfaces;
-            obj.identity = node.id();            
-            //need to add more attributes
-            modelObj.nodes.push(obj);
+            if(node.typeName !== "Stake Holder") {
+                node.getFinalData();
+                obj.name = "node";
+                // obj.nodeType = node.typeName;
+                obj.parameters = node.parameters;
+                obj.interface = node.interfaces;
+                obj.identity = node.id();            
+                //need to add more attributes
+                modelObj.nodes.push(obj);
+            }            
         }
 
         for( i=0; i<that.pathElementArray.length; i++) {
