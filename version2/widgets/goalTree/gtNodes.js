@@ -207,6 +207,10 @@ function GTNode(graph) {
     };
 
     this.setCriteriaUnit = function(text) {
+        if (this.getGlobalNodePtr()!=undefined){
+            this.getGlobalNodePtr().setGlobalUnit(text);
+        }
+
         that.criteriaUnit = text;
         console.log("the unit is:"+ text);
     };

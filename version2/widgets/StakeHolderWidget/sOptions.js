@@ -21,8 +21,8 @@ function QWControls(parentWidget) {
         additionalSettings = that.createAccordionGroup(that.divControlsGroupNode, "Model Controls");
         // loadcld= that.addButton(additionalSettings, "LOAD GRAPH", "gtLOAD", that.loadFunction, "flat", true, "cloud_upload" );
 
-        that.addButton(additionalSettings, "LOAD  MODEL", "gtLOAD", that.loadGlobalFunction, "flat", true, "get_app" );
-        that.addButton(additionalSettings, "SAVE MODEL", "gtSAVE", that.createModel, "flat", true, "save" );
+        that.addButton(additionalSettings, "LOAD  SURVEY", "gtLOAD", that.loadGlobalFunction, "flat", true, "get_app" );
+        that.addButton(additionalSettings, "SAVE", "gtSAVE", that.createModel, "flat", true, "save" );
 
 
     };

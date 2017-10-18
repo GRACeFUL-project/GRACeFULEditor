@@ -108,7 +108,9 @@ function BaseNode(graph) {
 
     this.setHoverText=function(val){
       //set the label content based on the length of text content
-
+        if (this.getGlobalNodePtr()!=undefined){
+            this.getGlobalNodePtr().setGlobalHoverText(val);
+        }
         this.hoverText=val;
         if (that.rootNodeLayer){
             that.rootNodeLayer.select("title").text(that.hoverText);

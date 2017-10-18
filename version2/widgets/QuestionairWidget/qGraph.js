@@ -90,6 +90,9 @@ function qGraph(parentWidget) {
         header_sendElement.innerHTML="Send Element";
         header_result.innerHTML="Result?";
 
+        d3.select(tablerow).classed("headerTable",true);
+        tablerow.align = "center";
+
         for (var i=0; i<stakeHolders.length;i++){
             // create a new table row;
             var iR=i+1;
@@ -108,7 +111,7 @@ function qGraph(parentWidget) {
           //  sendBT.disabled=true;
             that.createCellCreateEntry(cell_create,that.onCreate,"Create",stakeHolders[i],sendBT);
             var cell_result = st_row.insertCell(4);
-            cell_result.innerHTML="NOPE";
+            cell_result.innerHTML="PENDING";
             cellResults.push(cell_result);
         }
 

@@ -14,6 +14,7 @@ function CLDNode(graph) {
     var allPossibleClasses=['undefined','nodeOptionA','nodeOptionB','nodeOptionC', 'externalFactors','stakeHolders'];
     var observeClasses = ['undefined', 'strokeAmbigous', 'strokeDecreasing', 'strokeIncreasing', 'strokeStable'];
     this.allClasss=["Undefined", "Factor", "Action", "Criteria", "External Factor","stakeHolder"];
+    this.criteriaUnit = "";
 
     this.isObserved = false;
     this.trendId = 0;
@@ -31,6 +32,14 @@ function CLDNode(graph) {
 
     this.result = undefined;
     var resultClasses = ['undefined', 'resultAmbigous', 'resultDecreasing', 'resultIncreasing', 'resultStable'];
+
+    this.setCriteriaUnit = function(text) {
+        if (this.getGlobalNodePtr()!=undefined){
+            this.getGlobalNodePtr().setGlobalUnit(text);
+        }
+        that.criteriaUnit = text;
+        console.log("the unit is:"+ text);
+    };
 
     this.getTypeId=function(){
       return that.selectedTypeId;

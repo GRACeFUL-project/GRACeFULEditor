@@ -23,6 +23,7 @@ function GlobalNode() {
     var nodeConstructors=[];
     var nodeMetaData=[{},{},{}]; // three empty objects for the metadata;
     var nodeName="empty"; // should be consistent
+    var criteriaUnit = "";
     var globalHoverText="";
     var nodeEmail; // per default undefined;
 
@@ -100,11 +101,16 @@ function GlobalNode() {
         nodeName=str;
     };
 
+    this.setGlobalUnit = function(str) {
+        criteriaUnit = str;
+    }
+
     this.filterInformation=function(widget){
         var indexOfWidget=that.findWidgetId(widget);
         var nodeElement=nodeConstructors[indexOfWidget];
         if (nodeElement!=undefined) {
             nodeElement.setLabelText(nodeName);
+            nodeElement.setCriteriaUnit(criteriaUnit);
             if (globalHoverText.length>0)
                 nodeElement.setHoverText(globalHoverText);
 

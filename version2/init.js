@@ -100,7 +100,7 @@ var gHandlerObj=handler.create();
 
         // create that questioner tool;
         var qWidget=new QuestionerWidget(initializer);
-        qWidget.setTabTitle("Questioner");
+        qWidget.setTabTitle("Stakeholder Survey");
         qWidget.setupGuiElements(initializer.getNavigationObject(),
             initializer.getTabsObject(),
             initializer.getCanvasArea(),

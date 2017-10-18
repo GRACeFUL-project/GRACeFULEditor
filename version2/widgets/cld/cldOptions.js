@@ -5,7 +5,7 @@ function CLDControls(parentWidget) {
     this.optionsId=2;
     var nodesGroup,linksGroup, additionalSettings;
 
-    var selectionNode,lineEditNode,commentNode, checkObserve, nodeTrend, actionDiv, actionTable, valApplied;
+    var selectionNode,lineEditNode,commentNode, checkObserve, nodeTrend, actionDiv, actionTable, valApplied, criteriaUnit;
     var linkClass, causalSelection,commentLink;
     var getClassValues = [undefined];
     var cldChip, cldChipImage, cldChipNode,  delNodeBtn, delLinkBtn, extFactorBtn, loopBtn, loadcld, saveCld, libCld, sendCld;
@@ -92,6 +92,9 @@ function CLDControls(parentWidget) {
         }
 
         commentNode = that.addTextEdit(nodesGroup, "Comments", "", true, that.onChangeNodeComment);
+
+        criteriaUnit = that.addLineEdit(nodesGroup, "Unit", "", true, that.onChangeUnit);
+        d3.select(criteriaUnit.node().parentNode).classed("hidden", true);
         // delNodeBtn = that.addButtons(nodesGroup, "Delete", "nodeDelete", that.deleteNodes);
         nodesGroup.collapseBody();
         // delNodeBtn = that.addButtons(nodesGroup, "Delete", "nodeDelete", that.deleteNodes);
@@ -217,6 +220,7 @@ function CLDControls(parentWidget) {
 
                 commentNode.node().disabled = false;
                 commentNode.node().value = that.selectedNode.hoverText;
+                criteriaUnit.node().value = that.selectedNode.criteriaUnit;
 
                 var selId = that.selectedNode.getTypeId();
                 selectionNode.node().options[selId].selected = "selected";
@@ -266,6 +270,12 @@ function CLDControls(parentWidget) {
                         else
                             cost.disabled = false;
                     }
+                }
+                if(selectType === "Criteria") {
+                    d3.select(criteriaUnit.node().parentNode).classed("hidden", false);
+                }
+                if(selectType !== "Criteria") {
+                    d3.select(criteriaUnit.node().parentNode).classed("hidden", true);
                 }
 // >>>>>>> 12f2be01fa6b861437810b6cb9faf59798065791
         }
@@ -399,7 +409,12 @@ function CLDControls(parentWidget) {
         var strUser = selectionContainer.options[selectionContainer.selectedIndex].value;
         console.log(selectionContainer.selectedIndex+" the user string is "+strUser);
         that.selectedNode.setType(selectionContainer.selectedIndex, strUser);
-
+        if(selectType === "Criteria") {
+            d3.select(criteriaUnit.node().parentNode).classed("hidden", false);
+        }
+        else {
+            d3.select(criteriaUnit.node().parentNode).classed("hidden", true);
+        }
     };
     this.onChangeNodeName=function(){
       // change the value to be displayed on the node.
@@ -440,6 +455,10 @@ function CLDControls(parentWidget) {
 
     this.onChangeNodeComment=function(){
         that.selectedNode.setHoverText(commentNode.node().value);
+    };
+
+    this.onChangeUnit =function() {
+        that.selectedNode.setCriteriaUnit(criteriaUnit.node().value);
     };
 
     this.deleteNodes = function() {
