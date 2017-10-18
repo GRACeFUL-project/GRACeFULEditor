@@ -250,8 +250,9 @@
                     var obj = {};
                     obj.id = node.id();
                     obj.name = node.getNodeName();
-                    obj.weight=-1;
-                    obj.value="undefined obj Value";
+                    obj.unit = node.getCriteriaUnit();
+                    obj.weight=0;
+                    obj.value="NA";
                     retObj.criteria.push(obj);
                 }
             }

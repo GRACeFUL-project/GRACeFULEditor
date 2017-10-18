@@ -52,13 +52,17 @@ function qGraph(parentWidget) {
 
         // create the header names;
         var header_crit= tablerow.insertCell(0);
-        var header_weight= tablerow.insertCell(1);
-        var header_value=tablerow.insertCell(2);
+        var header_unit = tablerow.insertCell(1);
+        var header_weight= tablerow.insertCell(2);
+        var header_value=tablerow.insertCell(3);
 
 
         header_crit.innerHTML="Criteria";
+        header_unit.innerHTML = "Unit"
         header_weight.innerHTML="Weight";
-        header_value.innerHTML="Value";
+        header_value.innerHTML="Constraint";
+
+        d3.select(tablerow).classed("headerTable",true);
 
         var criteriaNodes=obj.criteria;
 
@@ -70,11 +74,13 @@ function qGraph(parentWidget) {
 
             var cell_name = st_row.insertCell(0);
             cell_name.innerHTML=criteriaNodes[i].name;
+            var cell_unit = st_row.insertCell(1);
+            cell_unit.innerHTML = criteriaNodes[i].unit;
             // this should be a line edit
-            var cell_weight = st_row.insertCell(1);
+            var cell_weight = st_row.insertCell(2);
             that.createLETableEntry(cell_weight,that.onLET_change,criteriaNodes[i].weight,criteriaNodes[i]);
 
-            var cell_value = st_row.insertCell(2);
+            var cell_value = st_row.insertCell(3);
             that.createLETableEntry(cell_value,that.onLET_changeString,criteriaNodes[i].value,criteriaNodes[i]);
 
 

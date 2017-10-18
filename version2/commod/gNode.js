@@ -103,7 +103,11 @@ function GlobalNode() {
 
     this.setGlobalUnit = function(str) {
         criteriaUnit = str;
-    }
+    };
+
+    this.getCriteriaUnit = function() {
+        return criteriaUnit;
+    };
 
     this.filterInformation=function(widget){
         var indexOfWidget=that.findWidgetId(widget);

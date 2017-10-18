@@ -177,13 +177,16 @@ function qGraph(parentWidget) {
 
             // compute normalization factor;
             for (var w=0;w<critElements.length;w++){
-                normalizedWeights.push(critElements[w].weight);
+                var w_no = Number(critElements[w].weight);
+                normalizedWeights.push(w_no);
                 values_str.push(critElements[w].value);
-                sumOfWeights+=critElements[w].weight;
+                sumOfWeights+=w_no;
             }
+
             // normlize;
             for ( w=0;w<critElements.length;w++){
                 normalizedWeights[w]/=sumOfWeights;
+                normalizedWeights[w] = +normalizedWeights[w].toFixed(3);
             }
 
             for (i=0;i<critElements.length;i++){
