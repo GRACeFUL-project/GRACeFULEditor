@@ -82,7 +82,7 @@ var gHandlerObj=handler.create();
 
         // create that questioner tool;
         var qWidget=new StakeHolderWidget(initializer);
-        qWidget.setTabTitle("StakeHolder Questioner");
+        qWidget.setTabTitle("Questionnaire");
         qWidget.setupGuiElements(initializer.getNavigationObject(),
             initializer.getTabsObject(),
             initializer.getCanvasArea(),

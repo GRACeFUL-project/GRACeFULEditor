@@ -78,10 +78,10 @@ function qGraph(parentWidget) {
             cell_unit.innerHTML = criteriaNodes[i].unit;
             // this should be a line edit
             var cell_weight = st_row.insertCell(2);
-            that.createLETableEntry(cell_weight,that.onLET_change,criteriaNodes[i].weight,criteriaNodes[i]);
+            that.createLETableEntry(cell_weight,that.onLET_change,criteriaNodes[i].weight,criteriaNodes[i], "weight");
 
             var cell_value = st_row.insertCell(3);
-            that.createLETableEntry(cell_value,that.onLET_changeString,criteriaNodes[i].value,criteriaNodes[i]);
+            that.createLETableEntry(cell_value,that.onLET_changeString,criteriaNodes[i].value,criteriaNodes[i], "value");
 
 
         }
@@ -175,12 +175,15 @@ function qGraph(parentWidget) {
         // }
     };
 
-    this.createLETableEntry=function(cell,onChange,value,paramObj){
+    this.createLETableEntry=function(cell,onChange,value,paramObj, type){
         var le=document.createElement('input');
         cell.appendChild(le);
         var leNode=d3.select(le);
         leNode.classed("form-control",true);
         le.value=value;
+        if(type === "weight") {
+            le.type = "number";
+        }
         leNode.on("change",function(){onChange(paramObj,cell);});
 
     };
@@ -190,7 +193,16 @@ function qGraph(parentWidget) {
         console.log("something changed"+paramObj);
         console.log(paramObj);
         console.log(cell);
-        var newValue=cell.children[0].value;
+        var newValue=Number(cell.children[0].value);
+        // newValue = Math.min(100,Math.max(0,newValue));
+        if(newValue < 0) {
+            alert("Weight cannot be less then 0");
+            newValue = cell.children[0].value = 0;            
+        }
+        else if(newValue > 100) {
+            alert("Weight cannot be more then 100");
+            newValue = cell.children[0].value = 100;
+        }
         console.log("new Value To Set "+ newValue);
         console.log("new Value To Set Type "+ typeof newValue);
         paramObj.weight=newValue;
