@@ -223,20 +223,16 @@ function CLDControls(parentWidget) {
                 criteriaUnit.node().value = that.selectedNode.criteriaUnit;
 
                 var selId = that.selectedNode.getTypeId();
+                selectionNode.node().disabled=false;
                 selectionNode.node().options[selId].selected = "selected";
-// <<<<<<< HEAD
-//                 console.log("The Selection Id is "+selId);
-//                 if(selId === 5) {
-//                     commentNode.node().innerHTML = that.selectedNode.hoverText;
-//                     checkObserve.node().disabled=true;
-//                     nodeTrend.node().disabled=true;
-//                     selectionNode.node().disabled=true;
-//                     commentNode.node().disabled = true;
-//                     d3.select(checkObserve.node().parentNode).classed("hidden", true);
-//                     d3.select(nodeTrend.node().parentNode).classed("hidden", true);
-//
-//             }
-// =======
+                console.log("The Selection Id is "+selId);
+                if(selId === 5) {
+                    commentNode.node().innerHTML = that.selectedNode.hoverText;
+                    selectionNode.node().disabled=true;
+                    commentNode.node().disabled = true;
+                    d3.select(checkObserve.node().parentNode).classed("hidden", true);
+                    d3.select(nodeTrend.node().parentNode).classed("hidden", true);
+            }
 
                // check for stakeholder node in cld;
                 d3.select('#chipElementId2').classed('hidden',false);
@@ -273,11 +269,12 @@ function CLDControls(parentWidget) {
                 }
                 if(selectType === "Criteria") {
                     d3.select(criteriaUnit.node().parentNode).classed("hidden", false);
+                    d3.select(checkObserve.node().parentNode).classed("hidden", true);
+                    d3.select(nodeTrend.node().parentNode).classed("hidden", true);
                 }
                 if(selectType !== "Criteria") {
                     d3.select(criteriaUnit.node().parentNode).classed("hidden", true);
                 }
-// >>>>>>> 12f2be01fa6b861437810b6cb9faf59798065791
         }
 
         if (node.getElementType()==="LinkElement") {
