@@ -215,6 +215,8 @@ function BaseWidget(parentElement) {
       //  console.log("read the data");
         //console.log(jsonData);
 
+        that.getHandler().emptyGraphStructure();
+
         var jObj=JSON.parse(jsonData);
         // validation;
 
