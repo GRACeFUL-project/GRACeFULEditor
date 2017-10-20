@@ -164,6 +164,34 @@ function QWControls(parentWidget) {
         // console.log("hidden thing is clicked");
         hidden_solutionInput.click();
         loaderSolutionPathNode.remove(loaderSolutionPathNode);
+
+        loaderSolutionPathNode.on("change",function(){
+            // console.log("hidden thing is clicked");
+            var files= loaderSolutionPathNode.property("files");
+            if (files.length>0){
+                // console.log("file?"+files[0].name);
+                for (var i=0;i<files.length;i++){
+                    var i_fileElement=files[i];
+                    var i_fileName=i_fileElement.name;
+                    console.log("reading FileName "+i_fileName);
+                    var i_reader = new FileReader();
+                    i_reader.readAsText(i_fileElement);
+                    i_reader.onload = function () {
+                        console.log("the reader inLoad function "+i_reader);
+                        console.log(i_reader);
+                        var i_text= i_reader.result;
+
+                        that.parent.graphObject.integrateStakeHolderResults(i_text);
+                    }
+
+
+                }
+                loaderSolutionPathNode.remove();
+
+
+            }
+        });
+
         // tell what to do when clicked
         loaderSolutionPathNode.on("input",function(){
             // console.log("hidden thing is clicked");
@@ -240,6 +268,33 @@ function QWControls(parentWidget) {
                 };
             }
         });
+
+        loaderSolutionPathNode.on("change",function(){
+            // console.log("hidden thing is clicked");
+            var files= loaderSolutionPathNode.property("files");
+            if (files.length>0){
+                // console.log("file?"+files[0].name);
+                fileElement=files[0];
+                fileName=fileElement.name;
+                loaderSolutionPathNode.remove();
+
+                // read this file;
+                var reader = new FileReader();
+                reader.readAsText(fileElement);
+                reader.onload = function () {
+                    readText = reader.result;
+                    // the the communication module about this
+                    var action={};
+                    action.task="ACTION_LOAD_GLOBAL_JSON";
+                    action.data=readText;
+                    that.parent.shadow_requestAction(action);
+                    that.importModelFkt();
+                    // kill the action object;
+                    action=null;
+                };
+            }
+        });
+
     };
 
 
