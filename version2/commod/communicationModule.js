@@ -71,6 +71,7 @@
             }
             if (localAction.task===ACTION_LOAD_GLOBAL_JSON){
                 // here we have already the data from the action, so we put this directly to the widget
+                console.log("Com Mod Received signal to load data");
                 widget.loadGlobalModelAsJSON(localAction.data);
             }
 

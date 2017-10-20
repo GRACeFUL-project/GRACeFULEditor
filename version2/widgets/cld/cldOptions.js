@@ -19,6 +19,9 @@ function CLDControls(parentWidget) {
     };
 
     this.loadGlobalFunction=function()    {
+
+        console.log("Load GLOBAL WAS PRESSED");
+
         var hidden_solutionInput=document.createElement('input');
         hidden_solutionInput.id="HIDDEN_SOLUTION_JSON_INPUT";
         hidden_solutionInput.type="file";
@@ -33,18 +36,45 @@ function CLDControls(parentWidget) {
         var fileName;
         var readText;
         // simulate click event;
-        // console.log("hidden thing is clicked");
         hidden_solutionInput.click();
         loaderSolutionPathNode.remove(loaderSolutionPathNode);
         // tell what to do when clicked
-        loaderSolutionPathNode.on("input",function(){
-            // console.log("hidden thing is clicked");
+        // chrome fix -.-
+        loaderSolutionPathNode.on("change",function (){
             var files= loaderSolutionPathNode.property("files");
             if (files.length>0){
                 // console.log("file?"+files[0].name);
                 fileElement=files[0];
                 fileName=fileElement.name;
                 loaderSolutionPathNode.remove();
+
+
+                // read this file;
+                var reader = new FileReader();
+                reader.readAsText(fileElement);
+                reader.onload = function () {
+                    readText = reader.result;
+                    // the the communication module about this
+                    var action={};
+                    action.task="ACTION_LOAD_GLOBAL_JSON";
+                    action.data=readText;
+                    that.parent.requestAction(action);
+                    // kill the action object;
+                    action=null;
+                };
+            }
+        });
+
+
+
+        loaderSolutionPathNode.on("input",function(){
+            var files= loaderSolutionPathNode.property("files");
+            if (files.length>0){
+                // console.log("file?"+files[0].name);
+                fileElement=files[0];
+                fileName=fileElement.name;
+                loaderSolutionPathNode.remove();
+
 
                 // read this file;
                 var reader = new FileReader();
