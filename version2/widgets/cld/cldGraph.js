@@ -4,6 +4,12 @@ function CLDGraph(){
     var that=this;
     this.nodeTypeGraph=1;
     this.budget = 0;
+    this.budgetId = undefined;
+    this.budgetPortIndex = undefined;
+    this.actionNodes = undefined;
+    this.criteriaNodes = undefined;
+    this.optimiseId = undefined;
+    this.optimisePortIndex = undefined;
     // call the baseGraph init function
     // that.initializeGraph();
     that.setZoomExtent(0.1,6);
@@ -95,16 +101,22 @@ function CLDGraph(){
         modelObj.nodes = [];
         // modelObj.links = [];
 
+        that.budgetId = that.idInNumber++;
+        that.budgetPortIndex = 0;
+        that.actionNodes = 0;
+        that.criteriaNodes = 0;
+        that.optimiseId = that.idInNumber++;
+        that.optimisePortIndex = 0;
+
         for(var i=0; i<that.nodeElementArray.length; i++) {
             var node = that.nodeElementArray[i];
             var obj = {};
             if(node.typeName !== "Stake Holder") {
                 node.getFinalData();
-                obj.name = "node";
-                // obj.nodeType = node.typeName;
+                obj.name = node.typeNameForSolver;
                 obj.parameters = node.parameters;
                 obj.interface = node.interfaces;
-                obj.identity = node.id();            
+                obj.identity = node.id();
                 //need to add more attributes
                 modelObj.nodes.push(obj);
             }            
@@ -127,6 +139,22 @@ function CLDGraph(){
             }
             modelObj.nodes.push(obj);
         }
+
+        var nodeBudget = {
+            "name": "budget",
+            "parameters": [{"name": "numberOfPorts", "value": that.actionNodes, "type": "Int"}, {"name": "maximumBudget", "value": that.budget, "type": "Int"}],
+            "interface": [{"name": "costs", "type": "[Int]"}],
+            "identity": that.budgetId
+        };
+         modelObj.nodes.push(nodeBudget);
+
+         var nodeOptimise = {
+            "name": "optimise",
+            "parameters": [{"name": "numberOfPorts", "value": that.criteriaNodes, "type": "Int"}],
+            "interface": [{"name": "benefits", "type": "[Int]"}],
+            "identity": that.optimiseId
+         };
+         modelObj.nodes.push(nodeOptimise);
 
         return JSON.stringify(modelObj, null, '');
     };

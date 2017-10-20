@@ -11,6 +11,7 @@ function CLDNode(graph) {
     var nodeObs = "baseRoundNode";
     this.selectedTypeId=1;
     this.typeName = undefined;
+    this.typeNameForSolver = undefined;
     var allPossibleClasses=['undefined','nodeOptionA','nodeOptionB','nodeOptionC', 'externalFactors','stakeHolders'];
     var observeClasses = ['undefined', 'strokeAmbigous', 'strokeDecreasing', 'strokeIncreasing', 'strokeStable'];
     this.allClasss=["Undefined", "Factor", "Action", "Criteria", "External Factor","stakeHolder"];
@@ -24,7 +25,7 @@ function CLDNode(graph) {
     this.interfaces = [];
     this.parameters = [];
 
-    this.actionPairs = {"plusAction":false, "plusActionCost":"", "minusAction":false, "minusActionCost":"", "zeroAction":false, "zeroActionCost": ""};
+    this.actionPairs = {"plusAction":false, "plusActionCost":undefined, "minusAction":false, "minusActionCost":undefined, "zeroAction":false, "zeroActionCost": undefined};
 
     this.incomingPortId = 0;
     this.outgoingPortId = 0;
@@ -136,6 +137,7 @@ function CLDNode(graph) {
     };
 
     this.setActionCost = function(id, val) {
+        val = Number(val);
         if(id === "plusActionCost")
             that.actionPairs[id] = val;
         else if(id === "minusActionCost")
@@ -181,8 +183,35 @@ function CLDNode(graph) {
 
         //updating nodes's parameters
         this.parameters = [];
-        var param1 = {"name": "obsSign", "value": that.trendName, "type": "Maybe Sign"};
-        that.parameters.push(param1);
+        
+        if(that.typeNameForSolver === "node") {
+            var param1 = {"name": "obsSign", "value": that.trendName, "type": "Maybe Sign"};
+            that.parameters.push(param1);    
+        }
+        else if(that.typeNameForSolver === "action") {
+            graph.actionNodes++;
+            var aVal = [];
+            var aCost = [];
+            if(that.actionPairs["plusAction"]) {
+                aVal.push(1);
+                aCost.push(that.actionPairs["plusActionCost"]);
+            }
+            if(that.actionPairs["minusAction"]) {
+                aVal.push(-1);
+                aCost.push(that.actionPairs["minusActionCost"]);
+            }
+            if(that.actionPairs["zeroAction"]) {
+                aVal.push(0);
+                aCost.push(that.actionPairs["zeroActionCost"]);
+            }
+            var paramA1 = {"name": "values", "value": aVal, "type": "[Sign]"};
+            that.parameters.push(paramA1);
+            var paramA2 = {"name": "costs", "value": aCost, "type": "[Int]"};
+            that.parameters.push(paramA2);
+        }
+        else if(that.typeNameForSolver === "criterion") {
+            graph.criteriaNodes++;
+        }
         var param2 = {"name": "numIn", "value": that.numIn, "type": "Int"};
         that.parameters.push(param2);
         var param3 = {"name": "numOut", "value": that.numOut, "type": "Int"};
@@ -200,7 +229,11 @@ function CLDNode(graph) {
             var param6 = {"name": "incoming", "type": "[(Sign,Sign)]"};
             that.interfaces.push(param6);
         }
-        
+        if(that.typeNameForSolver === "action") {
+            var portBudget = graph.budgetPortIndex++;
+            var aConn = {"connection": [graph.budgetId, "costs", portBudget], "name": "cost", "type": "Int"};
+            that.interfaces.push(aConn);
+        }
     };
 
     this.setTrend = function(tid) {
@@ -495,9 +528,16 @@ function CLDNode(graph) {
     this.setType=function(typeId, typeName){
         console.log("creating cld Node");
 
-
         that.selectedTypeId=typeId;
         that.typeName = typeName;
+
+        if(that.typeName === "Criteria")
+            that.typeNameForSolver = "criterion";
+        else if (that.typeName === "Action")
+            that.typeNameForSolver = "action";
+        else
+            that.typeNameForSolver = "node";
+        
         if (typeId===100){
             nodeClass = allPossibleClasses[5];
             that.selectedTypeId=5;

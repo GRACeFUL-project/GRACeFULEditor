@@ -349,7 +349,7 @@ function CLDControls(parentWidget) {
         
         var r13 = row.insertCell(2);
         var aCost = document.createElement('input');
-        aCost.type = "text";
+        aCost.type = "number";
         aCost.id = valId+"Cost";
         aCost.disabled = true;
         d3.select(aCost).on("change", function() {
@@ -406,7 +406,7 @@ function CLDControls(parentWidget) {
         var strUser = selectionContainer.options[selectionContainer.selectedIndex].value;
         console.log(selectionContainer.selectedIndex+" the user string is "+strUser);
         that.selectedNode.setType(selectionContainer.selectedIndex, strUser);
-        if(selectType === "Criteria") {
+        if(strUser === "Criteria") {
             d3.select(criteriaUnit.node().parentNode).classed("hidden", false);
         }
         else {
@@ -497,7 +497,7 @@ function CLDControls(parentWidget) {
     };
 
     this.enterBudget = function() {
-        var bud = "<input type=\"text\" id=\"budgetVal\">";        
+        var bud = "<input type=\"number\" id=\"budgetVal\">";        
         that.createModal("budgetModal", "Enter Budget", bud);
         d3.select("#budgetVal").on("change", function() {
             var c1 = document.getElementById("budgetVal");
