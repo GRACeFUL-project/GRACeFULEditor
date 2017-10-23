@@ -30,6 +30,10 @@ function CLDLink(graph) {
 
     this.normalizedWeight=0;
     this.evaluatonString="";
+    this.evaluateId = undefined;
+
+    this.atPort = undefined;
+    this.benefits = undefined;
 
 
     this.getNormalizedWeight=function(){return Number(this.normalizedWeight);};
@@ -104,6 +108,29 @@ function CLDLink(graph) {
         target.addLink(that);
         if(that.sourceNode.typeName !== "Stake Holder")
             target.setPortDetails("incoming", that.id());
+    };
+
+    this.setEvaluateId = function(val) {
+        that.evaluateId = val;
+    };
+
+    this.getEvaluateId = function() {
+        return that.evaluateId;
+    };
+
+    this.setResultAtPort = function(val) {
+        that.atPort = val;
+        if(val === -1)
+            that.pathElement.classed("setGreen", true);
+        else if(val === 1)
+            that.pathElement.classed("setRed", true);
+        else
+            that.pathElement.classed("setBlue", true);
+    };
+
+    this.setResultBenefits = function(val) {
+        that.benefits = val.toFixed(2);
+        textRenderingElement.text(that.benefits);
     };
 
 

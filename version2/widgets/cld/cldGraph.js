@@ -126,12 +126,14 @@ function CLDGraph(){
             if(node.typeName === "Criteria") {
                 var weights = [];
                 var values = [];
+                var sLinkIds = [];
                 for(var k=0; k<that.pathElementArray.length; k++) {
                     var sLink = that.pathElementArray[k];
                     if(sLink.superLinkType === 100 && sLink.targetNode.id() === node.id()) {
                         console.log("sLinkkkk!!! "+sLink.id());
                         values.push(sLink.getEvaluationValue());
                         weights.push(sLink.getNormalizedWeight());
+                        sLinkIds.push(sLink);
                     }
                 }
                 if(weights.length > 0) {
@@ -150,6 +152,9 @@ function CLDGraph(){
                         }
                     ];
                     evals.identity = that.idInNumber++;
+                    for(var m=0; m<sLinkIds.length; m++) {
+                        sLinkIds[m].setEvaluateId(evals.identity);
+                    }
 
                     modelObj.nodes.push(evals);
                 }
@@ -203,23 +208,23 @@ function CLDGraph(){
                     });
                 }
                 else if(outsign[0] === "cost") {
-                    that.nodeElementArray.filter(function(temp) {
-                        if(temp.id() == Number(outsign[1])) {
-                            temp.setResult(resultObject[key]);
-                        } 
-                    });
+                    // that.nodeElementArray.filter(function(temp) {
+                    //     if(temp.id() == Number(outsign[1])) {
+                    //         temp.setResult(resultObject[key]);
+                    //     } 
+                    // });
                 }
                 else if(outsign[0] === "atPort") {
-                    that.nodeElementArray.filter(function(temp) {
-                        if(temp.id() == Number(outsign[1])) {
-                            temp.setResult(resultObject[key]);
+                    that.pathElementArray.filter(function(temp) {
+                        if(temp.getEvaluateId() === Number(outsign[1])) {
+                            temp.setResultAtPort(resultObject[key]);
                         } 
                     });
                 }
                 else if(outsign[0] === "benefit") {
-                    that.nodeElementArray.filter(function(temp) {
-                        if(temp.id() == Number(outsign[1])) {
-                            temp.setResult(resultObject[key]);
+                    that.pathElementArray.filter(function(temp) {
+                        if(temp.getEvaluateId() === Number(outsign[1])) {
+                            temp.setResultBenefits(resultObject[key]);
                         } 
                     });
                 }

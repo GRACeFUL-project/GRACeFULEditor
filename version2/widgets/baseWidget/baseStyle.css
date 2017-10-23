@@ -212,3 +212,15 @@ p[contenteditable]:focus {
     fill: #338DFF;
     fill-opacity: 0.5;
 }
+
+.setRed {
+    stroke: #FF3333;
+}
+
+.setGreen {
+    stroke: #3CFF33;
+}
+
+.setBlue {
+    stroke: #338DFF;
+}
