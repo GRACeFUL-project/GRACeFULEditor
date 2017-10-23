@@ -171,7 +171,7 @@ function CLDGraph(){
 
         var nodeBudget = {
             "name": "budget",
-            "parameters": [{"name": "numberOfPorts", "value": that.actionNodes, "type": "Int"}, {"name": "maximumBudget", "value": that.budget, "type": "Int"}],
+            "parameters": [{"name": "numberOfPorts", "value": that.actionNodes, "type": "Int"}, {"name": "maximumBudget", "value": Number(that.budget), "type": "Int"}],
             "interface": [{"name": "costs", "type": "[Int]"}],
             "identity": that.budgetId
         };

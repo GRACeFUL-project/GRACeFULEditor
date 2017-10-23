@@ -178,6 +178,7 @@ function GTControls(parentWidget) {
         var hidden_solutionInput=document.createElement('input');
         hidden_solutionInput.id="HIDDEN_SOLUTION_JSON_INPUT";
         hidden_solutionInput.type="file";
+        hidden_solutionInput.accept = ".json";
         //hidden_solutionInput.style.display="none";
         hidden_solutionInput.autocomplete="off";
         hidden_solutionInput.placeholder="load a json File";
@@ -305,6 +306,7 @@ function GTControls(parentWidget) {
         var hidden_solutionInput=document.createElement('input');
         hidden_solutionInput.id="IMPORT_STAKEHOLDERS";
         hidden_solutionInput.type="file";
+        hidden_solutionInput.accept = ".csv";
         hidden_solutionInput.autocomplete="off";
         hidden_solutionInput.placeholder="load a csv File";
         hidden_solutionInput.setAttribute("class", "inputPath");

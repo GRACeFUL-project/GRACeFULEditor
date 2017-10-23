@@ -32,7 +32,7 @@ function CLDLink(graph) {
     this.evaluatonString="";
 
 
-    this.getNormalizedWeight=function(){return this.normalizedWeight;};
+    this.getNormalizedWeight=function(){return Number(this.normalizedWeight);};
     this.getEvaluationValue=function(){return this.evaluatonString;};
 
     this.setNormalizedWeight=function(val){this.normalizedWeight=val;};
