@@ -10,8 +10,8 @@ function BaseNode(graph) {
 
     this.GRAPH_OBJECT_NODE="GraphObjectNode";
     this.OVERLAY_OBJECT_NODE="OverlayNode";
-    this.DISPLAY_LABEL_LENGTH=14;
-    this.DISPLAY_LABEL_LIMIT=10;
+    this.DISPLAY_LABEL_LENGTH=30;
+    this.DISPLAY_LABEL_LIMIT=30;
 
     this.nodeClass="baseRoundNode";
 
