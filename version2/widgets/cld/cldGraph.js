@@ -202,6 +202,27 @@ function CLDGraph(){
                         } 
                     });
                 }
+                else if(outsign[0] === "cost") {
+                    that.nodeElementArray.filter(function(temp) {
+                        if(temp.id() == Number(outsign[1])) {
+                            temp.setResult(resultObject[key]);
+                        } 
+                    });
+                }
+                else if(outsign[0] === "atPort") {
+                    that.nodeElementArray.filter(function(temp) {
+                        if(temp.id() == Number(outsign[1])) {
+                            temp.setResult(resultObject[key]);
+                        } 
+                    });
+                }
+                else if(outsign[0] === "benefit") {
+                    that.nodeElementArray.filter(function(temp) {
+                        if(temp.id() == Number(outsign[1])) {
+                            temp.setResult(resultObject[key]);
+                        } 
+                    });
+                }
             }
         }
     };
