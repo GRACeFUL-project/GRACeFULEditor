@@ -252,7 +252,7 @@
                     obj.name = node.getNodeName();
                     obj.unit = node.getCriteriaUnit();
                     obj.weight=0;
-                    obj.value="NA";
+                    obj.value=0;
                     retObj.criteria.push(obj);
                 }
             }

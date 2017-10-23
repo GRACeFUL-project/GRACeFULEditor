@@ -81,9 +81,8 @@ function qGraph(parentWidget) {
             that.createLETableEntry(cell_weight,that.onLET_change,criteriaNodes[i].weight,criteriaNodes[i], "weight");
 
             var cell_value = st_row.insertCell(3);
-            that.createLETableEntry(cell_value,that.onLET_changeString,criteriaNodes[i].value,criteriaNodes[i], "value");
-
-
+            // that.createLETableEntry(cell_value,that.onLET_changeString,criteriaNodes[i].value,criteriaNodes[i], "value");
+            that.createLETableValue(cell_value,that.onLET_changeString,criteriaNodes[i].value,criteriaNodes[i], "value");
         }
 
     };
@@ -188,6 +187,21 @@ function qGraph(parentWidget) {
 
     };
 
+    this.createLETableValue = function(cell,onChange,value,paramObj, type) {
+        var le=document.createElement('select');
+        cell.appendChild(le);
+        var leNode=d3.select(le);
+        leNode.classed("selectpicker form-control",true);
+        // le.value=value;cell_value,that.onLET_changeString,criteriaNodes[i].value,criteriaNodes[i], "value"
+        var optsArray = ["0", "+", "-"];
+        for (var i=0;i<optsArray.length;i++){
+            var optA=document.createElement('option');
+            optA.innerHTML=optsArray[i];
+            le.appendChild(optA);
+        }
+        leNode.on("change",function(){onChange(paramObj,cell);});
+    };
+
 
     this.onLET_change=function(paramObj,cell){
         console.log("something changed"+paramObj);
@@ -213,9 +227,15 @@ function qGraph(parentWidget) {
         console.log(paramObj);
         console.log(cell);
         var newValue=cell.children[0].value;
+        if(newValue === "0") 
+            paramObj.value = 0;
+        else if(newValue === "+")
+            paramObj.value = 1;
+        else if(newValue === "-")
+            paramObj.value = -1;
         console.log("new Value To Set "+ newValue);
-        console.log("new Value To Set Type "+ typeof newValue);
-        paramObj.value=newValue;
+        console.log("new Value To Set Type Solver "+ paramObj.value);
+        // paramObj.value=newValue;
     };
 
 

@@ -194,15 +194,15 @@ function CLDNode(graph) {
             var aCost = [];
             if(that.actionPairs["plusAction"]) {
                 aVal.push(1);
-                aCost.push(that.actionPairs["plusActionCost"]);
+                aCost.push(Number(that.actionPairs["plusActionCost"]));
             }
             if(that.actionPairs["minusAction"]) {
                 aVal.push(-1);
-                aCost.push(that.actionPairs["minusActionCost"]);
+                aCost.push(Number(that.actionPairs["minusActionCost"]));
             }
             if(that.actionPairs["zeroAction"]) {
                 aVal.push(0);
-                aCost.push(that.actionPairs["zeroActionCost"]);
+                aCost.push(Number(that.actionPairs["zeroActionCost"]));
             }
             var paramA1 = {"name": "values", "value": aVal, "type": "[Sign]"};
             that.parameters.push(paramA1);

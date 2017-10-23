@@ -181,25 +181,25 @@ function QWControls(parentWidget) {
             }
         });
 
-        loaderSolutionPathNode.on("input",function(){
-            // console.log("hidden thing is clicked");
-            var files= loaderSolutionPathNode.property("files");
-            if (files.length>0){
-                // console.log("file?"+files[0].name);
-                fileElement=files[0];
-                fileName=fileElement.name;
-                loaderSolutionPathNode.remove();
+        // loaderSolutionPathNode.on("input",function(){
+        //     // console.log("hidden thing is clicked");
+        //     var files= loaderSolutionPathNode.property("files");
+        //     if (files.length>0){
+        //         // console.log("file?"+files[0].name);
+        //         fileElement=files[0];
+        //         fileName=fileElement.name;
+        //         loaderSolutionPathNode.remove();
 
-                // read this file;
-                var reader = new FileReader();
-                reader.readAsText(fileElement);
-                reader.onload = function () {
-                    readText = reader.result;
-                    // the the communication module about this
-                    that.parent.loadStakeholderModel(readText);
-                };
-            }
-        });
+        //         // read this file;
+        //         var reader = new FileReader();
+        //         reader.readAsText(fileElement);
+        //         reader.onload = function () {
+        //             readText = reader.result;
+        //             // the the communication module about this
+        //             that.parent.loadStakeholderModel(readText);
+        //         };
+        //     }
+        // });
     };
 
 

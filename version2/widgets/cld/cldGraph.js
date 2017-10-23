@@ -119,25 +119,54 @@ function CLDGraph(){
                 obj.identity = node.id();
                 //need to add more attributes
                 modelObj.nodes.push(obj);
-            }            
+            }
+            console.log("How many links: "+that.pathElementArray.length);
+            //evaluate
+            var evals = {};
+            if(node.typeName === "Criteria") {
+                var weights = [];
+                var values = [];
+                for(var k=0; k<that.pathElementArray.length; k++) {
+                    var sLink = that.pathElementArray[k];
+                    if(sLink.superLinkType === 100 && sLink.targetNode.id() === node.id()) {
+                        console.log("sLinkkkk!!! "+sLink.id());
+                        values.push(sLink.getEvaluationValue());
+                        weights.push(sLink.getNormalizedWeight());
+                    }
+                }
+                if(weights.length > 0) {
+                    evals.name = "evaluate";
+                    evals.parameters = [{"name": "values", "value": values, "type": "[Sign]"}, {"name": "weights", "value": weights, "type": "[Float]"}];
+                    evals.interface = [
+                        {
+                            "connection": [node.id(), "value", null],
+                            "name": "atPort",
+                            "type": "Sign"
+                        }, 
+                        {
+                            "connection": [that.optimiseId, "benefits", that.optimisePortIndex++],
+                            "name": "benefit",
+                            "type": "Float"
+                        }
+                    ];
+                    evals.identity = that.idInNumber++;
+
+                    modelObj.nodes.push(evals);
+                }
+            }
         }
 
         for( i=0; i<that.pathElementArray.length; i++) {
-            var obj={};
             var link = that.pathElementArray[i];
-            if(link.superLinkType === 100) {
-                obj.name = "evaluates";
-                obj.parameters = {"weight": link.getNormalizedWeight(), "value": link.getEvaluationValue()};
-            }
-            else {
+            if(link.superLinkType !== 100) {
+                var obj={};                
                 link.getFinalData();
                 obj.name = link.name;
                 obj.parameters = link.parameters;
                 obj.interface = link.interfaces;
                 obj.identity = link.id();
-                //need to add more attributes
-            }
-            modelObj.nodes.push(obj);
+                modelObj.nodes.push(obj);
+            }            
         }
 
         var nodeBudget = {
@@ -151,7 +180,7 @@ function CLDGraph(){
          var nodeOptimise = {
             "name": "optimise",
             "parameters": [{"name": "numberOfPorts", "value": that.criteriaNodes, "type": "Int"}],
-            "interface": [{"name": "benefits", "type": "[Int]"}],
+            "interface": [{"name": "benefits", "type": "[Float]"}],
             "identity": that.optimiseId
          };
          modelObj.nodes.push(nodeOptimise);

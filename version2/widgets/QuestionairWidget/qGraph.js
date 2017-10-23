@@ -186,12 +186,13 @@ function qGraph(parentWidget) {
             // normlize;
             for ( w=0;w<critElements.length;w++){
                 normalizedWeights[w]/=sumOfWeights;
-                normalizedWeights[w] = +normalizedWeights[w].toFixed(3);
+                normalizedWeights[w] = normalizedWeights[w].toFixed(3);
             }
 
             for (i=0;i<critElements.length;i++){
                 var targetNodeId=critElements[i].id;
                 var tarNode=gHandlerObj.getNodeById(targetNodeId);
+                console.log("Getting tarNode: "+tarNode.id());
                 if (tarNode){
                     console.log("found target Node");
                     gHandlerObj.createStakeholderLink(st_node,tarNode,normalizedWeights[i],values_str[i]);
