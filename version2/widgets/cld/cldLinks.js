@@ -99,14 +99,15 @@ function CLDLink(graph) {
         this.sourceNode = src;
       //  console.log("Source Add");
         src.addLink(that);
-        src.setPortDetails("outgoing", that.id());
+        if (src.setPortDetails)
+            src.setPortDetails("outgoing", that.id());
 
     };
     this.target = function (target) {
       //  console.log("Target Add");
         this.targetNode = target;
         target.addLink(that);
-        if(that.sourceNode.typeName !== "Stake Holder")
+        if(that.sourceNode.typeName !== "Stake Holder" &&  target.setPortDetails)
             target.setPortDetails("incoming", that.id());
     };
 
@@ -133,7 +134,11 @@ function CLDLink(graph) {
         textRenderingElement.text(that.benefits);
     };
 
-
+    this.getCLDLinkTypeFromOutside=function(){
+        var temp= [undefined, '+', '-', '?', '0']; // hard coded stuff , yeah! -.-
+        var val=temp.indexOf(that.cldTypeString);
+        return {type:that.classId,value:val};
+    };
     this.setCLDLinkTypeFromOutside=function(type,value){
         var temp= [undefined, '+', '-', '?', '0']; // hard coded stuff , yeah! -.-
 
@@ -157,6 +162,8 @@ function CLDLink(graph) {
     this.setCLDTypeString=function(typeId, typeName){
         that.cldTypeId = typeId;
         that.cldTypeString = typeName;
+        console.log("set elements"+that.cldTypeId+" "+that.cldTypeString);
+        console.log(that.getCLDLinkTypeFromOutside());
         // update textRendering element
         if (textRenderingElement)
             textRenderingElement.text(that.cldTypeString);
@@ -387,10 +394,11 @@ function CLDLink(graph) {
         if (that.pathElement) {
                 startPoint={ x:that.sourceNode.x, y:that.sourceNode.y };
                 endPoint  ={ x:that.targetNode.x, y:that.targetNode.y };
-                if(cpDragged && dY===0 && dX===0) {
-                    // cpPoint.x+=dX;
-                    // cpPoint.y+=dY;
 
+            if(cpDragged && dY===undefined && dX===undefined) {
+                controlPoints = calculateMultiLinkPath(startPoint, endPoint, cpPoint);
+            }
+                if(cpDragged && dY===0 && dX===0) {
                     controlPoints = calculateMultiLinkPath(startPoint, endPoint, cpPoint);
                 }
             else if(cpDragged && dY!==undefined && dX!==undefined) {
@@ -407,7 +415,6 @@ function CLDLink(graph) {
                     }
                 }
                 that.pathElement.attr("d", lineFunction(controlPoints));
-
                 textRenderingElement.attr("x", cpPoint.x).attr("y", cpPoint.y - 20);
                 cpEllipse.attr("cx", cpPoint.x)
                         .attr("cy", cpPoint.y);

@@ -174,6 +174,12 @@ function GlobalLink() {
 
     this.filterInformation=function(widget){
         var indexOfWidget=that.findWidgetId(widget);
+        // update the information if the linkTypes;
+        if (linkRepresenter[1]!==undefined && linkRepresenter[2]!==undefined){
+            var nObj=linkRepresenter[1].getCLDLinkTypeFromOutside();
+            linkRepresenter[2].setCLDLinkTypeFromOutside(nObj.type,nObj.value);
+        }
+
         if (indexOfWidget<0){return; } // we return nothing
         var linkElement=linkRepresenter[indexOfWidget];
         if (linkElement!=undefined) {
@@ -206,18 +212,22 @@ function GlobalLink() {
 
 
         this.setLinkGenerator=function(widget, createdLinkInWidget){
+            console.log("adding thigns");
         var indexOfWidget=that.findWidgetId(widget);
         if (indexOfWidget<0){return; } // we return nothing
         linkRepresenter[indexOfWidget]=createdLinkInWidget;
         // add the corresponding elements to the represented links;
         if (that.getSource() && that.getTarget()) {
-          //  console.log("having the source and target from an other widget");
+            console.log("having the source and target from an other widget");
             var sourceNode = that.getSource().filterInformation(widget);
             var targetNode = that.getTarget().filterInformation(widget);
+            console.log("Filter not working ");
             createdLinkInWidget.source(sourceNode);
             createdLinkInWidget.target(targetNode);
+            console.log("Filter  working ");
             sourceNode.addLink(createdLinkInWidget);
             targetNode.addLink(createdLinkInWidget);
+            console.log("Done");
         }
 
 

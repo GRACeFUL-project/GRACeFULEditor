@@ -127,6 +127,168 @@
 
             }
 
+            if (localAction.task===SERVER_REQUEST && localAction.requestType==="GET_LIBRARY_STATIC") {
+                // igore the docker for now;
+                var retLib='{';
+                retLib+='"library" :[';
+
+                // testing other elements;
+                retLib+='{';
+                retLib+='"name": "Factor",';
+                retLib+='"parameters": [],';
+                retLib+='"interface" :[],';
+                retLib+='"imgURL"      : "./images/factorNode.png",';
+                retLib+='"description" : "Factor Node",';
+                retLib+='"type"        : "CAUSAL"';
+                retLib+='},';
+
+                retLib+='{';
+                retLib+='"name": "Action",';
+                retLib+='"parameters": [],';
+                retLib+='"interface" :[],';
+                retLib+='"imgURL"      : "./images/adaptation_action.png",';
+                retLib+='"description" : "Action Node",';
+                retLib+='"type"        : "CAUSAL"';
+                retLib+='},';
+
+                retLib+='{';
+                retLib+='"name": "Criterion",';
+                retLib+='"parameters": [],';
+                retLib+='"interface" :[],';
+                retLib+='"imgURL"      : "./images/criterion.png",';
+                retLib+='"description" : "Criterion Node",';
+                retLib+='"type"        : "CAUSAL"';
+                retLib+='},';
+
+                retLib+='{';
+                retLib+='"name": "Stakeholder",';
+                retLib+='"parameters": [],';
+                retLib+='"interface" :[],';
+                retLib+='"imgURL"      : "./images/stakeholder.png",';
+                retLib+='"description" : "Stakeholder Node",';
+                retLib+='"type"        : "CAUSAL"';
+                retLib+='},';
+
+                retLib+='{';
+                retLib+='"name": "rain",';
+                retLib+='"parameters": [';
+                retLib+='                { "name": "amount", "type" : "Float"}';
+                retLib+='],';
+                retLib+='"interface" :[';
+                retLib+='                {';
+                retLib+='                    "name" : "rainfall",';
+                retLib+='                    "type" : "Port (Float)",';
+                retLib+='                    "description": "Amount Of Rain",';
+                retLib+='                    "imgURL": "./data/interfaces/rainfall.png",';
+                retLib+='                    "rotation" : false,';
+                retLib+='                    "outgoingType" :"MULTIPLE",';
+                retLib+='                    "incomingType" :"NONE"';
+                retLib+='                }';
+                retLib+='],';
+                retLib+='"imgURL"      : "./data/svg/rain.svg",';
+                retLib+='"description" : "This is Rain",';
+                retLib+='"type"        : "NODAL"';
+                retLib+='},';
+                retLib+='';
+                retLib+='{';
+                retLib+='"name": "pump",';
+                retLib+='"parameters":[';
+                retLib+='                {"name":"capacity","type":"Float"}';
+                retLib+='],';
+                retLib+='"interface":[';
+                retLib+='                {';
+                retLib+='                    "name": "inflow",';
+                retLib+='                    "type": "Port (Float)",';
+                retLib+='                    "description": "Incoming Flow",';
+                retLib+='                    "imgURL": "./data/interfaces/inflow.png",';
+                retLib+='                    "rotation": true,';
+                retLib+='                    "outgoingType": "NONE",';
+                retLib+='                    "incomingType": "SINGLE"';
+                retLib+='                },';
+                retLib+='                {';
+                retLib+='                    "name": "outflow",';
+                retLib+='                    "type": "Port (Float)",';
+                retLib+='                    "description": "Outgoing Flow",'
+                retLib+='                    "imgURL": "./data/interfaces/outflow.png",';
+                retLib+='                    "rotation": true,';
+                retLib+='                    "outgoingType": "SINGLE",';
+                retLib+='                    "incomingType": "NONE"';
+                retLib+='                }';
+                retLib+='],';
+                retLib+='"imgURL"      : "./data/svg/pump.svg",';
+                retLib+='"description" : "This is a pump",';
+                retLib+='"type"        : "RELATIONAL"';
+                retLib+='},';
+                retLib+='';
+                retLib+='{ "name": "runoff area",';
+                retLib+='';
+                retLib+='"parameters":[';
+                retLib+='                {"name":"storage capacity","type":"Float"}';
+                retLib+='],';
+                retLib+='"interface":[';
+                retLib+='                {';
+                retLib+='                    "name": "inflow",';
+                retLib+='                    "type": "Port (Float)",';
+                retLib+='                    "description": "Incoming Flow",';
+                retLib+='                    "imgURL": "./data/interfaces/inflow.png",';
+                retLib+='                    "rotation": true,';
+                retLib+='                    "outgoingType": "NONE",';
+                retLib+='                    "incomingType": "SINGLE"';
+                retLib+='                },';
+                retLib+='                {';
+                retLib+='                    "name": "outlet",';
+                retLib+='                    "type": "Port (Float)",';
+                retLib+='                    "description": "Outlet Description",';
+                retLib+='                    "imgURL": "./data/interfaces/outlet.png",';
+                retLib+='                    "rotation": false,';
+                retLib+='                    "outgoingType": "SINGLE",';
+                retLib+='                    "incomingType": "NONE"';
+                retLib+='                },';
+                retLib+='                {';
+                retLib+='                    "name": "overflow",';
+                retLib+='                    "type": "Port (Float)",';
+                retLib+='                    "description": "Overflow Description",';
+                retLib+='                    "imgURL": "./data/interfaces/overflow.png",';
+                retLib+='                    "rotation": false,';
+                retLib+='                    "outgoingType": "SINGLE",';
+                retLib+='                    "incomingType": "NONE"';
+                retLib+='                }';
+                retLib+='],';
+                retLib+='"imgURL"      : "./data/img/runOffArea.png",';
+                retLib+='"description" : "This is RUN off Area",';
+                retLib+='"type"        : "NODAL"';
+                retLib+='},';
+                retLib+='{ "name": "sink",';
+                retLib+='';
+                retLib+='"parameters":[';
+                retLib+='                {"name":"sink capacity","type":"Float"}';
+                retLib+='],';
+                retLib+='"interface":[';
+                retLib+='                {';
+                retLib+='                    "name": "inflow",';
+                retLib+='                    "type": "Port (Float)",';
+                retLib+='                    "description": "Incoming Flow",';
+                retLib+='                    "imgURL": "./data/interfaces/inflow.png",';
+                retLib+='                    "rotation": true,';
+                retLib+='                    "outgoingType": "NONE",';
+                retLib+='                    "incomingType": "ARBITRARY"';
+                retLib+='                }';
+                retLib+='';
+                retLib+='],';
+                retLib+='"imgURL"      : "./data/img/sink.png",';
+                retLib+='"description" : "This is a Sink",';
+                retLib+='"type"        : "NODAL"';
+                retLib+='}';
+                retLib+='';
+                retLib+='';
+                retLib+='],';
+                retLib+='"name" : "CRUD RAT Example"';
+                retLib+='}';
+
+                console.log("loading static library -----> "+retLib);
+                widget.loadLibrary(retLib);
+            }
+
 
             if (localAction.task===SERVER_REQUEST && localAction.requestType==="GET_LIBRARY"){
                 console.log("requesting an action that talks with docker ");

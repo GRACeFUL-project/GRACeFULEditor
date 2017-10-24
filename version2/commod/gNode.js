@@ -114,7 +114,8 @@ function GlobalNode() {
         var nodeElement=nodeConstructors[indexOfWidget];
         if (nodeElement!=undefined) {
             nodeElement.setLabelText(nodeName);
-            nodeElement.setCriteriaUnit(criteriaUnit);
+            if (nodeElement.setCriteriaUnit)
+                nodeElement.setCriteriaUnit(criteriaUnit);
             if (globalHoverText.length>0)
                 nodeElement.setHoverText(globalHoverText);
 
@@ -207,7 +208,12 @@ function GlobalNode() {
         if (indexOfWidget>=0){
             nodeTypeInWidget[indexOfWidget]=nodeType;
             nodeConstructors[indexOfWidget]=createdNodeInWidget;
-            createdNodeInWidget.setType(nodeType,createdNodeInWidget.allClasss[nodeType]);
+            if (createdNodeInWidget.allClasss)
+                createdNodeInWidget.setType(nodeType,createdNodeInWidget.allClasss[nodeType]);
+            else{ // this is sfd node
+                createdNodeInWidget.setType(nodeType);
+
+            }
         }
 
     };

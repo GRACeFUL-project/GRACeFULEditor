@@ -171,6 +171,10 @@ function SimpleSFDNode(graph,nodeDescriptions) {
             var py=that.getRadius()*nV.y;
             portElements[i].setPosition(px,py);
         }
+        for (var i=0;i<that.assosiatedLinks.length;i++){
+            // if (assosiatedLinks[i])
+            that.assosiatedLinks[i].updateElement(0,0);
+        }
     };
 
     this.addPortFromDescription=function(portDesc, i){

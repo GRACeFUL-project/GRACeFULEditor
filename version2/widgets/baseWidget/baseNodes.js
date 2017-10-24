@@ -120,7 +120,7 @@ function BaseNode(graph) {
         this.label= val;
 
         if (this.getGlobalNodePtr()!=undefined){
-            console.log(this.getGlobalNodePtr());
+            // console.log(this.getGlobalNodePtr());
             this.getGlobalNodePtr().setGlobalName(val);
         }
 

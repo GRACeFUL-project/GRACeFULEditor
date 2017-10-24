@@ -94,7 +94,7 @@ function SimpleSFDLink(graph) {
         var tarPort;
         var controlPoints;
 
-        if  (isMultiLink===false && pathElements.length===1){
+        if  (isMultiLink===false && pathElements.length===1 && subLinks[0]){
             var pathEl=pathElements[0];
             controlPoints=calculateSingleLinkPath(startPoint, endPoint);
             pathEl.attr("d", lineFunction(controlPoints));
@@ -118,6 +118,7 @@ function SimpleSFDLink(graph) {
             var oddNumber=numberOfLinks%2;
 
             for (var i = 0; i < pathElements.length; i++) {
+                if (subLinks[i]===undefined) continue;
                 srcPort=subLinks[i].src;
                 tarPort=subLinks[i].tar;
 

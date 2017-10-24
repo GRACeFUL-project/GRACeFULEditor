@@ -529,7 +529,6 @@ function CLDNode(graph) {
 
 
     this.setType=function(typeId, typeName){
-        console.log("creating cld Node");
 
         that.selectedTypeId=typeId;
         that.typeName = typeName;
@@ -550,8 +549,8 @@ function CLDNode(graph) {
         }
         //nodeClass=allPossibleClasses[typeId];
         
-         console.log("Node class is"+nodeClass);
-         console.log("Node Type Id"+that.selectedTypeId);
+         // console.log("Node class is"+nodeClass);
+         // console.log("Node Type Id"+that.selectedTypeId);
         // apply the classes ;
         if (that.nodeElement){
             for (var i=0;i<allPossibleClasses.length;i++){

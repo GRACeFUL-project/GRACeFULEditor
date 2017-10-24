@@ -105,6 +105,14 @@ function GTGraph(){
             var friendlyNode=friendlyWidget.createNode(friendlyWidget);
             globalNode.setNodeType(friendlyWidget,3,friendlyNode);
             friendlyNode.setGlobalNodePtr(globalNode);
+
+            // all node types are added to the sdf
+            var sfdWdiget=that.parentWidget.sfdGraphObj;
+            globalNode.setVisibleInWidget(sfdWdiget,true);
+            friendlyNode=sfdWdiget.createFriendlyNode();
+            globalNode.setNodeType(sfdWdiget,that.nodeTypeGraph-1,friendlyNode);
+            friendlyNode.setGlobalNodePtr(globalNode);
+
         }
         that.clearRendering();
         that.redrawGraphContent();
@@ -263,6 +271,14 @@ function GTGraph(){
             globalNode.setNodeType(friendlyWidget,100,friendlyNode);
             friendlyNode.setGlobalNodePtr(globalNode);
             friendlyNode.setHoverText(str);
+
+            var sfdWdiget=that.parentWidget.sfdGraphObj;
+            globalNode.setVisibleInWidget(sfdWdiget,true);
+            friendlyNode=sfdWdiget.createFriendlyNode();
+            globalNode.setNodeType(sfdWdiget,3,friendlyNode);
+            friendlyNode.setGlobalNodePtr(globalNode);
+
+
 
             that.needsRedraw(true);
         }        

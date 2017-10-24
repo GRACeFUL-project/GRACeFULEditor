@@ -50,25 +50,102 @@ function SimpleSFDGraph(){
 
     // overwrite the doublClick action
     this.dblClick=function() {
-        // console.log("A Double Click "+d3.event);
-        // console.log("BaseGraph does not implement this");
-        // console.log("Debugging ");
-      //  console.log("overwritten dblClick");
-        that.deselectLastLink();
-        that.deselectLastNode();
-        var coordinatesRelativeToCanvasArea=[0,0];
-        coordinatesRelativeToCanvasArea=d3.mouse(this);
-        var aNode = that.createNode(that, inputClasses);
-        var grPos = getScreenCoords(coordinatesRelativeToCanvasArea[0], coordinatesRelativeToCanvasArea[1], that.translation, that.zoomFactor);
-        aNode.x = grPos.x;
-        aNode.y = grPos.y;
+           that.deselectLastLink();
+           that.deselectLastNode();
+           if (that.selectedOverlayId===3){
+               console.log("NOPE ");
+               return;
+           }
+        var handler=that.parentWidget.getHandler();
+        var globalNode=handler.createGlobalNode(that);
+        globalNode.setNodeType(that,that.selectedOverlayId,that.createNode(that,inputClasses));
+        handler.addGlobalNode(globalNode);
+        var repR=globalNode.filterInformation(that);
+        repR.setGlobalNodePtr(globalNode);
 
-        
-        that.nodeElementArray.push(aNode);
+        var coordinatesRelativeToCanvasArea;
+        coordinatesRelativeToCanvasArea=d3.mouse(this);
+        var grPos=getScreenCoords(coordinatesRelativeToCanvasArea[0],coordinatesRelativeToCanvasArea[1],that.translation,that.zoomFactor);
+        globalNode.setNodePos(that,grPos);
+        globalNode.setGlobalName(inputClasses[that.selectedOverlayId].name);
         that.clearRendering();
         that.redrawGraphContent();
 
-        aNode.editInitialText();
+        // add friendly nodes;
+
+        if (that.selectedOverlayId===2){
+            var friendlyWidget=that.parentWidget.gtwGraphObj;
+            globalNode.setVisibleInWidget(friendlyWidget,true);
+            var friendlyNode=friendlyWidget.createNode(that.parentWidget.gtwGraphObj);
+            globalNode.setNodeType(friendlyWidget,3,friendlyNode);
+            friendlyNode.setGlobalNodePtr(globalNode);
+        }
+
+        if (that.selectedOverlayId===0){
+            var friendlyWidget=that.parentWidget.cldGraphObj;
+            globalNode.setVisibleInWidget(friendlyWidget,true);
+            var friendlyNode=friendlyWidget.createNode(that.parentWidget.cldGraphObj);
+            globalNode.setNodeType(friendlyWidget,1,friendlyNode);
+            friendlyNode.setGlobalNodePtr(globalNode);
+        }
+
+        if (that.selectedOverlayId===1){
+            var friendlyWidget=that.parentWidget.cldGraphObj;
+            globalNode.setVisibleInWidget(friendlyWidget,true);
+            var friendlyNode=friendlyWidget.createNode(that.parentWidget.cldGraphObj);
+            globalNode.setNodeType(friendlyWidget,2,friendlyNode);
+            friendlyNode.setGlobalNodePtr(globalNode);
+        }
+
+        if (that.selectedOverlayId===2){
+            var friendlyWidget=that.parentWidget.cldGraphObj;
+            globalNode.setVisibleInWidget(friendlyWidget,true);
+            var friendlyNode=friendlyWidget.createNode(that.parentWidget.cldGraphObj);
+            globalNode.setNodeType(friendlyWidget,3,friendlyNode);
+            friendlyNode.setGlobalNodePtr(globalNode);
+        }
+
+
+
+        // if the selected thing is createria
+        // if (that.nodeTypeGraph===3){
+        //     var friendlyWidget=that.parentWidget.gtGraphObj;
+        //     globalNode.setVisibleInWidget(friendlyWidget,true);
+        //     var friendlyNode=friendlyWidget.createNode(that.parentWidget.gtGraphObj);
+        //     globalNode.setNodeType(friendlyWidget,3,friendlyNode);
+        //     friendlyNode.setGlobalNodePtr(globalNode);
+        // }
+        //
+        //
+        // // generate in sfd;
+        // // all node types are added to the sdf
+        // var friendlyWidget=that.parentWidget.gtGraphObj;
+        // var sfdWdiget=that.parentWidget.sfdGraphObj;
+        // globalNode.setVisibleInWidget(sfdWdiget,true);
+        // friendlyNode=sfdWdiget.createFriendlyNode();
+        // globalNode.setNodeType(sfdWdiget,that.nodeTypeGraph-1,friendlyNode);
+        // friendlyNode.setGlobalNodePtr(globalNode);
+
+
+        // console.log("A Double Click "+d3.event);
+      //   // console.log("BaseGraph does not implement this");
+      //   // console.log("Debugging ");
+      // //  console.log("overwritten dblClick");
+      //   that.deselectLastLink();
+      //   that.deselectLastNode();
+      //   var coordinatesRelativeToCanvasArea=[0,0];
+      //   coordinatesRelativeToCanvasArea=d3.mouse(this);
+      //   var aNode = that.createNode(that, inputClasses);
+      //   var grPos = getScreenCoords(coordinatesRelativeToCanvasArea[0], coordinatesRelativeToCanvasArea[1], that.translation, that.zoomFactor);
+      //   aNode.x = grPos.x;
+      //   aNode.y = grPos.y;
+      //
+      //
+      //   that.nodeElementArray.push(aNode);
+      //   that.clearRendering();
+      //   that.redrawGraphContent();
+      //
+      //   aNode.editInitialText();
     };
 
     that.setDoubleClickEvent(this.dblClick);
@@ -561,7 +638,21 @@ function SimpleSFDGraph(){
         this.generateHUD();
     };
 
+    this.createFriendlyNode=function(){
+        var aNode=that.createNode(that,inputClasses);
+        return aNode;
+
+    };
+
+
+
     this.redrawGraphContent=function(){
+
+
+        var gHandler=that.parentWidget.getHandler();
+        that.nodeElementArray=gHandler.collectNodesForWidget(that);
+        that.pathElementArray=gHandler.collectLinkForWidget(that);
+
         var nodeElements = that.nodeLayer.selectAll(".node")
             .data(that.nodeElementArray).enter()
             .append("g")
@@ -792,15 +883,32 @@ function SimpleSFDGraph(){
                 // use old one to one mapping with used ports
                 if (targetPort.isUsed()===false && sourcePort.isUsed()===false){
                     // create connection
-                    aLink = that.createLink(that);
+
+                    // crreate a global links
+                    var handler=that.parentWidget.getHandler();
+                    var globalLink=handler.createGlobalLink(that);
+                    globalLink.setLinkGenerator(that,that.createLink(that));
+                    handler.addGlobalLink(globalLink);
+                    var repR=globalLink.filterInformation(that);
+                    repR.setGlobalLinkPtr(globalLink);
+                    console.log("globalLink");
+                    console.log(globalLink);
                     sourceNode=d.parentNode().getParentNode();
                     targetNode=targetPort.getParentNode();
-                    seenLink=aLink.validateConnection(sourceNode,targetNode);
+
+
+
+                    //aLink = that.createLink(that);
+
+                    seenLink=repR.validateConnection(sourceNode,targetNode);
                     if (seenLink===false) {
-                        aLink.source(sourceNode);
-                        aLink.target(targetNode);
-                        aLink.addPortConnection(sourcePort,targetPort);
-                        that.pathElementArray.push(aLink);
+                        repR.addPortConnection(sourcePort,targetPort);
+                        repR.source(sourceNode);
+                        repR.target(targetNode);
+
+                        globalLink.setSource(sourceNode.getGlobalNodePtr());
+                        globalLink.setTarget(targetNode.getGlobalNodePtr());
+
                     }else{
                         seenLink.setMultiLinkType(true);
                         seenLink.addPortConnection(sourcePort,targetPort);
@@ -858,12 +966,26 @@ function SimpleSFDGraph(){
 
 
                     // create a interlink node and set its position in the middle;
-                    var interLinkNode=that.createNode(that,inputClasses);
-                    interLinkNode.setPosition(x,y);
-                    that.nodeElementArray.push(interLinkNode);
+                    var handler=that.parentWidget.getHandler();
+                    var globalNode=handler.createGlobalNode(that);
+                    console.log("GlobalNode?"+globalNode);
+                    globalNode.setNodeType(that,that.selectedOverlayId,that.createNode(that,inputClasses));
+                    handler.addGlobalNode(globalNode);
+                    var repR=globalNode.filterInformation(that);
+                    console.log("representer"+repR);
+                    repR.setGlobalNodePtr(globalNode);
+                    globalNode.setGlobalName(inputClasses[that.selectedOverlayId].name)
+
+                    // var coordinatesRelativeToCanvasArea;
+                    // coordinatesRelativeToCanvasArea=d3.mouse(this);
+                    // var grPos=getScreenCoords(coordinatesRelativeToCanvasArea[0],coordinatesRelativeToCanvasArea[1],that.translation,that.zoomFactor);
+                    // globalNode.setNodePos(that,grPos);
+                    // var interLinkNode=that.createNode(that,inputClasses);
+                    repR.setPosition(x,y);
+                    // that.nodeElementArray.push(interLinkNode);
                     // force a redraw so the port elements of this node are generated
                     that.forceRedrawContent();
-
+                    console.log("this things should be redrawns;'")
                     // figure out the interlink port candiates;
                     var IL_InPort;
                     var IL_OUTPort;
@@ -871,7 +993,7 @@ function SimpleSFDGraph(){
                     /** TODO: currently a vague assumption that there exist only on suitable port
                         (using types=NONE for disambiguation)
                     **/
-                    var allInterlinkPorts=interLinkNode.getPortElements();
+                    var allInterlinkPorts=repR.getPortElements();
                     for (var q=0;q<allInterlinkPorts.length;q++){
                         var tempPort=allInterlinkPorts[q];
                         if (tempPort.getOutgoingConnectionType()==="NONE" && tempPort.getIncomingConnectionType()!=="NONE"){
@@ -896,19 +1018,30 @@ function SimpleSFDGraph(){
 
                         // we need to create two links
                         // aLink means from source to interlink
-                        aLink = that.createLink(that);
-                        sourceNode=d.parentNode().getParentNode();
-                        aLink.source(sourceNode);
-                        aLink.target(interLinkNode);
-                        aLink.addPortConnection(sourcePort,IL_InPort);
-                        that.pathElementArray.push(aLink);
 
-                        // blink means form interlink to target node;
-                        var bLink = that.createLink(that);
-                        bLink.source(interLinkNode);
+                        globalLink=handler.createGlobalLink(that);
+                        globalLink.setLinkGenerator(that,that.createLink(that));
+                        handler.addGlobalLink(globalLink);
+                        aLink=globalLink.filterInformation(that);
+                        sourceNode=d.parentNode().getParentNode();
+                        aLink.setGlobalLinkPtr(globalLink);
+                        aLink.source(sourceNode);
+                        aLink.target(repR);
+                        aLink.addPortConnection(sourcePort,IL_InPort);
+
+
+
+                        globalLink=handler.createGlobalLink(that);
+                        globalLink.setLinkGenerator(that,that.createLink(that));
+                        handler.addGlobalLink(globalLink);
+                        var bLink=globalLink.filterInformation(that);
+
+                        aLink.source(sourceNode);
+                        bLink.source(repR);
                         bLink.target(targetNode);
                         bLink.addPortConnection(IL_OUTPort,targetPort);
-                        that.pathElementArray.push(bLink);
+
+                        // blink means form interlink to target node;
 
                         // update usage of the ports;
                         IL_InPort.isUsed(true);
@@ -923,15 +1056,26 @@ function SimpleSFDGraph(){
 
 
                 }else{
-                    aLink = that.createLink(that);
+                    // crreate a somple link
                     sourceNode=d.parentNode().getParentNode();
                     targetNode=targetPort.getParentNode();
-                    seenLink=aLink.validateConnection(sourceNode,targetNode);
+
+                    var handler=that.parentWidget.getHandler();
+                    var globalLink=handler.createGlobalLink(that);
+                    globalLink.setLinkGenerator(that,that.createLink(that));
+                    handler.addGlobalLink(globalLink);
+                    var repR=globalLink.filterInformation(that);
+                    repR.setGlobalLinkPtr(globalLink);
+                    console.log("globalLink");
+                    console.log(globalLink);
+
+
+
+                    seenLink=repR.validateConnection(sourceNode,targetNode);
                     if (seenLink===false) {
-                        aLink.source(sourceNode);
-                        aLink.target(targetNode);
-                        aLink.addPortConnection(sourcePort,targetPort);
-                        that.pathElementArray.push(aLink);
+                        repR.source(sourceNode);
+                        repR.target(targetNode);
+                        repR.addPortConnection(sourcePort,targetPort);
                     }else{
                         seenLink.setMultiLinkType(true);
                         seenLink.addPortConnection(sourcePort,targetPort);

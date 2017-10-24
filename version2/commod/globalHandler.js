@@ -95,6 +95,18 @@
                 friendlyLink.setEvaluationValue(value);
                 globalLink.setLinkGenerator(friendlyWidget,friendlyLink);
                 friendlyLink.setGlobalLinkPtr(globalLink);
+
+                // this should also be visible in sfd;
+                var sfd_friendlyWidget=graphObjectList[2];
+                globalLink.setVisibleInWidget(sfd_friendlyWidget,true);
+                friendlyLink=friendlyWidget.createLink(friendlyWidget);
+                friendlyLink.setClassType(-1,"InterestLink");
+                friendlyLink.setLinkTypus(100);
+                friendlyLink.setNormalizedWeight(weight);
+                friendlyLink.setEvaluationValue(value);
+                globalLink.setLinkGenerator(sfd_friendlyWidget,friendlyLink);
+                friendlyLink.setGlobalLinkPtr(globalLink);
+
             }
 
 

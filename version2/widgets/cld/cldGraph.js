@@ -34,6 +34,20 @@ function CLDGraph(){
             globalNode.setNodeType(friendlyWidget,3,friendlyNode);
             friendlyNode.setGlobalNodePtr(globalNode);
         }
+
+
+        // generate in sfd;
+        // all node types are added to the sdf
+        var friendlyWidget=that.parentWidget.gtGraphObj;
+         var sfdWdiget=that.parentWidget.sfdGraphObj;
+            globalNode.setVisibleInWidget(sfdWdiget,true);
+            friendlyNode=sfdWdiget.createFriendlyNode();
+            globalNode.setNodeType(sfdWdiget,that.nodeTypeGraph-1,friendlyNode);
+            friendlyNode.setGlobalNodePtr(globalNode);
+
+
+
+
         that.clearRendering();
         that.redrawGraphContent();
     };
@@ -396,7 +410,24 @@ function CLDGraph(){
 
                 globalLink.setLinkGenerator(friendlyWidget,friendlyLink);
                 friendlyLink.setGlobalLinkPtr(globalLink);
+
+
+
+
+
             }
+            // this should also be added now to GCM;
+            friendlyWidget=that.parentWidget.sfdGraphObj;
+            globalLink.setVisibleInWidget(friendlyWidget,true);
+            friendlyLink=that.createLink(that);
+            console.log("okay1");
+            globalLink.setLinkGenerator(friendlyWidget,friendlyLink);
+            console.log("okay2");
+            friendlyLink.setGlobalLinkPtr(globalLink);
+
+
+
+
 
 
             that.forceRedrawContent();
@@ -487,6 +518,7 @@ function CLDGraph(){
 
         //that.pathElementArray.splice(that.pathElementArray.indexOf(link), 1);
         that.forceRedrawContent();
+        that.parentWidget.sfdGraphObj.forceRedrawContent();// redrawing content of the sdf map
         //that.removeDeletedElements();
     };
 

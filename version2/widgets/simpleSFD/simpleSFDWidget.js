@@ -69,7 +69,7 @@ function SimpleSFDWidget(){
       console.log("Parsing Json obj"+jsonData);
         var jsonObj=JSON.parse(jsonData);
 
-        var success=that.graphObject.paseLibrary(jsonObj);
+        var success=that.graphObject.paseLoadedLibrary(jsonObj);
         if (success) {
             that.clearGraph();
             reloadWidgetItems(jsonObj);

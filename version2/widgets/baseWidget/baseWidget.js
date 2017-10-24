@@ -263,8 +263,13 @@ function BaseWidget(parentElement) {
                         // create that node;
                         var correspondingNodeType=nodeTypeId[v];
 
+                        if (correspondingGraphObject.createFriendlyNode){
+                            globalNode.setNodeType(correspondingGraphObject,correspondingNodeType,
+                                correspondingGraphObject.createFriendlyNode(correspondingGraphObject));
+                        }else{
                         globalNode.setNodeType(correspondingGraphObject,correspondingNodeType,
                             correspondingGraphObject.createNode(correspondingGraphObject));
+                        }
                         var repNode=globalNode.filterInformation(correspondingGraphObject);
                         repNode.setGlobalNodePtr(globalNode);
                         globalNode.setGlobalMetaDataArray(nodeMetaData);
@@ -328,16 +333,27 @@ function BaseWidget(parentElement) {
                         var correspondingLinkType=linkTypes[v];
                         var correspondingLinkValue=linkValues[v];
 
-                     //   console.log("generated the corresponding link representor");
-                        globalLink.crateLinkFromOutside(correspondingGraphObject,
-                            correspondingGraphObject.createLink(correspondingGraphObject));
-                        var cLink=globalLink.filterInformation(correspondingGraphObject);
-                        // get that status form the node
-                        var lT=linkTypes[v];
-                        var lV=linkValues[v];
+                        if (visible[0]===false && visible[1]===true && visible[2]===true){
+                            // create a corresponding link if v==1;
+                            if(v===1) {
+                                globalLink.crateLinkFromOutside(correspondingGraphObject,
+                                    correspondingGraphObject.createLink(correspondingGraphObject));
+                                var cLink = globalLink.filterInformation(correspondingGraphObject);
+                                // get that status form the node
+                                var lT = linkTypes[v];
+                                var lV = linkValues[v];
 
-                        if (cLink.setCLDLinkTypeFromOutside)
-                            cLink.setCLDLinkTypeFromOutside(lT,lV);
+                                if (cLink.setCLDLinkTypeFromOutside)
+                                    cLink.setCLDLinkTypeFromOutside(lT, lV);
+                            }
+                            if (v===2){
+                                // craete a cld link that is used in sfd
+                                //   console.log("generated the corresponding link representor");
+                                globalLink.crateLinkFromOutside(correspondingGraphObject,
+                                    reprGraphObjects[1].createLink(reprGraphObjects[1]));
+                            }
+
+                        }
 
 
                    //     console.log("DONE");

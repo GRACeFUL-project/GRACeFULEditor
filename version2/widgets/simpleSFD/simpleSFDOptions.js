@@ -76,6 +76,57 @@ function SimpleSFDControls(parentWidget) {
 
     };
 
+
+    this.loadGlobalFunction=function(){
+        //  console.log("loading global model function ");
+
+        var hidden_solutionInput=document.createElement('input');
+        hidden_solutionInput.id="HIDDEN_SOLUTION_JSON_INPUT";
+        hidden_solutionInput.type="file";
+        hidden_solutionInput.accept = ".json";
+        //hidden_solutionInput.style.display="none";
+        hidden_solutionInput.autocomplete="off";
+        hidden_solutionInput.placeholder="load a json File";
+        hidden_solutionInput.setAttribute("class", "inputPath");
+        // hidden_solutionInput.style.display="none";
+        controlsMenu.getBody().node().appendChild(hidden_solutionInput);
+        var loaderSolutionPathNode=d3.select("#HIDDEN_SOLUTION_JSON_INPUT");
+        var fileElement;
+        var fileName;
+        var readText;
+        // simulate click event;
+        // console.log("hidden thing is clicked");
+        hidden_solutionInput.click();
+        loaderSolutionPathNode.remove(loaderSolutionPathNode);
+        // tell what to do when clicked
+        // chrome fix -.-
+        loaderSolutionPathNode.on("change",function (){
+            var files= loaderSolutionPathNode.property("files");
+            if (files.length>0){
+                // console.log("file?"+files[0].name);
+                fileElement=files[0];
+                fileName=fileElement.name;
+                loaderSolutionPathNode.remove();
+
+
+                // read this file;
+                var reader = new FileReader();
+                reader.readAsText(fileElement);
+                reader.onload = function () {
+                    readText = reader.result;
+                    // the the communication module about this
+                    var action={};
+                    action.task="ACTION_LOAD_GLOBAL_JSON";
+                    action.data=readText;
+                    that.parent.requestAction(action);
+                    // kill the action object;
+                    action=null;
+                };
+            }
+        });
+
+    };
+
     this. loadLibraryFromJSON=function(){
       // console.log("Button Requesting a load function");
       //   console.log("loading was pressed");
@@ -221,6 +272,9 @@ function SimpleSFDControls(parentWidget) {
 
     };
 
+
+
+
     this.onSFDNodeDelete=function(){
         console.log("delete sfd node");
         that.parent.nodeDeletion(that.selectedNode);
@@ -290,7 +344,7 @@ function SimpleSFDControls(parentWidget) {
         //
         //
         //TODO: Change to global model loader
-        loadSFD= that.addButton(controlsMenuLibrary, "LOAD MODEL", "sfdLoadModel", that.loadFunction, "flat", true, "cloud_upload" );
+        loadSFD= that.addButton(controlsMenuLibrary, "LOAD MODEL", "sfdLoadModel", that.loadGlobalFunction, "flat", true, "cloud_upload" );
 
         //   loadSFD = that.addHrefButton(controlsMenu,"Load Model",that.loadFunction,true);
         //   document.getElementById("sfd_basic").appendChild(loadSFD.parentNode);
@@ -332,7 +386,7 @@ function SimpleSFDControls(parentWidget) {
 
     };
 
-    this.start();    
+    this.start();
 
     this.handleNodeSelection=function(node){
         // should be overwritten by the real options thing

@@ -118,10 +118,13 @@ var gHandlerObj=handler.create();
             initializer.getCanvasArea(),
             initializer.getOptionsArea() );
         sfd.forceGraphCssStyle("sdfGraphStyle");
+        loadGracefulConceptMapToolbar(sfd);
+        loadCausalLoopDiagramToolbar(cld);
+        loadGoalTreeDiagram(gtw);
         //load the node types from backend.
         var action={};
         action.task="SERVER_REQUEST";
-        action.requestType="GET_LIBRARY";
+        action.requestType="GET_LIBRARY_STATIC";
         sfd.setCommunicationModule(com);
         sfd.setHandlerModule(gHandlerObj);
         sfd.requestAction(action);
@@ -132,7 +135,7 @@ var gHandlerObj=handler.create();
         widgetList.push(cld);
         widgetList.push(qWidget);
         widgetList.push(sfd);
-        loadGracefulConceptMapToolbar(sfd);
+
         loadCausalLoopDiagramToolbar(cld);
         loadGoalTreeDiagram(gtw);
         //sfd.setupNode();
