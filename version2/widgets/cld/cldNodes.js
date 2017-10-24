@@ -339,6 +339,9 @@ function CLDNode(graph) {
                 that.nodeElement .classed('goalOptionD', true);
             }
 
+            // add a criterion image;
+        that.nodeElement
+
             // console.log("THE NODE CLASS IS ::: ****" + nodeClass);
         // }
         // add hover text if you want

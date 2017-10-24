@@ -388,7 +388,7 @@ function BaseControls(parentWidget) {
     };
 
 
-    this.addTable=function(parent,tableName,headerArray){
+    this.addTable=function(parent,tableName,headerArray,hidden){
         var thisDiv=document.createElement('div');
         parent.getBody().node().appendChild(thisDiv);
         // d3.select(thisDiv).classed("form-group",true);
@@ -397,6 +397,8 @@ function BaseControls(parentWidget) {
         lb.innerHTML=tableName;
         thisDiv.appendChild(lb);
         // add a label tag;
+        if (hidden)
+            lb.hidden=true;
 
         var table=document.createElement('table');
 
@@ -423,7 +425,8 @@ function BaseControls(parentWidget) {
         thisDiv.appendChild(document.createElement('br'));
 
         // var tablerefody=table.getElementsByTagName('tbody')[0];
-
+        if (hidden)
+            d3.select(table).node().hidden=hidden;
         return d3.select(table);
     };
 

@@ -319,12 +319,12 @@ function CLDLink(graph) {
         controlPoints=calculateMultiLinkPath(startPoint, endPoint, cpPoint);
         cpPoint={x:controlPoints[1].x, y:controlPoints[1].y};
 
-        cpEllipse = that.rootElement.append("ellipse")
+        cpEllipse = that.rootElement.append("circle")
                                 .attr("cx", cpPoint.x)
                                 .attr("cy", cpPoint.y)
-                                .attr("rx", 15)
-                                .attr("ry", 10)
-                                .attr("display", "none")
+                                .attr("r", 6)
+
+                                 .attr("display", "none")
                                 .classed("controlPoint", true)
                                 .call(that.dragControlPoints);
 
@@ -424,7 +424,7 @@ function CLDLink(graph) {
             graph.handleLinkSelection(that);
             that.rootElement.selectAll("image")
                         .attr("display", null);
-            that.rootElement.selectAll("ellipse").attr("display", null);
+            that.rootElement.selectAll("circle").attr("display", null);
             return;
         }
         if (that.elementIsFocused===true) {
@@ -433,7 +433,7 @@ function CLDLink(graph) {
             graph.handleLinkSelection(undefined);
             that.rootElement.selectAll("image")
                         .attr("display", "none");
-            that.rootElement.selectAll("ellipse").attr("display", "none");
+            that.rootElement.selectAll("circle").attr("display", "none");
         }
         that.mouseEnteredFunc(false);
         that.onMouseOver();

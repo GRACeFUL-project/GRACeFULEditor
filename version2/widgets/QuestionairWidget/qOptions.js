@@ -20,8 +20,8 @@ function QWControls(parentWidget) {
 
         additionalSettings = that.createAccordionGroup(that.divControlsGroupNode, "Model Controls");
         // loadcld= that.addButton(additionalSettings, "LOAD GRAPH", "gtLOAD", that.loadFunction, "flat", true, "cloud_upload" );
-        that.addButton(additionalSettings, "IMPORT GLOBAL MODEL", "gtLOAD", that.importModelFkt, "flat", true, "cloud_upload" );
-        that.addButton(additionalSettings, "LOAD GLOBAL MODEL", "gtLOAD", that.loadGlobalFunction, "flat", true, "get_app" );
+        that.addButton(additionalSettings, "IMPORT MODEL", "gtLOAD", that.importModelFkt, "flat", true, "cloud_upload" );
+        that.addButton(additionalSettings, "LOAD MODEL", "gtLOAD", that.loadGlobalFunction, "flat", true, "get_app" );
 
 
         resultIntegration= that.createAccordionGroup(that.divControlsGroupNode, "Results Controls");

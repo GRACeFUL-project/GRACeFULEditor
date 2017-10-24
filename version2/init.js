@@ -76,7 +76,7 @@ var gHandlerObj=handler.create();
 
         // widget generation
         gtw= new GTWidget(initializer);
-        gtw.setTabTitle("GoalTree");
+        gtw.setTabTitle("Goal Tree");
         gtw.setupGuiElements(initializer.getNavigationObject(),
             initializer.getTabsObject(),
             initializer.getCanvasArea(),

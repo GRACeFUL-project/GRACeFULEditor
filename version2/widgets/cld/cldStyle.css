@@ -98,8 +98,8 @@
 }
 
 .controlPoint {
-    fill: orange;
-    stroke: steelblue;
-    stroke-width: 1.5px;
+    fill: white;
+    stroke: black;
+    stroke-width: 1px;
     cursor: move;
 }

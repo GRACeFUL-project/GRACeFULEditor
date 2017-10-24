@@ -25,7 +25,7 @@ function GTControls(parentWidget) {
 
         // goalName = that.addLineEdit(goalsGroup, "Name", "", true, that.onChangeGoalName);
         // d3.select(goalName.node()).attr("placeholder" , "Enter Node name");
-        goalType = that.addSelectionOpts(goalsGroup, "Type", ["Undefined", "Goal", "Sub Goal", "Criteria", "Stakeholder"], that.onChangeGoalType);
+        goalType = that.addSelectionOpts(goalsGroup, "Type", ["Undefined", "Goal", "Sub Goal", "Criterion", "Stakeholder"], that.onChangeGoalType);
         var hideClass = goalType.node().options[goalType.node().length - 1];
         hideClass.hidden = true;
         
@@ -40,20 +40,20 @@ function GTControls(parentWidget) {
 
 
        // loadcld= that.addButton(additionalSettings, "LOAD GRAPH", "gtLOAD", that.loadFunction, "flat", true, "cloud_upload" );
-        loadGlobalModel= that.addButton(additionalSettings, "LOAD GLOBAL MODEL", "gtLOAD", that.loadGlobalFunction, "flat", true, "cloud_upload" );
+        loadGlobalModel= that.addButton(additionalSettings, "LOAD MODEL", "gtLOAD", that.loadGlobalFunction, "flat", true, "cloud_upload" );
         // loadcld = that.addHrefButton(additionalSettings,"Load",that.loadFunction,true);
         // loadcld.setAttribute("class", "btn btn-default btn-sm");
         // loadcld.parentNode.setAttribute("id", "goalBasic");
         // loadcld.innerHTML = '<span class="glyphicon glyphicon-floppy-open"></span> Load Goal Tree';
         //
        // saveCld= that.addButton(additionalSettings, "SAVE GRAPH", "gtSAVE", that.saveFunction, "flat", true, "save" );
-        saveGlobalModel= that.addButton(additionalSettings, "SAVE GLOBAL MODEL", "gtSAVE", that.saveGlobalFunction, "flat", true, "save" );
+        saveGlobalModel= that.addButton(additionalSettings, "SAVE MODEL", "gtSAVE", that.saveGlobalFunction, "flat", true, "save" );
         // saveCld = that.addHrefButton(additionalSettings,"Save",that.saveFunction,false);
         // document.getElementById("goalBasic").appendChild(saveCld);
         // saveCld.setAttribute("class", "btn btn-default btn-sm pull-right");
         // saveCld.innerHTML = '<span class="glyphicon glyphicon-floppy-save"></span> Save Goal Tree';
 
-        clearGT= that.addButton(additionalSettings, "CLEAR GRAPH", "gtClearGraph", that.clearGraph, "flat", true, "clear_all" );
+        clearGT= that.addButton(additionalSettings, "CLEAR MODEL", "gtClearGraph", that.clearGraph, "flat", true, "clear_all" );
 
         importSt= that.addButton(additionalSettings, "IMPORT STAKEHOLDERS", "buttonStake", that.importStakeholders, "flat", true, "get_app" );
         //loadLIbs= that.addButton(additionalSettings, "LOAD GLOBAL LIBRARIES", "buttonStake", that.loadGlobalLibraries, "flat", true, "file_upload" );

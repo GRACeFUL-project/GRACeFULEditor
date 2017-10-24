@@ -130,7 +130,8 @@ function resurectToolBar(){
 
 
 function reloadWidgetItems(jsonOBJ){
-    // console.log("hey you, kill all the perv elements please");
+    console.log("hey you, kill all the perv elements please");
+    console.log(jsonOBJ);
     var domElement = document.getElementById('widgetList') ;
 
     var htmlCollection = domElement.children;
@@ -184,7 +185,7 @@ function reloadWidgetItems(jsonOBJ){
             widgetItemDiv.appendChild(document.createElement("br"));
 
             nameDiv = document.createElement("div");
-            nameDiv.innerHTML=label;
+            nameDiv.innerHTML= label;
             widgetItemDiv.appendChild(nameDiv);
             if (object[i].type==="NODAL" ) {
                 nodes.push(widgetItemDiv)
@@ -242,7 +243,6 @@ function reloadWidgetItems(jsonOBJ){
             widgetItemDiv.appendChild(document.createElement("br"));
 
             nameDiv = document.createElement("div");
-            nameDiv.innerHTML=label;
             widgetItemDiv.appendChild(nameDiv);
             domElement.appendChild(widgetItemDiv);
         }

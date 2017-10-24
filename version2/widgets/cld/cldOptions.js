@@ -100,15 +100,18 @@ function CLDControls(parentWidget) {
         nodesGroup = that.createAccordionGroup(that.divControlsGroupNode, "Nodes");
 
         // lineEditNode = that.addLineEdit(nodesGroup, "Name", "", true, that.onChangeNodeName);
-          cldChipNode=that.addNodeTypeChip(nodesGroup,"Enter Node Name","#fafafa",that.deleteNodes,"cldChipField",false,"undefined","cld","./images/nodes/factor.png");
+          cldChipNode=that.addNodeTypeChip(nodesGroup,"empty","#fafafa",that.deleteNodes,"cldChipField",false,"undefined","cld","./images/nodes/factor.png");
           cldChip = cldChipNode[0];
           cldChipImage=cldChipNode[1];
 
-        selectionNode = that.addSelectionOpts(nodesGroup, "Class type", ["Undefined", "Factor", "Action", "Criteria", "External Factor","Stake Holder"], that.onChangeNodeType);
-        var hideClass = selectionNode.node().options[selectionNode.node().length - 1];
-        hideClass.hidden = true;
+        selectionNode = that.addSelectionOpts(nodesGroup, "Node type", ["Factor", "Factor", "Action", "Criterion", "External Factor","Stake Holder"], that.onChangeNodeType);
+        // hiding options
+        selectionNode.node().options[0].hidden = true;
+        selectionNode.node().options[selectionNode.node().length - 1].hidden = true;
+        selectionNode.node().options[selectionNode.node().length - 2].hidden = true;
+
         
-        checkObserve = that.addCheckBox(nodesGroup, "Decided/Observe", "observeNode", false, that.observeNode);
+        checkObserve = that.addCheckBox(nodesGroup, "Decided/Observed", "observeNode", false, that.observeNode);
         nodeTrend = that.addSelectionOpts(nodesGroup, "Trend", ["Undefined", "Ambigous", "Decreasing", "Increasing", "Stable"], that.trendFunc);
         d3.select(nodeTrend.node().parentNode).classed("hidden", true);
 
@@ -137,8 +140,9 @@ function CLDControls(parentWidget) {
         // cldChip = cldChipNode[0];
         // cldChipImage=cldChipNode[1];
 
-        linkClass = that.addSelectionOpts(linksGroup, "Class type", ["Undefined", "Causal Relation"], that.onChangeLinkClass);
-        causalSelection = that.addSelectionOpts(linksGroup, "Value", getClassValues, that.onChangeLinkType);
+        linkClass = that.addSelectionOpts(linksGroup, "Link type", ["Causal Relation", "Causal Relation"], that.onChangeLinkClass);
+        linkClass.node().options[0].hidden = true;
+        causalSelection = that.addSelectionOpts(linksGroup, "Influence", getClassValues, that.onChangeLinkType);
         d3.select(causalSelection.node().parentNode).classed("hidden", true);
         commentLink = that.addTextEdit(linksGroup, "Comments", "", true, that.onChangeLinkComment);
         // delLinkBtn = that.addButtons(linksGroup, "Delete", "linkDelete", that.deleteLinks);
@@ -147,9 +151,9 @@ function CLDControls(parentWidget) {
         graphControls = that.createAccordionGroup(that.divControlsGroupNode, "Graph Controls");
 
         // adding load global and save global graph things;
-        that.addButton(additionalSettings, "LOAD GLOBAL MODEL", "cldGetLibrary", that.loadGlobalFunction, "flat", true, "cloud_upload" );
-        that.addButton(additionalSettings, "SAVE GLOBAL MODEL", "cldGetLibrary", that.saveGlobalFunction, "flat", true, "save" );
-        that.addButton(additionalSettings, "CLEAR GRAPH", "gtClearGraph", that.clearGraph, "flat", true, "clear_all" );
+        that.addButton(additionalSettings, "LOAD MODEL", "cldGetLibrary", that.loadGlobalFunction, "flat", true, "cloud_upload" );
+        that.addButton(additionalSettings, "SAVE MODEL", "cldGetLibrary", that.saveGlobalFunction, "flat", true, "save" );
+        that.addButton(additionalSettings, "CLEAR MODEL", "gtClearGraph", that.clearGraph, "flat", true, "clear_all" );
 
 
 

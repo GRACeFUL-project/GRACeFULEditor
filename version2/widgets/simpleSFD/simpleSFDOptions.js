@@ -248,7 +248,7 @@ function SimpleSFDControls(parentWidget) {
 
         // testing stuff,
 
-          nodeGroup=that.createAccordionGroup(that.divControlsGroupNode,"Stock Flow Node Types");
+          nodeGroup=that.createAccordionGroup(that.divControlsGroupNode,"Concepts");
        //   nodeSelGroup= that.addSelectionOpts(nodeGroup, "Node type", ["Undefined", "A", "B"], that.onChangeNodeType);
           // nodeClass=that.addLabel(nodeGroup,"Class","nodesClass");
           // nodeLabel=that.addLineEdit(nodeGroup,"Name","nodesName",false, that.changeNodesName);
@@ -257,11 +257,13 @@ function SimpleSFDControls(parentWidget) {
           sfdChip=sfdChipNode[0];
           sfdChipImage=sfdChipNode[1];
 
-          parameterTable=that.addTable(nodeGroup,"Parameters",["Name","Type","Value"]);
+          parameterTable=that.addTable(nodeGroup,"Parameters",["Name","Value"]);
+
           // that.addParameterRow(parameterTable,["a","b","c"]);
           // that.addParameterRow(parameterTable,["d","e","f"]);
 
-          portTable=that.addTable(nodeGroup,"Ports",["Name","Type","Value"]);
+          portTable=that.addTable(nodeGroup,"Ports",["Name","Type","Value"],true);
+
           // that.addParameterRow(portTable,["d","e","f"]);
           // that.addParameterRow(portTable,["d","e","f"]);
 
@@ -271,7 +273,7 @@ function SimpleSFDControls(parentWidget) {
 
           controlsMenuLibrary=that.createAccordionGroup(that.divControlsGroupNode, "Graph Controls");
           controlsMenu= that.createAccordionGroup(that.divControlsGroupNode, "Model Controls");
-          solverLineEdit=that.addLineEdit(controlsMenu,"SolverAddress","http://localhost:4000",true,that.changeSolverAddress);
+          solverLineEdit=that.addLineEdit(controlsMenu,"SolverAddress","http://http://vocol.iais.fraunhofer.de/graceful-rat/static/index.html",true,that.changeSolverAddress);
           // clearSFD = that.addHrefButton(controlsMenu,"Clear",that.clearGraph,true);
           //@ Rohan could you realign the buttons?
         // something like this:
@@ -287,20 +289,22 @@ function SimpleSFDControls(parentWidget) {
         //   clearSFD.parentNode.setAttribute("class", "form-group col-lg-12");
         //
         //
-        loadSFD= that.addButton(controlsMenuLibrary, "LOAD GRAPH", "sfdLoadModel", that.loadFunction, "flat", true, "cloud_upload" );
+        //TODO: Change to global model loader
+        loadSFD= that.addButton(controlsMenuLibrary, "LOAD MODEL", "sfdLoadModel", that.loadFunction, "flat", true, "cloud_upload" );
 
         //   loadSFD = that.addHrefButton(controlsMenu,"Load Model",that.loadFunction,true);
         //   document.getElementById("sfd_basic").appendChild(loadSFD.parentNode);
         //   loadSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
         //   loadSFD.parentNode.setAttribute("class", "col-xs-4 text-center");
         //
-        saveSFD= that.addButton(controlsMenuLibrary, "SAVE GRAPH", "sfdSaveModel", that.saveFunction, "flat", true, "save" );
+        //TODO: Change to global model loader
+        saveSFD= that.addButton(controlsMenuLibrary, "SAVE MODEL", "sfdSaveModel", that.saveFunction, "flat", true, "save" );
         //   saveSFD = that.addHrefButton(controlsMenu,"Save Model",that.saveFunction,true);
         //   document.getElementById("sfd_basic").appendChild(saveSFD.parentNode);
         //   saveSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
         //   saveSFD.parentNode.setAttribute("class", "col-xs-4");
         
-        clearSFD= that.addButton(controlsMenuLibrary, "CLEAR GRAPH", "sfdClearGraph", that.clearGraph, "flat", true, "clear_all" );
+        clearSFD= that.addButton(controlsMenuLibrary, "CLEAR MODEL", "sfdClearGraph", that.clearGraph, "flat", true, "clear_all" );
         
         reqSFD= that.addButton(controlsMenu, "GET LIBRARY", "sfdGetLibrary", that.serverRequest, "flat", true, "get_app" );
         //   reqSFD = that.addHrefButton(controlsMenu,"Get Library",that.serverRequest,true);
@@ -308,7 +312,7 @@ function SimpleSFDControls(parentWidget) {
         //   reqSFD.parentNode.setAttribute("id", "sfd_basic1");
         //   reqSFD.parentNode.setAttribute("class", "form-group col-lg-12");
         //
-        reqLoadLIB= that.addButton(controlsMenu, "LOAD LIBRARY", "sfdLoadLibrary", that.loadLibraryFromJSON, "flat", true, "file_upload" );
+       // reqLoadLIB= that.addButton(controlsMenu, "LOAD LIBRARY", "sfdLoadLibrary", that.loadLibraryFromJSON, "flat", true, "file_upload" );
 
         //   // @ Rohan : could you realign the Buttons?
         // reqLoadLIB = that.addHrefButton(controlsMenu,"load Library",that.loadLibraryFromJSON,true);
@@ -379,10 +383,10 @@ function SimpleSFDControls(parentWidget) {
             var nodeParams=node.getParameterElements();
             for (i=0;i<nodeParams.length;i++){
                 var name=nodeParams[i].name;
-                var type=nodeParams[i].type;
+                //var type=nodeParams[i].type;
                 var value=nodeParams[i].value;
 
-                that.addParameterRow(parameterTable,[name,type,value],[false,false,true],nodeParams[i]);
+                that.addParameterRow(parameterTable,[name,value],[false,true],nodeParams[i]);
 
             }
 

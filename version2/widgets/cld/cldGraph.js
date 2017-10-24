@@ -47,7 +47,10 @@ function CLDGraph(){
     };
 
     this.createLink=function(parent){
-        return new CLDLink(parent);
+        var aLink=new CLDLink(parent);
+        aLink.setClassType(0);
+        console.log(aLink.getTypeId()+"<<< ");
+        return aLink
     };
 
     this.setBudget = function(val) {

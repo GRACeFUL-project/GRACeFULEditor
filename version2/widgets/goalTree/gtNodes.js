@@ -23,6 +23,7 @@ function GTNode(graph) {
     };
 
     this.getImageURL=function(){
+        // this is options menu images
       if(that.goalTypeId==0)
        return "./images/nodes/undefined.png";
       else if(that.goalTypeId==1)
