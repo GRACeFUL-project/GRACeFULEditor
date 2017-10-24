@@ -227,7 +227,8 @@ function BaseWidget(parentElement) {
 
       //  console.log("modelType "+modelType);
        // console.log("nodes "+globalNodeElements);
-      //  console.log("links "+globalLinkElements);
+        console.log("links "+globalLinkElements);
+        console.log(globalLinkElements);
         if (modelType==="GLOBAL_MODEL"){
             // nice we have a global model
 
@@ -333,8 +334,14 @@ function BaseWidget(parentElement) {
                         var correspondingLinkType=linkTypes[v];
                         var correspondingLinkValue=linkValues[v];
 
+                        if (v===0){
+                            globalLink.crateLinkFromOutside(correspondingGraphObject,
+                                correspondingGraphObject.createLink(correspondingGraphObject));
+                        }
+
                         if (visible[0]===false && visible[1]===true && visible[2]===true){
                             // create a corresponding link if v==1;
+
                             if(v===1) {
                                 globalLink.crateLinkFromOutside(correspondingGraphObject,
                                     correspondingGraphObject.createLink(correspondingGraphObject));
@@ -379,7 +386,6 @@ function BaseWidget(parentElement) {
 
         // get the handler
         var handler=that.getHandler();
-
         var saveObj=handler.requestSaveDataAsJson();
         console.log("text to write: "+saveObj);
 

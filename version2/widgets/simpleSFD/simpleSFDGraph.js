@@ -1028,6 +1028,8 @@ function SimpleSFDGraph(){
                         aLink.source(sourceNode);
                         aLink.target(repR);
                         aLink.addPortConnection(sourcePort,IL_InPort);
+                        globalLink.setSource(sourceNode.getGlobalNodePtr());
+                        globalLink.setTarget(repR.getGlobalNodePtr());
 
 
 
@@ -1036,10 +1038,12 @@ function SimpleSFDGraph(){
                         handler.addGlobalLink(globalLink);
                         var bLink=globalLink.filterInformation(that);
 
-                        aLink.source(sourceNode);
+
                         bLink.source(repR);
                         bLink.target(targetNode);
                         bLink.addPortConnection(IL_OUTPort,targetPort);
+                        globalLink.setSource(repR.getGlobalNodePtr());
+                        globalLink.setTarget(targetNode.getGlobalNodePtr());
 
                         // blink means form interlink to target node;
 
@@ -1068,7 +1072,8 @@ function SimpleSFDGraph(){
                     repR.setGlobalLinkPtr(globalLink);
                     console.log("globalLink");
                     console.log(globalLink);
-
+                    globalLink.setSource(sourceNode.getGlobalNodePtr());
+                    globalLink.setTarget(targetNode.getGlobalNodePtr());
 
 
                     seenLink=repR.validateConnection(sourceNode,targetNode);

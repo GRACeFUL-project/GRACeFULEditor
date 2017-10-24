@@ -15,6 +15,7 @@ function GTNode(graph) {
     this.criteriaUnit = "";
 
     this.getTypeId=function(){
+        console.log("getting gtNodeType");
       return that.goalTypeId;
     };
 

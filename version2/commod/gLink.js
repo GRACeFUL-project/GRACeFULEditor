@@ -69,11 +69,11 @@ function GlobalLink() {
                     var link=linkRepresenter[id];
                     if (link.getClassType)
                         repTypes.push(link.getClassType());
-                    else{ repTypes.push(-1);}
+                    else{ repTypes.push(0);}
 
                 }
                 else{
-                    var noTypes=-1;
+                    var noTypes=0;
                     repTypes.push(noTypes);
                 }
             }

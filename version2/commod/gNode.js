@@ -73,7 +73,16 @@ function GlobalNode() {
         return positions;
 
     };
-    this.getNodeTypeInWidgets=function(){ return nodeTypeInWidget;};
+    this.getNodeTypeInWidgets=function(){
+        // update it from the nodes itself
+        for (var i=0;i<representedInWidget.length;i++){
+            if (nodeConstructors[i]){
+
+                nodeTypeInWidget[i]=nodeConstructors[i].getTypeId();
+            }
+        }
+
+        return nodeTypeInWidget;};
     this.getVisibleInWidget=function(){ return visibleInWidget;};
    // this.getRepresentedInWidget=function(){ return representedInWidget;};
 

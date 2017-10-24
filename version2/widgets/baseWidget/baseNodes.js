@@ -44,6 +44,8 @@ function BaseNode(graph) {
     this.globalNodePtr=undefined;
 
     this.setGlobalNodePtr=function(gptr){
+        console.log("setting globalPtr");
+        console.log(gptr);
         this.globalNodePtr=gptr;
     };
 

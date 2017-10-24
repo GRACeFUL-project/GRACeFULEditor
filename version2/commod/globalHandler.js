@@ -314,7 +314,9 @@
                 }
                // / obj.representedInWidgets=node.getRepresentedInWidget();
                 obj.visibleInWidgets=node.getVisibleInWidget();
+                console.log("nodeTypesInWdg");
                 obj.nodeTypeId = node.getNodeTypeInWidgets();
+                console.log(obj.nodeTypeId);
                 obj.comments = node.getGlobalHoverText();
                 obj.pos = node.getNodePositionsInWidgets();
                 obj.metaData=node.getMetaData();

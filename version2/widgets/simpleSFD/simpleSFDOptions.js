@@ -177,9 +177,8 @@ function SimpleSFDControls(parentWidget) {
 
 
     this.saveFunction=function(){
-        console.log("saving was pressed");
         var action={};
-        action.task="ACTION_SAVE_JSON";
+        action.task="ACTION_SAVE_GLOBAL_JSON";
         that.parent.requestAction(action);
     };
 
