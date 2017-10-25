@@ -19,16 +19,18 @@ function GTControls(parentWidget) {
     this.generateControls=function(){
         goalsGroup = that.createAccordionGroup(that.divControlsGroupNode, "Goal");
         // goal Chip for the goalNames
-        goalchipNode=that.addNodeTypeChip(goalsGroup,"Enter Node Name","#fafafa",that.onDeleteGoal,"gtChipField",false,"undefined","gt","./images/nodes/goal.png");
+        goalchipNode=that.addNodeTypeChip(goalsGroup,"empty","#fafafa",that.onDeleteGoal,"gtChipField",false,"undefined","gt","./images/nodes/goal.png");
         goalchip = goalchipNode[0];
         goalimage= goalchipNode[1];
 
         // goalName = that.addLineEdit(goalsGroup, "Name", "", true, that.onChangeGoalName);
         // d3.select(goalName.node()).attr("placeholder" , "Enter Node name");
         goalType = that.addSelectionOpts(goalsGroup, "Type", ["Undefined", "Goal", "Sub Goal", "Criterion", "Stakeholder"], that.onChangeGoalType);
-        var hideClass = goalType.node().options[goalType.node().length - 1];
-        hideClass.hidden = true;
-        
+        goalType.node().options[goalType.node().length - 1].hidden=true;
+        goalType.node().options[0].hidden=true;
+        goalType.node().options[1].selected = "selected";
+
+
         goalComment = that.addTextEdit(goalsGroup, "Comments", "", true, that.onChangeGoalComment);
         //TODO: form fields when the goal type = criteria
         criteriaUnit = that.addLineEdit(goalsGroup, "Unit", "", true, that.onChangeUnit);
@@ -62,11 +64,12 @@ function GTControls(parentWidget) {
 
     this.handleNodeSelection = function(node) {
         if (node === undefined) {
+            goalsGroup.collapseBody();
+            that.evilNodeElement(undefined);
             return;
         }
-
-        this.selectedNode = node;
-
+        that.selectedNode = node;
+        that.evilNodeElement(node);
         if (node.getElementType()==="NodeElement") {
             goalsGroup.expandBody();
 
@@ -249,7 +252,7 @@ function GTControls(parentWidget) {
     this.clearGraph=function(){
         parentWidget.clearGraph();
         var snackbarContainer = document.querySelector('#demo-toast-example');
-        var data = {message: 'The graph has been cleared'};
+        var data = {message: 'The model has been cleared'};
         snackbarContainer.MaterialSnackbar.showSnackbar(data);
     };
 

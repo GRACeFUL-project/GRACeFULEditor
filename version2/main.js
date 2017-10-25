@@ -265,7 +265,7 @@ function reloadWidgetItems(jsonOBJ){
 
     setDivActive(0);
     setDivActiveCLD(1);
-    setDivActiveGTW(0);
+    setDivActiveGTW(1);
   // sfdRef.setupNode(0);
 }
 

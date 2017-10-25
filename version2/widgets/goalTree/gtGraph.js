@@ -117,6 +117,7 @@ function GTGraph(){
         }
         that.clearRendering();
         that.redrawGraphContent();
+        that.selectNode(undefined);
     };
 
     this.createNode=function(parent){

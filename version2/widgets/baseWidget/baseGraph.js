@@ -86,11 +86,12 @@ function BaseGraph(parentWidget) {
 
     this.updateSvgSize=function(){
         var drawArea=this.parentWidget.getCanvasArea();
-        var w = drawArea.node().getBoundingClientRect().width-200;
+        var w = drawArea.node().getBoundingClientRect().width;
         var h= window.innerHeight ;
-         console.log("size:"+w+" "+h );
         if (that.svgElement)
             that.svgElement.attr("width", w).attr("height", h);
+
+
     };
 
     this.activateGraph=function(val){
@@ -522,7 +523,7 @@ function BaseGraph(parentWidget) {
     this.selectNode=function(node){
         // graph handles node selection
       //  that.deselectLastLink();
-        // console.log("handling selection stuff");
+         console.log("handling selection stuff"+node);
         if (node===undefined){
 
             that.prevSelectedNode=undefined;

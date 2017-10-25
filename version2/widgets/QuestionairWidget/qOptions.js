@@ -24,7 +24,7 @@ function QWControls(parentWidget) {
         that.addButton(additionalSettings, "LOAD MODEL", "gtLOAD", that.loadGlobalFunction, "flat", true, "get_app" );
 
 
-        resultIntegration= that.createAccordionGroup(that.divControlsGroupNode, "Results Controls");
+        resultIntegration= that.createAccordionGroup(that.divControlsGroupNode, "Survey Results");
         that.addButton(resultIntegration, "LOAD RESULTS ", "gtLOAD", that.loadResults, "flat", true, "cloud_download" );
 
 

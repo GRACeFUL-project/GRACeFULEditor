@@ -136,7 +136,11 @@ main {
 	padding-right: 0px;
 	padding-top: 0px;
 	padding-bottom:64px;
+	min-width:80px;
+	font-weight: lighter;
 }
+
+
 
 #toolbar {
 	min-height: 994px;
@@ -204,6 +208,9 @@ main {
 
 #toolbar{
 	min-width:150px;
+}
+#sidebar{
+	min-width:80px;
 }
 
 #canvasArea {

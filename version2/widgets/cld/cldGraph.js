@@ -50,6 +50,7 @@ function CLDGraph(){
 
         that.clearRendering();
         that.redrawGraphContent();
+        that.selectNode(undefined);
     };
 
     this.changeNodeType=function(nodeT){
@@ -430,7 +431,9 @@ function CLDGraph(){
 
 
 
+
             that.forceRedrawContent();
+            that.selectNode(undefined);
 
 
 

@@ -196,12 +196,12 @@ function CLDControls(parentWidget) {
         // importCriteria.setAttribute("class", "btn btn-default btn-sm btn-block");
         //
 
-        extFactorBtn = that.addButton(graphControls, "IDENTIFY EXTERNAL FACTORS", "cldIdentifyExtFactors", that.identifyExtFact, "flat", true, "explicit" );
+        extFactorBtn = that.addButton(graphControls, "MARK EXTERNAL FACTORS", "cldIdentifyExtFactors", that.identifyExtFact, "flat", true, "explicit" );
         // extFactorBtn = that.addHrefButton(graphControls, "Identify External Factors", that.identifyExtFact, true);
         // extFactorBtn.setAttribute("class", "btn btn-default btn-sm btn-block");
         //
 
-        loopBtn = that.addButton(graphControls, "IDENTIFY FEEDBACK LOOPS", "cldIdentifyFeedbacks", that.feedbackLoop, "flat", true, "loop" );
+        loopBtn = that.addButton(graphControls, "DETECT FEEDBACK LOOPS", "cldIdentifyFeedbacks", that.feedbackLoop, "flat", true, "loop" );
         loopBtn.setAttribute("data-toggle", "modal");
         loopBtn.setAttribute("data-target", "#loopModal");    
 
@@ -217,17 +217,21 @@ function CLDControls(parentWidget) {
 
 
         if (node === undefined) {
+            console.log("undefined thing >> collapse a;ll");
             linksGroup.collapseBody();
             nodesGroup.collapseBody();
+
+            that.evilNodeElement(undefined);
             return;
         }
+
         console.log("node type "+ node.getElementType());
         if (node.getElementType()==="NodeElement") {
 
             // should be overwritten by the real options thing
             // console.log("controls handle node operation" + node);
             this.selectedNode = node;
-
+            that.evilNodeElement(node);
 
 
                 nodesGroup.expandBody();
@@ -310,6 +314,7 @@ function CLDControls(parentWidget) {
                 if(selectType !== "Criteria") {
                     d3.select(criteriaUnit.node().parentNode).classed("hidden", true);
                 }
+
         }
 
         if (node.getElementType()==="LinkElement") {
@@ -343,6 +348,7 @@ function CLDControls(parentWidget) {
 
             commentLink .node().disabled = false;
             commentLink .node().value = that.selectedNode.hoverText;
+
 
         }
 

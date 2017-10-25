@@ -496,7 +496,12 @@ function BaseControls(parentWidget) {
 
 /** generation of the individual control elements as base functions **/
 
-
+    this.evilNodeElement=function(node){
+        this.evilElement=node;
+    };
+    function getEvilNode(){
+        return that.evilElement;
+    }
 
     function generateAccordion(parentElement,title){
         var group={};
@@ -524,11 +529,17 @@ function BaseControls(parentWidget) {
 
             // create
             var titlePlace=document.createElement('div');
+
             heading.appendChild(titlePlace);
             group.titleNode=d3.select(titlePlace);
             group.titleNode.on("click",function () {
-                var current=group.bodyNode.classed("hidden");
-                group.bodyNode.classed("hidden",!current);
+                console.log(getEvilNode());
+            if (getEvilNode()===undefined){
+                    group.bodyNode.classed("hidden",true);
+                }else {
+                    var current = group.bodyNode.classed("hidden");
+                    group.bodyNode.classed("hidden", !current);
+                }
             });
             // create body;
             var pannelBody=document.createElement('div');
@@ -607,6 +618,7 @@ function BaseControls(parentWidget) {
 
     this.handleNodeSelection=function(node){
         // should be overwritten by the real options thing
+
     };
 
 

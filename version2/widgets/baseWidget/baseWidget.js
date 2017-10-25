@@ -61,6 +61,15 @@ function BaseWidget(parentElement) {
     this.updateSvgSize=function(){
         if (that.graphObject)
             that.graphObject.updateSvgSize();
+
+        //
+        // var w= window.innerWidth*0.2;
+        // if (w<300)
+        //     w=500;
+        //  that.controlsObject.parent.getOptionsArea().style({
+        //      'width': 300+'px'
+        //  });
+        // console.log(that.controlsObject.divControlsGroupNode.node());
     };
 
     this.setupWidget=function(){
