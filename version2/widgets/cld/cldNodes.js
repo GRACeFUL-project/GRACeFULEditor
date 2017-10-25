@@ -564,17 +564,26 @@ function CLDNode(graph) {
 
         // type update in other widgets
         var friendlyWidget=graph.parentWidget.gtGraphObj;
+        var sfdWidget=graph.parentWidget.sfdGraphObj;
         var globalNode=that.getGlobalNodePtr();
 
         if (typeId===3 && that.getGlobalNodePtr()!=undefined){
             // tell the graph object to add the reference into the cld
             globalNode.setVisibleInWidget(friendlyWidget,true);
+            globalNode.setVisibleInWidget(sfdWidget,true);
             var friendlyNode=friendlyWidget.createNode(friendlyWidget);
+            var sfdNode=sfdWidget.createFriendlyNode();
             globalNode.setNodeType(friendlyWidget,3,friendlyNode);
+            globalNode.setNodeType(sfdWidget,2,sfdNode);
             friendlyNode.setGlobalNodePtr(globalNode);
+            sfdNode.setGlobalNodePtr(globalNode);
         }
         // remove the constructed element if type was changed
         if (typeId!=3 && that.getGlobalNodePtr()!=undefined){
+            var sfdN=globalNode.getSfdNode();
+            if (sfdN)
+                sfdN.setType(typeId-1);
+
             globalNode.removeNodeRepresentationInWidget(friendlyWidget);
         }
 

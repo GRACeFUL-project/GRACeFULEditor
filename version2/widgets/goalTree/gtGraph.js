@@ -107,6 +107,7 @@ function GTGraph(){
             friendlyNode.setGlobalNodePtr(globalNode);
 
             // all node types are added to the sdf
+            console.log("creating sdf Node")
             var sfdWdiget=that.parentWidget.sfdGraphObj;
             globalNode.setVisibleInWidget(sfdWdiget,true);
             friendlyNode=sfdWdiget.createFriendlyNode();

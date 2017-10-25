@@ -160,7 +160,9 @@ function BaseWidget(parentElement) {
         tabNode.classed("tabHighlight",true);
         tabNode.classed("tabHighlightNot",false);
         //tell the main container about this
+
         that.parentElement.widgetActivated(this);
+
         if (that.graphObject)
             that.graphObject.activateGraph(true);
 
@@ -341,11 +343,7 @@ function BaseWidget(parentElement) {
                                 correspondingGraphObject.createLink(correspondingGraphObject));
                         }
                         if (v===2){
-                            console.log("v====2");
-                            console.log("visiblity");
-                            console.log(visible);
                             if (visible[0]===false && visible[1]===false && visible[2]===true){
-
                                 // this should be an sdf link
                                 // create the sfd link inside the sfd graph
                                 var sfdgraph=reprGraphObjects[2];
@@ -355,29 +353,16 @@ function BaseWidget(parentElement) {
                                 //handler.addGlobalLink(globalLink);
                                 var repR=globalLink.filterInformation(sfdgraph);
                                 repR.setGlobalLinkPtr(globalLink);
-                                console.log("globalLink");
-                                console.log(globalLink);
                                 globalLink.setSource(gNodeSrc);
                                 globalLink.setTarget(gNodeTar);
 
-                                console.log(linkSfdCon);
                                 // update the ports connections;;
-                                var src_srf=gNodeSrc.getSfdNode();
-                                console.log(src_srf);
-
-
                                 var sourceNode=gNodeSrc.getSfdNode();
                                 var targetNode=gNodeTar.getSfdNode();
 
                                 for (var p=0;p<linkSfdCon.length;p++) {
                                     var sourcePort = sourceNode.getPortWithId(linkSfdCon[p].s);
                                     var targetPort = targetNode.getPortWithId(linkSfdCon[p].t);
-
-                                    console.log("sourcePort");
-                                    console.log(sourcePort);
-                                    console.log("targetPort");
-                                    console.log(targetPort);
-
                                     var seenLink = repR.validateConnection(sourceNode, targetNode);
                                     if (seenLink === false) {
                                         repR.source(sourceNode);

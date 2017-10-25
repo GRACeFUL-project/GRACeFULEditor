@@ -52,8 +52,8 @@ var gHandlerObj=handler.create();
     };
 
     initializer.initializeWidgets=function() {
-        var width = document.getElementById('canvasArea').getBoundingClientRect().width;
-        var height = document.getElementById('canvasArea').getBoundingClientRect().height;
+        // var width = document.getElementById('canvasArea').getBoundingClientRect().width;
+        // var height = document.getElementById('canvasArea').getBoundingClientRect().height;
 
         // console.log("CANVALS AREA "+width+"  "+height);
 
@@ -136,12 +136,6 @@ var gHandlerObj=handler.create();
         widgetList.push(qWidget);
         widgetList.push(sfd);
 
-        loadCausalLoopDiagramToolbar(cld);
-        loadGoalTreeDiagram(gtw);
-        //sfd.setupNode();
-        // set default tab
-        //gtw.widgetIsActivated();
-      //  example.widgetIsActivated();
         gtw.widgetIsActivated();
 
         // set the ptrs; // a bit hardCoded stuff for the communication

@@ -86,15 +86,14 @@ function BaseGraph(parentWidget) {
 
     this.updateSvgSize=function(){
         var drawArea=this.parentWidget.getCanvasArea();
-        var w = drawArea.node().getBoundingClientRect().width;
+        var w = drawArea.node().getBoundingClientRect().width-200;
         var h= window.innerHeight ;
-        // console.log("size:"+w+" "+h );
+         console.log("size:"+w+" "+h );
         if (that.svgElement)
             that.svgElement.attr("width", w).attr("height", h);
     };
 
     this.activateGraph=function(val){
-        // console.log("A graph wants to be rendered "+ val);
         if (val===true){
             this.svgElement.classed("hidden",false);
             this.forceRedrawContent();
