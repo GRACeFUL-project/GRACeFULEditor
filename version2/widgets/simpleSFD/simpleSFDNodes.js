@@ -134,6 +134,11 @@ function SimpleSFDNode(graph,nodeDescriptions) {
         }
     };
 
+    this.getPortWithId=function(index){
+        console.log("Searching for Index"+index);
+        return portElements[index];
+    };
+
     this.drawNode=function(){
         that.nodeElement= that.rootNodeLayer.append('circle').attr("r", 50)
             .classed(that.nodeClass,true);

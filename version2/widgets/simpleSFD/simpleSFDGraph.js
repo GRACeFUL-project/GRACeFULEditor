@@ -1067,7 +1067,7 @@ function SimpleSFDGraph(){
                     var handler=that.parentWidget.getHandler();
                     var globalLink=handler.createGlobalLink(that);
                     globalLink.setLinkGenerator(that,that.createLink(that));
-                    handler.addGlobalLink(globalLink);
+
                     var repR=globalLink.filterInformation(that);
                     repR.setGlobalLinkPtr(globalLink);
                     console.log("globalLink");
@@ -1081,7 +1081,9 @@ function SimpleSFDGraph(){
                         repR.source(sourceNode);
                         repR.target(targetNode);
                         repR.addPortConnection(sourcePort,targetPort);
+                        handler.addGlobalLink(globalLink);
                     }else{
+                        console.log("found the link already");
                         seenLink.setMultiLinkType(true);
                         seenLink.addPortConnection(sourcePort,targetPort);
                     }

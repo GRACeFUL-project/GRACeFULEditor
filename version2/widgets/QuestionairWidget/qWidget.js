@@ -371,6 +371,7 @@ function QuestionerWidget(parentElement) {
         var saveObj=handler.requestSaveDataAsJson();
         console.log("text to write: "+saveObj);
 
+
         // create a hidden wrapper for saving files;
 
         var tempHref=document.createElement('a');

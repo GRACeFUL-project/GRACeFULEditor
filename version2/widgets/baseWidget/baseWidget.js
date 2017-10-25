@@ -294,8 +294,9 @@ function BaseWidget(parentElement) {
                 }// end of for loop that handles information
                 handler.addGlobalNode(globalNode);
             }
-
-
+            // force the sfdgraph to redraw;
+            reprGraphObjects[2].forceRedrawContent();
+            console.log("nodes should be visible and present now'");
             // LINK GENERATION; more complex but hey;
             for (i=0;i<globalLinkElements.length;i++){
                 // stored data;
@@ -307,6 +308,7 @@ function BaseWidget(parentElement) {
                 var linkValues=s_link.linkValuesInWidgets; // array of values (+,-,? etc)
                 var linkCpStatus=s_link.controlPointsStatus;
                 var linkCpPos=s_link.controlPointsPosition;
+                var linkSfdCon=s_link.sfdPortConnections;
 
                 var globalLink=handler.createGlobalLink(undefined);
                 globalLink.id(storedId);
@@ -337,6 +339,59 @@ function BaseWidget(parentElement) {
                         if (v===0){
                             globalLink.crateLinkFromOutside(correspondingGraphObject,
                                 correspondingGraphObject.createLink(correspondingGraphObject));
+                        }
+                        if (v===2){
+                            console.log("v====2");
+                            console.log("visiblity");
+                            console.log(visible);
+                            if (visible[0]===false && visible[1]===false && visible[2]===true){
+
+                                // this should be an sdf link
+                                // create the sfd link inside the sfd graph
+                                var sfdgraph=reprGraphObjects[2];
+                                globalLink=gHandlerObj.createGlobalLink(sfdgraph);
+
+                                globalLink.setLinkGenerator(sfdgraph,sfdgraph.createLink(sfdgraph));
+                                //handler.addGlobalLink(globalLink);
+                                var repR=globalLink.filterInformation(sfdgraph);
+                                repR.setGlobalLinkPtr(globalLink);
+                                console.log("globalLink");
+                                console.log(globalLink);
+                                globalLink.setSource(gNodeSrc);
+                                globalLink.setTarget(gNodeTar);
+
+                                console.log(linkSfdCon);
+                                // update the ports connections;;
+                                var src_srf=gNodeSrc.getSfdNode();
+                                console.log(src_srf);
+
+
+                                var sourceNode=gNodeSrc.getSfdNode();
+                                var targetNode=gNodeTar.getSfdNode();
+
+                                for (var p=0;p<linkSfdCon.length;p++) {
+                                    var sourcePort = sourceNode.getPortWithId(linkSfdCon[p].s);
+                                    var targetPort = targetNode.getPortWithId(linkSfdCon[p].t);
+
+                                    console.log("sourcePort");
+                                    console.log(sourcePort);
+                                    console.log("targetPort");
+                                    console.log(targetPort);
+
+                                    var seenLink = repR.validateConnection(sourceNode, targetNode);
+                                    if (seenLink === false) {
+                                        repR.source(sourceNode);
+                                        repR.target(targetNode);
+                                        repR.addPortConnection(sourcePort, targetPort);
+                                    } else {
+                                        seenLink.setMultiLinkType(true);
+                                        seenLink.addPortConnection(sourcePort, targetPort);
+                                    }
+                                    targetPort.isUsed(true);
+                                    sourcePort.isUsed(true);
+                                }
+
+                            }
                         }
 
                         if (visible[0]===false && visible[1]===true && visible[2]===true){
@@ -388,7 +443,6 @@ function BaseWidget(parentElement) {
         var handler=that.getHandler();
         var saveObj=handler.requestSaveDataAsJson();
         console.log("text to write: "+saveObj);
-
         // create a hidden wrapper for saving files;
 
         var tempHref=document.createElement('a');

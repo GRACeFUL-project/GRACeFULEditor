@@ -342,6 +342,16 @@
                 linkObj.visibleInWidgets=link.getVisibleInWidget();
                 linkObj.controlPointsStatus=link.getControlPointStatus();
                 linkObj.controlPointsPosition=link.getControlPointPosition();
+                console.log(link);
+                console.log("isSFD "+link.isSFDLink());
+                if (link.isSFDLink()){
+                    console.log("found SFD LINK!!!");
+                    linkObj.sfdPortConnections=link.getSfdPortConnections();
+                    // if this function exists then we have an sfd link;
+
+                    // need to store the ports connections;l
+
+                }
                 retObj.links.push(linkObj);
             }
 

@@ -87,6 +87,10 @@ function GlobalNode() {
    // this.getRepresentedInWidget=function(){ return representedInWidget;};
 
 
+    this.getSfdNode=function(){
+        return nodeConstructors[2];
+    };
+
     var associatedGlobalLinks=[];
 
     this.setGlobalHoverText=function(text){globalHoverText=text};

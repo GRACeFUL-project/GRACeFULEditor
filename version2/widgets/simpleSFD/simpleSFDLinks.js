@@ -30,6 +30,10 @@ function SimpleSFDLink(graph) {
         isMultiLink=val;
     };
 
+    this.getSubLinks=function(){
+        return subLinks;
+    };
+
     this.addPortConnection=function(sourcePort,targetPort){
         var subLink={src:sourcePort,tar:targetPort};
         subLinks.push(subLink);

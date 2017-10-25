@@ -36,6 +36,30 @@ function GlobalLink() {
         return g_targetNode.id();
     };
 
+    this.getSfdPortConnections=function(){
+        var sfdLink=linkRepresenter[2];
+
+
+        var subLinks=sfdLink.getSubLinks();
+        var connections=[];
+        console.log(subLinks);
+        for (var i=0;i<subLinks.length;i++){
+            var sL=subLinks[i];
+            var srcPort=sL.src.id();
+            var tarPort=sL.tar.id();
+            console.log("SRC-Port:"+srcPort);
+            console.log("TAR-Port:"+tarPort);
+            connections.push({s:srcPort,t:tarPort});
+        }
+        return connections;
+    };
+
+    this.isSFDLink=function(){
+        if (linkRepresenter[2] && linkRepresenter[2].addPortConnection)
+            return true;
+        return false;
+    };
+
     this.getLinkValuesForExport=function(){
         var linkValues=[];
         for (var i=0;i<representedInWidget.length;i++){
