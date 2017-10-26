@@ -190,6 +190,33 @@
                 retLib+='"type"        : "NODAL"';
                 retLib+='},';
                 retLib+='';
+
+
+                retLib+='{ "name": "flooding",';
+                retLib+='';
+                retLib+='"parameters":[';
+                retLib+='                {"name":"numOut","type":"Int"}';
+                retLib+='],';
+                retLib+='"interface":[';
+                retLib+='                {';
+                retLib+='                    "name": "inflow",';
+                retLib+='                    "type": "Port (Float)",';
+                retLib+='                    "description": "Incoming Flow",';
+                retLib+='                    "imgURL": "./data/interfaces/inflow.png",';
+                retLib+='                    "rotation": true,';
+                retLib+='                    "outgoingType": "NONE",';
+                retLib+='                    "incomingType": "ARBITRARY"';
+                retLib+='                }';
+
+
+                retLib+='';
+                retLib+='],';                retLib+='"imgURL"      : "./data/img/square.png",';
+                retLib+='"description" : "flooding of square",';
+                retLib+='"type"        : "NODAL"';
+                retLib+='},';
+
+
+
                 retLib+='{';
                 retLib+='"name": "pump",';
                 retLib+='"parameters":[';
@@ -275,10 +302,27 @@
                 retLib+='                }';
                 retLib+='';
                 retLib+='],';
-                retLib+='"imgURL"      : "./data/img/sink.png",';
+                retLib+='"imgURL"      : "./images/sink.png",';
+                retLib+='"description" : "This is a Sink",';
+                retLib+='"type"        : "NODAL"';
+                retLib+='},';
+
+
+                retLib+='{ "name": "",';
+                retLib+='';
+                retLib+='"parameters":[';
+                retLib+='                {"name":"sink capacity","type":"Float"}';
+                retLib+='],';
+                retLib+='"interface":[';
+                retLib+='';
+                retLib+='],';
+                retLib+='"imgURL"      : "./images/increaseAction.png",';
                 retLib+='"description" : "This is a Sink",';
                 retLib+='"type"        : "NODAL"';
                 retLib+='}';
+
+
+
                 retLib+='';
                 retLib+='';
                 retLib+='],';
