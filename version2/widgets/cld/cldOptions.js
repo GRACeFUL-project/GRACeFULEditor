@@ -520,14 +520,14 @@ function CLDControls(parentWidget) {
     this.clearGraph=function(){
         parentWidget.clearGraph();
         var snackbarContainer = document.querySelector('#demo-toast-example');
-        var data = {message: 'The graph has been cleared'};
+        var data = {message: 'The model has been cleared'};
         snackbarContainer.MaterialSnackbar.showSnackbar(data);
     };
 
     this.onCriteriaImport = function() {
         console.log("Import criteria nodes from Goal Tree");
         that.parent.getCriteria();
-    }
+    };
 
     this.identifyExtFact = function() {
         that.parent.identifyExtFact();

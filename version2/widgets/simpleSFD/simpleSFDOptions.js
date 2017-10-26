@@ -22,7 +22,7 @@ function SimpleSFDControls(parentWidget) {
     this.clearGraph=function(){
         parentWidget.clearGraph();
         var snackbarContainer = document.querySelector('#demo-toast-example');
-        var data = {message: 'The graph has been cleared'};
+        var data = {message: 'The model has been cleared'};
         snackbarContainer.MaterialSnackbar.showSnackbar(data);
     };
 
@@ -189,6 +189,7 @@ function SimpleSFDControls(parentWidget) {
         var action={};
         action.task="SERVER_REQUEST";
         action.requestType="GET_LIBRARY"; // testing purpose
+        action.libraryName="fullgcm";
         that.parent.requestAction(action);
     };
 
@@ -434,6 +435,8 @@ function SimpleSFDControls(parentWidget) {
 
             // get node parameters
             var nodeParams=node.getParameterElements();
+            console.log("nodeParams");
+            console.log(nodeParams);
             for (i=0;i<nodeParams.length;i++){
                 var name=nodeParams[i].name;
                 //var type=nodeParams[i].type;

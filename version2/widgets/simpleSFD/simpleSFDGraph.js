@@ -52,7 +52,13 @@ function SimpleSFDGraph(){
     this.dblClick=function() {
            that.deselectLastLink();
            that.deselectLastNode();
-           if (that.selectedOverlayId===3){
+            console.log(that.selectedOverlayId);
+            console.log(inputClasses[that.selectedOverlayId]);
+           if (inputClasses[that.selectedOverlayId].name==="relation"){
+               console.log("this is an edge");
+               return;
+           }
+           if (that.selectedOverlayId===3 && that.allowAllClicks===undefined){
                console.log("NOPE ");
                return;
            }

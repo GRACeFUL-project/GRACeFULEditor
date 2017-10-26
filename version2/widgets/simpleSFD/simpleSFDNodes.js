@@ -99,7 +99,9 @@ function SimpleSFDNode(graph,nodeDescriptions) {
     };
 
     function createParameterObjects(){
-    //  console.log(parametersDescriptions);
+        console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        parameterElements=[];
+      console.log(parametersDescriptions);
         var parDesc=parametersDescriptions[that.getTypeId()];
         for (var i=0;i<parDesc.length;i++){
             var parObj={};
