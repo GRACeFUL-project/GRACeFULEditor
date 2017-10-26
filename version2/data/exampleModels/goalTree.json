@@ -4,7 +4,7 @@
   "nodes": [
     {
       "id": 0,
-      "name": "Main Goal",
+      "name": "Climate Resilience",
       "visibleInWidgets": [
         true,
         false,
@@ -18,8 +18,8 @@
       "comments": "",
       "pos": [
         {
-          "x": 666.5833129882812,
-          "y": 304
+          "x": 771.5833129882812,
+          "y": 187
         },
         {
           "x": 0,
@@ -38,7 +38,7 @@
     },
     {
       "id": 1,
-      "name": "Subgoal 1",
+      "name": "Flood Resilience",
       "visibleInWidgets": [
         true,
         false,
@@ -52,8 +52,8 @@
       "comments": "",
       "pos": [
         {
-          "x": 572.5833129882812,
-          "y": 491
+          "x": 557.5833129882812,
+          "y": 432
         },
         {
           "x": 0,
@@ -72,7 +72,7 @@
     },
     {
       "id": 2,
-      "name": "Subgoal 2",
+      "name": "Accessibility",
       "visibleInWidgets": [
         true,
         false,
@@ -86,8 +86,8 @@
       "comments": "",
       "pos": [
         {
-          "x": 762.5833129882812,
-          "y": 492
+          "x": 729.5833129882812,
+          "y": 427
         },
         {
           "x": 0,
@@ -106,114 +106,98 @@
     },
     {
       "id": 3,
-      "name": "Criteria 1",
+      "name": "Aesthetics",
       "visibleInWidgets": [
         true,
-        true,
-        true
-      ],
-      "nodeTypeId": [
-        3,
-        3,
-        2
-      ],
-      "comments": "",
-      "pos": [
-        {
-          "x": 570.5833129882812,
-          "y": 662
-        },
-        {
-          "x": 765.5833129882812,
-          "y": 258
-        },
-        {
-          "x": 765.5833129882812,
-          "y": 258
-        }
-      ],
-      "metaData": [
-        {},
-        {
-          "observe": false,
-          "trend": 0,
-          "actions": {
-            "plusAction": false,
-            "minusAction": false,
-            "zeroAction": false
-          }
-        },
-        {}
-      ]
-    },
-    {
-      "id": 4,
-      "name": "Criteria 2",
-      "visibleInWidgets": [
-        true,
-        true,
-        true
-      ],
-      "nodeTypeId": [
-        3,
-        3,
-        2
-      ],
-      "comments": "",
-      "pos": [
-        {
-          "x": 764.5833129882812,
-          "y": 663
-        },
-        {
-          "x": 764.5833129882812,
-          "y": 663
-        },
-        {
-          "x": 764.5833129882812,
-          "y": 663
-        }
-      ],
-      "metaData": [
-        {},
-        {
-          "observe": false,
-          "trend": 0,
-          "actions": {
-            "plusAction": false,
-            "minusAction": false,
-            "zeroAction": false
-          }
-        },
-        {}
-      ]
-    },
-    {
-      "id": 5,
-      "name": "An Action",
-      "visibleInWidgets": [
         false,
-        true,
-        true
+        false
       ],
       "nodeTypeId": [
-        -1,
         2,
-        1
+        -1,
+        -1
       ],
       "comments": "",
       "pos": [
+        {
+          "x": 894.5833129882812,
+          "y": 427
+        },
         {
           "x": 0,
           "y": 0
         },
         {
-          "x": 569.5833129882812,
-          "y": 541
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "metaData": [
+        {},
+        {},
+        {}
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Affordability",
+      "visibleInWidgets": [
+        true,
+        false,
+        false
+      ],
+      "nodeTypeId": [
+        2,
+        -1,
+        -1
+      ],
+      "comments": "",
+      "pos": [
+        {
+          "x": 1063.5833740234375,
+          "y": 423
         },
         {
-          "x": 282.58331298828125,
-          "y": 439
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "metaData": [
+        {},
+        {},
+        {}
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Flood Damage",
+      "visibleInWidgets": [
+        true,
+        true,
+        true
+      ],
+      "nodeTypeId": [
+        3,
+        3,
+        2
+      ],
+      "comments": "",
+      "pos": [
+        {
+          "x": 317.5833282470703,
+          "y": 731
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
         }
       ],
       "metaData": [
@@ -232,30 +216,30 @@
     },
     {
       "id": 6,
-      "name": "Factor 1",
+      "name": "Flood Nuisance",
       "visibleInWidgets": [
-        false,
+        true,
         true,
         true
       ],
       "nodeTypeId": [
-        -1,
-        1,
-        0
+        3,
+        3,
+        2
       ],
       "comments": "",
       "pos": [
+        {
+          "x": 479.58331298828125,
+          "y": 729
+        },
         {
           "x": 0,
           "y": 0
         },
         {
-          "x": 1070.5833740234375,
-          "y": 422
-        },
-        {
-          "x": 1302.5833740234375,
-          "y": 341
+          "x": 0,
+          "y": 0
         }
       ],
       "metaData": [
@@ -274,30 +258,30 @@
     },
     {
       "id": 7,
-      "name": "Factor 2",
+      "name": "Public Parking Capacity",
       "visibleInWidgets": [
-        false,
+        true,
         true,
         true
       ],
       "nodeTypeId": [
-        -1,
-        1,
-        0
+        3,
+        3,
+        2
       ],
       "comments": "",
       "pos": [
+        {
+          "x": 620.5833129882812,
+          "y": 727
+        },
         {
           "x": 0,
           "y": 0
         },
         {
-          "x": 1309.5833740234375,
-          "y": 529
-        },
-        {
-          "x": 1309.5833740234375,
-          "y": 529
+          "x": 0,
+          "y": 0
         }
       ],
       "metaData": [
@@ -316,27 +300,26 @@
     },
     {
       "id": 8,
-      "name": "City",
-      "email": "the_city@magic.com",
+      "name": "Traffic Capacity",
       "visibleInWidgets": [
         true,
         true,
         true
       ],
       "nodeTypeId": [
-        100,
-        5,
-        3
+        3,
+        3,
+        2
       ],
-      "comments": "Mr. A\nMr. B\nMr. C\n",
+      "comments": "",
       "pos": [
         {
-          "x": 379,
-          "y": 806
+          "x": 744.5833129882812,
+          "y": 728
         },
         {
-          "x": 379,
-          "y": 806
+          "x": 0,
+          "y": 0
         },
         {
           "x": 0,
@@ -359,27 +342,26 @@
     },
     {
       "id": 9,
-      "name": "Residents",
-      "email": "the_residents@magic.com",
+      "name": "Road Access",
       "visibleInWidgets": [
         true,
         true,
         true
       ],
       "nodeTypeId": [
-        100,
-        5,
-        3
+        3,
+        3,
+        2
       ],
-      "comments": "Mrs. X\nMr. P\n",
+      "comments": "",
       "pos": [
         {
-          "x": 638,
-          "y": 804
+          "x": 870.5833129882812,
+          "y": 727
         },
         {
-          "x": 638,
-          "y": 804
+          "x": 0,
+          "y": 0
         },
         {
           "x": 0,
@@ -402,27 +384,68 @@
     },
     {
       "id": 10,
-      "name": "Business",
-      "email": "the_business@magic.com",
+      "name": "Green/blue space",
       "visibleInWidgets": [
         true,
         true,
         true
       ],
       "nodeTypeId": [
-        100,
-        5,
-        3
+        3,
+        3,
+        2
       ],
-      "comments": "Mr. Q\nMrs. Z\nMrs. Y\n",
+      "comments": "",
       "pos": [
         {
-          "x": 915,
-          "y": 806
+          "x": 1000.5833129882812,
+          "y": 728
         },
         {
-          "x": 915,
-          "y": 806
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "metaData": [
+        {},
+        {
+          "observe": false,
+          "trend": 0,
+          "actions": {
+            "plusAction": false,
+            "minusAction": false,
+            "zeroAction": false
+          }
+        },
+        {}
+      ]
+    },
+    {
+      "id": 11,
+      "name": "Cost",
+      "visibleInWidgets": [
+        true,
+        true,
+        true
+      ],
+      "nodeTypeId": [
+        3,
+        3,
+        2
+      ],
+      "comments": "",
+      "pos": [
+        {
+          "x": 1143.5833740234375,
+          "y": 729
+        },
+        {
+          "x": 0,
+          "y": 0
         },
         {
           "x": 0,
@@ -530,7 +553,7 @@
     {
       "id": 2,
       "source_target": [
-        1,
+        0,
         3
       ],
       "linkTypesInWidgets": [
@@ -571,7 +594,7 @@
     {
       "id": 3,
       "source_target": [
-        2,
+        0,
         4
       ],
       "linkTypesInWidgets": [
@@ -612,8 +635,8 @@
     {
       "id": 4,
       "source_target": [
-        7,
-        4
+        1,
+        5
       ],
       "linkTypesInWidgets": [
         0,
@@ -621,14 +644,14 @@
         0
       ],
       "linkValuesInWidgets": [
+        0,
         -1,
-        1,
-        0
+        -1
       ],
       "visibleInWidgets": [
-        false,
         true,
-        true
+        false,
+        false
       ],
       "controlPointsStatus": [
         false,
@@ -641,54 +664,19 @@
           "y": 0
         },
         {
-          "x": 1037.0833435058594,
-          "y": 596
+          "x": 0,
+          "y": 0
         },
-        null
+        {
+          "x": 0,
+          "y": 0
+        }
       ]
     },
     {
       "id": 5,
       "source_target": [
-        6,
-        7
-      ],
-      "linkTypesInWidgets": [
-        0,
-        0,
-        0
-      ],
-      "linkValuesInWidgets": [
-        -1,
-        2,
-        0
-      ],
-      "visibleInWidgets": [
-        false,
-        true,
-        true
-      ],
-      "controlPointsStatus": [
-        false,
-        false,
-        false
-      ],
-      "controlPointsPosition": [
-        {
-          "x": 0,
-          "y": 0
-        },
-        {
-          "x": 1190.0833740234375,
-          "y": 475.5
-        },
-        null
-      ]
-    },
-    {
-      "id": 6,
-      "source_target": [
-        5,
+        1,
         6
       ],
       "linkTypesInWidgets": [
@@ -697,14 +685,14 @@
         0
       ],
       "linkValuesInWidgets": [
+        0,
         -1,
-        1,
-        0
+        -1
       ],
       "visibleInWidgets": [
-        false,
         true,
-        true
+        false,
+        false
       ],
       "controlPointsStatus": [
         false,
@@ -717,17 +705,20 @@
           "y": 0
         },
         {
-          "x": 820.0833435058594,
-          "y": 481.5
+          "x": 0,
+          "y": 0
         },
-        null
+        {
+          "x": 0,
+          "y": 0
+        }
       ]
     },
     {
-      "id": 7,
+      "id": 6,
       "source_target": [
-        5,
-        3
+        2,
+        7
       ],
       "linkTypesInWidgets": [
         0,
@@ -735,14 +726,14 @@
         0
       ],
       "linkValuesInWidgets": [
+        0,
         -1,
-        1,
-        0
+        -1
       ],
       "visibleInWidgets": [
-        false,
         true,
-        true
+        false,
+        false
       ],
       "controlPointsStatus": [
         false,
@@ -755,10 +746,177 @@
           "y": 0
         },
         {
-          "x": 667.5833129882812,
-          "y": 399.5
+          "x": 0,
+          "y": 0
         },
-        null
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "source_target": [
+        2,
+        8
+      ],
+      "linkTypesInWidgets": [
+        0,
+        0,
+        0
+      ],
+      "linkValuesInWidgets": [
+        0,
+        -1,
+        -1
+      ],
+      "visibleInWidgets": [
+        true,
+        false,
+        false
+      ],
+      "controlPointsStatus": [
+        false,
+        false,
+        false
+      ],
+      "controlPointsPosition": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "source_target": [
+        2,
+        9
+      ],
+      "linkTypesInWidgets": [
+        0,
+        0,
+        0
+      ],
+      "linkValuesInWidgets": [
+        0,
+        -1,
+        -1
+      ],
+      "visibleInWidgets": [
+        true,
+        false,
+        false
+      ],
+      "controlPointsStatus": [
+        false,
+        false,
+        false
+      ],
+      "controlPointsPosition": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "source_target": [
+        3,
+        10
+      ],
+      "linkTypesInWidgets": [
+        0,
+        0,
+        0
+      ],
+      "linkValuesInWidgets": [
+        0,
+        -1,
+        -1
+      ],
+      "visibleInWidgets": [
+        true,
+        false,
+        false
+      ],
+      "controlPointsStatus": [
+        false,
+        false,
+        false
+      ],
+      "controlPointsPosition": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "source_target": [
+        4,
+        11
+      ],
+      "linkTypesInWidgets": [
+        0,
+        0,
+        0
+      ],
+      "linkValuesInWidgets": [
+        0,
+        -1,
+        -1
+      ],
+      "visibleInWidgets": [
+        true,
+        false,
+        false
+      ],
+      "controlPointsStatus": [
+        false,
+        false,
+        false
+      ],
+      "controlPointsPosition": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        }
       ]
     }
   ]

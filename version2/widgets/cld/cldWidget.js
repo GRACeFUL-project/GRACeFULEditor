@@ -147,7 +147,13 @@ function CLDWidget(){
         //TODO        
         var parsedResult = JSON.parse(result);
         console.log("CLDWidget result: "+JSON.stringify(parsedResult, null, ""));
-        that.graphObject.deliverResultsForNodes(parsedResult);
+        if(parsedResult["result"] === null) {
+            console.log("Result is null");
+            alert("Invalid Model");
+        }
+        else {
+            that.graphObject.deliverResultsForNodes(parsedResult);
+        }        
     };
 
     this.createLoopModal = function(id, header, content) {
