@@ -69,29 +69,16 @@ function setSFD(sfd){
   sfdRef=sfd;
 }
 
-function loadGracefulConceptMapToolbar(sfd){
-  getGracefulConceptMapToolbar();
+function setReferenceOfSFD(sfd){
   sfdRef=sfd;
   sfdRef.setTabTitle("GRACeFUL Concept Map");
 }
 
-function loadCausalLoopDiagramToolbar(cld){
+function setReferenceOfCLD(cld){
     cldRef = cld;
-
-    // clear the elements from cld please;
-    clearItems();
 }
 
 
-function clearItems(){
-    var domElement = document.getElementById('widgetList') ;
-    console.log(domElement);
-    var htmlCollection = domElement.children;
-    var numEntries = htmlCollection.length;
-    for (var i = 0; i < numEntries; i++) {
-        htmlCollection[0].remove();
-    }
-}
 
 function setReferenceOfGoalTreeDiagram(gtw){
   goalTreeRef = gtw;

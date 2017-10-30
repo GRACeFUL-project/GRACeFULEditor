@@ -140,8 +140,10 @@ function CLDControls(parentWidget) {
         // cldChip = cldChipNode[0];
         // cldChipImage=cldChipNode[1];
 
-        linkClass = that.addSelectionOpts(linksGroup, "Link type", ["Causal Relation", "Causal Relation"], that.onChangeLinkClass);
-        linkClass.node().options[0].hidden = true;
+        linkClass = that.addSelectionOpts(linksGroup, "Link type", ["Undefined", "Causal Relation"], that.onChangeLinkClass);
+     //   linkClass.node().options[0].hidden = true;
+        linkClass.node().options[1].selected=true;
+
         causalSelection = that.addSelectionOpts(linksGroup, "Influence", getClassValues, that.onChangeLinkType);
         d3.select(causalSelection.node().parentNode).classed("hidden", true);
         commentLink = that.addTextEdit(linksGroup, "Comments", "", true, that.onChangeLinkComment);

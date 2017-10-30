@@ -111,6 +111,7 @@ function SimpleSFDWidget(){
             obj.library=[]; // array of objects
 
 
+
             // creating forloop style;
             // skipping the first 2 elements // currently dont know how to add them;
 
@@ -140,6 +141,7 @@ function SimpleSFDWidget(){
                     libElement.imgURL="./images/edgeElement.png";
                     libElement.type="RELATIONAL";
                     libElement.name="relation";
+                    continue;
                 }
 
 
@@ -286,7 +288,13 @@ function SimpleSFDWidget(){
                 }
                 obj.library.push(libElement);
             }
-
+            var stakeElement={};
+            stakeElement.name="Stakeholder";
+            stakeElement.description="Stakeholder Nodes'";
+            stakeElement.imgURL="./images/stakeholder.png";
+            stakeElement.parameters=[];
+            stakeElement.interface=[];
+            obj.library.push(stakeElement);
 
             // var firstElement=jsonObj.library[0]; // is scipped;
             // var secondElement=jsonObj.library[1]; // is scipped;

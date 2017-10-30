@@ -75,16 +75,9 @@ function SimpleSFDGraph(){
         that.redrawGraphContent();
 
         // add friendly nodes;
-
-        if (that.selectedOverlayId===2){
-            var friendlyWidget=that.parentWidget.gtwGraphObj;
-            globalNode.setVisibleInWidget(friendlyWidget,true);
-            var friendlyNode=friendlyWidget.createNode(that.parentWidget.gtwGraphObj);
-            globalNode.setNodeType(friendlyWidget,3,friendlyNode);
-            friendlyNode.setGlobalNodePtr(globalNode);
-        }
-
-        if (that.selectedOverlayId===0){
+        console.log("-------------SFD NAME "+inputClasses[that.selectedOverlayId].name);
+        if (inputClasses[that.selectedOverlayId].name==="Factor"){
+            console.log("yeas'");
             var friendlyWidget=that.parentWidget.cldGraphObj;
             globalNode.setVisibleInWidget(friendlyWidget,true);
             var friendlyNode=friendlyWidget.createNode(that.parentWidget.cldGraphObj);
@@ -92,7 +85,7 @@ function SimpleSFDGraph(){
             friendlyNode.setGlobalNodePtr(globalNode);
         }
 
-        if (that.selectedOverlayId===1){
+        if (inputClasses[that.selectedOverlayId].name==="action"){
             var friendlyWidget=that.parentWidget.cldGraphObj;
             globalNode.setVisibleInWidget(friendlyWidget,true);
             var friendlyNode=friendlyWidget.createNode(that.parentWidget.cldGraphObj);
@@ -100,10 +93,18 @@ function SimpleSFDGraph(){
             friendlyNode.setGlobalNodePtr(globalNode);
         }
 
-        if (that.selectedOverlayId===2){
+        if (inputClasses[that.selectedOverlayId].name==="criterion"){
             var friendlyWidget=that.parentWidget.cldGraphObj;
             globalNode.setVisibleInWidget(friendlyWidget,true);
             var friendlyNode=friendlyWidget.createNode(that.parentWidget.cldGraphObj);
+            globalNode.setNodeType(friendlyWidget,3,friendlyNode);
+            friendlyNode.setGlobalNodePtr(globalNode);
+        }
+
+        if (inputClasses[that.selectedOverlayId].name==="criterion"){
+            var friendlyWidget=that.parentWidget.gtwGraphObj;
+            globalNode.setVisibleInWidget(friendlyWidget,true);
+            var friendlyNode=friendlyWidget.createNode(that.parentWidget.gtwGraphObj);
             globalNode.setNodeType(friendlyWidget,3,friendlyNode);
             friendlyNode.setGlobalNodePtr(globalNode);
         }
@@ -843,7 +844,30 @@ function SimpleSFDGraph(){
         return {x: xn, y: yn};
     }
 
+    this.getTargetNode=function(position) {
+        // computes the nearest node center to the given position;
+        // todo : use kd-tree for node positions and optimizations;
+        // todo: do we really need this;
+        var dx=position[0];
+        var dy=position[1];
+        var tN=undefined;
+        var minDist=1000000000000;
 
+
+        that.nodeElementArray.forEach(function (el){
+            // compute distance;
+            var cDist=Math.sqrt((el.x-dx)*(el.x-dx)+(el.y-dy)*(el.y-dy));
+            if (cDist<minDist){
+                minDist=cDist;
+                tN=el;
+            }
+        });
+        //     console.log("minDist="+minDist);
+        if (minDist>80) return null;
+        return tN;
+
+
+    };
     // owerwrite dragger release function;
     this.draggerElementReleaseFunction=function(d){
 
@@ -852,10 +876,36 @@ function SimpleSFDGraph(){
 
 
         that.draggerLayer.classed("hidden",true);
-        // check he the node stoped
-        that.draggingObject=false;
+
+        // what type is d;
+        console.log(d.parentNode().getElementType());
+        console.log("------------------");
+        var targetNode=undefined;
         var draggeEndPos=[that.draggerElement.x, that.draggerElement.y];
+        that.draggingObject=false;
+        if (d.parentNode().getElementType()==="sfdNode"){
+            // find the closes NODE!
+            targetNode=that.getTargetNode(draggeEndPos);
+            // some fancy stuff;
+            if (d.parentNode().getElementType()==="sfdNode" && targetNode.getElementType()==="sfdNode"){
+                console.log("create the connection in CLD please");
+                that.parentWidget.cldGraphObj.addLinkFormSFD(d.parentNode(),targetNode);
+                that.forceRedrawContent();
+
+            }
+
+            return;
+
+        }
+        // check he the node stoped
+
+
+
         var targetPort=that.getTargetPort(draggeEndPos);
+
+
+
+
         // console.log("dragger End pos"+draggeEndPos);
         if (targetPort && d.parentNode().getParentId()!==targetPort.getParentId()) {
             console.log("Target node name: " + targetPort.getName());

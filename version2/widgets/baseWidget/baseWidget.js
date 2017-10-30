@@ -400,7 +400,7 @@ function BaseWidget(parentElement) {
                                 var lV = linkValues[v];
 
                                 if (cLink.setCLDLinkTypeFromOutside)
-                                    cLink.setCLDLinkTypeFromOutside(lT, lV);
+                                    cLink.setCLDLinkTypeFromOutside(lV, lV);
                             }
                             if (v===2){
                                 // craete a cld link that is used in sfd
@@ -413,7 +413,7 @@ function BaseWidget(parentElement) {
 
 
                    //     console.log("DONE");
-
+                        console.log(linkCpStatus);
                         if (linkCpStatus[v]===true){
                             // add the controlpoint position from the loaded json model
                             cLink.setControlPoint(linkCpPos[v]);

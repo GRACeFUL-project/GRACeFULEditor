@@ -21,11 +21,26 @@ function SimpleSFDNode(graph,nodeDescriptions) {
     var superClickFunction= that.onClicked;
     var m_nodeDescriptions=nodeDescriptions;
 
+
     var portSvgRoot=undefined;
     this.getGraphObject=function(){
         return graph_object;
     };
+    var elementType="sfdNode";
+    this.getElementType=function(){
+        return elementType
+    };
 
+
+    this.findTypeId=function(name){
+        console.log("searching for "+name);
+      for (var i=0;i<labelTags.length;i++){
+          if (labelTags[i]===name)
+              return i;
+        }
+
+
+    };
 
     this.getPortSvgRoot=function(){
         return portSvgRoot;
@@ -273,6 +288,16 @@ function SimpleSFDNode(graph,nodeDescriptions) {
             // nothing to do // the super function should have done thisl
             // kill drager element
             graph.hideDraggerElement();
+
+
+            // hackaround
+            if (that.getPortElements().length===0){
+                console.log("this element does not have");
+                graph.selectNode(that);
+                graph.createDraggerElement(that);
+            }
+
+
         }
     };
     // disable double click function

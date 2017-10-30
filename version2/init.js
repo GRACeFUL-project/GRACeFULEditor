@@ -11,18 +11,24 @@ var gHandlerObj=handler.create();
 
     function loadGoalTreeElements(){
         setReferenceOfGoalTreeDiagram(gtw);
+        var leftbar = document.getElementById('widgetListGT') ;
+        var htmlCollection = leftbar.children;
+        var numEntries = htmlCollection.length;
+
+        var i,temp;
+        for ( i = 0; i < numEntries; i++) {
+            htmlCollection[0].remove();
+        }
         var object=[];
         var undef={name:"UDef"};
         var goal={name:"Goal",color:'#65e1c4'};
-        var suboal={name:"Sub-Goal",color:'#65c0e1'};
+        var subgoal={name:"Sub-Goal",color:'#65c0e1'};
         var criterion={name:"Criterion",color:'#fdd2b5'};
 
         object.push(undef);
         object.push(goal);
-        object.push(suboal);
+        object.push(subgoal);
         object.push(criterion);
-        var leftbar = document.getElementById('widgetListGT') ;
-        var i,temp;
         var widgetItemDiv,imgItem,nameDiv;
         for( i=0; i < object.length ; i++ ) {
             temp = object[i];
@@ -46,85 +52,120 @@ var gHandlerObj=handler.create();
             rect.style("fill",temp.color);
             rect.style("stroke",'white');
             rect.style("stroke-width",'2px');
-
-            // imgItem = document.createElement("svg");
-            // widgetItemDiv.appendChild(imgItem);
-            //
-            //
-            //
-            // // widgetItemDiv.innerHTML = label;
-             widgetItemDiv.appendChild(document.createElement("br"));
-            //
-             nameDiv = document.createElement("div");
-             nameDiv.innerHTML= temp.name;
-             widgetItemDiv.appendChild(nameDiv);
-            //
-            //
-            // imgItem.setAttribute("height","100");
-            // imgItem.setAttribute("width","100");
-            //
-            // var rect=d3.select(imgItem).append('rect');
-            // rect.attr("x",0)
-            //     .attr("y",15)
-            //     .attr("rx",8)
-            //     .attr("ry",8)
-            //     .attr("width",100)
-            //     .attr("height",80);
-            // rect.style("fill",'red');
-            // rect.style("stroke",'white');
-            // rect.style("stroke-width",'2px');
-            // console.log(rect)
-            // imgItem.setAttribute("height","100");
-            // imgItem.setAttribute("width","100");
-
-
+            widgetItemDiv.appendChild(document.createElement("br"));
+            nameDiv = document.createElement("div");
+            nameDiv.innerHTML= temp.name;
+            widgetItemDiv.appendChild(nameDiv);
+            if (i===0) d3.select(widgetItemDiv).classed("hidden",true);
         }
+    }
 
-    // <svg width="100" height="100">
-    //         <rect x="0" y="15" rx="8" ry="8" width="100" height="80"
-    //     style="fill:#65c0e1;stroke:white;stroke-width:2;" />
-    //         </svg>
-    //
+    function loadCLD_ElementsFromLib(jsonOBJ){
+            setReferenceOfCLD(cld);
+            var leftbar = document.getElementById('widgetListCLD') ;
+            var htmlCollection = leftbar.children;
+            var numEntries = htmlCollection.length;
 
+            var i,temp;
+            for ( i = 0; i < numEntries; i++) {
+                htmlCollection[0].remove();
+            }
+
+            var object=[];
+            object.push({name:"undef"}); // hidden element
+            for (i=0;i<jsonOBJ.library.length;i++){
+                object.push(jsonOBJ.library[i]);
+            }
+            var widgetItemDiv,imgItem,nameDiv;
+            for( i=0; i < object.length ; i++ ) {
+                temp = object[i];
+                widgetItemDiv = document.createElement("div");
+                leftbar.appendChild(widgetItemDiv);
+
+                widgetItemDiv.setAttribute("id","cld"+i);
+                widgetItemDiv.setAttribute("onclick", "setDivActiveCLD("+i+")");
+                leftbar.appendChild(widgetItemDiv);
+                d3.select(widgetItemDiv).classed("widgetItem",true);
+                imgItem=d3.select(widgetItemDiv).append('svg');
+                imgItem.attr("width",100);
+                imgItem.attr("height",100);
+                var circ=imgItem.append('circle');
+                circ.attr("cx",50)
+                    .attr("cy",50)
+                    .attr("r",40);
+                circ.style("fill",temp.color);
+                circ.style("stroke",'white');
+                circ.style("stroke-width",'2px');
+                widgetItemDiv.appendChild(document.createElement("br"));
+                nameDiv = document.createElement("div");
+                nameDiv.innerHTML= temp.name;
+                widgetItemDiv.appendChild(nameDiv);
+                if (i===0) d3.select(widgetItemDiv).classed("hidden",true);
+            }
 
 
     }
 
+    function prepareFullLibCLD(fullLib){
+        console.log(fullLib);
+        var jsonIbj=JSON.parse(fullLib);
+        var libArray=jsonIbj.library;
+        var obj={};
+        obj.name="FULL GCM MODEL";
+        // here we filter things out;;
+        obj.library=[]; // array of objects
+        // creating forloop style;
+        // skipping the first 2 elements // currently dont know how to add them;
+        for (var i=0;i<libArray.length;i++){
+            var currentElement=libArray[i];
 
-    initializer.loadSideBarElements=function(){
+            // create an object;
+            var libElement={};
+            libElement.name=currentElement.name;
+            libElement.description=currentElement.comment;
+            libElement.parameters=[];
+            libElement.type="NODAL";
+
+            if (libElement.name==="node" ||
+                libElement.name==="action" ||
+                libElement.name==="criterion") {
+                if (libElement.name === "node") {
+                    // has no interface -.-
+                    libElement.imgURL = "./images/factorNode.png";
+                    libElement.type = "CAUSAL";
+                    libElement.name = "factor";
+                    libElement.color="#addcc9";
+                }
+                if (libElement.name === "action") {
+                    libElement.imgURL = "./images/adaptation_action.png";
+                    libElement.type = "CAUSAL";
+                    libElement.color="#f48b94";
+                }
+                if (libElement.name === "criterion") {
+                    libElement.imgURL = "./images/criterion.png";
+                    libElement.color="#fdd2b5";
+                    libElement.type = "CAUSAL";
+                }
+                obj.library.push(libElement);
+            }
+        }
+        console.log(obj);
+        return obj;
+
+
+    }
+
+    initializer.loadSideBarElements=function(fullLib){
         console.log("Loading SideBar Elements");
 
         // load goalTree Elements;
 
-        var leftbar = document.getElementById('widgetListGT') ;
-        var htmlCollection = leftbar.children;
-        var numEntries = htmlCollection.length;
-        var i,temp;
 
-        for ( i = 0; i < numEntries; i++) {
-            htmlCollection[0].remove();
-        }
         loadGoalTreeElements();
-        // create the new elements
-        //
-        // widgetItemDiv = document.createElement("div");
-        // widgetItemDiv.setAttribute("class","widgetItem");
-        // widgetItemDiv.setAttribute("id","sfd"+i);
-        // widgetItemDiv.setAttribute("onclick", "setDivActive("+i+")");
-        //
-        // imgItem = document.createElement("img");
-        // imgItem.setAttribute("src",srcToImg);
-        // imgItem.setAttribute("height","96px");
-        // imgItem.setAttribute("width","96px");
-        // // widgetItemDiv.innerHTML = label;
-        // widgetItemDiv.appendChild(imgItem);
-        // widgetItemDiv.appendChild(document.createElement("br"));
-        //
-        // nameDiv = document.createElement("div");
-        // nameDiv.innerHTML= label;
-        // widgetItemDiv.appendChild(nameDiv);
-
-
+        loadCLD_ElementsFromLib(prepareFullLibCLD(fullLib));
+        // sfd can handle this it self;
+        setReferenceOfSFD(sfd);
+        sfd.loadLibrary(fullLib,true);
 
     };
 

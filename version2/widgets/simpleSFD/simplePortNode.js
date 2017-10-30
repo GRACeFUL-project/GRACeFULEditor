@@ -34,6 +34,11 @@ function SimplePortNode(parent,portDesc) {
     this.type=function(){return elementType;};
 
 
+    this.getElementType=function(){
+        return elementType
+    };
+
+
     this.getProvidedPortConnectionTypes=function(){
         return providedPortConnectionType;
     };
