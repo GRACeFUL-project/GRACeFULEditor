@@ -288,7 +288,7 @@ function BaseControls(parentWidget) {
           onClickFunction();
       });
       return button;
-    }
+    };
 
     this.addHrefButton = function(parent, label, onClickFunction,ownDiv) {
         var thisDiv=undefined;

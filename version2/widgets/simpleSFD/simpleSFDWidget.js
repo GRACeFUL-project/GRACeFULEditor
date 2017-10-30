@@ -64,7 +64,7 @@ function SimpleSFDWidget(){
 
     this.loadLibrary=function(jsonData, invalidLibFormat){
         // loading library;
-
+        console.log("HALLOOOOO000000000000000000000000000000000000000000000000000")
         // read the text as json
      // console.log("Parsing Json obj"+jsonData);
         var jsonObj=JSON.parse(jsonData);

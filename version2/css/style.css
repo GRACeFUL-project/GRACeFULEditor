@@ -300,6 +300,7 @@ main {
 
 .panel-heading {
 	height: 64px;
+	min-width: 200px;
 	background-color: #BDBDBD;
 	color: #BDBDBD;
 	border: 0px solid #E0E0E0;

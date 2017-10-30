@@ -361,6 +361,7 @@ function SimpleSFDControls(parentWidget) {
         clearSFD= that.addButton(controlsMenuLibrary, "CLEAR MODEL", "sfdClearGraph", that.clearGraph, "flat", true, "clear_all" );
         
         reqSFD= that.addButton(controlsMenu, "GET LIBRARY", "sfdGetLibrary", that.serverRequest, "flat", true, "get_app" );
+        reqSFD.disabled=true;
         //   reqSFD = that.addHrefButton(controlsMenu,"Get Library",that.serverRequest,true);
         //   reqSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
         //   reqSFD.parentNode.setAttribute("id", "sfd_basic1");

@@ -58,10 +58,7 @@ function SimpleSFDGraph(){
                console.log("this is an edge");
                return;
            }
-           if (that.selectedOverlayId===3 && that.allowAllClicks===undefined){
-               console.log("NOPE ");
-               return;
-           }
+
         var handler=that.parentWidget.getHandler();
         var globalNode=handler.createGlobalNode(that);
         globalNode.setNodeType(that,that.selectedOverlayId,that.createNode(that,inputClasses));

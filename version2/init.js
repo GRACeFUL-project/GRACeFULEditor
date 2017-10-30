@@ -127,7 +127,9 @@ var gHandlerObj=handler.create();
         action.requestType="GET_LIBRARY_STATIC";
         sfd.setCommunicationModule(com);
         sfd.setHandlerModule(gHandlerObj);
+        cld.requestAction(action);
         sfd.requestAction(action);
+
 
         // adding to widget list
     //    widgetList.push(example);

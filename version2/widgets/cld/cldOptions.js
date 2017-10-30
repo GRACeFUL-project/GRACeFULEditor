@@ -178,6 +178,7 @@ function CLDControls(parentWidget) {
 
 
         libCld = that.addButton(graphControls, "GET LIBRARY", "cldGetLibrary", that.getLibrary, "flat", true, "get_app" );
+        libCld.disabled=true;
         // libCld = that.addHrefButton(additionalSettings,"Get Library",that.getLibrary,true);
         // libCld.setAttribute("class", "btn btn-default btn-sm");
         // libCld.parentNode.setAttribute("id", "basic1");
