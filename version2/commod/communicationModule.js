@@ -15,6 +15,8 @@
     function new_object(initializer) {
         // some variables
         var that = this;
+
+        this.initPtr=undefined;
         this.erroLog="Error Message";
         //var registeredWidgets;
         //http://localhost:4000/static/index.html
@@ -34,6 +36,9 @@
         //     }
         // };
 
+        this.setInitPtr=function(initPtr){
+            that.initPtr=initPtr;
+        };
 
         this.registerSolver=function(address){
             // tell that thing where we want to send /receive data from
@@ -128,11 +133,8 @@
             }
 
             if (localAction.task===SERVER_REQUEST && localAction.requestType==="GET_LIBRARY_STATIC") {
-
-
                 var fullGCMlib='{"library":[{"relational":false,"icon":"pathToNodeImage","name":"node","parameters":[{"hoverText":"obsSign","name":"obsSign","imgURL":"./data/interfaces/obsSign.png","type":"Int | ()"},{"hoverText":"numIn","name":"numIn","imgURL":"./data/interfaces/numIn.png","type":"Int"},{"hoverText":"numOut","name":"numOut","imgURL":"./data/interfaces/numOut.png","type":"Int"}],"interface":[{"hoverText":"value","name":"value","imgURL":"./data/interfaces/value.png","type":"Port (Int)"}],"comment":"Generic node"},{"relational":true,"icon":"pathToArrowImage","name":"edge","parameters":[{"hoverText":"sign","name":"sign","imgURL":"./data/interfaces/sign.png","type":"Int"}],"interface":[],"comment":"Causal relation"},{"relational":false,"icon":"/dev/null","name":"budget","parameters":[{"hoverText":"numberOfPorts","name":"numberOfPorts","imgURL":"./data/interfaces/numberOfPorts.png","type":"Int"},{"hoverText":"maximumBudget","name":"maximumBudget","imgURL":"./data/interfaces/maximumBudget.png","type":"Int"}],"interface":[],"comment":"Set a maximum budget"},{"relational":false,"icon":"/dev/null","name":"optimise","parameters":[{"hoverText":"numberOfPorts","name":"numberOfPorts","imgURL":"./data/interfaces/numberOfPorts.png","type":"Int"}],"interface":[],"comment":"Optimise the sum of some ports"},{"relational":false,"icon":"/dev/null","name":"evaluate","parameters":[{"hoverText":"values","name":"values","imgURL":"./data/interfaces/values.png","type":"[Int]"},{"hoverText":"weights","name":"weights","imgURL":"./data/interfaces/weights.png","type":"[Float]"}],"interface":[{"hoverText":"atPort","name":"atPort","imgURL":"./data/interfaces/atPort.png","type":"Port (Int)"},{"hoverText":"benefit","name":"benefit","imgURL":"./data/interfaces/benefit.png","type":"Port (Float)"}],"comment":"Evaluate benefits of possible values"},{"relational":false,"icon":"/dev/null","name":"action","parameters":[{"hoverText":"values","name":"values","imgURL":"./data/interfaces/values.png","type":"[Int]"},{"hoverText":"costs","name":"costs","imgURL":"./data/interfaces/costs.png","type":"[Int]"},{"hoverText":"numIn","name":"numIn","imgURL":"./data/interfaces/numIn.png","type":"Int"},{"hoverText":"numOut","name":"numOut","imgURL":"./data/interfaces/numOut.png","type":"Int"}],"interface":[{"hoverText":"value","name":"value","imgURL":"./data/interfaces/value.png","type":"Port (Int)"},{"hoverText":"cost","name":"cost","imgURL":"./data/interfaces/cost.png","type":"Port (Int)"}],"comment":"CLD action node"},{"relational":false,"icon":"/dev/null","name":"criterion","parameters":[{"hoverText":"numIn","name":"numIn","imgURL":"./data/interfaces/numIn.png","type":"Int"},{"hoverText":"numOut","name":"numOut","imgURL":"./data/interfaces/numOut.png","type":"Int"}],"interface":[{"hoverText":"value","name":"value","imgURL":"./data/interfaces/value.png","type":"Port (Int)"}],"comment":"Node for criterion"},{"relational":false,"icon":"./data/img/rain.png","name":"rain","parameters":[{"hoverText":"amount","name":"amount","imgURL":"./data/interfaces/amount.png","type":"Int"}],"interface":[{"hoverText":"rainfall","name":"rainfall","imgURL":"./data/interfaces/rainfall.png","type":"Port (Int)"}],"comment":"Rain"},{"relational":false,"icon":"./data/img/pump.png","name":"pump","parameters":[{"hoverText":"capacity","name":"capacity","imgURL":"./data/interfaces/capacity.png","type":"Int"}],"interface":[{"hoverText":"increase","name":"increase","imgURL":"./data/interfaces/increase.png","type":"Port (Int)"},{"hoverText":"inflow","name":"inflow","imgURL":"./data/interfaces/inflow.png","type":"Port (Int)"},{"hoverText":"outflow","name":"outflow","imgURL":"./data/interfaces/outflow.png","type":"Port (Int)"}],"comment":"Pump"},{"relational":false,"icon":"./data/img/runOffArea.png","name":"runoff area","parameters":[{"hoverText":"storage capacity","name":"storage capacity","imgURL":"./data/interfaces/storage capacity.png","type":"Int"}],"interface":[{"hoverText":"increase","name":"increase","imgURL":"./data/interfaces/increase.png","type":"Port (Int)"},{"hoverText":"inflow","name":"inflow","imgURL":"./data/interfaces/inflow.png","type":"Port (Int)"},{"hoverText":"outlet","name":"outlet","imgURL":"./data/interfaces/outlet.png","type":"Port (Int)"},{"hoverText":"overflow","name":"overflow","imgURL":"./data/interfaces/overflow.png","type":"Port (Int)"}],"comment":"Runoff"},{"relational":false,"icon":"/dev/null","name":"sink","parameters":[],"interface":[{"hoverText":"inflow","name":"inflow","imgURL":"./data/interfaces/inflow.png","type":"Port (Int)"}],"comment":"Sink"},{"relational":false,"icon":"/dev/null","name":"flooding","parameters":[{"hoverText":"numOut","name":"numOut","imgURL":"./data/interfaces/numOut.png","type":"Int"}],"interface":[{"hoverText":"inflow","name":"inflow","imgURL":"./data/interfaces/inflow.png","type":"Port (Int)"}],"comment":"Flooding of square"},{"relational":false,"icon":"/dev/null","name":"increaseAction","parameters":[{"hoverText":"values","name":"values","imgURL":"./data/interfaces/values.png","type":"[Int]"},{"hoverText":"costs","name":"costs","imgURL":"./data/interfaces/costs.png","type":"[Int]"}],"interface":[{"hoverText":"value","name":"value","imgURL":"./data/interfaces/value.png","type":"Port (Int)"},{"hoverText":"cost","name":"cost","imgURL":"./data/interfaces/cost.png","type":"Port (Int)"}],"comment":"Action to increase a parameter"}]}'
-
-                widget.loadLibrary(fullGCMlib,true); // loading invalid lib
+                that.initPtr.loadSideBarElements(fullGCMlib);
             }
 
 

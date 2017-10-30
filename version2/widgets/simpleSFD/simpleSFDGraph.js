@@ -755,11 +755,11 @@ function SimpleSFDGraph(){
             var description = libDisc.description;
             var params = libDisc.parameters; // TODO: parse them and add them to the node object;
 
-            console.log("-----------IN THE NEW LOADED FILE FORMAT--------------------------");
-            console.log("node " + nodeName );
-            console.log("img URL " + imgURL );
-            console.log("hover Text " + description);
-            console.log("params " + params);
+            // console.log("-----------IN THE NEW LOADED FILE FORMAT--------------------------");
+            // console.log("node " + nodeName );
+            // console.log("img URL " + imgURL );
+            // console.log("hover Text " + description);
+            // console.log("params " + params);
 
             nodeDescription.name=nodeName;
             nodeDescription.imgUrl=imgURL;

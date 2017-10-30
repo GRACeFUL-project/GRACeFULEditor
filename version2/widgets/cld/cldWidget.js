@@ -173,6 +173,12 @@ function CLDWidget(){
                     libElement.name!=="criterion") continue;
 
 
+                if (libElement.name==="rain"){
+                    libElement.imgURL="./images/factorNode.png";
+                    libElement.type="CAUSAL";
+                    libElement.name="Rain";
+                }
+
                 if (libElement.name ==="node"){
                     // has no interface -.-
                     libElement.imgURL="./images/factorNode.png";
@@ -206,6 +212,7 @@ function CLDWidget(){
             var obj=prepareJsonLIb(jObj);
             console.log(obj);
         }
+
 
 
         reloadWidgetItemsCLD(obj);

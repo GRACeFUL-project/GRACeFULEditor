@@ -13,7 +13,7 @@ function clearAllToolbars(){
   document.getElementById('widgetList').style.display = "none";
   document.getElementById('widgetListCLD').style.display = "none";
   document.getElementById('widgetListGT').style.display = "none";
-  document.getElementById('widgetListExampleB').style.display = "none";
+  document.getElementById('widgetListSFD').style.display = "none";
 }
 
 function setActiveToolbar(toolBarDiv) {
@@ -70,24 +70,30 @@ function setSFD(sfd){
 }
 
 function loadGracefulConceptMapToolbar(sfd){
-
-    console.log("HELLO >>> ");
-  var gracefulLib=getGracefulConceptMapToolbar();
-  console.log("It contains data for sure now:"+gracefulLib);
+  getGracefulConceptMapToolbar();
   sfdRef=sfd;
-  // adding the TAB name here
   sfdRef.setTabTitle("GRACeFUL Concept Map");
-
 }
 
 function loadCausalLoopDiagramToolbar(cld){
-  cldRef = cld;
+    cldRef = cld;
 
-
-    var gracefulLib=getGracefulConceptMapToolbar();
+    // clear the elements from cld please;
+    clearItems();
 }
 
-function loadGoalTreeDiagram(gtw){
+
+function clearItems(){
+    var domElement = document.getElementById('widgetList') ;
+    console.log(domElement);
+    var htmlCollection = domElement.children;
+    var numEntries = htmlCollection.length;
+    for (var i = 0; i < numEntries; i++) {
+        htmlCollection[0].remove();
+    }
+}
+
+function setReferenceOfGoalTreeDiagram(gtw){
   goalTreeRef = gtw;
 }
 
@@ -127,9 +133,9 @@ function resurectToolBar(){
         $('#canvasArea').addClass('col-lg-9 col-xs-10 col-sm-10 col-md-10');
 
     }
-    sfdRef.updateSvgSize();
-    goalTreeRef.updateSvgSize();
-    cldRef.updateSvgSize();
+    // sfdRef.updateSvgSize();
+    // goalTreeRef.updateSvgSize();
+    // cldRef.updateSvgSize();
 
 }
 
@@ -278,138 +284,138 @@ function reloadWidgetItems(jsonOBJ){
 
 
 function reloadWidgetItemsCLD(jsonOBJ) {
-    console.log("CLD------------names");
-    console.log(jsonOBJ);
-    var domElement = document.getElementById('widgetList');
-    console.log(domElement);
-    var htmlCollection = domElement.children;
-    var numEntries = htmlCollection.length;
-    var i, temp;
-    var widgetItemDiv, imgItem, nameDiv;
-    for (i = 0; i < numEntries; i++) {
-        htmlCollection[0].remove();
-    }
-    // create the new elements
-    var object = jsonOBJ['library'];
-    var label = "sample";
-    var srcToImg = "./data/img/test.svg";
-
-    // check for new or old library format;
-    var newLibFormat = false;
-    for (i = 0; i < object.length; i++) {
-        if (object[i].type === "NODAL" || object[i].type === "RELATIONAL" || object[i].type === "CAUSAL") {
-            newLibFormat = true;
-            break;
-        }
-    }
-
-    if (newLibFormat === true) {
-        // sort the elements
-        var nodes = [];
-        var relations = [];
-        var causals = [];
-
-        for (i = 0; i < object.length; i++) {
-            temp = object[i];
-            label = temp.name;
-            if (label === "Stakeholder")
-                continue;
-            srcToImg = temp.icon;
-            // sanity check
-            if (srcToImg === undefined) { // try img url
-                srcToImg = temp.imgURL;
-            }
-            // srcToImg = "./data/svg/test.svg";
-            //srcToImg = item.icon ;
-            console.log(label);
-            widgetItemDiv = document.createElement("div");
-            widgetItemDiv.setAttribute("class", "widgetItem");
-            widgetItemDiv.setAttribute("id", "cld" + i);
-            widgetItemDiv.setAttribute("onclick", "setDivActiveCLD(" + i + ")");
-
-            imgItem = document.createElement("img");
-            imgItem.setAttribute("src", srcToImg);
-            imgItem.setAttribute("height", "96px");
-            imgItem.setAttribute("width", "96px");
-            // widgetItemDiv.innerHTML = label;
-            widgetItemDiv.appendChild(imgItem);
-            widgetItemDiv.appendChild(document.createElement("br"));
-
-            nameDiv = document.createElement("div");
-            nameDiv.innerHTML = label;
-            widgetItemDiv.appendChild(nameDiv);
-            if (object[i].type === "CAUSAL") {
-                 causals.push(widgetItemDiv);
-             }
-            // if (object[i].type === "NODAL") {
-            //     nodes.push(widgetItemDiv)
-            // }
-            // if (object[i].type === "RELATIONAL") {
-            //     relations.push(widgetItemDiv)
-            // }
-        }
-        // add them in the correct order to the dom objects;l
-        var causalTag = document.createElement("div");
-        causalTag.innerHTML = "CAUSAL";
-        causalTag.setAttribute("class", "tabHighlight");
-        domElement.appendChild(causalTag);
-        for (i = 0; i < causals.length; i++) {
-            domElement.appendChild(causals[i]);
-        }
-
-        // var nodalTag = document.createElement("div");
-        // nodalTag.innerHTML = "NODES";
-        // nodalTag.setAttribute("class", "tabHighlight");
-        // domElement.appendChild(nodalTag);
-        // for (i = 0; i < nodes.length; i++) {
-        //     domElement.appendChild(nodes[i]);
-        // }
-        // // todo: add seperator;
-        // var relationalTag = document.createElement("div");
-        // relationalTag.innerHTML = "RELATIONS";
-        // relationalTag.setAttribute("class", "tabHighlight");
-        // domElement.appendChild(relationalTag);
-        // // adding relational nodes
-        // for (i = 0; i < relations.length; i++) {
-        //     domElement.appendChild(relations[i]);
-        // }
-    }
-
-
-    if (newLibFormat === false) {
-        //do the presentation logic here as following ..
-        for (i = 0; i < object.length; i++) {
-            temp = object[i];
-
-            label = temp.name;
-
-            srcToImg = temp.icon;
-            // sanity check
-            if (srcToImg === undefined) { // try img url
-                srcToImg = temp.imgURL;
-            }
-            // srcToImg = "./data/svg/test.svg";
-            //srcToImg = item.icon ;
-            console.log(label);
-            widgetItemDiv = document.createElement("div");
-            widgetItemDiv.setAttribute("class", "widgetItem");
-            widgetItemDiv.setAttribute("id", "cld" + i);
-            widgetItemDiv.setAttribute("onclick", "setDivActiveCLD(" + i + ")");
-
-            imgItem = document.createElement("img");
-            imgItem.setAttribute("src", srcToImg);
-            imgItem.setAttribute("height", "96px");
-            imgItem.setAttribute("width", "96px");
-            // widgetItemDiv.innerHTML = label;
-            widgetItemDiv.appendChild(imgItem);
-            widgetItemDiv.appendChild(document.createElement("br"));
-
-            nameDiv = document.createElement("div");
-            widgetItemDiv.appendChild(nameDiv);
-            domElement.appendChild(widgetItemDiv);
-        }
-    }
-    libObject = jsonOBJ;
+    // console.log("CLD------------names");
+    // console.log(jsonOBJ);
+    // var domElement = document.getElementById('widgetList');
+    // console.log(domElement);
+    // var htmlCollection = domElement.children;
+    // var numEntries = htmlCollection.length;
+    // var i, temp;
+    // var widgetItemDiv, imgItem, nameDiv;
+    // for (i = 0; i < numEntries; i++) {
+    //     htmlCollection[0].remove();
+    // }
+    // // create the new elements
+    // var object = jsonOBJ['library'];
+    // var label = "sample";
+    // var srcToImg = "./data/img/test.svg";
+    //
+    // // check for new or old library format;
+    // var newLibFormat = false;
+    // for (i = 0; i < object.length; i++) {
+    //     if (object[i].type === "NODAL" || object[i].type === "RELATIONAL" || object[i].type === "CAUSAL") {
+    //         newLibFormat = true;
+    //         break;
+    //     }
+    // }
+    //
+    // if (newLibFormat === true) {
+    //     // sort the elements
+    //     var nodes = [];
+    //     var relations = [];
+    //     var causals = [];
+    //
+    //     for (i = 0; i < object.length; i++) {
+    //         temp = object[i];
+    //         label = temp.name;
+    //         if (label === "Stakeholder")
+    //             continue;
+    //         srcToImg = temp.icon;
+    //         // sanity check
+    //         if (srcToImg === undefined) { // try img url
+    //             srcToImg = temp.imgURL;
+    //         }
+    //         // srcToImg = "./data/svg/test.svg";
+    //         //srcToImg = item.icon ;
+    //         console.log(label);
+    //         widgetItemDiv = document.createElement("div");
+    //         widgetItemDiv.setAttribute("class", "widgetItem");
+    //         widgetItemDiv.setAttribute("id", "cld" + i);
+    //         widgetItemDiv.setAttribute("onclick", "setDivActiveCLD(" + i + ")");
+    //
+    //         imgItem = document.createElement("img");
+    //         imgItem.setAttribute("src", srcToImg);
+    //         imgItem.setAttribute("height", "96px");
+    //         imgItem.setAttribute("width", "96px");
+    //         // widgetItemDiv.innerHTML = label;
+    //         widgetItemDiv.appendChild(imgItem);
+    //         widgetItemDiv.appendChild(document.createElement("br"));
+    //
+    //         nameDiv = document.createElement("div");
+    //         nameDiv.innerHTML = label;
+    //         widgetItemDiv.appendChild(nameDiv);
+    //         if (object[i].type === "CAUSAL") {
+    //              causals.push(widgetItemDiv);
+    //          }
+    //         // if (object[i].type === "NODAL") {
+    //         //     nodes.push(widgetItemDiv)
+    //         // }
+    //         // if (object[i].type === "RELATIONAL") {
+    //         //     relations.push(widgetItemDiv)
+    //         // }
+    //     }
+    //     // add them in the correct order to the dom objects;l
+    //     var causalTag = document.createElement("div");
+    //     causalTag.innerHTML = "CAUSAL";
+    //     causalTag.setAttribute("class", "tabHighlight");
+    //     domElement.appendChild(causalTag);
+    //     for (i = 0; i < causals.length; i++) {
+    //         domElement.appendChild(causals[i]);
+    //     }
+    //
+    //     // var nodalTag = document.createElement("div");
+    //     // nodalTag.innerHTML = "NODES";
+    //     // nodalTag.setAttribute("class", "tabHighlight");
+    //     // domElement.appendChild(nodalTag);
+    //     // for (i = 0; i < nodes.length; i++) {
+    //     //     domElement.appendChild(nodes[i]);
+    //     // }
+    //     // // todo: add seperator;
+    //     // var relationalTag = document.createElement("div");
+    //     // relationalTag.innerHTML = "RELATIONS";
+    //     // relationalTag.setAttribute("class", "tabHighlight");
+    //     // domElement.appendChild(relationalTag);
+    //     // // adding relational nodes
+    //     // for (i = 0; i < relations.length; i++) {
+    //     //     domElement.appendChild(relations[i]);
+    //     // }
+    // }
+    //
+    //
+    // if (newLibFormat === false) {
+    //     //do the presentation logic here as following ..
+    //     for (i = 0; i < object.length; i++) {
+    //         temp = object[i];
+    //
+    //         label = temp.name;
+    //
+    //         srcToImg = temp.icon;
+    //         // sanity check
+    //         if (srcToImg === undefined) { // try img url
+    //             srcToImg = temp.imgURL;
+    //         }
+    //         // srcToImg = "./data/svg/test.svg";
+    //         //srcToImg = item.icon ;
+    //         console.log(label);
+    //         widgetItemDiv = document.createElement("div");
+    //         widgetItemDiv.setAttribute("class", "widgetItem");
+    //         widgetItemDiv.setAttribute("id", "cld" + i);
+    //         widgetItemDiv.setAttribute("onclick", "setDivActiveCLD(" + i + ")");
+    //
+    //         imgItem = document.createElement("img");
+    //         imgItem.setAttribute("src", srcToImg);
+    //         imgItem.setAttribute("height", "96px");
+    //         imgItem.setAttribute("width", "96px");
+    //         // widgetItemDiv.innerHTML = label;
+    //         widgetItemDiv.appendChild(imgItem);
+    //         widgetItemDiv.appendChild(document.createElement("br"));
+    //
+    //         nameDiv = document.createElement("div");
+    //         widgetItemDiv.appendChild(nameDiv);
+    //         domElement.appendChild(widgetItemDiv);
+    //     }
+    // }
+    // libObject = jsonOBJ;
 
    // setDivActive(0);
     setDivActiveCLD(1);
@@ -470,158 +476,6 @@ function setDivActiveGTW(id){
 
 function getGracefulConceptMapToolbar(){
     var fullGCMlib='{"library":[{"relational":false,"icon":"pathToNodeImage","name":"node","parameters":[{"hoverText":"obsSign","name":"obsSign","imgURL":"./data/interfaces/obsSign.png","type":"Int | ()"},{"hoverText":"numIn","name":"numIn","imgURL":"./data/interfaces/numIn.png","type":"Int"},{"hoverText":"numOut","name":"numOut","imgURL":"./data/interfaces/numOut.png","type":"Int"}],"interface":[{"hoverText":"value","name":"value","imgURL":"./data/interfaces/value.png","type":"Port (Int)"}],"comment":"Generic node"},{"relational":true,"icon":"pathToArrowImage","name":"edge","parameters":[{"hoverText":"sign","name":"sign","imgURL":"./data/interfaces/sign.png","type":"Int"}],"interface":[],"comment":"Causal relation"},{"relational":false,"icon":"/dev/null","name":"budget","parameters":[{"hoverText":"numberOfPorts","name":"numberOfPorts","imgURL":"./data/interfaces/numberOfPorts.png","type":"Int"},{"hoverText":"maximumBudget","name":"maximumBudget","imgURL":"./data/interfaces/maximumBudget.png","type":"Int"}],"interface":[],"comment":"Set a maximum budget"},{"relational":false,"icon":"/dev/null","name":"optimise","parameters":[{"hoverText":"numberOfPorts","name":"numberOfPorts","imgURL":"./data/interfaces/numberOfPorts.png","type":"Int"}],"interface":[],"comment":"Optimise the sum of some ports"},{"relational":false,"icon":"/dev/null","name":"evaluate","parameters":[{"hoverText":"values","name":"values","imgURL":"./data/interfaces/values.png","type":"[Int]"},{"hoverText":"weights","name":"weights","imgURL":"./data/interfaces/weights.png","type":"[Float]"}],"interface":[{"hoverText":"atPort","name":"atPort","imgURL":"./data/interfaces/atPort.png","type":"Port (Int)"},{"hoverText":"benefit","name":"benefit","imgURL":"./data/interfaces/benefit.png","type":"Port (Float)"}],"comment":"Evaluate benefits of possible values"},{"relational":false,"icon":"/dev/null","name":"action","parameters":[{"hoverText":"values","name":"values","imgURL":"./data/interfaces/values.png","type":"[Int]"},{"hoverText":"costs","name":"costs","imgURL":"./data/interfaces/costs.png","type":"[Int]"},{"hoverText":"numIn","name":"numIn","imgURL":"./data/interfaces/numIn.png","type":"Int"},{"hoverText":"numOut","name":"numOut","imgURL":"./data/interfaces/numOut.png","type":"Int"}],"interface":[{"hoverText":"value","name":"value","imgURL":"./data/interfaces/value.png","type":"Port (Int)"},{"hoverText":"cost","name":"cost","imgURL":"./data/interfaces/cost.png","type":"Port (Int)"}],"comment":"CLD action node"},{"relational":false,"icon":"/dev/null","name":"criterion","parameters":[{"hoverText":"numIn","name":"numIn","imgURL":"./data/interfaces/numIn.png","type":"Int"},{"hoverText":"numOut","name":"numOut","imgURL":"./data/interfaces/numOut.png","type":"Int"}],"interface":[{"hoverText":"value","name":"value","imgURL":"./data/interfaces/value.png","type":"Port (Int)"}],"comment":"Node for criterion"},{"relational":false,"icon":"./data/img/rain.png","name":"rain","parameters":[{"hoverText":"amount","name":"amount","imgURL":"./data/interfaces/amount.png","type":"Int"}],"interface":[{"hoverText":"rainfall","name":"rainfall","imgURL":"./data/interfaces/rainfall.png","type":"Port (Int)"}],"comment":"Rain"},{"relational":false,"icon":"./data/img/pump.png","name":"pump","parameters":[{"hoverText":"capacity","name":"capacity","imgURL":"./data/interfaces/capacity.png","type":"Int"}],"interface":[{"hoverText":"increase","name":"increase","imgURL":"./data/interfaces/increase.png","type":"Port (Int)"},{"hoverText":"inflow","name":"inflow","imgURL":"./data/interfaces/inflow.png","type":"Port (Int)"},{"hoverText":"outflow","name":"outflow","imgURL":"./data/interfaces/outflow.png","type":"Port (Int)"}],"comment":"Pump"},{"relational":false,"icon":"./data/img/runOffArea.png","name":"runoff area","parameters":[{"hoverText":"storage capacity","name":"storage capacity","imgURL":"./data/interfaces/storage capacity.png","type":"Int"}],"interface":[{"hoverText":"increase","name":"increase","imgURL":"./data/interfaces/increase.png","type":"Port (Int)"},{"hoverText":"inflow","name":"inflow","imgURL":"./data/interfaces/inflow.png","type":"Port (Int)"},{"hoverText":"outlet","name":"outlet","imgURL":"./data/interfaces/outlet.png","type":"Port (Int)"},{"hoverText":"overflow","name":"overflow","imgURL":"./data/interfaces/overflow.png","type":"Port (Int)"}],"comment":"Runoff"},{"relational":false,"icon":"/dev/null","name":"sink","parameters":[],"interface":[{"hoverText":"inflow","name":"inflow","imgURL":"./data/interfaces/inflow.png","type":"Port (Int)"}],"comment":"Sink"},{"relational":false,"icon":"/dev/null","name":"flooding","parameters":[{"hoverText":"numOut","name":"numOut","imgURL":"./data/interfaces/numOut.png","type":"Int"}],"interface":[{"hoverText":"inflow","name":"inflow","imgURL":"./data/interfaces/inflow.png","type":"Port (Int)"}],"comment":"Flooding of square"},{"relational":false,"icon":"/dev/null","name":"increaseAction","parameters":[{"hoverText":"values","name":"values","imgURL":"./data/interfaces/values.png","type":"[Int]"},{"hoverText":"costs","name":"costs","imgURL":"./data/interfaces/costs.png","type":"[Int]"}],"interface":[{"hoverText":"value","name":"value","imgURL":"./data/interfaces/value.png","type":"Port (Int)"},{"hoverText":"cost","name":"cost","imgURL":"./data/interfaces/cost.png","type":"Port (Int)"}],"comment":"Action to increase a parameter"}]}'
-
-
-
     return fullGCMlib;
-    //
-    // // igore the docker for now;
-    // var retLib='{';
-    // retLib+='"library" :[';
-    // retLib+='{';
-    // retLib+='"name": "rain",';
-    // retLib+='"parameters": [';
-    // retLib+='                { "name": "amount", "type" : "Float"}';
-    // retLib+='],';
-    // retLib+='"interface" :[';
-    // retLib+='                {';
-    // retLib+='                    "name" : "rainfall",';
-    // retLib+='                    "type" : "Port (Float)",';
-    // retLib+='                    "description": "Amount Of Rain",';
-    // retLib+='                    "imgURL": "./data/interfaces/rainfall.png",';
-    // retLib+='                    "rotation" : false,';
-    // retLib+='                    "outgoingType" :"MULTIPLE",';
-    // retLib+='                    "incomingType" :"NONE"';
-    // retLib+='                }';
-    // retLib+='],';
-    // retLib+='"imgURL"      : "./data/svg/rain.svg",';
-    // retLib+='"description" : "This is Rain",';
-    // retLib+='"type"        : "NODAL"';
-    // retLib+='},';
-    // retLib+='';
-    // retLib+='{';
-    // retLib+='"name": "pump",';
-    // retLib+='"parameters":[';
-    // retLib+='                {"name":"capacity","type":"Float"}';
-    // retLib+='],';
-    // retLib+='"interface":[';
-    // retLib+='                {';
-    // retLib+='                    "name": "inflow",';
-    // retLib+='                    "type": "Port (Float)",';
-    // retLib+='                    "description": "Incoming Flow",';
-    // retLib+='                    "imgURL": "./data/interfaces/inflow.png",';
-    // retLib+='                    "rotation": true,';
-    // retLib+='                    "outgoingType": "NONE",';
-    // retLib+='                    "incomingType": "SINGLE"';
-    // retLib+='                },';
-    // retLib+='                {';
-    // retLib+='                    "name": "outflow",';
-    // retLib+='                    "type": "Port (Float)",';
-    // retLib+='                    "description": "Outgoing Flow",'
-    // retLib+='                    "imgURL": "./data/interfaces/outflow.png",';
-    // retLib+='                    "rotation": true,';
-    // retLib+='                    "outgoingType": "SINGLE",';
-    // retLib+='                    "incomingType": "NONE"';
-    // retLib+='                }';
-    // retLib+='],';
-    // retLib+='"imgURL"      : "./data/svg/pump.svg",';
-    // retLib+='"description" : "This is a pump",';
-    // retLib+='"type"        : "RELATIONAL"';
-    // retLib+='},';
-    // retLib+='';
-    // retLib+='{ "name": "runoff area",';
-    // retLib+='';
-    // retLib+='"parameters":[';
-    // retLib+='                {"name":"storage capacity","type":"Float"}';
-    // retLib+='],';
-    // retLib+='"interface":[';
-    // retLib+='                {';
-    // retLib+='                    "name": "inflow",';
-    // retLib+='                    "type": "Port (Float)",';
-    // retLib+='                    "description": "Incoming Flow",';
-    // retLib+='                    "imgURL": "./data/interfaces/inflow.png",';
-    // retLib+='                    "rotation": true,';
-    // retLib+='                    "outgoingType": "NONE",';
-    // retLib+='                    "incomingType": "SINGLE"';
-    // retLib+='                },';
-    // retLib+='                {';
-    // retLib+='                    "name": "outlet",';
-    // retLib+='                    "type": "Port (Float)",';
-    // retLib+='                    "description": "Outlet Description",';
-    // retLib+='                    "imgURL": "./data/interfaces/outlet.png",';
-    // retLib+='                    "rotation": false,';
-    // retLib+='                    "outgoingType": "SINGLE",';
-    // retLib+='                    "incomingType": "NONE"';
-    // retLib+='                },';
-    // retLib+='                {';
-    // retLib+='                    "name": "overflow",';
-    // retLib+='                    "type": "Port (Float)",';
-    // retLib+='                    "description": "Overflow Description",';
-    // retLib+='                    "imgURL": "./data/interfaces/overflow.png",';
-    // retLib+='                    "rotation": false,';
-    // retLib+='                    "outgoingType": "SINGLE",';
-    // retLib+='                    "incomingType": "NONE"';
-    // retLib+='                }';
-    // retLib+='],';
-    // retLib+='"imgURL"      : "./data/img/runOffArea.png",';
-    // retLib+='"description" : "This is RUN off Area",';
-    // retLib+='"type"        : "NODAL"';
-    // retLib+='},';
-    // retLib+='{ "name": "sink",';
-    // retLib+='';
-    // retLib+='"parameters":[';
-    // retLib+='                {"name":"sink capacity","type":"Float"}';
-    // retLib+='],';
-    // retLib+='"interface":[';
-    // retLib+='                {';
-    // retLib+='                    "name": "inflow",';
-    // retLib+='                    "type": "Port (Float)",';
-    // retLib+='                    "description": "Incoming Flow",';
-    // retLib+='                    "imgURL": "./data/interfaces/inflow.png",';
-    // retLib+='                    "rotation": true,';
-    // retLib+='                    "outgoingType": "NONE",';
-    // retLib+='                    "incomingType": "ARBITRARY"';
-    // retLib+='                }';
-    // retLib+='';
-    // retLib+='],';
-    // retLib+='"imgURL"      : "./data/img/sink.png",';
-    // retLib+='"description" : "This is a Sink",';
-    // retLib+='"type"        : "NODAL"';
-    // retLib+='}';
-    // retLib+='';
-    // retLib+='';
-    // retLib+='],';
-    // retLib+='"name" : "CRUD RAT Example"';
-    // retLib+='}';
-    // return retLib;
-
-    // var solverAddress="http://vocol.iais.fraunhofer.de/graceful-rat";
-    // var response="";
-    // console.log("requesting an action that talks with docker ");
-    // // docker image name
-    // var get_requestAddress=solverAddress+"/library/crud";
-    // console.log("address :"+get_requestAddress);
-    //
-    // d3.xhr(get_requestAddress, "application/json",function (error, request) {
-    //     if (request){
-    //         console.log("docker returns the data: "+request.responseText);
-    //         // todo: process the returned data; to the widget
-    //         response=request.responseText;
-    //      //   loadWidgetItems(request.responseText);
-    //     //    setDivActive(0);
-    //      //   sfdRef.setupNode(0);
-    //     }else{
-    //         console.log("error!"+error.status);
-    //         // if no server is running we simply use the current state of the library;
-    //         var exampleLib='{"library":[{"icon":"./data/img/rain.png","name":"rain","parameters":[{"hoverText":"amount","name":"amount","imgURL":"./data/interfaces/amount.png","type":"Float"}],"interface":[{"hoverText":"rainfall","name":"rainfall","imgURL":"./data/interfaces/rainfall.png","type":"Port (Float)"}],"comment":"Rain"},{"icon":"./data/img/pump.png","name":"pump","parameters":[{"hoverText":"capacity","name":"capacity","imgURL":"./data/interfaces/capacity.png","type":"Float"}],"interface":[{"hoverText":"inflow","name":"inflow","imgURL":"./data/interfaces/inflow.png","type":"Port (Float)"},{"hoverText":"outflow","name":"outflow","imgURL":"./data/interfaces/outflow.png","type":"Port (Float)"}],"comment":"Pump"},{"icon":"./data/img/runOffArea.png","name":"runoff area","parameters":[{"hoverText":"storage capacity","name":"storage capacity","imgURL":"./data/interfaces/storage capacity.png","type":"Float"}],"interface":[{"hoverText":"inflow","name":"inflow","imgURL":"./data/interfaces/inflow.png","type":"Port (Float)"},{"hoverText":"outlet","name":"outlet","imgURL":"./data/interfaces/outlet.png","type":"Port (Float)"},{"hoverText":"overflow","name":"overflow","imgURL":"./data/interfaces/overflow.png","type":"Port (Float)"}],"comment":"Runoff"}]}';
-    //         console.log("loading static library -----> "+exampleLib);
-    //         response=exampleLib;
-    //     }// end else
-    // }// end xhr request function
-    // ); // end d3.xhr call
-    // return response;
-
-
-    // load gcm lib
 
 }

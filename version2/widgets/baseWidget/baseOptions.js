@@ -109,47 +109,37 @@ function BaseControls(parentWidget) {
       text.setAttribute('contentEditable',editStatus);
       text.setAttribute('id',id);
       d3.select(text).classed("mdl-chip__text nodeChipField",true);
+      console.log("widgetType"+widgetType);
 
-      if(widgetType!="sfd")
-      {
-          // bind deleteFunction with delete of Chip
-          $("#"+id).bind('click',function() {
-            text.setAttribute('contentEditable',true);
+      $("#"+id).bind('click',function() {
+        text.setAttribute('contentEditable','true');
+      $("#"+id).keydown(function(event) {
+        if(text.innerHTML=="empty"){text.innerHTML="";}
+        if(event.keyCode==13){
+            console.log("enter key pressed");
+            // change the text of the node here ..
+            var checkblankchip=text.innerHTML;
+            checkblankchip=(checkblankchip.trim) ? checkblankchip.trim() : checkblankchip.replace(/^\s+/,'');
+            if(checkblankchip==""){
+                text.innerHTML="empty";
+            }
 
-            $("#"+id).keydown(function(event){
-              if(text.innerHTML=="empty"){
-                text.innerHTML="";
-              }
-
-              if(event.keyCode==13){
-                // change the text of the node here ..
-                var checkblankchip=text.innerHTML;
-                checkblankchip=(checkblankchip.trim) ? checkblankchip.trim() : checkblankchip.replace(/^\s+/,'');
-
-                if(checkblankchip=="")
-                  text.innerHTML="empty";
-
+            if (widgetType!=="sfd") {
                 that.selectedNode.clearDisplayLabelText();
                 that.selectedNode.setDisplayLabelText(text.innerHTML);
-
                 that.selectedNode.clearLabelText();
                 that.selectedNode.setLabelText(text.innerHTML);
-
-                this.blur();
-                event.preventDefault();
-              }
-            })
-
-          }).blur(
-            function(){
-              text.setAttribute('contentEditable',false);
+            }else{
+                that.selectedNode.getGlobalNodePtr().setGlobalName(text.innerHTML);
+                that.selectedNode.setLabelText(text.innerHTML);
+                that.selectedNode.setDisplayLabelText(text.innerHTML);
             }
-          );
-
-          $("#"+id).on("paste",function(event){
+            this.blur();
             event.preventDefault();
-          });
-      };
+        }
+      })
+      }).blur(function(){text.setAttribute('contentEditable','false');});
+      $("#"+id).on("paste",function(event){event.preventDefault();});
 
 
       var link=document.createElement('a');

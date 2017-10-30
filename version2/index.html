@@ -21,19 +21,9 @@
 
 <body>
 <main>
-    <!--<nav  id="navigationArea">-->
-        <!--&lt;!&ndash;<div class="navbar-header">&ndash;&gt;-->
-             <!--<a class="navbar-brand" href="#">-->
-            <!--<img id="log" class="img-responsive" src="images/logo.svg" alt="Graceful Logo" />-->
-             <!--</a>-->
-        <!--&lt;!&ndash;</div>&ndash;&gt;-->
-    <!--</nav>-->
-
     <nav class="navbar navbar-inverse" id="tabWidgetNavigation">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-
-
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -45,107 +35,25 @@
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul id="tabsMenu" class="nav navbar-nav">
-                <!--<li class="active"><a href="#" id="stakeholder">StakeHolder List</a></li>-->
-                <!--<li><a href="#" id="goals">Goal Tree</a></li>-->
-                <!--<li><a href="#" id="cld">Causal Loop Diagram</a></li>-->
-            </ul>
+            <ul id="tabsMenu" class="nav navbar-nav"></ul>
         </div>
     </nav>
 
-    <!--<nav ondragstart="return false;" id="tabWidgetNavigation" class="navbar navbar-invers">-->
-        <!--<div id="logoElement" class="navbar-header">-->
-            <!--<a class="navbar-brand" href="#">-->
-            <!--<img id="log" class="img-responsive" src="images/logo.svg" alt="Graceful Logo" />-->
-            <!--</a>-->
-        <!--</div>-->
-        <!--<ul id="tabsMenu" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">-->
-        <!--</ul>-->
-        <!--<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">-->
-            <!--<ul class="nav navbar-nav">-->
-                <!--<li class="active"><a href="#" id="stakeholder">StakeHolder List</a></li>-->
-                <!--<li><a href="#" id="goals">Goal Tree</a></li>-->
-                <!--<li><a href="#" id="cld">Causal Loop Diagram</a></li>-->
-            <!--</ul>-->
-        <!--</div>-->
-
-    <!--</nav>-->
-
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-lg-1 col-xs-2 col-sm-2 col-md-2" id="toolbar">
-          <div class="titleToolbar">
-            <p class="head">Library</p>
-            <a onclick="hideToolbar()" id="closemenu"><i class="material-icons">close</i></a>
-          </div>
-          <div class="widgitListToolbar" id="widgetList" style="display:block">
-            <!-- Presentation from the function -->
-          </div>
-          <div class="widgitListToolbar" id="widgetListCLD" style="display:none">
-            <!-- TODO: present it through lib like sfd but WHAT ABOUT VECTOR ICONS ? -->
-            <!-- QUESTION: To Change Icons from the Lib or from static  -->
-            <div class="widgetItem" id="cld1" onclick="setDivActiveCLD(1)">
-              <svg height="100" width="100">
-                <circle cx="50" cy="50" r="40" stroke="white" stroke-width="2" fill="#addcc9" />
-              </svg>
-              <br/>
-              Factor
+<div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-1 col-xs-2 col-sm-2 col-md-2" id="toolbar">
+                <div class="titleToolbar">
+                    <p class="head">Library</p>
+                    <a onclick="hideToolbar()" id="closemenu"><i class="material-icons">close</i></a>
+                </div>
+                <div class="widgitListToolbar" id="widgetList" style="display:block">
+                    <!-- Presentation from the function -->
+                </div>
+                <div class="widgitListToolbar" id="widgetListCLD" style="display:none"></div>
+                <div class="widgitListToolbar" id="widgetListGT" style="display:none"></div>
+                <div class="widgitListToolbar" id="widgetListSFD" style="display:none">
             </div>
-            <div class="widgetItem"  id="cld2" onclick="setDivActiveCLD(2)">
-              <svg height="100" width="100">
-                <circle cx="50" cy="50" r="40" stroke="white" stroke-width="2" fill="#f48b94" />
-              </svg>
-              <br/>
-              Action
-            </div>
-            <div class="widgetItem"  id="cld3" onclick="setDivActiveCLD(3)">
-              <svg height="100" width="100">
-                <circle cx="50" cy="50" r="40" stroke="white" stroke-width="2" fill="#fdd2b5" />
-                  <!--<image x="5" y="5" height="90" width="90" xlink:href="images/criterion.png" ></image>-->
-              </svg>
-              <br/>
-              Criterion
-            </div>
-          </div>
-          <div class="widgitListToolbar" id="widgetListGT" style="display:none">
-            <div class="widgetItem hidden"  id="gt0" onclick="setDivActiveGTW(0)">
-              <svg width="100" height="100">
-                <rect x="0" y="15" rx="8" ry="8" width="100" height="80"
-                style="fill:#fafafa;stroke:white;stroke-width:2;" />
-              </svg>
-              <br/>
-              Undefined
-            </div>
-            <div class="widgetItem" id="gt1" onclick="setDivActiveGTW(1)">
-              <svg width="100" height="100">
-                <rect x="0" y="15" rx="8" ry="8" width="100" height="80"
-                style="fill:#65e1c4;stroke:white;stroke-width:2;" />
-              </svg>
-              <br/>
-              Goal
-            </div>
-            <div class="widgetItem"  id="gt2" onclick="setDivActiveGTW(2)">
-              <svg width="100" height="100">
-                <rect x="0" y="15" rx="8" ry="8" width="100" height="80"
-                style="fill:#65c0e1;stroke:white;stroke-width:2;" />
-              </svg>
-              <br/>
-              Subgoal
-            </div>
-            <div class="widgetItem"  id="gt3" onclick="setDivActiveGTW(3)">
-              <svg width="100" height="100">
-                <rect x="0" y="15" rx="8" ry="8" width="100" height="80"
-                style="fill:#fdd2b5;stroke:white;stroke-width:2;" />
-
-              </svg>
-              <br/>
-              Criterion
-            </div>            
-          </div>
-          <div class="widgitListToolbar" id="widgetListExampleB" style="display:none">
-            <!-- For the widget of Example  -->
-          </div>
-          <br/>
+            <br/>
         </div>
         <div class="col-lg-8 col-xs-8 col-sm-8 col-md-8" id="drawingArea">
           <!-- <button onclick="showToolbar()" type="button" class="btn btn-info btn-circle btn-xl" id="btn-opentoolBar"><i class="glyphicon glyphicon-pencil"></i></button> -->
@@ -156,14 +64,14 @@
 
           </div>
         </div>
-        <div id="sidebar">
-
+        <div id="sidebar"></div>
         </div>
-    </div>
     <div id="demo-toast-example" class="mdl-js-snackbar mdl-snackbar">
-    <div class="mdl-snackbar__text"></div>
-    <button class="mdl-snackbar__action" type="button"></button>
+        <div class="mdl-snackbar__text"></div>
+        <button class="mdl-snackbar__action" type="button"></button>
     </div>
+</div>
+
 
 </main>
 

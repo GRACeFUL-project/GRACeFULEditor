@@ -113,13 +113,9 @@ function SimpleSFDWidget(){
 
             // creating forloop style;
             // skipping the first 2 elements // currently dont know how to add them;
-            console.log("---------------------------------------------");
+
             for (var i=0;i<libArray.length;i++){
                 var currentElement=libArray[i];
-                console.log(" Index "+i+"---------------------------------------------");
-                console.log(currentElement);
-                console.log("++++++++++++++++++++++++++++++++++++++++++++");
-
                 // create an object;
                 var libElement={};
                 libElement.name=currentElement.name;
@@ -285,20 +281,9 @@ function SimpleSFDWidget(){
                                 iObj.outgoingType="NONE";
                                 iObj.incomingType="SINGLE";
                         }
-
-
-
-                        // add this port element;
-                        console.log("inteface obj");
-                        console.log(iObj);
                         libElement.interface.push(iObj);
-                        console.log("hello this hould be thre now'");
-
                     }
                 }
-
-
-                console.log(libElement);
                 obj.library.push(libElement);
             }
 
