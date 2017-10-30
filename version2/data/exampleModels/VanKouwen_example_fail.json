@@ -4,7 +4,7 @@
   "nodes": [
     {
       "id": 0,
-      "name": "Fish",
+      "name": "Sea level rise",
       "visibleInWidgets": [
         false,
         true,
@@ -22,12 +22,12 @@
           "y": 0
         },
         {
-          "x": 519.5833129882812,
-          "y": 212
+          "x": 474.58331298828125,
+          "y": 294
         },
         {
-          "x": 519.5833129882812,
-          "y": 212
+          "x": 341.58331298828125,
+          "y": 240
         }
       ],
       "metaData": [
@@ -46,7 +46,7 @@
     },
     {
       "id": 1,
-      "name": "Sediment",
+      "name": "Risk of  flooding",
       "visibleInWidgets": [
         false,
         true,
@@ -64,12 +64,12 @@
           "y": 0
         },
         {
-          "x": 1162.5833740234375,
-          "y": 187
+          "x": 305.58331298828125,
+          "y": 472
         },
         {
-          "x": 1162.5833740234375,
-          "y": 187
+          "x": 345.58331298828125,
+          "y": 448
         }
       ],
       "metaData": [
@@ -88,7 +88,7 @@
     },
     {
       "id": 2,
-      "name": "Plankton",
+      "name": "Flooding",
       "visibleInWidgets": [
         false,
         true,
@@ -106,12 +106,12 @@
           "y": 0
         },
         {
-          "x": 895.5833129882812,
-          "y": 511
+          "x": 443.58331298828125,
+          "y": 654
         },
         {
-          "x": 895.5833129882812,
-          "y": 511
+          "x": 340.58331298828125,
+          "y": 650
         }
       ],
       "metaData": [
@@ -130,7 +130,7 @@
     },
     {
       "id": 3,
-      "name": "Phosphorus in water body",
+      "name": "Measures to prevent flooding",
       "visibleInWidgets": [
         false,
         true,
@@ -148,12 +148,12 @@
           "y": 0
         },
         {
-          "x": 403.58331298828125,
-          "y": 640
+          "x": 700.5833129882812,
+          "y": 620
         },
         {
-          "x": 403.58331298828125,
-          "y": 640
+          "x": 729.5833129882812,
+          "y": 654
         }
       ],
       "metaData": [
@@ -172,7 +172,7 @@
     },
     {
       "id": 4,
-      "name": "Outflow of water",
+      "name": "Investments",
       "visibleInWidgets": [
         false,
         true,
@@ -190,12 +190,12 @@
           "y": 0
         },
         {
-          "x": 1440.5833740234375,
-          "y": 489
+          "x": 909.5833129882812,
+          "y": 478
         },
         {
-          "x": 1440.5833740234375,
-          "y": 489
+          "x": 718.5833129882812,
+          "y": 430
         }
       ],
       "metaData": [
@@ -214,7 +214,7 @@
     },
     {
       "id": 5,
-      "name": "Inflow of phosphorus",
+      "name": "Ecology in coastal zone",
       "visibleInWidgets": [
         false,
         true,
@@ -232,19 +232,19 @@
           "y": 0
         },
         {
-          "x": 1279.5833740234375,
-          "y": 699
+          "x": 931.5833129882812,
+          "y": 703
         },
         {
-          "x": 1279.5833740234375,
-          "y": 699
+          "x": 1147.5833740234375,
+          "y": 647
         }
       ],
       "metaData": [
         {},
         {
-          "observe": false,
-          "trend": 0,
+          "observe": true,
+          "trend": 3,
           "actions": {
             "plusAction": false,
             "minusAction": false,
@@ -259,8 +259,8 @@
     {
       "id": 0,
       "source_target": [
-        5,
-        3
+        3,
+        5
       ],
       "linkTypesInWidgets": [
         0,
@@ -269,7 +269,7 @@
       ],
       "linkValuesInWidgets": [
         -1,
-        1,
+        2,
         0
       ],
       "visibleInWidgets": [
@@ -288,10 +288,13 @@
           "y": 0
         },
         {
-          "x": 841.5833435058594,
-          "y": 669.5
+          "x": 816.0833129882812,
+          "y": 661.5
         },
-        null
+        {
+          "x": 938.5833435058594,
+          "y": 650.5
+        }
       ]
     },
     {
@@ -307,7 +310,7 @@
       ],
       "linkValuesInWidgets": [
         -1,
-        2,
+        1,
         0
       ],
       "visibleInWidgets": [
@@ -317,7 +320,7 @@
       ],
       "controlPointsStatus": [
         false,
-        true,
+        false,
         false
       ],
       "controlPointsPosition": [
@@ -326,17 +329,20 @@
           "y": 0
         },
         {
-          "x": 1161.9837646484375,
-          "y": 584.2711791992188
+          "x": 805.0833129882812,
+          "y": 549
         },
-        null
+        {
+          "x": 724.0833129882812,
+          "y": 542
+        }
       ]
     },
     {
       "id": 2,
       "source_target": [
-        4,
-        2
+        0,
+        1
       ],
       "linkTypesInWidgets": [
         0,
@@ -345,7 +351,7 @@
       ],
       "linkValuesInWidgets": [
         -1,
-        2,
+        1,
         0
       ],
       "visibleInWidgets": [
@@ -364,16 +370,19 @@
           "y": 0
         },
         {
-          "x": 1168.0833435058594,
-          "y": 500
+          "x": 390.08331298828125,
+          "y": 383
         },
-        null
+        {
+          "x": 343.58331298828125,
+          "y": 344
+        }
       ]
     },
     {
       "id": 3,
       "source_target": [
-        3,
+        1,
         2
       ],
       "linkTypesInWidgets": [
@@ -402,130 +411,19 @@
           "y": 0
         },
         {
-          "x": 649.5833129882812,
-          "y": 575.5
+          "x": 374.58331298828125,
+          "y": 563
         },
-        null
+        {
+          "x": 343.08331298828125,
+          "y": 549
+        }
       ]
     },
     {
       "id": 4,
       "source_target": [
-        0,
-        2
-      ],
-      "linkTypesInWidgets": [
-        0,
-        0,
-        0
-      ],
-      "linkValuesInWidgets": [
-        -1,
         2,
-        0
-      ],
-      "visibleInWidgets": [
-        false,
-        true,
-        true
-      ],
-      "controlPointsStatus": [
-        false,
-        false,
-        false
-      ],
-      "controlPointsPosition": [
-        {
-          "x": 0,
-          "y": 0
-        },
-        {
-          "x": 707.5833129882812,
-          "y": 361.5
-        },
-        null
-      ]
-    },
-    {
-      "id": 5,
-      "source_target": [
-        2,
-        1
-      ],
-      "linkTypesInWidgets": [
-        0,
-        0,
-        0
-      ],
-      "linkValuesInWidgets": [
-        -1,
-        3,
-        0
-      ],
-      "visibleInWidgets": [
-        false,
-        true,
-        true
-      ],
-      "controlPointsStatus": [
-        false,
-        false,
-        false
-      ],
-      "controlPointsPosition": [
-        {
-          "x": 0,
-          "y": 0
-        },
-        {
-          "x": 1029.0833435058594,
-          "y": 349
-        },
-        null
-      ]
-    },
-    {
-      "id": 6,
-      "source_target": [
-        0,
-        1
-      ],
-      "linkTypesInWidgets": [
-        0,
-        0,
-        0
-      ],
-      "linkValuesInWidgets": [
-        -1,
-        1,
-        0
-      ],
-      "visibleInWidgets": [
-        false,
-        true,
-        true
-      ],
-      "controlPointsStatus": [
-        false,
-        false,
-        false
-      ],
-      "controlPointsPosition": [
-        {
-          "x": 0,
-          "y": 0
-        },
-        {
-          "x": 841.0833435058594,
-          "y": 199.5
-        },
-        null
-      ]
-    },
-    {
-      "id": 7,
-      "source_target": [
-        0,
         3
       ],
       "linkTypesInWidgets": [
@@ -554,10 +452,54 @@
           "y": 0
         },
         {
-          "x": 461.58331298828125,
-          "y": 426
+          "x": 572.0833129882812,
+          "y": 637
         },
-        null
+        {
+          "x": 535.0833129882812,
+          "y": 652
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "source_target": [
+        3,
+        1
+      ],
+      "linkTypesInWidgets": [
+        0,
+        0,
+        0
+      ],
+      "linkValuesInWidgets": [
+        -1,
+        2,
+        0
+      ],
+      "visibleInWidgets": [
+        false,
+        true,
+        true
+      ],
+      "controlPointsStatus": [
+        false,
+        false,
+        false
+      ],
+      "controlPointsPosition": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 503.08331298828125,
+          "y": 546
+        },
+        {
+          "x": 537.5833129882812,
+          "y": 551
+        }
       ]
     }
   ]
