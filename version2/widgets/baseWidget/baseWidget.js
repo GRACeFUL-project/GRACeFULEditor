@@ -420,6 +420,7 @@ function BaseWidget(parentElement) {
                         }
                     }
                 }// end of for loop that handles information
+                globalLink.propagateThePointer();
                 handler.addGlobalLink(globalLink);
             }
             // force redraw

@@ -141,7 +141,7 @@ function CLDControls(parentWidget) {
         // cldChipImage=cldChipNode[1];
 
         linkClass = that.addSelectionOpts(linksGroup, "Link type", ["Undefined", "Causal Relation"], that.onChangeLinkClass);
-     //   linkClass.node().options[0].hidden = true;
+        linkClass.node().options[0].hidden = true;
         linkClass.node().options[1].selected=true;
 
         causalSelection = that.addSelectionOpts(linksGroup, "Influence", getClassValues, that.onChangeLinkType);
@@ -323,13 +323,19 @@ function CLDControls(parentWidget) {
         if (node.getElementType()==="LinkElement") {
 
             // should be overwritten by the real options thing
-            console.log("controls handle node operation" + node);
+            console.log("controls moep moep handle node operation" + node);
+
+            // friendly widgets;
+            that.parent.sfdGraphObj.selectNode(node.getGlobalLinkPtr().getsfdLINK());
+
             this.selectedNode = node;
             nodesGroup.collapseBody();
             linksGroup.expandBody();
 
             // todo overwrite the values;
             var selId_1 = that.selectedNode.getClassType();
+            selId_1=1;
+            console.log("SelId"+selId_1);
             if (selId_1===-1){
                 // nothing to do; this is a goal tree link without any information!
                 linksGroup.collapseBody();
@@ -337,7 +343,8 @@ function CLDControls(parentWidget) {
 
             }
 
-            linkClass.node().options[selId_1].selected = "selected";
+            linkClass.node().options[1].selected = "selected";
+            linkClass.node().options[0].hidden= true;
             var selId_2 = that.selectedNode.getTypeId();
             var temp = linkClass.node().options[selId_1].value;            
             if(temp !== "Undefined") {
@@ -441,6 +448,11 @@ function CLDControls(parentWidget) {
         var strUser = selectionContainer.options[selectionContainer.selectedIndex].value;
         console.log(selectionContainer.selectedIndex+" the user string is "+strUser);
         that.selectedNode.setCLDTypeString(selectionContainer.selectedIndex, strUser);
+        var sfdLink=that.selectedNode.getGlobalLinkPtr().getsfdLINK();
+        console.log("Setting that thing to "+strUser);
+        sfdLink.setCLDLinkTypeFromOutside(selectionContainer.selectedIndex,selectionContainer.selectedIndex);
+        that.selectedNode.getGlobalLinkPtr().filterInformation();
+
     };
 
 

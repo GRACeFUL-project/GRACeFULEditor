@@ -4,10 +4,11 @@ function SimpleSFDControls(parentWidget) {
     this.parent=parentWidget;
 
     var controlsMenu;
-    var optionsGroup, nodeGroup;
+    var optionsGroup, nodeGroup,linksGroup,linkClass,causalSelection,commentLink;
     var nodeSelGroup;
     var parametersGroup;
     var parameterTable;
+    var getClassValues = [undefined];
     var portTable;
     var solverLineEdit;
     var nodeClass,nodeLabel;
@@ -182,6 +183,48 @@ function SimpleSFDControls(parentWidget) {
         that.parent.requestAction(action);
     };
 
+    this.onChangeLinkType=function (selectionContainer) {
+        var strUser = selectionContainer.options[selectionContainer.selectedIndex].value;
+        console.log(selectionContainer.selectedIndex+" the user string is "+strUser);
+        var cldLink=that.selectedNode.getGlobalLinkPtr().getCLDLINK();
+        cldLink.setCLDLinkTypeFromOutside(selectionContainer.selectedIndex,selectionContainer.selectedIndex);
+        that.selectedNode.setCLDLinkTypeFromOutside(selectionContainer.selectedIndex,selectionContainer.selectedIndex);
+
+    };
+
+    function appendLinkType(className, selNode) {
+        d3.select(causalSelection.node()).selectAll("option").remove();
+        if(className === "Causal Relation") {
+            if(selNode && selNode.sourceNode.typeName === "Action")
+                getClassValues = [undefined, '+', '-', '0'];
+            else
+                getClassValues = [undefined, '+', '-', '?', '0'];
+            for (var i=0;i<getClassValues.length;i++){
+                d3.select(causalSelection.node()).append("option").text(getClassValues[i]);
+            }
+        }
+        else if(className === "Other Relation") {
+            getClassValues = [undefined, 'A', 'B'];
+            for(var i=0; i<getClassValues.length; i++) {
+                d3.select(causalSelection.node()).append("option").text(getClassValues[i]);
+            }
+        }
+    }
+    this.onChangeLinkClass = function(selectionContainer) {
+        var strUser = selectionContainer.options[selectionContainer.selectedIndex].value;
+        if(strUser !== "Undefined") {
+            that.selectedNode.setClassType(selectionContainer.selectedIndex, strUser);
+            d3.select(causalSelection.node().parentNode).classed("hidden", false);
+            appendLinkType(strUser, that.selectedNode);
+        }
+        else
+            d3.select(causalSelection.node().parentNode).classed("hidden", true);
+    };
+
+    this.onChangeLinkComment=function(){
+        that.selectedNode.setHoverText(commentLink.node().value);
+    };
+
 
     this.serverRequest=function(){
         // the action defines a request type which is send to com mod and that one does the work
@@ -306,7 +349,23 @@ function SimpleSFDControls(parentWidget) {
        //   nodeSelGroup= that.addSelectionOpts(nodeGroup, "Node type", ["Undefined", "A", "B"], that.onChangeNodeType);
           // nodeClass=that.addLabel(nodeGroup,"Class","nodesClass");
           // nodeLabel=that.addLineEdit(nodeGroup,"Name","nodesName",false, that.changeNodesName);
+        linksGroup = that.createAccordionGroup(that.divControlsGroupNode, "Links");
 
+        // linkNode=that.addNodeTypeChip(linksGroup,"Undefined","#fafafa",that.deleteLinks,"cldLinkChipField",false,"undefined","cld","./images/nodes/factor.png");
+        // cldChip = cldChipNode[0];
+        // cldChipImage=cldChipNode[1];
+
+        linkClass = that.addSelectionOpts(linksGroup, "Link type", ["Undefined", "Causal Relation"], that.onChangeLinkClass);
+           linkClass.node().options[0].hidden = true;
+        linkClass.node().options[1].selected=true;
+
+
+
+        causalSelection = that.addSelectionOpts(linksGroup, "Influence", getClassValues, that.onChangeLinkType);
+        d3.select(causalSelection.node().parentNode).classed("hidden", false);
+        commentLink = that.addTextEdit(linksGroup, "Comments", "", true, that.onChangeLinkComment);
+
+        // delLinkBtn = that.addButtons(linksGroup, "Delete", "linkDelete", that.deleteLinks);
           //sfdChipNode= that.addNodeTypeChip(nodeGroup,"empty","#fafafa",that.deleteNodes,"sfdChipField",true,"undefined","sfd","./images/nodes/factor.png");
           sfdChipNode=that.addNodeTypeChip(nodeGroup,"Rain","#fafafa",that.onSFDNodeDelete,"sfdChipField",true,"./data/img/rain.png","sfd","1");
           sfdChip=sfdChipNode[0];
@@ -458,6 +517,42 @@ function SimpleSFDControls(parentWidget) {
                 that.addParameterRow(portTable,[p_name,p_type,p_value],[false,false,false],portsParameters[j]);
 
             }
+
+        }
+        if (node.getElementType()==="LinkElement") {
+
+            // should be overwritten by the real options thing
+            console.log("controls handle zort zort node operation" + node);
+            this.selectedNode = node;
+            nodeGroup.collapseBody();
+            linksGroup.expandBody();
+
+            // todo overwrite the values;
+            var selId_1 = that.selectedNode.getClassType();
+            selId_1=1;
+            if (selId_1===-1){
+                // nothing to do; this is a goal tree link without any information!
+                linksGroup.collapseBody();
+                return;
+
+            }
+            linkClass.node().options[selId_1].selected = "selected";
+            console.log(that.selectedNode);
+            var selId_2 = that.selectedNode.getGlobalLinkPtr().getCLDLINK().getTypeId();
+            console.log("TypeId "+selId_2);
+            var temp = linkClass.node().options[selId_1].value;
+            if(temp !== "Undefined") {
+                appendLinkType(temp, node);
+                causalSelection.node().options[selId_2].selected="selected";
+                d3.select(causalSelection.node().parentNode).classed("hidden", false);
+                console.log("Link type id: "+causalSelection.node().options[selId_2].value);
+            }
+            else
+                d3.select(causalSelection.node().parentNode).classed("hidden", true);
+
+            commentLink .node().disabled = false;
+            commentLink .node().value = that.selectedNode.hoverText;
+
 
         }
 
