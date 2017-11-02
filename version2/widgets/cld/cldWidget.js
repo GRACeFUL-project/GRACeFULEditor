@@ -138,9 +138,85 @@ function CLDWidget(){
         return that.graphObject.requestModelDataAsJson();
     };
 
-    this.loadLibrary = function(jsonData) {
-        console.log("Library Obtained for CLD");
+
+    function prepareJsonLIb(jsonIbj){
+
+
+
+            // we dont care about the relational thing;
+
+        //console.
+
+            var libArray=jsonIbj.library;
+
+            var obj={};
+            obj.name="FULL GCM MODEL";
+
+            // here we filter things out;;
+            obj.library=[]; // array of objects
+
+
+            // creating forloop style;
+            // skipping the first 2 elements // currently dont know how to add them;
+            for (var i=0;i<libArray.length;i++){
+                var currentElement=libArray[i];
+
+                // create an object;
+                var libElement={};
+                libElement.name=currentElement.name;
+                libElement.description=currentElement.comment;
+                libElement.parameters=[];
+                libElement.type="NODAL";
+
+                if (libElement.name!=="node" ||
+                    libElement.name!=="action" ||
+                    libElement.name!=="criterion") continue;
+
+
+                if (libElement.name==="rain"){
+                    libElement.imgURL="./images/factorNode.png";
+                    libElement.type="CAUSAL";
+                    libElement.name="Rain";
+                }
+
+                if (libElement.name ==="node"){
+                    // has no interface -.-
+                    libElement.imgURL="./images/factorNode.png";
+                    libElement.type="CAUSAL";
+                    libElement.name="Factor";
+                }
+
+                if (libElement.name==="action"){
+                    libElement.imgURL="./images/adaptation_action.png";
+                    libElement.type="CAUSAL"
+                }
+
+                if (libElement.name==="criterion"){
+                    libElement.imgURL="./images/criterion.png";
+                    libElement.type="CAUSAL"
+                }
+                obj.library.push(libElement);
+
+            }
+            return obj;
+    }
+
+    this.loadLibrary = function(jsonData,invalidOptions) {
+        console.log("Library Obtained for CLD++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         //TODO: populate the respective attributes for nodes and links
+
+        // prepare the data
+        var jObj=JSON.parse(jsonData);
+
+        if (invalidOptions===true){
+            var obj=prepareJsonLIb(jObj);
+            console.log(obj);
+        }
+
+
+
+        reloadWidgetItemsCLD(obj);
+
     };
 
     this.parseResult = function(result) {

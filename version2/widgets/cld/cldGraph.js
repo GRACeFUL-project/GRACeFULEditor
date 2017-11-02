@@ -42,7 +42,9 @@ function CLDGraph(){
          var sfdWdiget=that.parentWidget.sfdGraphObj;
             globalNode.setVisibleInWidget(sfdWdiget,true);
             friendlyNode=sfdWdiget.createFriendlyNode();
-            globalNode.setNodeType(sfdWdiget,that.nodeTypeGraph-1,friendlyNode);
+            var mappedId=friendlyNode.findTypeId(repR.typeNameForSolver);
+            console.log("Searching for "+repR.typeNameForSolver);
+            globalNode.setNodeType(sfdWdiget,mappedId,friendlyNode);
             friendlyNode.setGlobalNodePtr(globalNode);
 
 
@@ -63,7 +65,8 @@ function CLDGraph(){
 
     this.createLink=function(parent){
         var aLink=new CLDLink(parent);
-        aLink.setClassType(0);
+        aLink.setClassType(1);
+        aLink.setCLDTypeString(1,"+");
         console.log(aLink.getTypeId()+"<<< ");
         return aLink
     };
@@ -450,6 +453,65 @@ function CLDGraph(){
             // aLink.pathElement.classed("cldLinkSelected", true);
         }
     };
+
+
+    this.addLinkFormSFD=function(source,target){
+        var srcRen=source.getGlobalNodePtr().filterInformation(that);
+        var tarRen=target.getGlobalNodePtr().filterInformation(that);
+
+        if (srcRen===tarRen){
+            console.log("No Capes allowd, i mean loops!");
+            return;
+        }
+
+        // crreate a global links
+        var handler=that.parentWidget.getHandler();
+        var globalLink=handler.createGlobalLink(that);
+
+        console.log("global LInk obj");
+        console.log(globalLink);
+
+        globalLink.setLinkGenerator(that,that.createLink(that));
+        handler.addGlobalLink(globalLink);
+        var repR=globalLink.filterInformation(that);
+        repR.setGlobalLinkPtr(globalLink);
+
+        //add the cld representer nodes;
+
+
+
+        repR.source(srcRen);
+        repR.target(tarRen);
+
+        globalLink.setSource(srcRen.getGlobalNodePtr());
+        globalLink.setTarget(tarRen.getGlobalNodePtr());
+
+        console.log("Node Types are: "+srcRen.getTypeId()+" "+tarRen.getTypeId());
+        if ((srcRen.getTypeId()===3 || srcRen.getTypeId()===5)
+            && (tarRen.getTypeId()===3 || tarRen.getTypeId()===5)
+        ){
+            console.log("this should also be visible in CLD ");
+            //
+            var friendlyWidget=that.parentWidget.gtGraphObj;
+            globalLink.setVisibleInWidget(friendlyWidget,true);
+            var friendlyLink=friendlyWidget.createLink(friendlyWidget);
+
+            globalLink.setLinkGenerator(friendlyWidget,friendlyLink);
+            friendlyLink.setGlobalLinkPtr(globalLink);
+        }
+        // this should also be added now to GCM;
+        friendlyWidget=that.parentWidget.sfdGraphObj;
+        globalLink.setVisibleInWidget(friendlyWidget,true);
+        friendlyLink=that.createLink(that);
+        console.log("okay1");
+        globalLink.setLinkGenerator(friendlyWidget,friendlyLink);
+        console.log("okay2");
+        friendlyLink.setGlobalLinkPtr(globalLink);
+        that.forceRedrawContent();
+        that.selectNode(undefined);
+
+    };
+
 
     this.redrawGraphContent=function(){
 

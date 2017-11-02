@@ -194,7 +194,21 @@ function GlobalLink() {
         return cpPos;
     };
 
+    this.getCLDLINK=function(){
+        return linkRepresenter[1];
+    };
+    this.getsfdLINK=function(){
+        return linkRepresenter[2];
+    };
 
+    this.propagateThePointer=function(){
+        if (linkRepresenter[0])
+            linkRepresenter[0].setGlobalLinkPtr(that);
+        if (linkRepresenter[1])
+            linkRepresenter[1].setGlobalLinkPtr(that);
+        if (linkRepresenter[2])
+            linkRepresenter[2].setGlobalLinkPtr(that);
+    };
 
     this.filterInformation=function(widget){
         var indexOfWidget=that.findWidgetId(widget);

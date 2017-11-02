@@ -19,7 +19,7 @@ function GTControls(parentWidget) {
     this.generateControls=function(){
         goalsGroup = that.createAccordionGroup(that.divControlsGroupNode, "Goal");
         // goal Chip for the goalNames
-        goalchipNode=that.addNodeTypeChip(goalsGroup,"empty","#fafafa",that.onDeleteGoal,"gtChipField",false,"undefined","gt","./images/nodes/goal.png");
+        var goalchipNode=that.addNodeTypeChip(goalsGroup,"empty","#fafafa",that.onDeleteGoal,"gtChipField",false,"undefined","gt","./images/nodes/goal.png");
         goalchip = goalchipNode[0];
         goalimage= goalchipNode[1];
 

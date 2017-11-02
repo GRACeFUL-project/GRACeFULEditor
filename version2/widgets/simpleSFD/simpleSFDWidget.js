@@ -64,7 +64,7 @@ function SimpleSFDWidget(){
 
     this.loadLibrary=function(jsonData, invalidLibFormat){
         // loading library;
-
+        console.log("HALLOOOOO000000000000000000000000000000000000000000000000000")
         // read the text as json
      // console.log("Parsing Json obj"+jsonData);
         var jsonObj=JSON.parse(jsonData);
@@ -111,15 +111,12 @@ function SimpleSFDWidget(){
             obj.library=[]; // array of objects
 
 
+
             // creating forloop style;
             // skipping the first 2 elements // currently dont know how to add them;
-            console.log("---------------------------------------------");
+
             for (var i=0;i<libArray.length;i++){
                 var currentElement=libArray[i];
-                console.log(" Index "+i+"---------------------------------------------");
-                console.log(currentElement);
-                console.log("++++++++++++++++++++++++++++++++++++++++++++");
-
                 // create an object;
                 var libElement={};
                 libElement.name=currentElement.name;
@@ -144,6 +141,7 @@ function SimpleSFDWidget(){
                     libElement.imgURL="./images/edgeElement.png";
                     libElement.type="RELATIONAL";
                     libElement.name="relation";
+                    continue;
                 }
 
 
@@ -285,23 +283,18 @@ function SimpleSFDWidget(){
                                 iObj.outgoingType="NONE";
                                 iObj.incomingType="SINGLE";
                         }
-
-
-
-                        // add this port element;
-                        console.log("inteface obj");
-                        console.log(iObj);
                         libElement.interface.push(iObj);
-                        console.log("hello this hould be thre now'");
-
                     }
                 }
-
-
-                console.log(libElement);
                 obj.library.push(libElement);
             }
-
+            var stakeElement={};
+            stakeElement.name="Stakeholder";
+            stakeElement.description="Stakeholder Nodes'";
+            stakeElement.imgURL="./images/stakeholder.png";
+            stakeElement.parameters=[];
+            stakeElement.interface=[];
+            obj.library.push(stakeElement);
 
             // var firstElement=jsonObj.library[0]; // is scipped;
             // var secondElement=jsonObj.library[1]; // is scipped;

@@ -92,6 +92,7 @@ function CLDLink(graph) {
     };
 
     this.getTypeId=function() {
+        console.log("returning "+that.cldTypeId);
         return that.cldTypeId;
     };
 
