@@ -490,8 +490,20 @@ function BaseGraph(parentWidget) {
       //  console.log("parent node calls createor of drager element");
         this.draggerElement.setParentNode(parentNode);
         this.draggerLayer.classed("hidden",false);
+        this.draggerElement.setAdditionalClassForDragger("draggerNode",false);
+    };
+
+    // this is for node dragger
+    this.createDraggerElementNode=function(parentNode){
+        // this should be cleared now;
+        //  console.log("parent node calls createor of drager element");
+        this.draggerElement.setParentNode(parentNode);
+        this.draggerLayer.classed("hidden",false);
+        this.draggerElement.setAdditionalClassForDragger("draggerNode",true);
+
 
     };
+
     this.hideDraggerElement=function(){
         this.draggerLayer.classed("hidden",true);
     };

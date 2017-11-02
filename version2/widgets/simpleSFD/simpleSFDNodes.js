@@ -287,15 +287,13 @@ function SimpleSFDNode(graph,nodeDescriptions) {
         if (that.getNodeObjectType()===that.GRAPH_OBJECT_NODE){
             // nothing to do // the super function should have done thisl
             // kill drager element
-            graph.hideDraggerElement();
-
-
-            // hackaround
-            if (that.getPortElements().length===0){
-                console.log("this element does not have");
+            // graph.hideDraggerElement();
+            // // hackaround
+            // if (that.getPortElements().length===0){
+            //     console.log("this element does not have");
                 graph.selectNode(that);
                 graph.createDraggerElement(that);
-            }
+//            }
 
 
         }

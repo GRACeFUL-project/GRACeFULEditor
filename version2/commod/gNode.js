@@ -179,7 +179,10 @@ function GlobalNode() {
 
     };
 
-
+    this.setKind=function(str){
+        this.kind=str;
+    };
+    this.getKind=function(){return that.kind;};
 
     this.setVisibleInWidget=function(widget, visible){
             // set the corresponding value in the visible widgetId;

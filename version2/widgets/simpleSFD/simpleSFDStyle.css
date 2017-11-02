@@ -32,3 +32,8 @@
     stroke: gray;
     stroke-width: 5px;
 }
+
+
+.draggerNode{
+    fill: #aef6ee;
+}

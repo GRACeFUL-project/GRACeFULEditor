@@ -454,7 +454,40 @@ function CLDGraph(){
         }
     };
 
+    this.createShadowLink=function(source,target){
+        // crreate a global links
+        var sfdGraph=that.parentWidget.sfdGraphObj;
+        var srcRen=source.getGlobalNodePtr().filterInformation(sfdGraph);
+        var tarRen=target.getGlobalNodePtr().filterInformation(sfdGraph);
 
+        if (srcRen===tarRen){
+            console.log("No Capes allowd, i mean loops!");
+            return;
+        }
+
+        var handler=that.parentWidget.getHandler();
+        var globalLink=handler.createGlobalLink(sfdGraph);
+
+        console.log("global LInk obj");
+        console.log(globalLink);
+
+        globalLink.setLinkGenerator(sfdGraph,that.createLink(that));
+        handler.addGlobalLink(globalLink);
+        var repR=globalLink.filterInformation(sfdGraph);
+        repR.setGlobalLinkPtr(globalLink);
+
+
+
+        repR.source(srcRen);
+        repR.target(tarRen);
+
+        globalLink.setSource(srcRen.getGlobalNodePtr());
+        globalLink.setTarget(tarRen.getGlobalNodePtr());
+
+
+        console.log("This should be it ")
+
+    };
     this.addLinkFormSFD=function(source,target){
         var srcRen=source.getGlobalNodePtr().filterInformation(that);
         var tarRen=target.getGlobalNodePtr().filterInformation(that);

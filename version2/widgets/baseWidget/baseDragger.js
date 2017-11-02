@@ -146,6 +146,11 @@ function BaseDragger(graph) {
         that.mouseEntered(false);
     };
 
+    this.setAdditionalClassForDragger=function(name,val){
+        // console.log("this should sett the class here")
+        // that.nodeElement.classed(name,val);
+
+    };
 
 }
 

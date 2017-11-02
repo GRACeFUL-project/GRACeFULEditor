@@ -62,6 +62,11 @@ function SimpleSFDGraph(){
         var handler=that.parentWidget.getHandler();
         var globalNode=handler.createGlobalNode(that);
         globalNode.setNodeType(that,that.selectedOverlayId,that.createNode(that,inputClasses));
+        var temp=["Causal","Node","Relation"];
+
+
+
+
         handler.addGlobalNode(globalNode);
         var repR=globalNode.filterInformation(that);
         repR.setGlobalNodePtr(globalNode);
@@ -83,6 +88,7 @@ function SimpleSFDGraph(){
             var friendlyNode=friendlyWidget.createNode(that.parentWidget.cldGraphObj);
             globalNode.setNodeType(friendlyWidget,1,friendlyNode);
             friendlyNode.setGlobalNodePtr(globalNode);
+            globalNode.setKind("CLD_NODE")
         }
 
         if (inputClasses[that.selectedOverlayId].name==="action"){
@@ -91,6 +97,7 @@ function SimpleSFDGraph(){
             var friendlyNode=friendlyWidget.createNode(that.parentWidget.cldGraphObj);
             globalNode.setNodeType(friendlyWidget,2,friendlyNode);
             friendlyNode.setGlobalNodePtr(globalNode);
+            globalNode.setKind("CLD_NODE")
         }
 
         if (inputClasses[that.selectedOverlayId].name==="criterion"){
@@ -99,6 +106,7 @@ function SimpleSFDGraph(){
             var friendlyNode=friendlyWidget.createNode(that.parentWidget.cldGraphObj);
             globalNode.setNodeType(friendlyWidget,3,friendlyNode);
             friendlyNode.setGlobalNodePtr(globalNode);
+            globalNode.setKind("CLD_NODE")
         }
 
         if (inputClasses[that.selectedOverlayId].name==="criterion"){
@@ -107,6 +115,7 @@ function SimpleSFDGraph(){
             var friendlyNode=friendlyWidget.createNode(that.parentWidget.gtwGraphObj);
             globalNode.setNodeType(friendlyWidget,3,friendlyNode);
             friendlyNode.setGlobalNodePtr(globalNode);
+            globalNode.setKind("CLD_NODE")
         }
 
 
@@ -848,6 +857,7 @@ function SimpleSFDGraph(){
         // computes the nearest node center to the given position;
         // todo : use kd-tree for node positions and optimizations;
         // todo: do we really need this;
+        console.log("Searching for Traget Node")
         var dx=position[0];
         var dy=position[1];
         var tN=undefined;
@@ -860,6 +870,7 @@ function SimpleSFDGraph(){
             if (cDist<minDist){
                 minDist=cDist;
                 tN=el;
+                console.log("Found target node")
             }
         });
         //     console.log("minDist="+minDist);
@@ -886,10 +897,18 @@ function SimpleSFDGraph(){
         if (d.parentNode().getElementType()==="sfdNode"){
             // find the closes NODE!
             targetNode=that.getTargetNode(draggeEndPos);
+            console.log("targetNode");
+            console.log(targetNode);
             // some fancy stuff;
             if (d.parentNode().getElementType()==="sfdNode" && targetNode.getElementType()==="sfdNode"){
                 console.log("create the connection in CLD please");
-                that.parentWidget.cldGraphObj.addLinkFormSFD(d.parentNode(),targetNode);
+                if(targetNode.getGlobalNodePtr().getKind() && d.parentNode().getGlobalNodePtr().getKind()) {
+                    that.parentWidget.cldGraphObj.addLinkFormSFD(d.parentNode(), targetNode);
+                }else{
+                    that.parentWidget.cldGraphObj.createShadowLink(d.parentNode(), targetNode);
+
+                }
+
                 that.forceRedrawContent();
 
             }

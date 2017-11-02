@@ -187,8 +187,10 @@ function SimpleSFDControls(parentWidget) {
         var strUser = selectionContainer.options[selectionContainer.selectedIndex].value;
         console.log(selectionContainer.selectedIndex+" the user string is "+strUser);
         var cldLink=that.selectedNode.getGlobalLinkPtr().getCLDLINK();
-        cldLink.setCLDLinkTypeFromOutside(selectionContainer.selectedIndex,selectionContainer.selectedIndex);
-        that.selectedNode.setCLDLinkTypeFromOutside(selectionContainer.selectedIndex,selectionContainer.selectedIndex);
+        if (cldLink) {
+            cldLink.setCLDLinkTypeFromOutside(selectionContainer.selectedIndex, selectionContainer.selectedIndex);
+        }
+        that.selectedNode.setCLDLinkTypeFromOutside(selectionContainer.selectedIndex, selectionContainer.selectedIndex);
 
     };
 
@@ -248,7 +250,7 @@ function SimpleSFDControls(parentWidget) {
         //requestData from widget
 
         // request data form sfd widget
-        action.libraryName="crud";
+        action.libraryName="fullgcm";
         action.data=that.parent.requestModelDataForSolver();
         that.parent.requestAction(action);
     };
@@ -538,18 +540,33 @@ function SimpleSFDControls(parentWidget) {
             }
             linkClass.node().options[selId_1].selected = "selected";
             console.log(that.selectedNode);
-            var selId_2 = that.selectedNode.getGlobalLinkPtr().getCLDLINK().getTypeId();
-            console.log("TypeId "+selId_2);
-            var temp = linkClass.node().options[selId_1].value;
-            if(temp !== "Undefined") {
-                appendLinkType(temp, node);
-                causalSelection.node().options[selId_2].selected="selected";
-                d3.select(causalSelection.node().parentNode).classed("hidden", false);
-                console.log("Link type id: "+causalSelection.node().options[selId_2].value);
-            }
-            else
-                d3.select(causalSelection.node().parentNode).classed("hidden", true);
+            if (that.selectedNode.getGlobalLinkPtr().getCLDLINK()) {
 
+                var selId_2 = that.selectedNode.getGlobalLinkPtr().getCLDLINK().getTypeId();
+                console.log("TypeId " + selId_2);
+                var temp = linkClass.node().options[selId_1].value;
+                if (temp !== "Undefined") {
+                    appendLinkType(temp, node);
+                    causalSelection.node().options[selId_2].selected = "selected";
+                    d3.select(causalSelection.node().parentNode).classed("hidden", false);
+                    console.log("Link type id: " + causalSelection.node().options[selId_2].value);
+                }
+                else
+                    d3.select(causalSelection.node().parentNode).classed("hidden", true);
+            }
+            else{
+                var selId_2 = that.selectedNode.getGlobalLinkPtr().getsfdLINK().getTypeId();
+                console.log("TypeId " + selId_2);
+                var temp = linkClass.node().options[selId_1].value;
+                if (temp !== "Undefined") {
+                    appendLinkType(temp, node);
+                    causalSelection.node().options[selId_2].selected = "selected";
+                    d3.select(causalSelection.node().parentNode).classed("hidden", false);
+                    console.log("Link type id: " + causalSelection.node().options[selId_2].value);
+                }
+                else
+                    d3.select(causalSelection.node().parentNode).classed("hidden", true);
+            }
             commentLink .node().disabled = false;
             commentLink .node().value = that.selectedNode.hoverText;
 
