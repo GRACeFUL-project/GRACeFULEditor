@@ -202,27 +202,123 @@ function SimpleSFDGraph(){
 
     // function for wrapping the graph data into the solver format;
     this.requestModelDataAsJson=function(){
-        var modelObj={};
-        modelObj.nodes=[];
-        var i,j;
-        for (i=0;i<that.nodeElementArray.length;i++){
-            var node=that.nodeElementArray[i];
-            var obj={};
-            obj.name=node.getNodeName();
-            obj.parameters=[];
-            // add parameters
-            var nodeParameters=node.getParameterElements();
-            for (j=0;j<nodeParameters.length;j++){
-                obj.parameters.push(nodeParameters[j])
+        // var modelObj={};
+        // modelObj.nodes=[];
+        // var i,j;
+        // for (i=0;i<that.nodeElementArray.length;i++){
+        //     var node=that.nodeElementArray[i];
+        //     var obj={};
+        //     obj.name=node.getNodeName();
+        //     obj.parameters=[];
+        //     // add parameters
+        //     var nodeParameters=node.getParameterElements();
+        //     for (j=0;j<nodeParameters.length;j++){
+        //         obj.parameters.push(nodeParameters[j])
+        //
+        //     }
+        //     obj.identity=node.id();
+        //     obj.interface=node.getInterfaceDescription();
+        //
+        //     modelObj.nodes.push(obj);
+        // }
+        // console.log(JSON.stringify(modelObj, null, ''));
+        // return  JSON.stringify(modelObj, null, '  ');
 
+        console.log("----------------------- REQUESTING MODEL DATA")
+        var modelObj = {};
+        modelObj.nodes = [];
+        // modelObj.links = [];
+
+        that.budgetId = that.idInNumber++;
+        that.budgetPortIndex = 0;
+        that.actionNodes = 0;
+        that.criteriaNodes = 0;
+        that.optimiseId = that.idInNumber++;
+        that.optimisePortIndex = 0;
+
+        for(var i=0; i<that.nodeElementArray.length; i++) {
+            var node = that.nodeElementArray[i];
+            var obj = {};
+            if(node.typeName !== "Stake Holder") {
+                node.getFinalData();
+                obj.name = node.typeNameForSolver;
+                obj.parameters = node.parameters;
+                obj.interface = node.interfaces;
+                obj.identity = node.id();
+                //need to add more attributes
+                modelObj.nodes.push(obj);
             }
-            obj.identity=node.id();
-            obj.interface=node.getInterfaceDescription();
+            console.log("How many links: "+that.pathElementArray.length);
+            //evaluate
+            var evals = {};
+            if(node.typeName === "Criteria") {
+                var weights = [];
+                var values = [];
+                var sLinkIds = [];
+                for(var k=0; k<that.pathElementArray.length; k++) {
+                    var sLink = that.pathElementArray[k];
+                    if(sLink.superLinkType === 100 && sLink.targetNode.id() === node.id()) {
+                        console.log("sLinkkkk!!! "+sLink.id());
+                        values.push(sLink.getEvaluationValue());
+                        weights.push(sLink.getNormalizedWeight());
+                        sLinkIds.push(sLink);
+                    }
+                }
+                if(weights.length > 0) {
+                    evals.name = "evaluate";
+                    evals.parameters = [{"name": "values", "value": values, "type": "[Sign]"}, {"name": "weights", "value": weights, "type": "[Float]"}];
+                    evals.interface = [
+                        {
+                            "connection": [node.id(), "value", null],
+                            "name": "atPort",
+                            "type": "Sign"
+                        },
+                        {
+                            "connection": [that.optimiseId, "benefits", that.optimisePortIndex++],
+                            "name": "benefit",
+                            "type": "Float"
+                        }
+                    ];
+                    evals.identity = that.idInNumber++;
+                    for(var m=0; m<sLinkIds.length; m++) {
+                        sLinkIds[m].setEvaluateId(evals.identity);
+                    }
 
-            modelObj.nodes.push(obj);
+                    modelObj.nodes.push(evals);
+                }
+            }
         }
-        console.log(JSON.stringify(modelObj, null, ''));
-        return  JSON.stringify(modelObj, null, '  ');
+
+        for( i=0; i<that.pathElementArray.length; i++) {
+            var link = that.pathElementArray[i];
+            if(link.superLinkType !== 100) {
+                var obj={};
+                link.getFinalData();
+                obj.name = link.name;
+                obj.parameters = link.parameters;
+                obj.interface = link.interfaces;
+                obj.identity = link.id();
+                modelObj.nodes.push(obj);
+            }
+        }
+
+        var nodeBudget = {
+            "name": "budget",
+            "parameters": [{"name": "numberOfPorts", "value": that.actionNodes, "type": "Int"}, {"name": "maximumBudget", "value": Number(that.budget), "type": "Int"}],
+            "interface": [{"name": "costs", "type": "[Int]"}],
+            "identity": that.budgetId
+        };
+        modelObj.nodes.push(nodeBudget);
+
+        var nodeOptimise = {
+            "name": "optimise",
+            "parameters": [{"name": "numberOfPorts", "value": that.criteriaNodes, "type": "Int"}],
+            "interface": [{"name": "benefits", "type": "[Float]"}],
+            "identity": that.optimiseId
+        };
+        modelObj.nodes.push(nodeOptimise);
+
+        return JSON.stringify(modelObj, null, '');
     };
 
 
