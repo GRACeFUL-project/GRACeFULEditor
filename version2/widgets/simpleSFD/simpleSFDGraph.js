@@ -240,13 +240,17 @@ function SimpleSFDGraph(){
             var node = that.nodeElementArray[i];
             var obj = {};
             if(node.typeName !== "Stake Holder") {
-                node.getFinalData();
-                obj.name = node.typeNameForSolver;
-                obj.parameters = node.parameters;
-                obj.interface = node.interfaces;
-                obj.identity = node.id();
-                //need to add more attributes
-                modelObj.nodes.push(obj);
+                if (node.getGlobalNodePtr().getCLDNODE()) {
+                    var cldNode=node.getGlobalNodePtr().getCLDNODE();
+                    // this is cld node faction action etc
+                    cldNode.getFinalData();
+                    obj.name = cldNode.typeNameForSolver;
+                    obj.parameters = cldNode.parameters;
+                    obj.interface = cldNode.interfaces;
+                    obj.identity = cldNode.id();
+                    //need to add more attributes
+                    modelObj.nodes.push(obj);
+                }
             }
             console.log("How many links: "+that.pathElementArray.length);
             //evaluate
@@ -293,12 +297,15 @@ function SimpleSFDGraph(){
             var link = that.pathElementArray[i];
             if(link.superLinkType !== 100) {
                 var obj={};
-                link.getFinalData();
-                obj.name = link.name;
-                obj.parameters = link.parameters;
-                obj.interface = link.interfaces;
-                obj.identity = link.id();
-                modelObj.nodes.push(obj);
+                if (link.getGlobalLinkPtr().getCLDLINK()) {
+                    var cldLink = link.getGlobalLinkPtr().getCLDLINK();
+                    cldLink.getFinalData();
+                    obj.name = cldLink.name;
+                    obj.parameters = cldLink.parameters;
+                    obj.interface = cldLink.interfaces;
+                    obj.identity = cldLink.id();
+                    modelObj.nodes.push(obj);
+                }
             }
         }
 

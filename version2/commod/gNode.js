@@ -152,6 +152,10 @@ function GlobalNode() {
     };
 
 
+    this.getCLDNODE=function(){
+        return nodeConstructors[1];
+    };
+
     this.setGlobalMetaDataArray=function(array){
         if (array===undefined) return;
 
