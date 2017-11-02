@@ -159,6 +159,7 @@
                        console.log("***********************************************************************************************")
                        console.log("docker returns data: "+request.responseText);
                        // todo: process the returned data; to the widget
+                       that.initPtr.loadSideBarElements(request.responseText);
                        widget.loadLibrary(request.responseText,invalidLibFormat);
 
                    }

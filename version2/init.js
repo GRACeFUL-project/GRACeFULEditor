@@ -284,7 +284,7 @@ var gHandlerObj=handler.create();
         //load the node types from backend.
         var action={};
         action.task="SERVER_REQUEST";
-        action.requestType="GET_LIBRARY";
+        action.requestType="GET_LIBRARY_STATIC";
         action.libraryName="fullgcm";
         sfd.setCommunicationModule(com);
         sfd.setHandlerModule(gHandlerObj);
