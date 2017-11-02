@@ -152,9 +152,14 @@
                 console.log("address :"+get_requestAddress);
                 d3.xhr(get_requestAddress, "application/json",function (error, request) {
                    if (request){
+                       console.log("***********************************************************************************************")
+                       console.log("***********************************************************************************************")
+                       console.log("***********************************************************************************************")
+                       console.log("***********************************************************************************************")
+                       console.log("***********************************************************************************************")
                        console.log("docker returns data: "+request.responseText);
                        // todo: process the returned data; to the widget
-                       widget.loadLibrary(request.responseText);
+                       widget.loadLibrary(request.responseText,invalidLibFormat);
 
                    }
                    else{
