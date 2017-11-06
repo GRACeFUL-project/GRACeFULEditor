@@ -8,6 +8,7 @@ function GTControls(parentWidget) {
     this.parent=parentWidget;
     this.optionsId=1;
     var goalchip, goalimage, goalChipNode, goalsGroup, goalName, goalType, goalComment, delGoal, criteriaUnit, additionalSettings, loadcld, saveCld, clearGT, importSt;
+    var units = ["euro/year", "events/year", "Number of places", "Capacity rating", "Access rating", "m\u00B2"];
 
 
     this.loadGlobalLibraries=function(){
@@ -33,7 +34,8 @@ function GTControls(parentWidget) {
 
         goalComment = that.addTextEdit(goalsGroup, "Comments", "", true, that.onChangeGoalComment);
         //TODO: form fields when the goal type = criteria
-        criteriaUnit = that.addLineEdit(goalsGroup, "Unit", "", true, that.onChangeUnit);
+        // criteriaUnit = that.addLineEdit(goalsGroup, "Unit", "", true, that.onChangeUnit);
+        criteriaUnit = that.addSelectionOpts(goalsGroup, "Unit", units, that.onChangeUnit);
         d3.select(criteriaUnit.node().parentNode).classed("hidden", true);
         goalsGroup.collapseBody();
         // delGoal = that.addButtons(goalsGroup, "Delete", "goalDelete", that.onDeleteGoal);

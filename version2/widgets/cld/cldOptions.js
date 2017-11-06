@@ -10,6 +10,7 @@ function CLDControls(parentWidget) {
     var getClassValues = [undefined];
     var cldChip, cldChipImage, cldChipNode,  delNodeBtn, delLinkBtn, extFactorBtn, loopBtn, loadcld, saveCld, libCld, sendCld;
     var budgetBtn;
+    var units = ["euro/year", "events/year", "Number of places", "Capacity rating", "Access rating", "m\u00B2"];
 
 
     this.saveGlobalFunction=function(){
@@ -127,7 +128,8 @@ function CLDControls(parentWidget) {
 
         commentNode = that.addTextEdit(nodesGroup, "Comments", "", true, that.onChangeNodeComment);
 
-        criteriaUnit = that.addLineEdit(nodesGroup, "Unit", "", true, that.onChangeUnit);
+        // criteriaUnit = that.addLineEdit(nodesGroup, "Unit", "", true, that.onChangeUnit);
+        criteriaUnit = that.addSelectionOpts(nodesGroup, "Unit", units, that.onChangeUnit);
         d3.select(criteriaUnit.node().parentNode).classed("hidden", true);
         // delNodeBtn = that.addButtons(nodesGroup, "Delete", "nodeDelete", that.deleteNodes);
         nodesGroup.collapseBody();
