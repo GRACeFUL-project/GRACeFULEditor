@@ -246,7 +246,7 @@ function CLDControls(parentWidget) {
                 cldChip.innerHTML=that.selectedNode.label;
                 cldChipImage.setAttribute('src',that.selectedNode.getImageURL());
 
-                d3.select(checkObserve.node().parentNode).classed("hidden", false);
+                d3.select(checkObserve.node().parentNode).classed("hidden", false);                
                 d3.select(actionDiv).classed("hidden",true);
 
                 checkObserve.node().checked = that.selectedNode.getObserve();
@@ -290,6 +290,8 @@ function CLDControls(parentWidget) {
 
                 var selectType = selectionNode.node().options[selId].value;
                 if(selectType === "Action") {
+                    that.selectedNode.setObserve(false);
+                    that.selectedNode.setTrend(0);
                     d3.select(checkObserve.node().parentNode).classed("hidden", true);
                     d3.select(nodeTrend.node().parentNode).classed("hidden", true);
                     d3.select(actionDiv).classed("hidden",false);
@@ -309,12 +311,14 @@ function CLDControls(parentWidget) {
                             cost.disabled = false;
                     }
                 }
-                if(selectType === "Criteria") {
+                if(selectType === "Criterion") {
+                    that.selectedNode.setObserve(false);
+                    that.selectedNode.setTrend(0);
                     d3.select(criteriaUnit.node().parentNode).classed("hidden", false);
                     d3.select(checkObserve.node().parentNode).classed("hidden", true);
                     d3.select(nodeTrend.node().parentNode).classed("hidden", true);
                 }
-                if(selectType !== "Criteria") {
+                if(selectType !== "Criterion") {
                     d3.select(criteriaUnit.node().parentNode).classed("hidden", true);
                 }
 
@@ -462,12 +466,13 @@ function CLDControls(parentWidget) {
         var strUser = selectionContainer.options[selectionContainer.selectedIndex].value;
         console.log(selectionContainer.selectedIndex+" the user string is "+strUser);
         that.selectedNode.setType(selectionContainer.selectedIndex, strUser);
-        if(strUser === "Criteria") {
-            d3.select(criteriaUnit.node().parentNode).classed("hidden", false);
-        }
-        else {
-            d3.select(criteriaUnit.node().parentNode).classed("hidden", true);
-        }
+        // if(strUser === "Criterion") {
+        //     d3.select(criteriaUnit.node().parentNode).classed("hidden", false);
+        // }
+        // else {
+        //     d3.select(criteriaUnit.node().parentNode).classed("hidden", true);
+        // }
+        that.handleNodeSelection(that.selectedNode);
     };
     this.onChangeNodeName=function(){
       // change the value to be displayed on the node.
@@ -492,11 +497,14 @@ function CLDControls(parentWidget) {
     this.observeNode = function(val) {
         that.selectedNode.setObserve(val);
         var temp = that.selectedNode.getObserve();
-        if(temp)
+        if(temp) {
             d3.select(nodeTrend.node().parentNode).classed("hidden", false);
+            var temp = that.selectedNode.getTrend();
+            nodeTrend.node().options[temp].selected = "selected";
+        }
         else{
             d3.select(nodeTrend.node().parentNode).classed("hidden", true);
-            that.selectedNode.setTrend(0, undefined);
+            that.selectedNode.setTrend(0);
         }
     };
 
@@ -625,7 +633,7 @@ function CLDControls(parentWidget) {
         action.libraryName="cld";
         action.data = that.parent.requestModelDataForSolver();
         that.parent.requestAction(action);
-        console.log("DATA: "+action.data);
+        console.log(action.data);
     };
 
     this.getLibrary = function() {

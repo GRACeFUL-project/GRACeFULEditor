@@ -14,7 +14,7 @@ function CLDNode(graph) {
     this.typeNameForSolver = undefined;
     var allPossibleClasses=['undefined','nodeOptionA','nodeOptionB','nodeOptionC', 'externalFactors','stakeHolders'];
     var observeClasses = ['undefined', 'strokeAmbigous', 'strokeDecreasing', 'strokeIncreasing', 'strokeStable'];
-    this.allClasss=["Undefined", "Factor", "Action", "Criteria", "External Factor","stakeHolder"];
+    this.allClasss=["Undefined", "Factor", "Action", "Criterion", "External Factor","stakeHolder"];
     this.criteriaUnit = "";
 
     this.isObserved = false;
@@ -533,7 +533,7 @@ function CLDNode(graph) {
         that.selectedTypeId=typeId;
         that.typeName = typeName;
 
-        if(that.typeName === "Criteria")
+        if(that.typeName === "Criterion")
             that.typeNameForSolver = "criterion";
         else if (that.typeName === "Action")
             that.typeNameForSolver = "action";

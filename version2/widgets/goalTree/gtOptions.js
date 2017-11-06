@@ -101,10 +101,10 @@ function GTControls(parentWidget) {
             }
 
             var selectType = goalType.node().options[gtId].value;
-            if(selectType === "Criteria") {
+            if(selectType === "Criterion") {
                 d3.select(criteriaUnit.node().parentNode).classed("hidden", false);
             }
-            if(selectType !== "Criteria") {
+            if(selectType !== "Criterion") {
                 d3.select(criteriaUnit.node().parentNode).classed("hidden", true);
             }
             if(selectType === "Stakeholder") {
@@ -133,7 +133,7 @@ function GTControls(parentWidget) {
         var selectType = selectionContainer.options[selectionContainer.selectedIndex].value;
         console.log(selectionContainer.selectedIndex+" the goal type is "+selectType);
         that.selectedNode.setType(selectionContainer.selectedIndex, selectType);
-        if(selectType === "Criteria") {
+        if(selectType === "Criterion") {
             d3.select(criteriaUnit.node().parentNode).classed("hidden", false);
         }
         else {

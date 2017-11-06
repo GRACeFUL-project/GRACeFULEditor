@@ -11,7 +11,7 @@ function GTNode(graph) {
     this.goalTypeId = 1;
     var goalClass="baseRoundNode";
     var allGoalClasses=['undefined','goalOptionA','goalOptionB','goalOptionC', 'goalOptionD'];
-    this.allClasss=["Undefined", "Goal", "Sub Goal", "Criteria", "Stakeholder"];
+    this.allClasss=["Undefined", "Goal", "Sub Goal", "Criterion", "Stakeholder"];
     this.criteriaUnit = "";
 
     this.getTypeId=function(){
