@@ -16,6 +16,7 @@ function CLDNode(graph) {
     var observeClasses = ['undefined', 'strokeAmbigous', 'strokeDecreasing', 'strokeIncreasing', 'strokeStable'];
     this.allClasss=["Undefined", "Factor", "Action", "Criterion", "External Factor","stakeHolder"];
     this.criteriaUnit = "";
+    this.libElement = "";
 
     this.isObserved = false;
     this.trendId = 0;
@@ -40,6 +41,11 @@ function CLDNode(graph) {
         }
         that.criteriaUnit = text;
         console.log("the unit is:"+ text);
+    };
+
+    this.setLibMapping = function(text) {
+        that.libElement = text;
+        console.log("the element is mapped to lib: "+text);
     };
 
     this.getTypeId=function(){

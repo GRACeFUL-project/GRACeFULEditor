@@ -5,12 +5,14 @@ function CLDControls(parentWidget) {
     this.optionsId=2;
     var nodesGroup,linksGroup, additionalSettings;
 
-    var selectionNode,lineEditNode,commentNode, checkObserve, nodeTrend, actionDiv, actionTable, valApplied, criteriaUnit;
+    var selectionNode,lineEditNode,commentNode, checkObserve, nodeTrend, actionDiv, actionTable, valApplied, criteriaUnit, mapsToLib;
     var linkClass, causalSelection,commentLink;
     var getClassValues = [undefined];
     var cldChip, cldChipImage, cldChipNode,  delNodeBtn, delLinkBtn, extFactorBtn, loopBtn, loadcld, saveCld, libCld, sendCld;
     var budgetBtn;
     var units = ["euro/year", "events/year", "Number of places", "Capacity rating", "Access rating", "m\u00B2"];
+    //fetch the elements name from the library
+    var libElementsName = ["", "costcriterion", "flooddamagecriterion", "floodnuisancecriterion", "greenbluecriterion", "centralparkingcriterion", "parkingcriterion", "roadaccesscriterion", "trafficcriterion", "bioswaleStreetAction", "bioswaleParkingAction", "bioswaleGreenSpaceAction", "makeParkingFloodableAction", "floodableParkingOnGreenSpaceAction", "publicGreenRoofAction", "privateGreenRoofAction"];
 
 
     this.saveGlobalFunction=function(){
@@ -104,6 +106,8 @@ function CLDControls(parentWidget) {
           cldChipNode=that.addNodeTypeChip(nodesGroup,"empty","#fafafa",that.deleteNodes,"cldChipField",false,"undefined","cld","./images/nodes/factor.png");
           cldChip = cldChipNode[0];
           cldChipImage=cldChipNode[1];
+
+        mapsToLib = that.addSelectionOpts(nodesGroup, "Library Mapping", libElementsName, that.onChangeMapLib);
 
         selectionNode = that.addSelectionOpts(nodesGroup, "Node type", ["Factor", "Factor", "Action", "Criterion", "External Factor","Stake Holder"], that.onChangeNodeType);
         // hiding options
@@ -247,6 +251,7 @@ function CLDControls(parentWidget) {
                 //
                 cldChip.innerHTML=that.selectedNode.label;
                 cldChipImage.setAttribute('src',that.selectedNode.getImageURL());
+                mapsToLib.node().value = that.selectedNode.libElement;
 
                 d3.select(checkObserve.node().parentNode).classed("hidden", false);                
                 d3.select(actionDiv).classed("hidden",true);
@@ -489,6 +494,10 @@ function CLDControls(parentWidget) {
       // that.selectedNode.changeClass("onChanged");
       // setTimeout(that.oldClass(), 18000);
 
+    };
+
+    this.onChangeMapLib = function() {
+        that.selectedNode.setLibMapping(mapsToLib.node().value);
     };
 
     // that.oldClass=function(){
