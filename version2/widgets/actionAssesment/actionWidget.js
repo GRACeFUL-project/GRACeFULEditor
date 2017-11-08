@@ -175,9 +175,22 @@ function ActionWidget(parentElement) {
         }
     };
 
-    this.widgetLoadAssessment=function(){
+    this.widgetLoadAssessment=function(actions, criteria){
         console.log("Widget action assessment");
-        that.graphObject.tableActions();
+        if(actions.length>0 && criteria.length>0)
+            that.graphObject.tableActions(actions, criteria);
+    };
+
+    this.requestAction=function(action){
+        this.communicationModule.actionProcessing(that,action);
+    };
+
+    this.updateIfNeeded=function(){
+        //do nothing
+    };
+
+    this.loadLibrary = function(a, b) {
+        //do nothing
     };
 
     /** -------------------------------------------------------------**/

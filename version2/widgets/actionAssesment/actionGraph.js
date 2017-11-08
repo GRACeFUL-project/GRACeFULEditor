@@ -7,8 +7,10 @@ function actionGraph(parentWidget) {
     this.parentWidget=parentWidget; // tells the graph which widget it talks to
 
     //both standardActions and standardCriteria should come from the library
-    this.standardActions = ["bioswaleStreetAction", "bioswaleParkingAction", "bioswaleGreenSpaceAction", "makeParkingFloodableAction", "floodableParkingOnGreenSpaceAction", "publicGreenRoofAction", "privateGreenRoofAction"];
-    this.standardCriteria = ["costcriterion", "flooddamagecriterion", "floodnuisancecriterion", "greenbluecriterion", "centralparkingcriterion", "parkingcriterion", "roadaccesscriterion", "trafficcriterion"];
+    this.standardActions = undefined;
+    // ["bioswaleStreetAction", "bioswaleParkingAction", "bioswaleGreenSpaceAction", "makeParkingFloodableAction", "floodableParkingOnGreenSpaceAction", "publicGreenRoofAction", "privateGreenRoofAction"];
+    this.standardCriteria = undefined;
+    // ["costcriterion", "flooddamagecriterion", "floodnuisancecriterion", "greenbluecriterion", "centralparkingcriterion", "parkingcriterion", "roadaccesscriterion", "trafficcriterion"];
     
     this.optsArray = ["much better", "better", "none/unknown", "worse", "much worse"];
 
@@ -44,7 +46,13 @@ function actionGraph(parentWidget) {
         d3.select("#divActionsAssess").style("overflow", "auto");
     };
 
-    this.tableActions=function(){
+    this.tableActions=function(actions, criterias){
+        that.standardActions = actions;
+        that.standardCriteria = criterias;
+        console.log("obtained data");
+        console.log(that.standardActions);
+        console.log(that.standardCriteria);
+
         that.svgElement.node().innerHTML="";
 
         // create a fancy table;
@@ -78,19 +86,20 @@ function actionGraph(parentWidget) {
             var iR = j+1;
             var sa_row = table.insertRow(iR);            
             var cell_name = sa_row.insertCell(0);
-            cell_name.innerHTML = that.standardActions[j];
+            cell_name.innerHTML = that.standardActions[j].actionName;
             d3.select(cell_name).style("font-weight", "bold");
             d3.select(cell_name).style("background-color", "#E7E6E6");
 
             for(var k=0; k<that.standardCriteria.length; k++) {
                 var iC = k+1;
                 var entries = sa_row.insertCell(iC);
-                that.addEntries(entries, that.onEntryChange);
+                var definedValue = that.standardActions[j].actionCrit;
+                that.addEntries(entries, that.onEntryChange, definedValue[k]);
             }
         }
     };
 
-    this.addEntries = function(cell,onChange) {
+    this.addEntries = function(cell,onChange, defValue) {
         var le=document.createElement('select');
         cell.appendChild(le);
         var leNode=d3.select(le);
@@ -101,15 +110,31 @@ function actionGraph(parentWidget) {
             optA.innerHTML=that.optsArray[i];
             le.appendChild(optA);
         }
+        var temp = that.optsSelection(defValue);
+        leNode.node().value = temp;
+
         leNode.on("change",function(){
             onChange(cell);
         });
         leNode.style("width", "120px");
-    };
+    };    
 
     this.onEntryChange = function(cell){
         console.log("Entry changed");
     };
+
+    this.optsSelection = function(val) {
+        if(val === 2) 
+            return that.optsArray[0];
+        else if(val === 1)
+            return that.optsArray[1];
+        else if(val === -1)
+            return that.optsArray[3];
+        else if(val === -2)
+            return that.optsArray[4];
+        else
+            return that.optsArray[2];
+    }
 }
 
 actionGraph.prototype.constructor = actionGraph;
