@@ -11,7 +11,7 @@
     var ACTION_LOAD_STAKEHOLDERS = "ACTION_LOAD_STAKEHOLDERS";
     var ACTION_SAVE_GLOBAL_JSON="ACTION_SAVE_GLOBAL_JSON";
     var ACTION_LOAD_GLOBAL_JSON="ACTION_LOAD_GLOBAL_JSON";
-
+    var GET_LOADED_LIBRARIES="GET_LOADED_LIBRARIES";
     function new_object(initializer) {
         // some variables
         var that = this;
@@ -81,6 +81,42 @@
             }
 
 
+            if (localAction.task===SERVER_REQUEST && localAction.requestType==="GET_LOADED_LIBRARIES") {
+                console.log("requesting All Loaded Libraries from docker ");
+                // docker image name
+                var get_requestAddress=solverAddress + "/libraries";
+                console.log("address :"+get_requestAddress);
+                d3.xhr(get_requestAddress, "application/json",function (error, request) {
+                    if (request){
+                        console.log("***********************************************************************************************");
+                        console.log("***********************************************************************************************");
+                        console.log("***********************************************************************************************");
+                        console.log("***********************************************************************************************");
+                        console.log("***********************************************************************************************");
+                        console.log("docker returns data: "+request.responseText);
+
+                        var jObj=JSON.parse(request.responseText);
+                        console.log(jObj);
+                        // add the libs to sfd selection
+                        // we call this from sfd widget
+                        widget.createLoadedLibrariesForm(jObj);
+
+
+                    }
+
+
+                    else{
+                        console.log("----");
+                        console.log("----");
+                        console.log("---- Could not load libraries");
+                        console.log("----");
+                        console.log("----");
+                        console.log("docker returns data: "+request.responseText);
+                    }
+                });
+
+
+            }
 
             if (localAction.task===SERVER_REQUEST && localAction.requestType==="SEND_MODEL"){
                 console.log("requesting an action that talks with docker ");
@@ -160,7 +196,7 @@
                        console.log("docker returns data: "+request.responseText);
                        // todo: process the returned data; to the widget
                        that.initPtr.loadSideBarElements(request.responseText);
-                       widget.loadLibrary(request.responseText,invalidLibFormat);
+                       widget.loadLibrary(request.responseText);
 
                    }
                    else{

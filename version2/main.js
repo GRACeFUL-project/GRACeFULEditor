@@ -426,35 +426,43 @@ function clearAllDiv(){
 
 function setDivActive(id){
     clearAllDiv();
-    document.getElementById("sfd"+id).style.backgroundColor="yellow";
-    console.log("Active SFD Node TYPE "+id);
-    sfdRef.setupNode(id);
+    if (document.getElementById("sfd"+id)) {
+        document.getElementById("sfd" + id).style.backgroundColor = "yellow";
+        console.log("Active SFD Node TYPE " + id);
+        sfdRef.setupNode(id);
+    }
 }
 
 function clearAllDivCLD() {
     var numElements = 4;
     for (var i = 1; i < numElements; i++) {
-        document.getElementById("cld" + i).style.backgroundColor = "white";
+        if (document.getElementById("cld" + i))
+            document.getElementById("cld" + i).style.backgroundColor = "white";
     }
 }
 
 function setDivActiveCLD(id){
     clearAllDivCLD();
-    document.getElementById("cld"+id).style.backgroundColor="yellow";
-    cldRef.setNodeType(id);
+    if (document.getElementById("cld"+id)) {
+        document.getElementById("cld" + id).style.backgroundColor = "yellow";
+        cldRef.setNodeType(id);
+    }
 }
 
 function clearAllDivGTW() {
     var numElements = 4;
     for (var i = 0; i < numElements; i++) {
+        if (document.getElementById("gt" + i))
         document.getElementById("gt" + i).style.backgroundColor = "white";
     }
 }
 
 function setDivActiveGTW(id){
     clearAllDivGTW();
-    document.getElementById("gt"+id).style.backgroundColor="yellow";
-    goalTreeRef.setNodeType(id);
+    if (document.getElementById("gt"+id)) {
+        document.getElementById("gt" + id).style.backgroundColor = "yellow";
+        goalTreeRef.setNodeType(id);
+    }
 }
 
 /**

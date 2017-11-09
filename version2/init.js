@@ -162,10 +162,23 @@ var gHandlerObj=handler.create();
 
 
         loadGoalTreeElements();
+
+        var cldSubLib=prepareFullLibCLD(fullLib);
+
+        if (cldSubLib.library.length===0){
+            console.log("HEY HEy HEy! no cld lib found, load one in cld TAB'");
+
+            // TODO: ALLOW the CLD TAB to load a cld LIb and append it to the GCM?
+            // TODO: HOW DO YOU HANDLE THIS?? the solver wont be able to understand the model
+            // because we either send the cld or the crud model to it ...
+
+        }
+
+
         loadCLD_ElementsFromLib(prepareFullLibCLD(fullLib));
         // sfd can handle this it self;
         setReferenceOfSFD(sfd);
-        sfd.loadLibrary(fullLib,true);
+        sfd.loadLibrary(fullLib);
 
     };
 
@@ -284,8 +297,8 @@ var gHandlerObj=handler.create();
         //load the node types from backend.
         var action={};
         action.task="SERVER_REQUEST";
-        action.requestType="GET_LIBRARY_STATIC";
-        action.libraryName="fullgcm";
+        action.requestType="GET_LOADED_LIBRARIES";
+
         sfd.setCommunicationModule(com);
         sfd.setHandlerModule(gHandlerObj);
         sfd.requestAction(action);

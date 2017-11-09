@@ -10,9 +10,9 @@ function SimpleSFDControls(parentWidget) {
     var parameterTable;
     var getClassValues = [undefined];
     var portTable;
-    var solverLineEdit;
+    var solverLineEdit,librarySelection;
     var nodeClass,nodeLabel;
-
+    var selectedLibraryName;
     var sfdChip ,sfdChipNode, sfdChipImage, clearSFD, loadSFD, saveSFD, reqSFD, submitSFD, reqLoadLib;
 
     this.onChangeEmpty=function(x){
@@ -194,6 +194,18 @@ function SimpleSFDControls(parentWidget) {
 
     };
 
+    this.onSelectLibrary=function(librarySelection){
+        var strUser = librarySelection.options[librarySelection.selectedIndex].value;
+        console.log(librarySelection.selectedIndex+" the user string is "+strUser);
+        if (librarySelection.selectedIndex>0){
+            // enable load lib button;
+            reqSFD.disabled=false;
+            selectedLibraryName=strUser;
+
+        }
+
+    };
+
     function appendLinkType(className, selNode) {
         d3.select(causalSelection.node()).selectAll("option").remove();
         if(className === "Causal Relation") {
@@ -234,7 +246,8 @@ function SimpleSFDControls(parentWidget) {
         var action={};
         action.task="SERVER_REQUEST";
         action.requestType="GET_LIBRARY"; // testing purpose
-        action.libraryName="fullgcm";
+        // get the string from the selected lib;
+        action.libraryName=selectedLibraryName;
         that.parent.requestAction(action);
     };
 
@@ -329,6 +342,30 @@ function SimpleSFDControls(parentWidget) {
         nodeGroup.collapseBody();
     };
 
+    this.addLoadedLibNames=function(array) {
+        var optsArray = ["Select Library"];
+        optsArray = optsArray.concat(array);
+        // go to options and add them ;
+        console.log(librarySelection.node().children);
+        // clear them ;
+        // clear possible pre searched entries
+        var htmlCollection = librarySelection.node().children;
+        var numEntries = htmlCollection.length;
+        var i;
+        for (i = 0; i < numEntries; i++){
+            htmlCollection[0].remove();
+        }
+        for ( i=0;i<optsArray.length;i++){
+            var optA=document.createElement('option');
+            optA.innerHTML=optsArray[i];
+            librarySelection.node().appendChild(optA);
+        }
+        librarySelection.node().options[0].hidden = true;
+
+
+    };
+
+
     this.generateControls=function() {
 
         // Before Adding the field Add them to separate Field Container..
@@ -392,6 +429,10 @@ function SimpleSFDControls(parentWidget) {
           controlsMenuLibrary=that.createAccordionGroup(that.divControlsGroupNode, "Graph Controls");
           controlsMenu= that.createAccordionGroup(that.divControlsGroupNode, "Model Controls");
           solverLineEdit=that.addLineEdit(controlsMenu,"Server Address","http://localhost:4000",true,that.changeSolverAddress);
+
+
+          librarySelection=that.addSelectionOpts(controlsMenu, "Library", ["Select Library"], that.onSelectLibrary);
+          librarySelection.node().options[0].hidden = true;
           // clearSFD = that.addHrefButton(controlsMenu,"Clear",that.clearGraph,true);
           //@ Rohan could you realign the buttons?
         // something like this:
