@@ -266,7 +266,7 @@ function SimpleSFDControls(parentWidget) {
         //requestData from widget
 
         // request data form sfd widget
-        action.libraryName="fullgcm";
+        action.libraryName=loadedLibName;
         action.data=that.parent.requestModelDataForSolver();
         console.log(action.data);
         console.log('------------------------------------------');
