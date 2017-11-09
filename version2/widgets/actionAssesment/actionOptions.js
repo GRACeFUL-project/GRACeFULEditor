@@ -34,7 +34,7 @@ function actionControls(parentWidget) {
         // that.parent.requestAction(action);
         
         //actions library
-        d3.xhr("http://localhost:8081/library/actions", "application/json",function (error, request) {
+        d3.xhr("http://vocol.iais.fraunhofer.de/graceful-rat/library/actions", "application/json",function (error, request) {
             if(request) {
                 console.log("action library");
                 that.actionLibrary = request.responseText;
@@ -47,7 +47,7 @@ function actionControls(parentWidget) {
             }
         });
         //criteria library
-        d3.xhr("http://localhost:8081/library/criteria", "application/json",function (error, request) {
+        d3.xhr("http://vocol.iais.fraunhofer.de/graceful-rat/library/criteria", "application/json",function (error, request) {
             if(request) {
                 console.log("criteria library");
                 that.criteriaLibrary = request.responseText;
