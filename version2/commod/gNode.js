@@ -86,8 +86,17 @@ function GlobalNode() {
     this.getVisibleInWidget=function(){ return visibleInWidget;};
    // this.getRepresentedInWidget=function(){ return representedInWidget;};
 
+    this.updateNodeIds=function(){
+      for (var i=0;i<nodeConstructors.length;i++){
+          if (nodeConstructors[i])
+              nodeConstructors[i].id(this.nodeId);
+        }
+
+
+    };
 
     this.getSfdNode=function(){
+
         return nodeConstructors[2];
     };
 

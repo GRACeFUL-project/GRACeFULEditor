@@ -15,6 +15,8 @@ function SimpleSFDControls(parentWidget) {
     var selectedLibraryName;
     var sfdChip ,sfdChipNode, sfdChipImage, clearSFD, loadSFD, saveSFD, reqSFD, submitSFD, reqLoadLib;
 
+
+
     this.onChangeEmpty=function(x){
         // empty function does not do anything, used for debuging
         console.log("changing something"+x)
@@ -201,6 +203,7 @@ function SimpleSFDControls(parentWidget) {
             // enable load lib button;
             reqSFD.disabled=false;
             selectedLibraryName=strUser;
+            loadedLibName=selectedLibraryName;
 
         }
 
@@ -496,19 +499,25 @@ function SimpleSFDControls(parentWidget) {
 
     this.handleNodeSelection=function(node){
         // should be overwritten by the real options thing
-
+        console.log("hello node Selection");
+        console.log(node);
         if (node === undefined || node === null) {
-            // nodeGroup.collapseBody();
+            nodeGroup.collapseBody();
+            that.evilNodeElement(undefined);
             return;
         }
         console.log("node type "+ node.getElementType());
+        console.log("WUT?")
         var selId;
         var i,items;
-        if (node.getElementType()==="NodeElement") {
+        if (node.getElementType()==="NodeElement"|| node.getElementType()==="sfdNode") {
 
             // should be overwritten by the real options thing
             // console.log("controls handle node operation" + node);
             this.selectedNode = node;
+            that.evilNodeElement(node);
+            console.log("???oO ");
+
             nodeGroup.expandBody();
 
             // set the proper parameters

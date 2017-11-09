@@ -143,11 +143,13 @@ main {
 
 
 #toolbar {
-	min-height: 994px;
+	/*min-height: 994px;*/
 	color: #fff;
 	background-color: white ;
 	border-right:1px solid #E0E0E0;
 	padding-right: 0px;
+	padding-bottom:64px;
+
 }
 
 .titleToolbar {
@@ -176,12 +178,9 @@ main {
 }
 
 .widgitListToolbar {
-	height: 91vh;
+	height : 50px;
 	overflow-y: auto;
 	background-color: white;
-
-	/*height: 994px;*/
-	padding-bottom: 64px;
 	text-align: center;
 }
 

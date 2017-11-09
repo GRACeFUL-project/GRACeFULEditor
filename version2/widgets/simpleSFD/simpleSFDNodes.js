@@ -275,27 +275,30 @@ function SimpleSFDNode(graph,nodeDescriptions) {
 
     // owverwrite the onClick function
     this.onClicked=function(){
-        superClickFunction();
-        if (that.getNodeObjectType()===that.OVERLAY_OBJECT_NODE) {
-            if (that.nodeIsFocused === true) {
-                graph.focusThisOverlayNode(that);
-            }
-            else {
-                graph.focusThisOverlayNode(undefined);
-            }
-        }
-        if (that.getNodeObjectType()===that.GRAPH_OBJECT_NODE){
-            // nothing to do // the super function should have done thisl
-            // kill drager element
-            // graph.hideDraggerElement();
-            // // hackaround
-            // if (that.getPortElements().length===0){
-            //     console.log("this element does not have");
+        // console.log("single click: prevented by drag?"+d3.event.defaultPrevented);
+        if (d3.event.defaultPrevented) return;
+        //
+        // that.updateAssisiatedLinks();
+        // console.log("--------------------------number of assosiated links "+assosiatedLinks.length);
+
+
+
+        if (that.getNodeObjectType()===that.GRAPH_OBJECT_NODE) {
+            graph.multipleNodes = [];
+            if (that.nodeIsFocused === false) {
+                that.nodeIsFocused = true;
+                that.nodeElement.classed("focused", true);
                 graph.selectNode(that);
                 graph.createDraggerElement(that);
-//            }
-
-
+                //       console.log("this node is focused?" + that.nodeIsFocused);
+                return;
+            }
+            if (that.nodeIsFocused === true) {
+                that.nodeIsFocused = false;
+                that.nodeElement.classed("focused", false);
+                graph.selectNode(undefined);
+                graph.hideDraggerElement();
+            }
         }
     };
     // disable double click function

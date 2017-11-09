@@ -536,6 +536,10 @@ function BaseGraph(parentWidget) {
         // graph handles node selection
       //  that.deselectLastLink();
          console.log("handling selection stuff"+node);
+        console.log(that.prevSelectedNode)
+        console.log(node)
+        console.log("*-----------*");
+
         if (node===undefined){
 
             that.prevSelectedNode=undefined;

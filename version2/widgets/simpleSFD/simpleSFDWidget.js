@@ -80,11 +80,26 @@ function SimpleSFDWidget(){
         console.log(libArray);
         for (var i=0;i<libArray.length;i++) {
             var currentElement = libArray[i];
+            if (currentElement.graphElement)
+                currentElement.graphElement=currentElement.graphElement.toUpperCase();
+            if (currentElement.interface.length>0){
+
+                for (var x=0;x<currentElement.interface.length;x++){
+                    if (currentElement.interface[x].incomingType)
+                        currentElement.interface[x].incomingType=currentElement.interface[x].incomingType.toUpperCase();
+                    if (currentElement.interface[x].outgoingType)
+                        currentElement.interface[x].outgoingType=currentElement.interface[x].outgoingType.toUpperCase();
+
+
+                }
+            }
+
             console.log ('----------------------');
             console.log(currentElement);
             if (currentElement.layer === "problem" )
                 continue;
             if (currentElement.name === "edge") continue; // skipping the edge representation
+
 
             console.log ('----------------------');
 

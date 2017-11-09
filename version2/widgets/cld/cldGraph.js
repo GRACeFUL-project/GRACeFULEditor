@@ -117,7 +117,7 @@ function CLDGraph(){
     };
 
     this.requestModelDataAsJson = function() {
-        console.log("----------------------- REQUESTING MODEL DATA")
+        console.log("----------------------- REQUESTING MODEL DATA");
         var modelObj = {};
         modelObj.nodes = [];
         // modelObj.links = [];

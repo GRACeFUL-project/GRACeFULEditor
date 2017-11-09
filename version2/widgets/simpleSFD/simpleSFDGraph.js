@@ -81,7 +81,7 @@ function SimpleSFDGraph(){
 
         // add friendly nodes;
         console.log("-------------SFD NAME "+inputClasses[that.selectedOverlayId].name);
-        if (inputClasses[that.selectedOverlayId].name==="Factor"){
+        if (inputClasses[that.selectedOverlayId].name==="Factor" || inputClasses[that.selectedOverlayId].name==="node"){
             console.log("yeas'");
             var friendlyWidget=that.parentWidget.cldGraphObj;
             globalNode.setVisibleInWidget(friendlyWidget,true);
@@ -159,6 +159,7 @@ function SimpleSFDGraph(){
       //   that.redrawGraphContent();
       //
       //   aNode.editInitialText();
+        that.selectNode(undefined);
     };
 
     that.setDoubleClickEvent(this.dblClick);
@@ -879,6 +880,7 @@ function SimpleSFDGraph(){
             nodeDescription.hoverText=description;
             nodeDescription.params=params;
             nodeDescription.type=libDisc.type;
+            nodeDescription.graphElement=libDisc.graphElement;
             nodeDescription.ports=libDisc.interface;
             inputClasses.push(nodeDescription);
         }
@@ -1132,7 +1134,9 @@ function SimpleSFDGraph(){
 
                 var sourceDesc=inputClasses[sourceNode.getTypeId()];
                 var targetDesc=inputClasses[targetNode.getTypeId()];
-                if (nodeDesc.type==="RELATIONAL" && sourceDesc.type!=="RELATIONAL" && targetDesc.type!=="RELATIONAL"){
+                console.log("nodeDesc");
+                console.log(nodeDesc);
+                if (nodeDesc.graphElement==="RELATIONAL" && sourceDesc.graphElement!=="RELATIONAL" && targetDesc.graphElement!=="RELATIONAL"){
                     console.log("Creating relational Type Node and its connection");
                     // get the positions of the parents;
 
@@ -1149,7 +1153,7 @@ function SimpleSFDGraph(){
                     var repR=globalNode.filterInformation(that);
                     console.log("representer"+repR);
                     repR.setGlobalNodePtr(globalNode);
-                    globalNode.setGlobalName(inputClasses[that.selectedOverlayId].name)
+                    globalNode.setGlobalName(inputClasses[that.selectedOverlayId].name);
 
                     // var coordinatesRelativeToCanvasArea;
                     // coordinatesRelativeToCanvasArea=d3.mouse(this);

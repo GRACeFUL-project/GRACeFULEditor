@@ -17,6 +17,7 @@ function BaseControls(parentWidget) {
 
     var selectionNode;
     var lineEditNode;
+    var evilElement;
     var commentNode;
 
     this.parentWidget=function(){
@@ -487,10 +488,10 @@ function BaseControls(parentWidget) {
 /** generation of the individual control elements as base functions **/
 
     this.evilNodeElement=function(node){
-        this.evilElement=node;
+        evilElement=node;
     };
     function getEvilNode(){
-        return that.evilElement;
+        return evilElement;
     }
 
     function generateAccordion(parentElement,title){
@@ -524,12 +525,14 @@ function BaseControls(parentWidget) {
             group.titleNode=d3.select(titlePlace);
             group.titleNode.on("click",function () {
                 console.log(getEvilNode());
-            if (getEvilNode()===undefined){
-                    group.bodyNode.classed("hidden",true);
-                }else {
+                if (getEvilNode()===undefined) {
+                    group.bodyNode.classed("hidden", true);
+                }
+                else {
                     var current = group.bodyNode.classed("hidden");
                     group.bodyNode.classed("hidden", !current);
                 }
+
             });
             // create body;
             var pannelBody=document.createElement('div');

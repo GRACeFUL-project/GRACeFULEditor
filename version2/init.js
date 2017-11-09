@@ -353,6 +353,15 @@ var gHandlerObj=handler.create();
             if (widgetList[i].updateSvgSize) // check if function is implemented in widget
                 widgetList[i].updateSvgSize();
         }
+
+        // get the logo element width/height;
+        var toolbar=initializer.height()-113; // some fixed value
+        d3.selectAll(".widgitListToolbar").style({
+             'height': toolbar+'px'
+         });
+
+        // widgetListCLD
     };
 
+    window.onresize();
 }();

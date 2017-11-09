@@ -4,6 +4,7 @@ var sfdRef;
 var cldRef;
 var goalTreeRef;
 var visibleLeftBar=true;
+var loadedLibName="";
 
 /**
   * Toolbar Type
@@ -125,6 +126,11 @@ function resurectToolBar(){
     // cldRef.updateSvgSize();
 
 }
+function setLoadedLibName(name){
+    loadedLibName=name;
+
+
+}
 
 
 function reloadWidgetItems(jsonOBJ){
@@ -147,7 +153,7 @@ function reloadWidgetItems(jsonOBJ){
     // check for new or old library format;
     var newLibFormat=false;
     for( i=0; i < object.length ; i++ ) {
-        if (object[i].graphElement==="nodal" || object[i].graphElement==="relational" )  {
+        if (object[i].graphElement==="NODAL" || object[i].graphElement==="RELATIONAL" )  {
             newLibFormat = true;
             break;
         }
@@ -181,18 +187,22 @@ function reloadWidgetItems(jsonOBJ){
             imgItem.setAttribute("src",srcToImg);
             imgItem.setAttribute("height","96px");
             imgItem.setAttribute("width","96px");
+            imgItem.setAttribute("draggable","false"); // remove drag operations of tabs items
+            imgItem.setAttribute("ondragstart","return false"); // remove drag operations of tabs items
             // widgetItemDiv.innerHTML = label;
             widgetItemDiv.appendChild(imgItem);
             widgetItemDiv.appendChild(document.createElement("br"));
+
+
 
             nameDiv = document.createElement("div");
             nameDiv.innerHTML= label;
             widgetItemDiv.appendChild(nameDiv);
             if (object[i].layer==="causal" ) {
                 causals.push(widgetItemDiv)
-            }else if (object[i].graphElement==="nodal" ) {
+            }else if (object[i].graphElement==="NODAL" ) {
                 nodes.push(widgetItemDiv)
-            } else if (object[i].graphElement==="relational" ) {
+            } else if (object[i].graphElement==="RELATIONAL") {
                 relations.push(widgetItemDiv)
             }
         }
@@ -266,6 +276,9 @@ function reloadWidgetItems(jsonOBJ){
   // sfdRef.setupNode(0);
 }
 
+function emptyDragFunction(){
+    return false;
+}
 
 
 function reloadWidgetItemsCLD(jsonOBJ) {
