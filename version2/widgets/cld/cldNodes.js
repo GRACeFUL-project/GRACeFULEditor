@@ -14,8 +14,9 @@ function CLDNode(graph) {
     this.typeNameForSolver = undefined;
     var allPossibleClasses=['undefined','nodeOptionA','nodeOptionB','nodeOptionC', 'externalFactors','stakeHolders'];
     var observeClasses = ['undefined', 'strokeAmbigous', 'strokeDecreasing', 'strokeIncreasing', 'strokeStable'];
-    this.allClasss=["Undefined", "Factor", "Action", "Criteria", "External Factor","stakeHolder"];
+    this.allClasss=["Undefined", "Factor", "Action", "Criterion", "External Factor","stakeHolder"];
     this.criteriaUnit = "";
+    this.libElement = "";
 
     this.isObserved = false;
     this.trendId = 0;
@@ -40,6 +41,11 @@ function CLDNode(graph) {
         }
         that.criteriaUnit = text;
         console.log("the unit is:"+ text);
+    };
+
+    this.setLibMapping = function(text) {
+        that.libElement = text;
+        console.log("the element is mapped to lib: "+text);
     };
 
     this.getTypeId=function(){
@@ -533,7 +539,7 @@ function CLDNode(graph) {
         that.selectedTypeId=typeId;
         that.typeName = typeName;
 
-        if(that.typeName === "Criteria")
+        if(that.typeName === "Criterion")
             that.typeNameForSolver = "criterion";
         else if (that.typeName === "Action")
             that.typeNameForSolver = "action";

@@ -5,11 +5,14 @@ function CLDControls(parentWidget) {
     this.optionsId=2;
     var nodesGroup,linksGroup, additionalSettings;
 
-    var selectionNode,lineEditNode,commentNode, checkObserve, nodeTrend, actionDiv, actionTable, valApplied, criteriaUnit;
+    var selectionNode,lineEditNode,commentNode, checkObserve, nodeTrend, actionDiv, actionTable, valApplied, criteriaUnit, mapsToLib;
     var linkClass, causalSelection,commentLink;
     var getClassValues = [undefined];
     var cldChip, cldChipImage, cldChipNode,  delNodeBtn, delLinkBtn, extFactorBtn, loopBtn, loadcld, saveCld, libCld, sendCld;
     var budgetBtn;
+    var units = ["euro/year", "events/year", "Number of places", "Capacity rating", "Access rating", "m\u00B2"];
+    //fetch the elements name from the library
+    var libElementsName = ["", "costcriterion", "flooddamagecriterion", "floodnuisancecriterion", "greenbluecriterion", "centralparkingcriterion", "parkingcriterion", "roadaccesscriterion", "trafficcriterion", "bioswaleStreetAction", "bioswaleParkingAction", "bioswaleGreenSpaceAction", "makeParkingFloodableAction", "floodableParkingOnGreenSpaceAction", "publicGreenRoofAction", "privateGreenRoofAction"];
 
 
     this.saveGlobalFunction=function(){
@@ -104,6 +107,8 @@ function CLDControls(parentWidget) {
           cldChip = cldChipNode[0];
           cldChipImage=cldChipNode[1];
 
+        mapsToLib = that.addSelectionOpts(nodesGroup, "Library Mapping", libElementsName, that.onChangeMapLib);
+
         selectionNode = that.addSelectionOpts(nodesGroup, "Node type", ["Factor", "Factor", "Action", "Criterion", "External Factor","Stake Holder"], that.onChangeNodeType);
         // hiding options
         selectionNode.node().options[0].hidden = true;
@@ -127,7 +132,8 @@ function CLDControls(parentWidget) {
 
         commentNode = that.addTextEdit(nodesGroup, "Comments", "", true, that.onChangeNodeComment);
 
-        criteriaUnit = that.addLineEdit(nodesGroup, "Unit", "", true, that.onChangeUnit);
+        // criteriaUnit = that.addLineEdit(nodesGroup, "Unit", "", true, that.onChangeUnit);
+        criteriaUnit = that.addSelectionOpts(nodesGroup, "Unit", units, that.onChangeUnit);
         d3.select(criteriaUnit.node().parentNode).classed("hidden", true);
         // delNodeBtn = that.addButtons(nodesGroup, "Delete", "nodeDelete", that.deleteNodes);
         nodesGroup.collapseBody();
@@ -245,8 +251,9 @@ function CLDControls(parentWidget) {
                 //
                 cldChip.innerHTML=that.selectedNode.label;
                 cldChipImage.setAttribute('src',that.selectedNode.getImageURL());
+                mapsToLib.node().value = that.selectedNode.libElement;
 
-                d3.select(checkObserve.node().parentNode).classed("hidden", false);
+                d3.select(checkObserve.node().parentNode).classed("hidden", false);                
                 d3.select(actionDiv).classed("hidden",true);
 
                 checkObserve.node().checked = that.selectedNode.getObserve();
@@ -290,6 +297,8 @@ function CLDControls(parentWidget) {
 
                 var selectType = selectionNode.node().options[selId].value;
                 if(selectType === "Action") {
+                    that.selectedNode.setObserve(false);
+                    that.selectedNode.setTrend(0);
                     d3.select(checkObserve.node().parentNode).classed("hidden", true);
                     d3.select(nodeTrend.node().parentNode).classed("hidden", true);
                     d3.select(actionDiv).classed("hidden",false);
@@ -309,12 +318,14 @@ function CLDControls(parentWidget) {
                             cost.disabled = false;
                     }
                 }
-                if(selectType === "Criteria") {
+                if(selectType === "Criterion") {
+                    that.selectedNode.setObserve(false);
+                    that.selectedNode.setTrend(0);
                     d3.select(criteriaUnit.node().parentNode).classed("hidden", false);
                     d3.select(checkObserve.node().parentNode).classed("hidden", true);
                     d3.select(nodeTrend.node().parentNode).classed("hidden", true);
                 }
-                if(selectType !== "Criteria") {
+                if(selectType !== "Criterion") {
                     d3.select(criteriaUnit.node().parentNode).classed("hidden", true);
                 }
 
@@ -462,12 +473,13 @@ function CLDControls(parentWidget) {
         var strUser = selectionContainer.options[selectionContainer.selectedIndex].value;
         console.log(selectionContainer.selectedIndex+" the user string is "+strUser);
         that.selectedNode.setType(selectionContainer.selectedIndex, strUser);
-        if(strUser === "Criteria") {
-            d3.select(criteriaUnit.node().parentNode).classed("hidden", false);
-        }
-        else {
-            d3.select(criteriaUnit.node().parentNode).classed("hidden", true);
-        }
+        // if(strUser === "Criterion") {
+        //     d3.select(criteriaUnit.node().parentNode).classed("hidden", false);
+        // }
+        // else {
+        //     d3.select(criteriaUnit.node().parentNode).classed("hidden", true);
+        // }
+        that.handleNodeSelection(that.selectedNode);
     };
     this.onChangeNodeName=function(){
       // change the value to be displayed on the node.
@@ -484,6 +496,10 @@ function CLDControls(parentWidget) {
 
     };
 
+    this.onChangeMapLib = function() {
+        that.selectedNode.setLibMapping(mapsToLib.node().value);
+    };
+
     // that.oldClass=function(){
     //   that.selectedNode.clearClass();
     //   that.selectedNode.changeClass("baseRoundNode");
@@ -492,11 +508,14 @@ function CLDControls(parentWidget) {
     this.observeNode = function(val) {
         that.selectedNode.setObserve(val);
         var temp = that.selectedNode.getObserve();
-        if(temp)
+        if(temp) {
             d3.select(nodeTrend.node().parentNode).classed("hidden", false);
+            var temp = that.selectedNode.getTrend();
+            nodeTrend.node().options[temp].selected = "selected";
+        }
         else{
             d3.select(nodeTrend.node().parentNode).classed("hidden", true);
-            that.selectedNode.setTrend(0, undefined);
+            that.selectedNode.setTrend(0);
         }
     };
 
@@ -625,7 +644,7 @@ function CLDControls(parentWidget) {
         action.libraryName="cld";
         action.data = that.parent.requestModelDataForSolver();
         that.parent.requestAction(action);
-        console.log("DATA: "+action.data);
+        console.log(action.data);
     };
 
     this.getLibrary = function() {

@@ -286,6 +286,17 @@ var gHandlerObj=handler.create();
         qWidget.setHandlerModule(gHandlerObj);
         qWidget.setGoalTreePtr(gtw);
 
+        //action assessment tab
+        var aWidget=new ActionWidget(initializer);
+        aWidget.setTabTitle("Action Assessment");
+        aWidget.setupGuiElements(initializer.getNavigationObject(),
+            initializer.getTabsObject(),
+            initializer.getCanvasArea(),
+            initializer.getOptionsArea() );
+        aWidget.setupControls();
+        aWidget.setCommunicationModule(com);
+        aWidget.setHandlerModule(gHandlerObj);
+
 
         sfd= new SimpleSFDWidget(initializer);
         sfd.setTabTitle("GRACeFUL Concept Map");

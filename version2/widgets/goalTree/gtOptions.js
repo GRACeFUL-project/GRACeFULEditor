@@ -8,6 +8,7 @@ function GTControls(parentWidget) {
     this.parent=parentWidget;
     this.optionsId=1;
     var goalchip, goalimage, goalChipNode, goalsGroup, goalName, goalType, goalComment, delGoal, criteriaUnit, additionalSettings, loadcld, saveCld, clearGT, importSt;
+    var units = ["euro/year", "events/year", "Number of places", "Capacity rating", "Access rating", "m\u00B2"];
 
 
     this.loadGlobalLibraries=function(){
@@ -33,7 +34,8 @@ function GTControls(parentWidget) {
 
         goalComment = that.addTextEdit(goalsGroup, "Comments", "", true, that.onChangeGoalComment);
         //TODO: form fields when the goal type = criteria
-        criteriaUnit = that.addLineEdit(goalsGroup, "Unit", "", true, that.onChangeUnit);
+        // criteriaUnit = that.addLineEdit(goalsGroup, "Unit", "", true, that.onChangeUnit);
+        criteriaUnit = that.addSelectionOpts(goalsGroup, "Unit", units, that.onChangeUnit);
         d3.select(criteriaUnit.node().parentNode).classed("hidden", true);
         goalsGroup.collapseBody();
         // delGoal = that.addButtons(goalsGroup, "Delete", "goalDelete", that.onDeleteGoal);
@@ -101,10 +103,10 @@ function GTControls(parentWidget) {
             }
 
             var selectType = goalType.node().options[gtId].value;
-            if(selectType === "Criteria") {
+            if(selectType === "Criterion") {
                 d3.select(criteriaUnit.node().parentNode).classed("hidden", false);
             }
-            if(selectType !== "Criteria") {
+            if(selectType !== "Criterion") {
                 d3.select(criteriaUnit.node().parentNode).classed("hidden", true);
             }
             if(selectType === "Stakeholder") {
@@ -133,7 +135,7 @@ function GTControls(parentWidget) {
         var selectType = selectionContainer.options[selectionContainer.selectedIndex].value;
         console.log(selectionContainer.selectedIndex+" the goal type is "+selectType);
         that.selectedNode.setType(selectionContainer.selectedIndex, selectType);
-        if(selectType === "Criteria") {
+        if(selectType === "Criterion") {
             d3.select(criteriaUnit.node().parentNode).classed("hidden", false);
         }
         else {
