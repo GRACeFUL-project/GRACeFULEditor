@@ -64,7 +64,7 @@ function SimpleSFDWidget(){
 
     this.loadLibrary=function(jsonData, invalidLibFormat){
         // loading library;
-        console.log("HALLOOOOO000000000000000000000000000000000000000000000000000")
+        console.log("HALLOOOOO000000000000000000000000000000000000000000000000000");
         // read the text as json
      // console.log("Parsing Json obj"+jsonData);
         var jsonObj=JSON.parse(jsonData);
@@ -80,11 +80,15 @@ function SimpleSFDWidget(){
         console.log(libArray);
         for (var i=0;i<libArray.length;i++) {
             var currentElement = libArray[i];
-            if (currentElement.layer==="causal")
+            console.log ('----------------------');
+            console.log(currentElement);
+            if (currentElement.layer === "problem" )
                 continue;
+            if (currentElement.name === "edge") continue; // skipping the edge representation
 
-            if (currentElement.layer==="problem")
-                continue;
+            console.log ('----------------------');
+
+
 
 
             obj.library.push(currentElement);

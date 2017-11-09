@@ -19,7 +19,7 @@ library = Library "v_crud"
                     "outflow" # tPort tInt))
 
     , Item "simple runoff area" ["description: Runoff", "imgURL: ./data/img/runOffAreaSimple.png",
-                                 "graphElement: relational", "layer: domain"] $
+                                 "graphElement: nodal", "layer: domain"] $
        simpleRunoffArea ::: "storage capacity" # tInt .->
        tGCM (tTuple3 ("rotation: true" # "incomingType: single" # "outgoingType: none" #
                       "inflow" # tPort tInt)

@@ -18,7 +18,7 @@ library = insert is (combine "v_fullgcm" CLDlib.library Crud.library) where
                       "outflow" # tPort tInt))
 
     , Item "runoff area" ["description: Runoff", "imgURL: ./data/img/runOffArea.png",
-                          "graphElement: relational", "layer: domain"] $
+                          "graphElement: nodal", "layer: domain"] $
        runoffArea ::: "storage capacity" # tInt .->
        tGCM (tTuple4 ("rotation: true" # "incomingType: single" # "outgoingType: none" #
                       "increase" # tPort tInt)
@@ -35,7 +35,7 @@ library = insert is (combine "v_fullgcm" CLDlib.library Crud.library) where
                        "inflow" # tPort tInt)
 
     , Item "flooding" ["description: Flooding of square", "imgURL: ./data/img/flooding.png",
-                       "graphElement: relational", "layer: domain"] $
+                       "graphElement: nodal", "layer: domain"] $
         flooding ::: "numOut" # tInt .->
         tGCM (tPair ("rotation: true" # "incomingType: single" # "outgoingType: none" #
                      "inflow" # tPort tInt)

@@ -147,7 +147,7 @@ function reloadWidgetItems(jsonOBJ){
     // check for new or old library format;
     var newLibFormat=false;
     for( i=0; i < object.length ; i++ ) {
-        if (object[i].type==="NODAL" || object[i].type==="RELATIONAL" || object[i].type==="CAUSAL")  {
+        if (object[i].graphElement==="nodal" || object[i].graphElement==="relational" )  {
             newLibFormat = true;
             break;
         }
@@ -188,13 +188,11 @@ function reloadWidgetItems(jsonOBJ){
             nameDiv = document.createElement("div");
             nameDiv.innerHTML= label;
             widgetItemDiv.appendChild(nameDiv);
-            if (object[i].type==="CAUSAL" ) {
+            if (object[i].layer==="causal" ) {
                 causals.push(widgetItemDiv)
-            }
-            if (object[i].type==="NODAL" ) {
+            }else if (object[i].graphElement==="nodal" ) {
                 nodes.push(widgetItemDiv)
-            }
-            if (object[i].type==="RELATIONAL" ) {
+            } else if (object[i].graphElement==="relational" ) {
                 relations.push(widgetItemDiv)
             }
         }

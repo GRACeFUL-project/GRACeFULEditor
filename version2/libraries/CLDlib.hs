@@ -6,7 +6,7 @@ import Control.Monad
 -- Missing urls to appropriate images
 library :: Library
 library = Library "v_cld"
-  [ Item "node" ["description: Generic node", "imgURL: ./data/img/pump.png",
+  [ Item "node" ["description: Generic node", "imgURL: ./data/img/node.png",
                  "graphElement: nodal", "layer: causal"] $
       cldNode ::: "obsSign" # (tMaybe tSign) .-> "numIn" # tInt .-> "numOut" # tInt .->
       tGCM (tTuple3 ("rotation: false" # "incomingType: none" # "outgoingType: none" #
