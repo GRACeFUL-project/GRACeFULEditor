@@ -1,8 +1,8 @@
 module V_FullGCM (library) where
 
 import Library
-import qualified V_CLDlib
-import qualified V_Crud
+import qualified CLDlib
+import qualified Crud
 
 library :: Library
 library = insert is (combine "v_fullgcm" V_CLDlib.library V_Crud.library) where
