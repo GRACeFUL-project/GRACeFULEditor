@@ -1,11 +1,11 @@
-module V_FullGCM (library) where
+module FullGCM (library) where
 
 import Library
 import qualified CLDlib
 import qualified Crud
 
 library :: Library
-library = insert is (combine "v_fullgcm" V_CLDlib.library V_Crud.library) where
+library = insert is (combine "v_fullgcm" CLDlib.library Crud.library) where
   is =
     [ Item "pump" ["description: Pump", "imgURL: ./data/img/pump.png",
                    "graphElement: relational", "layer: domain"] $

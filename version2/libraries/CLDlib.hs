@@ -1,4 +1,4 @@
-module V_CLDlib (library, attachFunction, actionNode, funNode) where
+module CLDlib (library, attachFunction, actionNode, funNode) where
 import Library
 import Compile
 import Control.Monad
