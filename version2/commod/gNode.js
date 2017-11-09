@@ -1,12 +1,14 @@
 //global structure for the nodes
 
-var globalNodeId = 0;
+var globalNodeId = 2;
 function GlobalNode() {
     /** variable defs **/
     var that = this;
     this.nodeId = globalNodeId++; // init value
   //  console.log(that);
 
+
+    this.getHighestGlobalNodeValue=function(){return globalNodeId};
 
     var representedInWidget=[];
 
@@ -87,16 +89,20 @@ function GlobalNode() {
    // this.getRepresentedInWidget=function(){ return representedInWidget;};
 
     this.updateNodeIds=function(){
+
       for (var i=0;i<nodeConstructors.length;i++){
-          if (nodeConstructors[i])
+          if (nodeConstructors[i]) {
+
               nodeConstructors[i].id(this.nodeId);
+              console.log("Setting Node Id"+nodeConstructors[i].id());
+          }
         }
 
 
     };
 
     this.getSfdNode=function(){
-
+        that.updateNodeIds();
         return nodeConstructors[2];
     };
 
@@ -132,6 +138,7 @@ function GlobalNode() {
     };
 
     this.filterInformation=function(widget){
+        that.updateNodeIds();
         var indexOfWidget=that.findWidgetId(widget);
         var nodeElement=nodeConstructors[indexOfWidget];
         if (nodeElement!=undefined) {

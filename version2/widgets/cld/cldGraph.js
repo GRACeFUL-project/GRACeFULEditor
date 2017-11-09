@@ -10,6 +10,7 @@ function CLDGraph(){
     this.criteriaNodes = undefined;
     this.optimiseId = undefined;
     this.optimisePortIndex = undefined;
+
     // call the baseGraph init function
     // that.initializeGraph();
     that.setZoomExtent(0.1,6);
@@ -122,15 +123,18 @@ function CLDGraph(){
         modelObj.nodes = [];
         // modelObj.links = [];
 
-        that.budgetId = that.idInNumber++;
+        that.budgetId = 0;
         that.budgetPortIndex = 0;
         that.actionNodes = 0;
         that.criteriaNodes = 0;
-        that.optimiseId = that.idInNumber++;
+        that.optimiseId = 1;
         that.optimisePortIndex = 0;
+        var initEvelId=-1;
 
         for(var i=0; i<that.nodeElementArray.length; i++) {
             var node = that.nodeElementArray[i];
+            initEvelId=node.getGlobalNodePtr().getHighestGlobalNodeValue();
+            node.getGlobalNodePtr().updateNodeIds();
             var obj = {};
             if(node.typeName !== "Stake Holder") {
                 node.getFinalData();
@@ -172,7 +176,7 @@ function CLDGraph(){
                             "type": "Float"
                         }
                     ];
-                    evals.identity = that.idInNumber++;
+                    evals.identity = initEvelId++;
                     for(var m=0; m<sLinkIds.length; m++) {
                         sLinkIds[m].setEvaluateId(evals.identity);
                     }

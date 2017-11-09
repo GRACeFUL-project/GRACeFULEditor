@@ -230,16 +230,23 @@ function SimpleSFDGraph(){
         modelObj.nodes = [];
         // modelObj.links = [];
 
-        that.budgetId = that.idInNumber++;
+
+        that.budgetId = 0;
         that.budgetPortIndex = 0;
         that.actionNodes = 0;
         that.criteriaNodes = 0;
-        that.optimiseId = that.idInNumber++;
+        that.optimiseId = 1;
         that.optimisePortIndex = 0;
+        var initEvelId=-1;
 
+        console.log("Does CLD have budget "+that.parentWidget.cldGraphObj.budget);
+        var qrBudget=that.parentWidget.cldGraphObj.budget;
+        console.log("QR Budget:"+qrBudget);
         for(var i=0; i<that.nodeElementArray.length; i++) {
             var node = that.nodeElementArray[i];
             var obj = {};
+            node.getGlobalNodePtr().updateNodeIds();
+            initEvelId=node.getGlobalNodePtr().getHighestGlobalNodeValue();
             if(node.typeName !== "Stake Holder") {
                 if (node.getGlobalNodePtr().getCLDNODE()) {
                     var cldNode=node.getGlobalNodePtr().getCLDNODE();
@@ -284,7 +291,7 @@ function SimpleSFDGraph(){
                             "type": "Float"
                         }
                     ];
-                    evals.identity = that.idInNumber++;
+                    evals.identity = initEvelId++;
                     for(var m=0; m<sLinkIds.length; m++) {
                         sLinkIds[m].setEvaluateId(evals.identity);
                     }
@@ -312,7 +319,7 @@ function SimpleSFDGraph(){
 
         var nodeBudget = {
             "name": "budget",
-            "parameters": [{"name": "numberOfPorts", "value": that.actionNodes, "type": "Int"}, {"name": "maximumBudget", "value": Number(that.budget), "type": "Int"}],
+            "parameters": [{"name": "numberOfPorts", "value": that.actionNodes, "type": "Int"}, {"name": "maximumBudget", "value": Number(qrBudget), "type": "Int"}],
             "interface": [{"name": "costs", "type": "[Int]"}],
             "identity": that.budgetId
         };
