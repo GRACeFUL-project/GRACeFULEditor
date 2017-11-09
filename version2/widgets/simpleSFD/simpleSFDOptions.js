@@ -431,7 +431,8 @@ function SimpleSFDControls(parentWidget) {
 
           controlsMenuLibrary=that.createAccordionGroup(that.divControlsGroupNode, "Graph Controls");
           controlsMenu= that.createAccordionGroup(that.divControlsGroupNode, "Model Controls");
-          solverLineEdit=that.addLineEdit(controlsMenu,"Server Address","http://localhost:4000",true,that.changeSolverAddress);
+//          solverLineEdit=that.addLineEdit(controlsMenu,"Server Address","http://localhost:4000",true,that.changeSolverAddress);
+        solverLineEdit=that.addLineEdit(controlsMenu,"Server Address","http://vocol.iais.fraunhofer.de/graceful-rat",true,that.changeSolverAddress);
 
 
           librarySelection=that.addSelectionOpts(controlsMenu, "Library", ["Select Library"], that.onSelectLibrary);
