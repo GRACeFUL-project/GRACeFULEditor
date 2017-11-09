@@ -7,7 +7,7 @@
  *
  *
  * **/
-
+var localArrowIndex=0;
 function CLDLink(graph) {
     var that = this;
     BaseLink.apply(this,arguments);
@@ -465,9 +465,9 @@ function CLDLink(graph) {
             var m2X = 0;
             var m2Y = -6;
             var viewBoxString = vx + " " + vy + " " + lx + " " + ly;
-
+            var arrowHeadId=that.id()+"_"+localArrowIndex++;
             arrowHead = that.rootElement.append("marker")
-                .attr("id", "arrowHead" + that.id())
+                .attr("id", "arrowHead" + arrowHeadId)
                 .attr("viewBox", viewBoxString) // temp
                 .attr("markerWidth", mw)
                 .attr("markerHeight", mh)
@@ -477,7 +477,8 @@ function CLDLink(graph) {
             arrowHead.append("path")
                 .attr("d", "M"+sX+","+sY+"L" + m1X + "," + m1Y + "L" + m2X + "," + m2Y +  "Z" )
                 .classed("cldArrowHeadStyle",true);
-            that.pathElement.attr('marker-end', 'url(#arrowHead' + that.id() + ')');
+
+            that.pathElement.attr('marker-end', 'url(#arrowHead' + arrowHeadId + ')');
         }
     }
     function addArrowTail(){
