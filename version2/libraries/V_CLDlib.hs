@@ -1,11 +1,11 @@
-module CLDlib (library, attachFunction, actionNode, funNode) where
+module V_CLDlib (library, attachFunction, actionNode, funNode) where
 import Library
 import Compile
 import Control.Monad
 
 -- Missing urls to appropriate images
 library :: Library
-library = Library "cld"
+library = Library "v_cld"
   [ Item "node" ["description: Generic node", "imgURL: ./data/img/pump.png",
                  "graphElement: nodal", "layer: causal"] $
       cldNode ::: "obsSign" # (tMaybe tSign) .-> "numIn" # tInt .-> "numOut" # tInt .->
