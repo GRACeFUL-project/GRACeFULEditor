@@ -2,12 +2,19 @@
 
 //global structure for the nodes
 
-var GlobalLinkId = 0;
+
 function GlobalLink() {
     /** variable defs **/
     var that = this;
-    this.globalLinkId = GlobalLinkId++; // init value
+    /** BASE HANDLING FUNCTIONS ------------------------------------------------- **/
+    this.id = function (index) {
+        if (!arguments.length) {
+            return that.globalLinkId;
+        }
+        this.globalLinkId = index;
+    };
 
+    that.id(globalElementIdentifier++);
     var representedInWidget=[];
     var visibleInWidget=[false,false,false];
 
@@ -24,6 +31,20 @@ function GlobalLink() {
 
     var g_sourceNode=undefined;
     var g_targetNode=undefined;
+
+
+    this.updateLinkID=function(){
+
+        for (var i=0;i<linkRepresenter.length;i++){
+            if (linkRepresenter[i]) {
+
+                linkRepresenter[i].id(that.id());
+                console.log("Setting LINK Id"+linkRepresenter[i].id());
+            }
+        }
+
+
+    };
 
     this.getVisibleInWidget=function(){ return visibleInWidget;};
 
@@ -195,13 +216,16 @@ function GlobalLink() {
     };
 
     this.getCLDLINK=function(){
+        that.updateLinkID();
         return linkRepresenter[1];
     };
     this.getsfdLINK=function(){
+        that.updateLinkID();
         return linkRepresenter[2];
     };
 
     this.propagateThePointer=function(){
+        that.updateLinkID();
         if (linkRepresenter[0])
             linkRepresenter[0].setGlobalLinkPtr(that);
         if (linkRepresenter[1])
@@ -211,6 +235,7 @@ function GlobalLink() {
     };
 
     this.filterInformation=function(widget){
+        that.updateLinkID();
         var indexOfWidget=that.findWidgetId(widget);
         // update the information if the linkTypes;
         if (linkRepresenter[1]!==undefined && linkRepresenter[2]!==undefined){
@@ -285,13 +310,6 @@ function GlobalLink() {
     };
 
 
-    /** BASE HANDLING FUNCTIONS ------------------------------------------------- **/
-    this.id = function (index) {
-        if (!arguments.length) {
-            return that.globalLinkId;
-        }
-        this.globalLinkId = index;
-    };
 
 }
 GlobalLink.prototype.constructor = GlobalLink;

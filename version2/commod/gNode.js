@@ -4,12 +4,19 @@ var globalNodeId = 2;
 function GlobalNode() {
     /** variable defs **/
     var that = this;
-    this.nodeId = globalNodeId++; // init value
+    /** BASE HANDLING FUNCTIONS ------------------------------------------------- **/
+    this.id = function (index) {
+        if (!arguments.length) {
+            return that.nodeId;
+        }
+        this.nodeId = index;
+    };
+    //this.nodeId = globalNodeId++; // init value
   //  console.log(that);
-
+    that.id(globalElementIdentifier++);
 
     this.getHighestGlobalNodeValue=function(){return globalNodeId};
-
+    this.setGlobalHighestIdValue=function(val){globalNodeId=val};
     var representedInWidget=[];
 
     function initRepresentedWidgets() {
@@ -261,13 +268,7 @@ function GlobalNode() {
             nElement.y=pos.y;
         }
     };
-    /** BASE HANDLING FUNCTIONS ------------------------------------------------- **/
-    this.id = function (index) {
-        if (!arguments.length) {
-            return that.nodeId;
-        }
-        this.nodeId = index;
-    };
+
 
 }
 GlobalNode.prototype.constructor = GlobalNode;

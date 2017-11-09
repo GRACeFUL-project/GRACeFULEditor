@@ -263,6 +263,7 @@ function SimpleSFDGraph(){
             console.log("How many links: "+that.pathElementArray.length);
             //evaluate
             var evals = {};
+
             if(node.typeName === "Criteria") {
                 var weights = [];
                 var values = [];
@@ -292,6 +293,9 @@ function SimpleSFDGraph(){
                         }
                     ];
                     evals.identity = initEvelId++;
+
+
+
                     for(var m=0; m<sLinkIds.length; m++) {
                         sLinkIds[m].setEvaluateId(evals.identity);
                     }
@@ -299,13 +303,18 @@ function SimpleSFDGraph(){
                     modelObj.nodes.push(evals);
                 }
             }
+            node.getGlobalNodePtr().setGlobalHighestIdValue(initEvelId);
+            console.log("Highest ID"+node.getGlobalNodePtr().getHighestGlobalNodeValue());
         }
+
 
         for( i=0; i<that.pathElementArray.length; i++) {
             var link = that.pathElementArray[i];
+            link.getGlobalLinkPtr().updateLinkID();
             if(link.superLinkType !== 100) {
                 var obj={};
                 if (link.getGlobalLinkPtr().getCLDLINK()) {
+
                     var cldLink = link.getGlobalLinkPtr().getCLDLINK();
                     cldLink.getFinalData();
                     obj.name = cldLink.name;

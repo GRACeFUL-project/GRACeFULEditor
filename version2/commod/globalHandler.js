@@ -1,7 +1,7 @@
 // the global handler which contains all the objects which are then filtered by the elements;
 
 // the global handler is a single object which maintains all the data;
-
+var globalElementIdentifier=2;
 !function(){
     // allow to create new Nodes
     var gHandler={};
@@ -13,6 +13,7 @@
 
     var globalNodeArray=[];
     var globalLinkArray=[];
+
 
 
     function new_object() {
