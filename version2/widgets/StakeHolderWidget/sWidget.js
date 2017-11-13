@@ -454,7 +454,8 @@ function StakeHolderWidget(parentElement) {
         console.log(j_obj);
 
         // create the elements in the graph object;
-        that.graphObject.createModelObjects(j_obj);
+        // that.graphObject.createModelObjects(j_obj);
+        that.graphObject.loadQuestionnaire(j_obj);
     };
 
 

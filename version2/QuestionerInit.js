@@ -4,7 +4,7 @@ var gHandlerObj=handler.create();
     var initializer={};
     var previousSelectedWidget=undefined;
     var widgetList=[];
-    var gtw, cld,sfd;
+    var qWidget;
 
 
     initializer.width=function(){
@@ -81,7 +81,7 @@ var gHandlerObj=handler.create();
 
 
         // create that questioner tool;
-        var qWidget=new StakeHolderWidget(initializer);
+        qWidget=new StakeHolderWidget(initializer);
         qWidget.setTabTitle("Questionnaire");
         qWidget.setupGuiElements(initializer.getNavigationObject(),
             initializer.getTabsObject(),
@@ -102,10 +102,11 @@ var gHandlerObj=handler.create();
 
     // overwrite the window resize function
     window.onresize = function(){
-        for (var i=0;i<widgetList.length;i++) {
-            if (widgetList[i].updateSvgSize) // check if function is implemented in widget
-                widgetList[i].updateSvgSize();
-        }
+        qWidget.updateSvgSize();
+        // for (var i=0;i<widgetList.length;i++) {
+        //     if (widgetList[i].updateSvgSize) // check if function is implemented in widget
+        //         widgetList[i].updateSvgSize();
+        // }
     };
 
 }();
