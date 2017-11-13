@@ -144,51 +144,58 @@ function CLDGraph(){
                 obj.identity = node.id();
                 //need to add more attributes
                 modelObj.nodes.push(obj);
+            } else {
+                node.getFinalDataStakeholders();
+                obj.name = "stakeholder";
+                obj.parameters = node.parameters;
+                obj.interface = node.interfaces;
+                obj.identity = node.id();
+                modelObj.nodes.push(obj);
             }
             console.log("How many links: "+that.pathElementArray.length);
             //evaluate
-            var evals = {};
-            if(node.typeName === "Criteria") {
-                var weights = [];
-                var values = [];
-                var sLinkIds = [];
-                for(var k=0; k<that.pathElementArray.length; k++) {
-                    var sLink = that.pathElementArray[k];
-                    if(sLink.superLinkType === 100 && sLink.targetNode.id() === node.id()) {
-                        console.log("sLinkkkk!!! "+sLink.id());
-                        values.push(sLink.getEvaluationValue());
-                        weights.push(sLink.getNormalizedWeight());
-                        sLinkIds.push(sLink);
-                    }
-                }
-                if(weights.length > 0) {
-                    evals.name = "evaluate";
-                    evals.parameters = [{"name": "values", "value": values, "type": "[Sign]"}, {"name": "weights", "value": weights, "type": "[Float]"}];
-                    evals.interface = [
-                        {
-                            "connection": [node.id(), "value", null],
-                            "name": "atPort",
-                            "type": "Sign"
-                        }, 
-                        {
-                            "connection": [that.optimiseId, "benefits", that.optimisePortIndex++],
-                            "name": "benefit",
-                            "type": "Float"
-                        }
-                    ];
-                    evals.identity = initEvelId++;
-                    for(var m=0; m<sLinkIds.length; m++) {
-                        sLinkIds[m].setEvaluateId(evals.identity);
-                    }
+            // var evals = {};
+            // if(node.typeName === "Criteria") {
+            //     var weights = [];
+            //     var values = [];
+            //     var sLinkIds = [];
+            //     for(var k=0; k<that.pathElementArray.length; k++) {
+            //         var sLink = that.pathElementArray[k];
+            //         if(sLink.superLinkType === 100 && sLink.targetNode.id() === node.id()) {
+            //             console.log("sLinkkkk!!! "+sLink.id());
+            //             values.push(sLink.getEvaluationValue());
+            //             weights.push(sLink.getNormalizedWeight());
+            //             sLinkIds.push(sLink);
+            //         }
+            //     }
+            //     if(weights.length > 0) {
+            //         evals.name = "evaluate";
+            //         evals.parameters = [{"name": "values", "value": values, "type": "[Sign]"}, {"name": "weights", "value": weights, "type": "[Float]"}];
+            //         evals.interface = [
+            //             {
+            //                 "connection": [node.id(), "value", null],
+            //                 "name": "atPort",
+            //                 "type": "Sign"
+            //             }, 
+            //             {
+            //                 "connection": [that.optimiseId, "benefits", that.optimisePortIndex++],
+            //                 "name": "benefit",
+            //                 "type": "Float"
+            //             }
+            //         ];
+            //         evals.identity = initEvelId++;
+            //         for(var m=0; m<sLinkIds.length; m++) {
+            //             sLinkIds[m].setEvaluateId(evals.identity);
+            //         }
 
-                    modelObj.nodes.push(evals);
-                }
-            }
+            //         modelObj.nodes.push(evals);
+            //     }
+            // }
         }
 
         for( i=0; i<that.pathElementArray.length; i++) {
             var link = that.pathElementArray[i];
-            if(link.superLinkType !== 100) {
+            // if(link.superLinkType !== 100) {
                 var obj={};                
                 link.getFinalData();
                 obj.name = link.name;
@@ -196,7 +203,7 @@ function CLDGraph(){
                 obj.interface = link.interfaces;
                 obj.identity = link.id();
                 modelObj.nodes.push(obj);
-            }            
+            // }            
         }
 
         var nodeBudget = {

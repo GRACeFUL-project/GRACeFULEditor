@@ -242,6 +242,34 @@ function CLDNode(graph) {
         }
     };
 
+    this.getFinalDataStakeholders = function() {
+        //obtain weights and values
+        var weights = [];
+        var values = [];
+        for(var k=0; k<graph.pathElementArray.length; k++) {
+            var sLink = graph.pathElementArray[k];
+            if(sLink.superLinkType === 100 && sLink.sourceNode.id() === that.id()) {
+                console.log("sLinkkkk!!! "+sLink.id());
+                values.push(sLink.getEvaluationValue());
+                weights.push(sLink.getNormalizedWeight());
+            }
+        }
+
+        //updating stakeholder parameters
+        this.parameters = [];
+        var param1 = {"name": "preferences", "value": values, "type": "[[Sign]]"};
+        that.parameters.push(param1);
+        var param2 = {"name": "weights", "value": weights, "type": "[Float]"};
+        that.parameters.push(param2);
+
+        //updating stakeholder interfaces
+        this.interfaces = [];
+        var param3 = {"name": "criteria", "type": "[Sign]"};
+        that.interfaces.push(param3);
+        var param4 = {"connection": [graph.optimiseId, "benefits", that.optimisePortIndex++], "name": "happiness", "type": "Float"};
+        that.interfaces.push(param4);
+    };
+
     this.setTrend = function(tid) {
         that.trendId = tid;
         

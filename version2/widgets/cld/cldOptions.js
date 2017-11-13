@@ -10,7 +10,7 @@ function CLDControls(parentWidget) {
     var getClassValues = [undefined];
     var cldChip, cldChipImage, cldChipNode,  delNodeBtn, delLinkBtn, extFactorBtn, loopBtn, loadcld, saveCld, libCld, sendCld;
     var budgetBtn;
-    var units = ["euro/year", "events/year", "Number of places", "Capacity rating", "Access rating", "m\u00B2"];
+    var units = ["euro", "euro/year", "euro/event", "number", "number/year (events/year)", "number/event", "category", "mm/hour", "mm/day", "m\u00B2", "m\u00B2 affected"];
     //fetch the elements name from the library
     var libElementsName = ["", "costcriterion", "flooddamagecriterion", "floodnuisancecriterion", "greenbluecriterion", "centralparkingcriterion", "parkingcriterion", "roadaccesscriterion", "trafficcriterion", "bioswaleStreetAction", "bioswaleParkingAction", "bioswaleGreenSpaceAction", "makeParkingFloodableAction", "floodableParkingOnGreenSpaceAction", "publicGreenRoofAction", "privateGreenRoofAction"];
 
