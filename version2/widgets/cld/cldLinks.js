@@ -204,12 +204,19 @@ function CLDLink(graph) {
     };
 
     this.getFinalData = function() {
-        //update link's parameters
-        that.parameters = [{ "name": "sign",  "value": that.sign, "type": "Sign"}];
-
-        //update link's interface
-        that.interfaces = [ {"connection": [that.sourceNode.id(), "outgoing", that.sourceNode.getPortDetails(that.id())], "name":"fromNode", "type": "(Sign,Sign)"}, 
+        if (that.superLinkType===100) {
+            //update superlink's parameters
+            that.parameters = [];
+            //update superlink's interface
+            that.interfaces = [ {"connection": [that.targetNode.id(), "value", null], "name":"inPort", "type": "Sign"}, 
+                                {"connection": [that.sourceNode.id(), "criteria", that.sourceNode.getPortDetails(that.id())], "name":"outPort", "type": "Sign"}];
+        } else {
+            //update link's parameters
+            that.parameters = [{ "name": "sign",  "value": that.sign, "type": "Sign"}];
+            //update link's interface
+            that.interfaces = [ {"connection": [that.sourceNode.id(), "outgoing", that.sourceNode.getPortDetails(that.id())], "name":"fromNode", "type": "(Sign,Sign)"}, 
                                 {"connection": [that.targetNode.id(), "incoming", that.targetNode.getPortDetails(that.id())], "name":"toNode", "type": "(Sign,Sign)"}];
+        }        
     };
 
     var arrowHead=undefined;
@@ -310,6 +317,7 @@ function CLDLink(graph) {
             that.pathElement.classed("cldLinkType0", true);
 
         if (that.superLinkType===100){
+            that.name = "critEdge";
             that.pathElement.classed("cldLink",false);
             that.pathElement.classed("cldLinkType0", false);
             that.pathElement.classed("baseDragPath", false);

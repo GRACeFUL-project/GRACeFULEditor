@@ -12,8 +12,9 @@ function qGraph(parentWidget) {
  this.updateSvgSize=function(){
         var drawArea=this.parentWidget.getCanvasArea();
         var w = drawArea.node().getBoundingClientRect().width;
-        var h= window.innerHeight ;
-        // console.log("size:"+w+" "+h );
+        var h= drawArea.node().getBoundingClientRect().height;
+        // var h= window.innerHeight ;
+        console.log("size:"+w+" "+h );
         if (that.svgElement)
             that.svgElement.attr("width", w).attr("height", h);
     };
@@ -31,20 +32,115 @@ function qGraph(parentWidget) {
         }
     };
 
-    this.createModelObjects=function(obj){
-        // craete a table
-        modelObject=obj;
+    this.loadQuestionnaire = function(theObj) {
+        modelObject=theObj;
         that.svgElement.node().innerHTML="";
 
-        // craetea fancy table;
-        var table=document.createElement('table');
+        //div for the Stakeholder weights
+        var weightDiv = document.createElement('div');
+        weightDiv.id = "weightDiv";
+        that.svgElement.node().appendChild(weightDiv);
+        d3.select("#weightDiv").classed("hidden", false);
 
-        // add table to div
+        var qName = document.createElement('h5');
+        qName.innerHTML = "Please weigh the Criteria listed in the table by following the below steps:";
+        weightDiv.appendChild(qName);
+        var p1 = document.createElement('p');
+        p1.innerHTML = "1. Assign the weight 100 for the criterion that is most important to you, ";
+        weightDiv.appendChild(p1);
+        var p2 = document.createElement('p');
+        p2.innerHTML = "2. Assign the weight 0 for the criterion which has no relevance to you, ";
+        weightDiv.appendChild(p2);
+        var p3 = document.createElement('p');
+        p3.innerHTML = "3. The most important criterion (weight of 100) becomes the standard for allocating weights of the remaining criteria. For example, if another criterion is judged to provide 80% as much priority as the standard, it should be given a weight of 80.";
+        weightDiv.appendChild(p3);
+
+        weightDiv.appendChild(document.createElement('br'));
+        that.createWeightsTable(weightDiv, "wTable");
+        weightDiv.appendChild(document.createElement('br'));
+
+        var nextBut = document.createElement('button');
+        nextBut.id = "nBut";
+        nextBut.innerHTML = "Next";
+        d3.select(nextBut).classed("btn btn-default", true);
+        weightDiv.appendChild(nextBut);            
+        d3.select(nextBut).on("click", function() {
+            that.onNextButClick();
+        });
+
+        //div for the Stakeholder constraint
+        var valDiv = document.createElement('div');
+        valDiv.id = "valDiv";
+        that.svgElement.node().appendChild(valDiv);
+        d3.select("#valDiv").classed("hidden", true);
+
+        var qName1 = document.createElement('h5');
+        qName1.innerHTML = "Considering the criterion, please indicate which values are acceptable to you compared to the current situation.";
+        valDiv.appendChild(qName1);
+
+        valDiv.appendChild(document.createElement('br'));
+        that.createValueTable(valDiv, "vTable");
+        valDiv.appendChild(document.createElement('br'));
+
+        var prevBut = document.createElement('button');
+        prevBut.id = "pBut";
+        prevBut.innerHTML = "Previous";
+        d3.select(prevBut).classed("btn btn-default", true);
+        valDiv.appendChild(prevBut);
+        d3.select(prevBut).on("click", function() {
+            that.onPrevButClick();
+        });
+
+        var finishBut = document.createElement('button');
+        finishBut.id = "finBut";
+        finishBut.innerHTML = "Finish";
+        d3.select(finishBut).classed("btn btn-default ", true);
+        valDiv.appendChild(finishBut);
+        d3.select(finishBut).on("click", function() {
+            that.onFinishBut();
+        });
+
+        //div after the finish is clicked
+        var finalDiv = document.createElement('div');
+        finalDiv.id = "final";
+        that.svgElement.node().appendChild(finalDiv);
+        d3.select("#final").classed("hidden", true);
+        var finishMsg = document.createElement('h5');
+        finishMsg.innerHTML = "End of Questionnaire!!!";
+        finalDiv.appendChild(finishMsg);
+        var finalP = document.createElement('p');
+        finalP.innerHTML = "Please click on the SAVE button on the right side to save the results."
+        finalDiv.appendChild(finalP);
+    };
+
+    this.onPrevButClick = function(id) {
+        console.log("prev button clicked");
+        d3.select("#weightDiv").classed("hidden", false);
+        d3.select("#valDiv").classed("hidden", true);
+    };
+
+    this.onNextButClick = function() {
+        console.log("next button clicked");       
+        d3.select("#weightDiv").classed("hidden", true);
+        d3.select("#valDiv").classed("hidden", false);
+    };
+
+    this.onFinishBut = function(id) {
+        console.log("finish button clicked");
+        d3.select("#weightDiv").classed("hidden", true);
+        d3.select("#valDiv").classed("hidden", true);
+        d3.select("#final").classed("hidden", false);
+    };
+
+    this.createWeightsTable=function(appendToDiv, tableId){
+        // craete a table
+        var table=document.createElement('table');
         d3.select(table).classed("mdl-data-table mdl-js-data-table mdl-shadow--0dp", true);
         var percentage=50;
-
         d3.select(table).style("width",percentage+"%");
-        that.svgElement.node().appendChild(table);
+        d3.select(table).attr("id", tableId);
+        // add table to div
+        appendToDiv.appendChild(table);
 
         var row = table.insertRow(0);
         var head = table.createTHead();
@@ -52,19 +148,58 @@ function qGraph(parentWidget) {
 
         // create the header names;
         var header_crit= tablerow.insertCell(0);
-        var header_unit = tablerow.insertCell(1);
-        var header_weight= tablerow.insertCell(2);
-        var header_value=tablerow.insertCell(3);
+        var header_unit = tablerow.insertCell(1);        
+        var header_weightNum= tablerow.insertCell(2);
+
+        header_crit.innerHTML="Criteria";
+        header_unit.innerHTML = "Unit"
+        header_weightNum.innerHTML="Weight";
+
+        d3.select(tablerow).classed("headerTable",true);
+
+        var criteriaNodes=modelObject.criteria;
+
+        for (var i=0; i<criteriaNodes.length;i++){
+            // create a new table row;
+            var iR=i+1;
+            var st_row=table.insertRow(iR);
+
+            var cell_name = st_row.insertCell(0);
+            cell_name.innerHTML=criteriaNodes[i].name;
+            var cell_unit = st_row.insertCell(1);
+            cell_unit.innerHTML = criteriaNodes[i].unit;
+            var cell_weight = st_row.insertCell(2);
+            that.createLETableEntry(cell_weight,that.onLET_change,criteriaNodes[i].weight,criteriaNodes[i]);
+        }
+    };
+
+    this.createValueTable = function(appendToDiv, tableId) {
+        // craete a table
+        var table=document.createElement('table');
+        d3.select(table).classed("mdl-data-table mdl-js-data-table mdl-shadow--0dp", true);
+        var percentage=50;
+        d3.select(table).style("width",percentage+"%");
+        d3.select(table).attr("id", tableId);
+        // add table to div
+        appendToDiv.appendChild(table);
+
+        var row = table.insertRow(0);
+        var head = table.createTHead();
+        var tablerow=head.insertRow(0);
+
+        // create the header names;
+        var header_crit= tablerow.insertCell(0);
+        var header_unit = tablerow.insertCell(1);        
+        var header_value=tablerow.insertCell(2);
 
 
         header_crit.innerHTML="Criteria";
         header_unit.innerHTML = "Unit"
-        header_weight.innerHTML="Weight";
-        header_value.innerHTML="Constraint";
+        header_value.innerHTML="Constraint (Please hold ctrl to select more then one option)";
 
         d3.select(tablerow).classed("headerTable",true);
 
-        var criteriaNodes=obj.criteria;
+        var criteriaNodes=modelObject.criteria;
 
         for (var i=0; i<criteriaNodes.length;i++){
             // create a new table row;
@@ -76,15 +211,10 @@ function qGraph(parentWidget) {
             cell_name.innerHTML=criteriaNodes[i].name;
             var cell_unit = st_row.insertCell(1);
             cell_unit.innerHTML = criteriaNodes[i].unit;
-            // this should be a line edit
-            var cell_weight = st_row.insertCell(2);
-            that.createLETableEntry(cell_weight,that.onLET_change,criteriaNodes[i].weight,criteriaNodes[i], "weight");
 
-            var cell_value = st_row.insertCell(3);
-            // that.createLETableEntry(cell_value,that.onLET_changeString,criteriaNodes[i].value,criteriaNodes[i], "value");
-            that.createLETableValue(cell_value,that.onLET_changeString,criteriaNodes[i].value,criteriaNodes[i], "value");
+            var cell_value = st_row.insertCell(2);
+            that.createLETableValue(cell_value,that.onLET_changeString,criteriaNodes[i].value,criteriaNodes[i]);
         }
-
     };
 
 
@@ -101,102 +231,41 @@ function qGraph(parentWidget) {
         // console.log("the draw area is "+drawArea);
         // todo: figure out why hight is not properly detected
         var w = drawArea.node().getBoundingClientRect().width;
-        //var h= drawArea.node().getBoundingClientRect().height;
-        var h= window.innerHeight ;
+        // var h= drawArea.node().getBoundingClientRect().height;
+        var h= window.innerHeight ;        
         console.log("HEEEEEEELLLLLOOOOOOOO ---------------------------");
         this.svgElement= parentWidget.getCanvasArea().append("div");
         that.svgElement.node().innerHTML=" ----- Import the Model Please --";
         // classing the graph is a particular graph thing so we dont do this here
         // per default hidden
+
         that.svgElement.classed("hidden",true);
-
+        that.svgElement.attr("id", "divQues");
     };
 
-    this.integrateTheModel=function(){
-        that.svgElement.node().innerHTML="";
-
-
-        var stakeHolders=gHandlerObj.requestDataForQuestionair();
-
-        // craetea fancy table;
-        var table=document.createElement('table');
-
-        // add table to div
-        d3.select(table).classed("mdl-data-table mdl-js-data-table mdl-shadow--0dp", true);
-        var percentage=50;
-
-        d3.select(table).style("width",percentage+"%");
-        that.svgElement.node().appendChild(table);
-
-        var row = table.insertRow(0);
-        var head = table.createTHead();
-        var tablerow=head.insertRow(0);
-
-        // create the header names;
-        var header_name= tablerow.insertCell(0);
-        var header_email= tablerow.insertCell(1);
-        var header_createElement=tablerow.insertCell(2);
-        var header_sendElement= tablerow.insertCell(3);
-
-        header_name.innerHTML="Stake Holder";
-        header_email.innerHTML="Email";
-        header_createElement.innerHTML="Create Element";
-        header_sendElement.innerHTML="Send Element";
-
-        for (var i=0; i<stakeHolders.length;i++){
-            // create a new table row;
-            var iR=i+1;
-            var st_row=table.insertRow(iR);
-
-
-            var cell_name = st_row.insertCell(0);
-            cell_name.innerHTML=stakeHolders[i].objectName;
-            // this should be a line edit
-            var cell_email = st_row.insertCell(1);
-            that.createLETableEntry(cell_email,that.onLET_change,stakeHolders[i].email,stakeHolders[i]);
-
-            var cell_create = st_row.insertCell(2);
-            var cell_send = st_row.insertCell(3);
-            var sendBT=that.createCellSendEntry(cell_send,that.onSEND,"Mail TO",stakeHolders[i]);
-          //  sendBT.disabled=true;
-            that.createCellCreateEntry(cell_create,that.onCreate,"Create",stakeHolders[i],sendBT);
-
-
-        }
-
-        //
-        // for (var i=0;i<stakeHolders.length;i++) {
-        //     var elements = that.svgElement.append("div");
-        //     var str=stakeHolders[i].getNodeName();
-        //     console.log("name"+str);
-        //     elements.node().innerHTML=str;
-        //
-        // }
-    };
-
-    this.createLETableEntry=function(cell,onChange,value,paramObj, type){
+    this.createLETableEntry=function(cell,onChange,value,paramObj){
         var le=document.createElement('input');
         cell.appendChild(le);
         var leNode=d3.select(le);
         leNode.classed("form-control",true);
         le.value=value;
-        if(type === "weight") {
-            le.type = "number";
-        }
+        le.type = "number";
         leNode.on("change",function(){onChange(paramObj,cell);});
-
     };
 
-    this.createLETableValue = function(cell,onChange,value,paramObj, type) {
+    this.createLETableValue = function(cell,onChange,value,paramObj) {
         var le=document.createElement('select');
         cell.appendChild(le);
         var leNode=d3.select(le);
         leNode.classed("selectpicker form-control",true);
-        // le.value=value;cell_value,that.onLET_changeString,criteriaNodes[i].value,criteriaNodes[i], "value"
-        var optsArray = ["0", "+", "-"];
+        le.multiple = true;
+
+        var optsArray = ["much less", "less", "about equal", "more", "much more"];
+        var optsVals = [-1, -1, 0, 1, 1];
         for (var i=0;i<optsArray.length;i++){
             var optA=document.createElement('option');
             optA.innerHTML=optsArray[i];
+            optA.value = optsVals[i];
             le.appendChild(optA);
         }
         leNode.on("change",function(){onChange(paramObj,cell);});
@@ -208,7 +277,7 @@ function qGraph(parentWidget) {
         console.log(paramObj);
         console.log(cell);
         var newValue=Number(cell.children[0].value);
-        // newValue = Math.min(100,Math.max(0,newValue));
+
         if(newValue < 0) {
             alert("Weight cannot be less then 0");
             newValue = cell.children[0].value = 0;            
@@ -223,207 +292,10 @@ function qGraph(parentWidget) {
     };
 
     this.onLET_changeString=function(paramObj,cell){
-        console.log("something changed"+paramObj);
-        console.log(paramObj);
-        console.log(cell);
-        var newValue=cell.children[0].value;
-        if(newValue === "0") 
-            paramObj.value = 0;
-        else if(newValue === "+")
-            paramObj.value = 1;
-        else if(newValue === "-")
-            paramObj.value = -1;
-        console.log("new Value To Set "+ newValue);
-        console.log("new Value To Set Type Solver "+ paramObj.value);
-        // paramObj.value=newValue;
+        var res = $(cell.children[0]).val();
+        paramObj.value = res;
+        console.log("paramObj value: "+paramObj.value);
     };
-
-
-
-    this.createCellCreateEntry=function(cell,onChange,value,paramObj,sendBT){
-        var buttonClass="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent";
-        var btnType="flat";
-        var btnIcon=true;
-        var btnIconType="save";
-        var btnId="someBTN";
-        if( btnType == "flat")
-            buttonClass="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" ;
-        else if( btnType == "fab" )
-            buttonClass="mdl-button mdl-js-button mdl-button--fab mdl-button--colored";
-
-
-        // Create Parent Div with Correct Grid Layout in the GRID
-        var buttonMainDiv = document.createElement('div');
-        cell.appendChild(buttonMainDiv);
-        d3.select(buttonMainDiv).classed("mdl-cell mdl-cell--12-col",true);
-
-        // adding button to the dom element
-        var button = document.createElement('button');
-        cell.appendChild(button);
-        d3.select(button).classed(buttonClass+" mdl-cell mdl-cell--12-col",true);
-        button.setAttribute('id',btnId);
-        // adding Icon to the button if required
-        if(btnIcon==true)
-        {
-            var icon = document.createElement('i');
-            d3.select(icon).classed("material-icons btn-icon-special",true);
-            icon.innerHTML=btnIconType;
-            button.appendChild(icon);
-        }
-
-
-        // add label text
-        var label = document.createElement('span');
-        label.innerHTML=value;
-        button.appendChild(label);
-
-        buttonMainDiv.appendChild(button);
-
-        d3.select(button).on("click", function() {
-            onChange(paramObj,cell,sendBT);
-        });
-        return button;
-    };
-
-
-    this.createCellSendEntry=function(cell,onChange,value,paramObj){
-        var buttonClass="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent";
-        var btnType="flat";
-        var btnIcon=true;
-        var btnIconType="send";
-        var btnId="someBTN";
-        if( btnType == "flat")
-            buttonClass="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" ;
-        else if( btnType == "fab" )
-            buttonClass="mdl-button mdl-js-button mdl-button--fab mdl-button--colored";
-
-
-        // Create Parent Div with Correct Grid Layout in the GRID
-        var buttonMainDiv = document.createElement('div');
-        cell.appendChild(buttonMainDiv);
-        d3.select(buttonMainDiv).classed("mdl-cell mdl-cell--12-col",true);
-
-        // adding button to the dom element
-        var button = document.createElement('button');
-        cell.appendChild(button);
-        d3.select(button).classed(buttonClass+" mdl-cell mdl-cell--12-col",true);
-        button.setAttribute('id',btnId);
-        // adding Icon to the button if required
-        if(btnIcon==true)
-        {
-            var icon = document.createElement('i');
-            d3.select(icon).classed("material-icons btn-icon-special",true);
-            icon.innerHTML=btnIconType;
-            button.appendChild(icon);
-        }
-
-
-        // add label text
-        var label = document.createElement('span');
-        label.innerHTML=value;
-        button.appendChild(label);
-
-        buttonMainDiv.appendChild(button);
-
-        d3.select(button).on("click", function() {
-            onChange(paramObj,cell);
-        });
-        return button;
-    };
-
-    this.onSEND=function(paramObj,cell){
-        console.log("we need to mail this ");
-        console.log("stackeholder is");
-        console.log(paramObj);
-
-        // create a json object containing the creteria of the model;
-
-
-        var modelData=gHandlerObj.requestModelDataForQuestioner();
-        console.log("That model data");
-        modelData.stakeholderEmail=paramObj.email; // /stores the email inside the json obj;
-
-        var jsonModelStr=JSON.stringify(modelData);
-        console.log(jsonModelStr);
-
-
-        // creating an email thingy;
-
-
-
-            var subject= "GRACeFUL model";
-            var body = jsonModelStr;
-            var uri = "mailto:"+paramObj.email+"?subject=";
-            uri += encodeURIComponent(subject);
-            uri += "&body=";
-            uri += encodeURIComponent(body);
-
-            console.log(uri);
-
-            var newTab=window.open(uri);
-            newTab.close();
-
-/*
-            // create a hidden button;
-        var tempHref=document.createElement('a');
-        tempHref.href=uri;
-        tempHref.innerHTML="hello world";
-        cell.appendChild(tempHref);
-
-       console.log("simulating click");
-        //tempHref.click();
-
-        //tempHref.hidden = true;
-        // remove that thing
-        d3.select("#TemporalDiv").remove();
-*/
-
-
-
-
-    };
-
-    this.onCreate=function(paramObj,cell,sendBt){
-        console.log("we need to mail this ");
-        console.log("stackeholder is");
-        console.log(paramObj);
-
-        // create a json object containing the creteria of the model;
-        var modelData=gHandlerObj.requestModelDataForQuestioner();
-        console.log("That model data");
-        modelData.stakeholderEmail=paramObj.email; // /stores the email inside the json obj;
-
-        var jsonModelStr=JSON.stringify(modelData);
-        console.log(jsonModelStr);
-
-        // download this to your default path;
-        console.log("Downloading things;")
-
-        // create a hidden wrapper for saving files;
-
-        var tempHref=document.createElement('a');
-        tempHref.type="submit";
-        tempHref.href="#";
-        tempHref.download="";
-        tempHref.innerHTML="Save Global Model";
-        tempHref.id="temporalHrefId";
-
-        cell.appendChild(tempHref);
-        tempHref.href="data:text/json;charset=utf-8," + encodeURIComponent(jsonModelStr);
-        var namedJson=paramObj.objectName+".json";
-        console.log("namedJSON: "+namedJson);
-        tempHref.download=namedJson;
-        tempHref.click();
-        tempHref.hidden = true;
-        // remove that thing
-        d3.select("#TemporalDiv").remove();
-
-        sendBt.disabled=false;
-
-    };
-
-
-
 }
 
 qGraph.prototype.constructor = qGraph;

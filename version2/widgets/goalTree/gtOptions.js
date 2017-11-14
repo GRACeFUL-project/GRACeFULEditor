@@ -8,7 +8,7 @@ function GTControls(parentWidget) {
     this.parent=parentWidget;
     this.optionsId=1;
     var goalchip, goalimage, goalChipNode, goalsGroup, goalName, goalType, goalComment, delGoal, criteriaUnit, additionalSettings, loadcld, saveCld, clearGT, importSt;
-    var units = ["euro/year", "events/year", "Number of places", "Capacity rating", "Access rating", "m\u00B2"];
+    var units = ["euro", "euro/year", "euro/event", "number", "number/year (events/year)", "number/event", "category", "mm/hour", "mm/day", "m\u00B2", "m\u00B2 affected"];
 
 
     this.loadGlobalLibraries=function(){
