@@ -22,7 +22,7 @@
         //http://localhost:4000/static/index.html
         //var solverAddress="http://localhost:4000";
        var solverAddress="http://vocol.iais.fraunhofer.de/graceful-rat";
-       // var solverAddress="http://localhost:4000";
+        var solverAddress="http://localhost:4000";
         var localAction;
 
         // done from the outside
