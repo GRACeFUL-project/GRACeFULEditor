@@ -21,7 +21,7 @@ library = Library "actions"
                     ("rotation: false" # "incomingType: none" # "outgoingType: arbitrary" #
                      "cost" # tPort tInt)
            )
-   ,Item "bioswaleParkingAction" ["description: Apply Bioswale to Paved Parking", "imgURL: ./data/img/bioswaleParkingAction.png", "graphElement: nodal", "superClass:action", "crit: 2,2,-1,-1,0,0,2,-2", "layer:causal"] $
+   ,Item "bioswaleParkingAction" ["description: Apply Bioswale to Paved Parking", "imgURL: ./data/img/bioswaleParkingAction.png", "graphElement: nodal", "superClass:action", "crit: 2,2,-1,-1,0,0,2,-2", "layer: causal"] $
       bioswaleParkingAction ::: "values" # tList tSign .-> "costs" # tList tInt .->
                      "numIn" # tInt .-> "numOut" # tInt .->
       tGCM (tTuple4 ("rotation: false" # "incomingType: none" # "outgoingType: none" #
