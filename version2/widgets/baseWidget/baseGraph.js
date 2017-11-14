@@ -540,6 +540,10 @@ function BaseGraph(parentWidget) {
         console.log(node)
         console.log("*-----------*");
 
+        if (node && node.hasSubClass){
+            console.log(superClass)
+        }
+
         if (node===undefined){
 
             that.prevSelectedNode=undefined;
