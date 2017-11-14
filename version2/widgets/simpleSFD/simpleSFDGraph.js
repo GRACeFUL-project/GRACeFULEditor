@@ -899,6 +899,7 @@ function SimpleSFDGraph(){
             nodeDescription.graphElement=libDisc.graphElement;
             nodeDescription.ports=libDisc.interface;
             nodeDescription.superClass=libDisc.superClass;
+            nodeDescription.subClass=[];
             if (libDisc.superClass && seenSuperClasses.indexOf(libDisc.superClass)<0)
                 seenSuperClasses.push(libDisc.superClass);
 
@@ -908,6 +909,22 @@ function SimpleSFDGraph(){
         console.log(seenSuperClasses);
         console.log("-------------------------");
         // based on the inputClasses create Additional Node SubTypes;
+
+
+        for (var i=0;i<inputClasses.length;i++){
+            var currentElement=inputClasses[i];
+            if (seenSuperClasses.indexOf(currentElement.name)>=0){
+
+                for (var j=0;j<inputClasses.length;j++){
+                       var testElement=inputClasses[j];
+                       if (testElement.superClass===currentElement.name){
+                           console.log(currentElement.name+"  adding subclass "+testElement.name);
+                           currentElement.subClass.push(testElement.name);
+                       }
+                }
+            }
+
+        }
 
     return true;
     };
