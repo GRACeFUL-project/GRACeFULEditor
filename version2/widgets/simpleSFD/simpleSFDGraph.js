@@ -868,7 +868,7 @@ function SimpleSFDGraph(){
         var TBOX=jsonObj.library;
         // for number of objects in TBOX do parsing
 
-
+        var seenSuperClasses=[];
 
         for (var iA=0;iA<TBOX.length;iA++) {
 
@@ -898,7 +898,32 @@ function SimpleSFDGraph(){
             nodeDescription.type=libDisc.type;
             nodeDescription.graphElement=libDisc.graphElement;
             nodeDescription.ports=libDisc.interface;
+            nodeDescription.superClass=libDisc.superClass;
+            nodeDescription.subClass=[];
+            if (libDisc.superClass && seenSuperClasses.indexOf(libDisc.superClass)<0)
+                seenSuperClasses.push(libDisc.superClass);
+
             inputClasses.push(nodeDescription);
+        }
+        console.log("seen SuperClasses");
+        console.log(seenSuperClasses);
+        console.log("-------------------------");
+        // based on the inputClasses create Additional Node SubTypes;
+
+
+        for (var i=0;i<inputClasses.length;i++){
+            var currentElement=inputClasses[i];
+            if (seenSuperClasses.indexOf(currentElement.name)>=0){
+
+                for (var j=0;j<inputClasses.length;j++){
+                       var testElement=inputClasses[j];
+                       if (testElement.superClass===currentElement.name){
+                           console.log(currentElement.name+"  adding subclass "+testElement.name);
+                           currentElement.subClass.push(testElement.name);
+                       }
+                }
+            }
+
         }
 
     return true;

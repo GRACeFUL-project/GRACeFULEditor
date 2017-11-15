@@ -20,7 +20,8 @@ function SimpleSFDNode(graph,nodeDescriptions) {
     var superDrawFunction = that.drawNode;
     var superClickFunction= that.onClicked;
     var m_nodeDescriptions=nodeDescriptions;
-
+    var superClass=[];
+    var subClasses=[];
 
     var portSvgRoot=undefined;
     this.getGraphObject=function(){
@@ -38,8 +39,16 @@ function SimpleSFDNode(graph,nodeDescriptions) {
           if (labelTags[i]===name)
               return i;
         }
+    };
 
+    this.hasSubClass=function(){
+        if (subClasses[that.getTypeId()].length>0)
+            return true;
+        else return false;
+    };
 
+    this.getSubClasses=function(){
+        return subClasses[that.getTypeId()];
     };
 
     this.getPortSvgRoot=function(){
@@ -62,6 +71,8 @@ function SimpleSFDNode(graph,nodeDescriptions) {
             nodeHoverDescriptions.push(m_nodeDescriptions[i].hoverText);
             portDescriptions.push(m_nodeDescriptions[i].ports);
             parametersDescriptions.push(m_nodeDescriptions[i].params);
+            superClass.push(m_nodeDescriptions[i].superClass);
+            subClasses.push(m_nodeDescriptions[i].subClass);
             numTypes++; // increase if number of node types has increased
         }
     };

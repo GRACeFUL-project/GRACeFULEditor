@@ -4,9 +4,10 @@ import Library
 import qualified CLDlib
 import qualified Crud
 import qualified Actions
+import qualified Criteria
 
 library :: Library
-library = insert is (combineList "combined_fullgcm" [CLDlib.library, Crud.library, Actions.library]) where
+library = insert is (combineList "combined_fullgcm" [CLDlib.library, Crud.library, Criteria.library, Actions.library]) where
   is =
     [ Item "pump" ["description: Pump", "imgURL: ./data/img/pump.png",
                    "graphElement: relational", "layer: domain"] $

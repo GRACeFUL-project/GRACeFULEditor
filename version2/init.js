@@ -315,6 +315,12 @@ var gHandlerObj=handler.create();
         sfd.requestAction(action);
 
 
+        var action2={};
+        action2.task="SERVER_REQUEST";
+        action2.requestType="GET_LIBRARY"; // testing purpose
+        // get the string from the selected lib;
+        action2.libraryName="combined_fullgcm"; // HARDCODED FIXED VALUE
+        sfd.requestAction(action2);
         // adding to widget list
     //    widgetList.push(example);
         widgetList.push(gtw);
