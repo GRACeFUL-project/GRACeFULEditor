@@ -235,6 +235,7 @@ function SimpleSFDGraph(){
         that.budgetPortIndex = 0;
         that.actionNodes = 0;
         that.criteriaNodes = 0;
+        that.stakeholderNodes = 0;
         that.optimiseId = 1;
         that.optimisePortIndex = 0;
         var initEvelId=-1;
@@ -248,8 +249,8 @@ function SimpleSFDGraph(){
             node.getGlobalNodePtr().updateNodeIds();
             initEvelId=node.getGlobalNodePtr().getHighestGlobalNodeValue();
             if(node.typeName !== "Stake Holder") {
-                if (node.getGlobalNodePtr().getCLDNODE()) {
-                    var cldNode=node.getGlobalNodePtr().getCLDNODE();
+                var cldNode=node.getGlobalNodePtr().getCLDNODE();
+                if (node.getGlobalNodePtr().getCLDNODE()) {                    
                     // this is cld node faction action etc
                     cldNode.getFinalData();
                     obj.name = cldNode.typeNameForSolver;
@@ -258,60 +259,67 @@ function SimpleSFDGraph(){
                     obj.identity = cldNode.id();
                     //need to add more attributes
                     modelObj.nodes.push(obj);
+                } else {
+                    cldNode.getFinalDataStakeholders();
+                    obj.name = "stakeholder";
+                    obj.parameters = cldNode.parameters;
+                    obj.interface = cldNode.interfaces;
+                    obj.identity = cldNode.id();
+                    modelObj.nodes.push(obj);
                 }
             }
             console.log("How many links: "+that.pathElementArray.length);
-            //evaluate
-            var evals = {};
+            // //evaluate
+            // var evals = {};
 
-            if(node.typeName === "Criteria") {
-                var weights = [];
-                var values = [];
-                var sLinkIds = [];
-                for(var k=0; k<that.pathElementArray.length; k++) {
-                    var sLink = that.pathElementArray[k];
-                    if(sLink.superLinkType === 100 && sLink.targetNode.id() === node.id()) {
-                        console.log("sLinkkkk!!! "+sLink.id());
-                        values.push(sLink.getEvaluationValue());
-                        weights.push(sLink.getNormalizedWeight());
-                        sLinkIds.push(sLink);
-                    }
-                }
-                if(weights.length > 0) {
-                    evals.name = "evaluate";
-                    evals.parameters = [{"name": "values", "value": values, "type": "[Sign]"}, {"name": "weights", "value": weights, "type": "[Float]"}];
-                    evals.interface = [
-                        {
-                            "connection": [node.id(), "value", null],
-                            "name": "atPort",
-                            "type": "Sign"
-                        },
-                        {
-                            "connection": [that.optimiseId, "benefits", that.optimisePortIndex++],
-                            "name": "benefit",
-                            "type": "Float"
-                        }
-                    ];
-                    evals.identity = initEvelId++;
+            // if(node.typeName === "Criteria") {
+            //     var weights = [];
+            //     var values = [];
+            //     var sLinkIds = [];
+            //     for(var k=0; k<that.pathElementArray.length; k++) {
+            //         var sLink = that.pathElementArray[k];
+            //         if(sLink.superLinkType === 100 && sLink.targetNode.id() === node.id()) {
+            //             console.log("sLinkkkk!!! "+sLink.id());
+            //             values.push(sLink.getEvaluationValue());
+            //             weights.push(sLink.getNormalizedWeight());
+            //             sLinkIds.push(sLink);
+            //         }
+            //     }
+            //     if(weights.length > 0) {
+            //         evals.name = "evaluate";
+            //         evals.parameters = [{"name": "values", "value": values, "type": "[Sign]"}, {"name": "weights", "value": weights, "type": "[Float]"}];
+            //         evals.interface = [
+            //             {
+            //                 "connection": [node.id(), "value", null],
+            //                 "name": "atPort",
+            //                 "type": "Sign"
+            //             },
+            //             {
+            //                 "connection": [that.optimiseId, "benefits", that.optimisePortIndex++],
+            //                 "name": "benefit",
+            //                 "type": "Float"
+            //             }
+            //         ];
+            //         evals.identity = initEvelId++;
 
 
 
-                    for(var m=0; m<sLinkIds.length; m++) {
-                        sLinkIds[m].setEvaluateId(evals.identity);
-                    }
+            //         for(var m=0; m<sLinkIds.length; m++) {
+            //             sLinkIds[m].setEvaluateId(evals.identity);
+            //         }
 
-                    modelObj.nodes.push(evals);
-                }
-            }
-            node.getGlobalNodePtr().setGlobalHighestIdValue(initEvelId);
-            console.log("Highest ID"+node.getGlobalNodePtr().getHighestGlobalNodeValue());
+            //         modelObj.nodes.push(evals);
+            //     }
+            // }
+            // node.getGlobalNodePtr().setGlobalHighestIdValue(initEvelId);
+            // console.log("Highest ID"+node.getGlobalNodePtr().getHighestGlobalNodeValue());
         }
 
 
         for( i=0; i<that.pathElementArray.length; i++) {
             var link = that.pathElementArray[i];
             link.getGlobalLinkPtr().updateLinkID();
-            if(link.superLinkType !== 100) {
+            // if(link.superLinkType !== 100) {
                 var obj={};
                 if (link.getGlobalLinkPtr().getCLDLINK()) {
 
@@ -323,7 +331,7 @@ function SimpleSFDGraph(){
                     obj.identity = cldLink.id();
                     modelObj.nodes.push(obj);
                 }
-            }
+            // }
         }
 
         var nodeBudget = {
@@ -336,7 +344,7 @@ function SimpleSFDGraph(){
 
         var nodeOptimise = {
             "name": "optimise",
-            "parameters": [{"name": "numberOfPorts", "value": that.criteriaNodes, "type": "Int"}],
+            "parameters": [{"name": "numberOfPorts", "value": that.stakeholderNodes, "type": "Int"}],
             "interface": [{"name": "benefits", "type": "[Float]"}],
             "identity": that.optimiseId
         };

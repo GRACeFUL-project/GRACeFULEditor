@@ -243,6 +243,7 @@ function CLDNode(graph) {
     };
 
     this.getFinalDataStakeholders = function() {
+        graph.stakeholderNodes++;
         //obtain weights and values
         var weights = [];
         var values = [];
@@ -266,7 +267,7 @@ function CLDNode(graph) {
         this.interfaces = [];
         var param3 = {"name": "criteria", "type": "[Sign]"};
         that.interfaces.push(param3);
-        var param4 = {"connection": [graph.optimiseId, "benefits", that.optimisePortIndex++], "name": "happiness", "type": "Float"};
+        var param4 = {"connection": [graph.optimiseId, "benefits", graph.optimisePortIndex++], "name": "happiness", "type": "Float"};
         that.interfaces.push(param4);
     };
 

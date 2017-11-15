@@ -51,7 +51,7 @@ var globalElementIdentifier=2;
 
 
 
-        this.createStakeholderLink=function(src,tar,weight,value){
+        this.createStakeholderLink=function(src,tar,weight,value, index){
 
             console.log("globalHelder generates a link;");
 
@@ -94,6 +94,7 @@ var globalElementIdentifier=2;
                 friendlyLink.setLinkTypus(100);
                 friendlyLink.setNormalizedWeight(weight);
                 friendlyLink.setEvaluationValue(value);
+                friendlyLink.setPortIndex(index);
                 globalLink.setLinkGenerator(friendlyWidget,friendlyLink);
                 friendlyLink.setGlobalLinkPtr(globalLink);
 
@@ -105,6 +106,7 @@ var globalElementIdentifier=2;
                 friendlyLink.setLinkTypus(100);
                 friendlyLink.setNormalizedWeight(weight);
                 friendlyLink.setEvaluationValue(value);
+                friendlyLink.setPortIndex(index);
                 globalLink.setLinkGenerator(sfd_friendlyWidget,friendlyLink);
                 friendlyLink.setGlobalLinkPtr(globalLink);
 

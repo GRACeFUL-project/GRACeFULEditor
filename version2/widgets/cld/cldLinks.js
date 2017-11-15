@@ -31,6 +31,7 @@ function CLDLink(graph) {
     this.normalizedWeight=0;
     this.evaluatonString="";
     this.evaluateId = undefined;
+    this.superLinkPortIndex = undefined;
 
     this.atPort = undefined;
     this.benefits = undefined;
@@ -41,6 +42,10 @@ function CLDLink(graph) {
 
     this.setNormalizedWeight=function(val){this.normalizedWeight=val;};
     this.setEvaluationValue=function(str){this.evaluatonString=str;};
+    this.setPortIndex = function(ind) {
+        this.superLinkPortIndex = ind;
+        console.log("the super link port index is: "+this.superLinkPortIndex);
+    };
 
 
 
@@ -209,7 +214,7 @@ function CLDLink(graph) {
             that.parameters = [];
             //update superlink's interface
             that.interfaces = [ {"connection": [that.targetNode.id(), "value", null], "name":"inPort", "type": "Sign"}, 
-                                {"connection": [that.sourceNode.id(), "criteria", that.sourceNode.getPortDetails(that.id())], "name":"outPort", "type": "Sign"}];
+                                {"connection": [that.sourceNode.id(), "criteria", that.superLinkPortIndex], "name":"outPort", "type": "Sign"}];
         } else {
             //update link's parameters
             that.parameters = [{ "name": "sign",  "value": that.sign, "type": "Sign"}];

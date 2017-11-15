@@ -293,7 +293,7 @@ function qGraph(parentWidget) {
 
     this.onLET_changeString=function(paramObj,cell){
         var res = $(cell.children[0]).val();
-        paramObj.value = res;
+        paramObj.value = res.map(Number);
         console.log("paramObj value: "+paramObj.value);
     };
 }
