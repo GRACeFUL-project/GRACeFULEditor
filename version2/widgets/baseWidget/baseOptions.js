@@ -611,6 +611,10 @@ function BaseControls(parentWidget) {
     };
 
 
+    this.handleSelectionForOptions=function(node){
+
+
+    };
     this.handleNodeSelection=function(node){
         // should be overwritten by the real options thing
 

@@ -204,11 +204,12 @@ function BaseWidget(parentElement) {
 
     };
 
+    this.handleSelectionForOptions=function(node){
+        that.controlsObject.handleSelectionForOptions(node);
+    };
 
     // selection stuff;
     this.handleSelection=function(node){
-        console.log("handling Selection of a node");
-        console.log(node);
         that.controlsObject.handleNodeSelection(node);
 
     };

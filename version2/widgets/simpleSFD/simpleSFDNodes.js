@@ -17,6 +17,7 @@ function SimpleSFDNode(graph,nodeDescriptions) {
     var nodeName="noName";
     var assosiatedLinks=[];
     var graph_object=graph;
+    this.libElement = "";
     var superDrawFunction = that.drawNode;
     var superClickFunction= that.onClicked;
     var m_nodeDescriptions=nodeDescriptions;
@@ -41,6 +42,20 @@ function SimpleSFDNode(graph,nodeDescriptions) {
         }
     };
 
+    this.setSubClassTypeFromText=function(text){
+            var SubClassIdInDescription = that.findTypeId(text);
+            console.log("Found SfdSubClass Id" + SubClassIdInDescription);
+            that.setType(SubClassIdInDescription);
+            graph_object.forceRedrawContent();
+            that.getGlobalNodePtr().getCLDNODE().libElement = text;
+            that.libElement = text;
+            that.selectThisNode(that);
+            that.getGlobalNodePtr().getCLDNODE().selectThisNode(that);
+
+        // update the cldOptions Value;
+
+    };
+
     this.hasSubClass=function(){
         if (subClasses[that.getTypeId()].length>0)
             return true;
@@ -49,6 +64,18 @@ function SimpleSFDNode(graph,nodeDescriptions) {
 
     this.getSubClasses=function(){
         return subClasses[that.getTypeId()];
+    };
+
+    this.getSuperClassChildren=function(){
+        var superChiildren=[];
+        if (superClass[that.getTypeId()]!=undefined){
+            var sc=superClass[that.getTypeId()];
+
+            var superClassId=that.findTypeId(sc);
+            if (superChiildren>=0)
+                superChiildren=subClasses[superClassId];
+        }
+        return superChiildren;
     };
 
     this.getPortSvgRoot=function(){

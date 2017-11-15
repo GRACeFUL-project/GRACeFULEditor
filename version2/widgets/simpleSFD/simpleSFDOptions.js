@@ -12,6 +12,7 @@ function SimpleSFDControls(parentWidget) {
     var portTable;
     var solverLineEdit,librarySelection;
     var nodeClass,nodeLabel;
+    var mapsToLib;
     var selectedLibraryName;
     var sfdChip ,sfdChipNode, sfdChipImage, clearSFD, loadSFD, saveSFD, reqSFD, submitSFD, reqLoadLib;
 
@@ -243,6 +244,10 @@ function SimpleSFDControls(parentWidget) {
     };
 
 
+    this.onChangeMapLib = function() {
+        that.selectedNode.setSubClassTypeFromText(mapsToLib.node().value);
+    };
+
     this.serverRequest=function(){
         // the action defines a request type which is send to com mod and that one does the work
         console.log("requesting data from server : this example is library crud");
@@ -370,34 +375,10 @@ function SimpleSFDControls(parentWidget) {
 
 
     this.generateControls=function() {
-
-        // Before Adding the field Add them to separate Field Container..
-        // var fieldDiv=document.createElement('div');
-        // controlsMenu.getBody().node().appendChild(fieldDiv);
-        // d3.select(fieldDiv).classed("mdl-grid",true)
-                          //  .attr("id","fieldGroupSFD");
-
-        // button parameters = parent, text, btnId, onClickFunction, btnType, btnIcon, btnIconType
-        // clearSFD=that.addButton(fieldDiv,"Clear","Clear",that.clearGraph,"raised",true,"mood");
-
-
-        // Before Adding Buttons append them to Butoon Div Container..
-        // var buttonGroup=document.createElement('div');
-        // controlsMenu.getBody().node().appendChild(buttonGroup);
-        // d3.select(buttonGroup).classed("mdl-grid",true)
-        //                       .attr("id","buttonGroupSFD");
-
-        // testing stuff,
-
-          nodeGroup=that.createAccordionGroup(that.divControlsGroupNode,"Concept");
-       //   nodeSelGroup= that.addSelectionOpts(nodeGroup, "Node type", ["Undefined", "A", "B"], that.onChangeNodeType);
-          // nodeClass=that.addLabel(nodeGroup,"Class","nodesClass");
-          // nodeLabel=that.addLineEdit(nodeGroup,"Name","nodesName",false, that.changeNodesName);
+        nodeGroup=that.createAccordionGroup(that.divControlsGroupNode,"Concept");
+        mapsToLib = that.addSelectionOpts(nodeGroup, "Library Mapping", ["a1","a2"], that.onChangeMapLib,"libMapLabelSFD");
         linksGroup = that.createAccordionGroup(that.divControlsGroupNode, "Links");
 
-        // linkNode=that.addNodeTypeChip(linksGroup,"Undefined","#fafafa",that.deleteLinks,"cldLinkChipField",false,"undefined","cld","./images/nodes/factor.png");
-        // cldChip = cldChipNode[0];
-        // cldChipImage=cldChipNode[1];
 
         linkClass = that.addSelectionOpts(linksGroup, "Link type", ["Undefined", "Causal Relation"], that.onChangeLinkClass);
            linkClass.node().options[0].hidden = true;
@@ -408,95 +389,89 @@ function SimpleSFDControls(parentWidget) {
         causalSelection = that.addSelectionOpts(linksGroup, "Influence", getClassValues, that.onChangeLinkType);
         d3.select(causalSelection.node().parentNode).classed("hidden", false);
         commentLink = that.addTextEdit(linksGroup, "Comments", "", true, that.onChangeLinkComment);
-
-        // delLinkBtn = that.addButtons(linksGroup, "Delete", "linkDelete", that.deleteLinks);
-          //sfdChipNode= that.addNodeTypeChip(nodeGroup,"empty","#fafafa",that.deleteNodes,"sfdChipField",true,"undefined","sfd","./images/nodes/factor.png");
           sfdChipNode=that.addNodeTypeChip(nodeGroup,"Rain","#fafafa",that.onSFDNodeDelete,"sfdChipField",true,"./data/img/rain.png","sfd","1");
           sfdChip=sfdChipNode[0];
           sfdChipImage=sfdChipNode[1];
 
           parameterTable=that.addTable(nodeGroup,"Parameters",["Name","Value"]);
 
-          // that.addParameterRow(parameterTable,["a","b","c"]);
-          // that.addParameterRow(parameterTable,["d","e","f"]);
-
           portTable=that.addTable(nodeGroup,"Ports",["Name","Type","Value"],true);
 
-          // that.addParameterRow(portTable,["d","e","f"]);
-          // that.addParameterRow(portTable,["d","e","f"]);
-
-          // controls menu;
           // var tempIcon = document.createElement('i');
           nodeGroup.collapseBody();
 
           controlsMenuLibrary=that.createAccordionGroup(that.divControlsGroupNode, "Graph Controls");
           controlsMenu= that.createAccordionGroup(that.divControlsGroupNode, "Model Controls");
-//          solverLineEdit=that.addLineEdit(controlsMenu,"Server Address","http://localhost:4000",true,that.changeSolverAddress);
-        solverLineEdit=that.addLineEdit(controlsMenu,"Server Address","http://vocol.iais.fraunhofer.de/graceful-rat",true,that.changeSolverAddress);
+         solverLineEdit=that.addLineEdit(controlsMenu,"Server Address","http://localhost:4000",true,that.changeSolverAddress);
+//        solverLineEdit=that.addLineEdit(controlsMenu,"Server Address","http://vocol.iais.fraunhofer.de/graceful-rat",true,that.changeSolverAddress);
 
 
           librarySelection=that.addSelectionOpts(controlsMenu, "Library", ["Select Library"], that.onSelectLibrary);
           librarySelection.node().options[0].hidden = true;
-          // clearSFD = that.addHrefButton(controlsMenu,"Clear",that.clearGraph,true);
-          //@ Rohan could you realign the buttons?
-        // something like this:
-        // -----------------------------------------------
-        // Load Model, Save Model, Send Model
-        // Load Library, Get Library, Clear Graph
-        // -----------------------------------------------        
 
-        // clearSFD = that.addHrefButton(controlsMenu,"Clear Graph",that.clearGraph,true);
-        //
-        //   clearSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
-        //   clearSFD.parentNode.setAttribute("id", "sfd_basic");
-        //   clearSFD.parentNode.setAttribute("class", "form-group col-lg-12");
-        //
-        //
-        //TODO: Change to global model loader
         loadSFD= that.addButton(controlsMenuLibrary, "LOAD MODEL", "sfdLoadModel", that.loadGlobalFunction, "flat", true, "cloud_upload" );
-
-        //   loadSFD = that.addHrefButton(controlsMenu,"Load Model",that.loadFunction,true);
-        //   document.getElementById("sfd_basic").appendChild(loadSFD.parentNode);
-        //   loadSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
-        //   loadSFD.parentNode.setAttribute("class", "col-xs-4 text-center");
-        //
-        //TODO: Change to global model loader
         saveSFD= that.addButton(controlsMenuLibrary, "SAVE MODEL", "sfdSaveModel", that.saveFunction, "flat", true, "save" );
-        //   saveSFD = that.addHrefButton(controlsMenu,"Save Model",that.saveFunction,true);
-        //   document.getElementById("sfd_basic").appendChild(saveSFD.parentNode);
-        //   saveSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
-        //   saveSFD.parentNode.setAttribute("class", "col-xs-4");
-        
         clearSFD= that.addButton(controlsMenuLibrary, "CLEAR MODEL", "sfdClearGraph", that.clearGraph, "flat", true, "clear_all" );
         
         reqSFD= that.addButton(controlsMenu, "GET LIBRARY", "sfdGetLibrary", that.serverRequest, "flat", true, "get_app" );
         reqSFD.disabled=true;
-        //   reqSFD = that.addHrefButton(controlsMenu,"Get Library",that.serverRequest,true);
-        //   reqSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
-        //   reqSFD.parentNode.setAttribute("id", "sfd_basic1");
-        //   reqSFD.parentNode.setAttribute("class", "form-group col-lg-12");
-        //
-       // reqLoadLIB= that.addButton(controlsMenu, "LOAD LIBRARY", "sfdLoadLibrary", that.loadLibraryFromJSON, "flat", true, "file_upload" );
-
-        //   // @ Rohan : could you realign the Buttons?
-        // reqLoadLIB = that.addHrefButton(controlsMenu,"load Library",that.loadLibraryFromJSON,true);
-        // reqLoadLIB.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
-        // reqLoadLIB.parentNode.setAttribute("id", "sfd_basic1");
-        // reqLoadLIB.parentNode.setAttribute("class", "form-group col-lg-12");
-        //
         submitSFDs= that.addButton(controlsMenu, "SEND MODEL", "sfdSendModel", that.testSubmitModel, "flat", true, "send" );
-        //   submitSFD = that.addHrefButton(controlsMenu,"Send Model",that.testSubmitModel,true);
-        //   document.getElementById("sfd_basic1").appendChild(submitSFD.parentNode);
-        //   submitSFD.setAttribute("class", "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect");
-        //   submitSFD.parentNode.setAttribute("class", "col-xs-6 text-center");
-          // that.addCheckBox(controlsMenu,"Show HUD","cb_test1",true,that.enableHUD); // per default enable the hud
-          // execute the default value;
-          that.enableHUD(false);
+        that.enableHUD(false);
 
 
     };
 
     this.start();
+
+    this.handleSelectionForOptions=function(node){
+        console.log("777777777777777777777777777777777777777777777777777");
+        console.log(node)
+        var i;
+
+            console.log("888888888888888888888888888888888888888888888888888888");
+            // kill libraryMapping
+            mapsToLib.classed("hidden", true);
+            d3.select("#libMapLabel").classed("hidden", true);
+
+            // check if node has subClass;
+            if (node.getGlobalNodePtr().getSfdNode().getSubClasses) {
+                var sC = node.getGlobalNodePtr().getSfdNode().getSubClasses();
+                console.log("testing subClasses"+sC);
+                if (sC.length > 0) {
+                    mapsToLib.classed("hidden", false);
+                    d3.select("#libMapLabel").classed("hidden", false);
+                } else {
+                    sC = node.getGlobalNodePtr().getSfdNode().getSuperClassChildren();
+                    console.log("testing superClasses"+sC);
+                    if (sC.length > 0) {
+                        mapsToLib.classed("hidden", false);
+                        d3.select("#libMapLabel").classed("hidden", false);
+                    }
+                }
+
+                // assume it has some subClasses
+
+                // clear options menu
+
+                // clear possible pre searched entries
+                var htmlCollection = mapsToLib.node().children;
+                var numEntries = htmlCollection.length;
+                console.log("numEntries" + numEntries);
+                for (i = 0; i < numEntries; i++)
+                    htmlCollection[0].remove();
+
+
+                for (i = 0; i < sC.length; i++) {
+                    var optA = document.createElement('option');
+                    optA.innerHTML = sC[i];
+                    mapsToLib.node().appendChild(optA);
+                }
+            }
+            mapsToLib.node().value = node.libElement;
+            console.log("1111111111111111111111111111   11111111111   "+node.libElement);
+
+
+    };
 
     this.handleNodeSelection=function(node){
         // should be overwritten by the real options thing
@@ -517,7 +492,51 @@ function SimpleSFDControls(parentWidget) {
             that.evilNodeElement(node);
 
             nodeGroup.expandBody();
+            mapsToLib.classed("hidden",true);
+            d3.select("#libMapLabel").classed("hidden",true);
 
+            // check if node has subClass;
+            if (node.getGlobalNodePtr().getSfdNode().getSubClasses) {
+                var sC = node.getGlobalNodePtr().getSfdNode().getSubClasses();
+                console.log("testing subClasses"+sC);
+                if (sC.length > 0) {
+                    mapsToLib.classed("hidden", false);
+                    d3.select("#libMapLabel").classed("hidden", false);
+                } else {
+                    sC = node.getGlobalNodePtr().getSfdNode().getSuperClassChildren();
+                    console.log("testing superClasses"+sC);
+                    if (sC.length > 0) {
+                        mapsToLib.classed("hidden", false);
+                        d3.select("#libMapLabel").classed("hidden", false);
+                    }
+                }
+                // assume it has some subClasses
+
+                // clear options menu
+
+                // clear possible pre searched entries
+                var htmlCollection = mapsToLib.node().children;
+                var numEntries = htmlCollection.length;
+                console.log("numEntries"+numEntries);
+                for ( i = 0; i < numEntries; i++)
+                    htmlCollection[0].remove();
+
+
+                for (i=0;i<sC.length;i++) {
+                    var optA=document.createElement('option');
+                    optA.innerHTML=sC[i];
+                    mapsToLib.node().appendChild(optA);
+                }
+
+
+                if (that.selectedNode.libElement.length===0) {
+                    console.log("------------------");
+                    mapsToLib.node().options[0].selected="selected";
+                    that.selectedNode.getGlobalNodePtr().getSfdNode().setSubClassTypeFromText(mapsToLib.node().value);
+                }
+                mapsToLib.node().value=that.selectedNode.libElement;
+
+            }
             // set the proper parameters
             // var pref=nodeClass.attr("prefix");
             // nodeClass.node().innerHTML=pref+": "+node.getNodeName();

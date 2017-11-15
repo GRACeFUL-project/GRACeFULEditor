@@ -179,6 +179,54 @@ function CLDControls(parentWidget) {
         budgetBtn.setAttribute("data-target", "#budgetModal");
     };
 
+    this.handleSelectionForOptions=function(node){
+        console.log("777777777777777777777777777777777777777777777777777");
+        console.log(node)
+        var i;
+
+        console.log("888888888888888888888888888888888888888888888888888888");
+        // kill libraryMapping
+        mapsToLib.classed("hidden", true);
+        d3.select("#libMapLabel").classed("hidden", true);
+
+        // check if node has subClass;
+        if (node.getGlobalNodePtr().getSfdNode().getSubClasses) {
+            var sC = node.getGlobalNodePtr().getSfdNode().getSubClasses();
+            console.log("testing subClasses"+sC);
+            if (sC.length > 0) {
+                mapsToLib.classed("hidden", false);
+                d3.select("#libMapLabel").classed("hidden", false);
+            } else {
+                sC = node.getGlobalNodePtr().getSfdNode().getSuperClassChildren();
+                console.log("testing superClasses"+sC);
+                if (sC.length > 0) {
+                    mapsToLib.classed("hidden", false);
+                    d3.select("#libMapLabel").classed("hidden", false);
+                }
+            }
+
+            // assume it has some subClasses
+
+            // clear options menu
+
+            // clear possible pre searched entries
+            var htmlCollection = mapsToLib.node().children;
+            var numEntries = htmlCollection.length;
+            console.log("numEntries" + numEntries);
+            for (i = 0; i < numEntries; i++)
+                htmlCollection[0].remove();
+
+
+            for (i = 0; i < sC.length; i++) {
+                var optA = document.createElement('option');
+                optA.innerHTML = sC[i];
+                mapsToLib.node().appendChild(optA);
+            }
+        }
+        mapsToLib.node().value = node.libElement;
+        console.log("1111111111111111111111111111   11111111111   "+node.libElement);
+    };
+
     this.handleNodeSelection=function(node){
 
         // what type is given?
@@ -195,6 +243,7 @@ function CLDControls(parentWidget) {
         }
 
         console.log("node type "+ node.getElementType());
+        var defaultName="zort";
         if (node.getElementType()==="NodeElement") {
 
             // should be overwritten by the real options thing
@@ -207,17 +256,27 @@ function CLDControls(parentWidget) {
 
             // check if node has subClass;
             if (node.getGlobalNodePtr().getSfdNode().getSubClasses) {
-                mapsToLib.classed("hidden", false);
-                d3.select("#libMapLabel").classed("hidden", false);
+                var sC = node.getGlobalNodePtr().getSfdNode().getSubClasses();
+                if (sC.length>0) {
+                    mapsToLib.classed("hidden", false);
+                    d3.select("#libMapLabel").classed("hidden", false);
+                } else{
+                        sC = node.getGlobalNodePtr().getSfdNode().getSuperClassChildren();
+                        if (sC.length > 0) {
+                            mapsToLib.classed("hidden", false);
+                            d3.select("#libMapLabel").classed("hidden", false);
+                        }
+                }
+
                 // assume it has some subClasses
-                var sC = ["sc1", "sc2"];
+
                 // clear options menu
 
                 // clear possible pre searched entries
                 var htmlCollection = mapsToLib.node().children;
                 var numEntries = htmlCollection.length;
                 console.log("numEntries"+numEntries);
-                for (var i = 0; i < numEntries; i++)
+                for ( i = 0; i < numEntries; i++)
                     htmlCollection[0].remove();
 
 
@@ -226,7 +285,16 @@ function CLDControls(parentWidget) {
                     optA.innerHTML=sC[i];
                     mapsToLib.node().appendChild(optA);
                 }
+                console.log("///////////////////////////////////////////////////////////////////");
+                console.log(that.selectedNode.libElement);
+                if (that.selectedNode.libElement.length===0) {
+                    console.log("------------------");
+                    mapsToLib.node().options[0].selected="selected";
+                    that.selectedNode.setLibMapping(mapsToLib.node().value);
+                }
 
+
+                mapsToLib.node().value=that.selectedNode.libElement;
 
             }
 
@@ -239,7 +307,7 @@ function CLDControls(parentWidget) {
                 //
                 cldChip.innerHTML=that.selectedNode.label;
                 cldChipImage.setAttribute('src',that.selectedNode.getImageURL());
-                mapsToLib.node().value = that.selectedNode.libElement;
+
 
                 d3.select(checkObserve.node().parentNode).classed("hidden", false);                
                 d3.select(actionDiv).classed("hidden",true);
@@ -467,6 +535,7 @@ function CLDControls(parentWidget) {
         // else {
         //     d3.select(criteriaUnit.node().parentNode).classed("hidden", true);
         // }
+        that.selectedNode.libElement="";
         that.handleNodeSelection(that.selectedNode);
     };
     this.onChangeNodeName=function(){

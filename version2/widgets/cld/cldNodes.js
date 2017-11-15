@@ -46,6 +46,10 @@ function CLDNode(graph) {
     this.setLibMapping = function(text) {
         that.libElement = text;
         console.log("the element is mapped to lib: "+text);
+        // update the element in sfd;
+
+        that.getGlobalNodePtr().getSfdNode().setSubClassTypeFromText(text);
+
     };
 
     this.getTypeId=function(){

@@ -285,6 +285,11 @@ function BaseNode(graph) {
         that.nodeElement.classed(that.nodeClass,true);
         that.mouseEnteredFunc(false);
     };
+    this.selectThisNode=function(node){
+        console.log("selecting this node element99999999999999999");
+       graph.selectNodeForOptions(node);
+    };
+
     this.onClicked=function(){
         // console.log(d3.event);
         // console.log("single click: prevented by drag?"+d3.event.defaultPrevented);

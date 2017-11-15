@@ -922,7 +922,7 @@ function SimpleSFDGraph(){
         for (var i=0;i<inputClasses.length;i++){
             var currentElement=inputClasses[i];
             if (seenSuperClasses.indexOf(currentElement.name)>=0){
-
+                currentElement.subClass.push(currentElement.name); // push the super Class For selection
                 for (var j=0;j<inputClasses.length;j++){
                        var testElement=inputClasses[j];
                        if (testElement.superClass===currentElement.name){
