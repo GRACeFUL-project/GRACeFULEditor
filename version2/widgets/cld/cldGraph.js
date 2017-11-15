@@ -127,6 +127,7 @@ function CLDGraph(){
         that.budgetPortIndex = 0;
         that.actionNodes = 0;
         that.criteriaNodes = 0;
+        that.stakeholderNodes = 0;
         that.optimiseId = 1;
         that.optimisePortIndex = 0;
         var initEvelId=-1;
@@ -216,7 +217,7 @@ function CLDGraph(){
 
          var nodeOptimise = {
             "name": "optimise",
-            "parameters": [{"name": "numberOfPorts", "value": that.criteriaNodes, "type": "Int"}],
+            "parameters": [{"name": "numberOfPorts", "value": that.stakeholderNodes, "type": "Int"}],
             "interface": [{"name": "benefit", "type": "[Float]"}, {"name": "totalBenefits", "type": "Float"}],
             "identity": that.optimiseId
          };

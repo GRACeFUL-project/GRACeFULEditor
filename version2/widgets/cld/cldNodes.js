@@ -243,6 +243,7 @@ function CLDNode(graph) {
     };
 
     this.getFinalDataStakeholders = function() {
+        graph.stakeholderNodes++;
         //obtain weights and values
         var weights = [];
         var values = [];
