@@ -7,7 +7,7 @@ import qualified Actions
 import qualified Criteria
 
 library :: Library
-library = insert is (combineList "combined_fullgcm" [CLDlib.library, Crud.library, Criteria.library, Actions.library]) where
+library = insert is (combineList "fullgcm" [CLDlib.library, Crud.library, Criteria.library, Actions.library]) where
   is =
     [ Item "pump" ["description: Pump", "imgURL: ./data/img/pump.png",
                    "graphElement: relational", "layer: domain"] $
@@ -22,13 +22,13 @@ library = insert is (combineList "combined_fullgcm" [CLDlib.library, Crud.librar
     , Item "runoff area" ["description: Runoff", "imgURL: ./data/img/runOffArea.png",
                           "graphElement: nodal", "layer: domain"] $
        runoffArea ::: "storage capacity" # tInt .->
-       tGCM (tTuple4 ("rotation: true" # "incomingType: single" # "outgoingType: none" #
+       tGCM (tTuple4 ("rotation: false" # "incomingType: single" # "outgoingType: none" #
                       "increase" # tPort tInt)
                      ("rotation: true" # "incomingType: single" # "outgoingType: none" #
                       "inflow" # tPort tInt)
-                     ("rotation: true" # "incomingType: none" # "outgoingType: single" #
+                     ("rotation: false" # "incomingType: none" # "outgoingType: single" #
                       "outlet" # tPort tInt)
-                     ("rotation: true" # "incomingType: none" # "outgoingType: single" #
+                     ("rotation: false" # "incomingType: none" # "outgoingType: single" #
                       "overflow" # tPort tInt))
 
     , Item "sink" ["description: Sink", "imgURL: ./data/img/sink.png",

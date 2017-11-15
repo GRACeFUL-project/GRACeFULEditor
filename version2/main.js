@@ -170,8 +170,8 @@ function reloadWidgetItems(jsonOBJ){
             label = temp.name ;
             if (label==="Stakeholder")
                 continue;
-            // if (temp.superClass!=undefined)
-            //     continue;
+            if (temp.superClass!=undefined)
+                continue;
             srcToImg = temp.icon;
             // sanity check
             if (srcToImg===undefined) { // try img url
