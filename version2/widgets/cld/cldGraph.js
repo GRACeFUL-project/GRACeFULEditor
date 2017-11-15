@@ -217,7 +217,7 @@ function CLDGraph(){
          var nodeOptimise = {
             "name": "optimise",
             "parameters": [{"name": "numberOfPorts", "value": that.criteriaNodes, "type": "Int"}],
-            "interface": [{"name": "benefits", "type": "[Float]"}],
+            "interface": [{"name": "benefit", "type": "[Float]"}, {"name": "totalBenefits", "type": "Float"}],
             "identity": that.optimiseId
          };
          modelObj.nodes.push(nodeOptimise);

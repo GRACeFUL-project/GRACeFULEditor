@@ -195,7 +195,7 @@ function qGraph(parentWidget) {
                 console.log("Getting tarNode: "+tarNode.id());
                 if (tarNode){
                     console.log("found target Node");
-                    gHandlerObj.createStakeholderLink(st_node,tarNode,normalizedWeights[i],values_str[i]);
+                    gHandlerObj.createStakeholderLink(st_node,tarNode,normalizedWeights[i],values_str[i], i);
                 }
             }
 
