@@ -354,13 +354,15 @@ function BaseControls(parentWidget) {
     };
 
 
-    this.addSelectionOpts=function(parent,label,optsArray,onSelectionFunction){
+    this.addSelectionOpts=function(parent,label,optsArray,onSelectionFunction,identifier){
         var thisDiv=document.createElement('div');
         parent.getBody().node().appendChild(thisDiv);
         d3.select(thisDiv).classed("form-group",true);
 
         var lb=document.createElement('label');
         lb.innerHTML=label;
+        if (identifier!==undefined)
+            lb.id=identifier;
         thisDiv.appendChild(lb);
 
         var sel=document.createElement('select');

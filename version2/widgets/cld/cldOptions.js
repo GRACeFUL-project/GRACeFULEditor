@@ -12,7 +12,7 @@ function CLDControls(parentWidget) {
     var budgetBtn;
     var units = ["euro", "euro/year", "euro/event", "number", "number/year (events/year)", "number/event", "category", "mm/hour", "mm/day", "m\u00B2", "m\u00B2 affected"];
     //fetch the elements name from the library
-    var libElementsName = ["", "costcriterion", "flooddamagecriterion", "floodnuisancecriterion", "greenbluecriterion", "centralparkingcriterion", "parkingcriterion", "roadaccesscriterion", "trafficcriterion", "bioswaleStreetAction", "bioswaleParkingAction", "bioswaleGreenSpaceAction", "makeParkingFloodableAction", "floodableParkingOnGreenSpaceAction", "publicGreenRoofAction", "privateGreenRoofAction"];
+    // var libElementsName = ["", "costcriterion", "flooddamagecriterion", "floodnuisancecriterion", "greenbluecriterion", "centralparkingcriterion", "parkingcriterion", "roadaccesscriterion", "trafficcriterion", "bioswaleStreetAction", "bioswaleParkingAction", "bioswaleGreenSpaceAction", "makeParkingFloodableAction", "floodableParkingOnGreenSpaceAction", "publicGreenRoofAction", "privateGreenRoofAction"];
 
 
     this.saveGlobalFunction=function(){
@@ -107,7 +107,7 @@ function CLDControls(parentWidget) {
           cldChip = cldChipNode[0];
           cldChipImage=cldChipNode[1];
 
-        mapsToLib = that.addSelectionOpts(nodesGroup, "Library Mapping", libElementsName, that.onChangeMapLib);
+        mapsToLib = that.addSelectionOpts(nodesGroup, "Library Mapping", ["a1","a2"], that.onChangeMapLib,"libMapLabel");
 
         selectionNode = that.addSelectionOpts(nodesGroup, "Node type", ["Factor", "Factor", "Action", "Criterion", "External Factor","Stake Holder"], that.onChangeNodeType);
         // hiding options
@@ -163,52 +163,12 @@ function CLDControls(parentWidget) {
         that.addButton(additionalSettings, "SAVE MODEL", "cldGetLibrary", that.saveGlobalFunction, "flat", true, "save" );
         that.addButton(additionalSettings, "CLEAR MODEL", "gtClearGraph", that.clearGraph, "flat", true, "clear_all" );
 
-
-
-        //loadcld= that.addButton(graphControls, "LOAD GRAPH", "cldLoadModel", that.loadFunction, "flat", true, "cloud_upload" );
-
-        // loadcld = that.addHrefButton(additionalSettings,"Load",that.loadFunction,true);
-        // loadcld.setAttribute("class", "btn btn-default btn-sm");
-        // loadcld.parentNode.setAttribute("id", "basic");
-        // loadcld.innerHTML = '<span class="glyphicon glyphicon-floppy-open"></span> Load Model';
-
-       // saveGlobalModel=that.addButton(graphControls, "SAVE GLOBAL", "cldSendModel", that.saveGlobalFunction, "flat", true, "save");
-
-       // saveCld= that.addButton(graphControls, "SAVE GRAPH", "cldSaveModel", that.saveFunction, "flat", true, "save" );
-        // saveCld = that.addHrefButton(additionalSettings,"Save",that.saveFunction,false);
-        // document.getElementById("basic").appendChild(saveCld);
-        // saveCld.setAttribute("class", "btn btn-default btn-sm pull-right");
-        // saveCld.innerHTML = '<span class="glyphicon glyphicon-floppy-save"></span> Save Model';
-
-
-
-       // clearCLD= that.addButton(graphControls, "CLEAR GRAPH", "cldClearGraph", that.clearGraph, "flat", true, "clear_all" );
-
-
         libCld = that.addButton(graphControls, "GET LIBRARY", "cldGetLibrary", that.getLibrary, "flat", true, "get_app" );
         libCld.disabled=true;
-        // libCld = that.addHrefButton(additionalSettings,"Get Library",that.getLibrary,true);
-        // libCld.setAttribute("class", "btn btn-default btn-sm");
-        // libCld.parentNode.setAttribute("id", "basic1");
-        // libCld.innerHTML = '<span class="glyphicon glyphicon-log-in"></span> Get Library';
-        //
 
         sendCld= that.addButton(graphControls, "SEND MODEL", "cldSendModel", that.sendModel, "flat", true, "send" );
-        // sendCld = that.addHrefButton(additionalSettings,"Send Model",that.sendModel,false);
-        // document.getElementById("basic1").appendChild(sendCld);
-        // sendCld.setAttribute("class", "btn btn-default btn-sm pull-right");
-        // sendCld.innerHTML = '<span class="glyphicon glyphicon-log-out"></span> Send Model';
-        //
-
-       // importCriteria = that.addButton(additionalSettings, "IMPORT CRITERIA", "cldImportCriteria", that.onCriteriaImport, "flat", true, "import_export" );
-        // importCriteria = that.addHrefButton(graphControls, "Import Criteria", that.onCriteriaImport, true);
-        // importCriteria.setAttribute("class", "btn btn-default btn-sm btn-block");
-        //
 
         extFactorBtn = that.addButton(graphControls, "MARK EXTERNAL FACTORS", "cldIdentifyExtFactors", that.identifyExtFact, "flat", true, "explicit" );
-        // extFactorBtn = that.addHrefButton(graphControls, "Identify External Factors", that.identifyExtFact, true);
-        // extFactorBtn.setAttribute("class", "btn btn-default btn-sm btn-block");
-        //
 
         loopBtn = that.addButton(graphControls, "DETECT FEEDBACK LOOPS", "cldIdentifyFeedbacks", that.feedbackLoop, "flat", true, "loop" );
         loopBtn.setAttribute("data-toggle", "modal");
@@ -241,6 +201,34 @@ function CLDControls(parentWidget) {
             // console.log("controls handle node operation" + node);
             this.selectedNode = node;
             that.evilNodeElement(node);
+            // kill libraryMapping
+            mapsToLib.classed("hidden",true);
+            d3.select("#libMapLabel").classed("hidden",true);
+
+            // check if node has subClass;
+            if (node.getGlobalNodePtr().getSfdNode().getSubClasses) {
+                mapsToLib.classed("hidden", false);
+                d3.select("#libMapLabel").classed("hidden", false);
+                // assume it has some subClasses
+                var sC = ["sc1", "sc2"];
+                // clear options menu
+
+                // clear possible pre searched entries
+                var htmlCollection = mapsToLib.node().children;
+                var numEntries = htmlCollection.length;
+                console.log("numEntries"+numEntries);
+                for (var i = 0; i < numEntries; i++)
+                    htmlCollection[0].remove();
+
+
+                for (i=0;i<sC.length;i++) {
+                    var optA=document.createElement('option');
+                    optA.innerHTML=sC[i];
+                    mapsToLib.node().appendChild(optA);
+                }
+
+
+            }
 
 
                 nodesGroup.expandBody();

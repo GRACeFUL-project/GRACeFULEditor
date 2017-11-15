@@ -507,8 +507,6 @@ function SimpleSFDControls(parentWidget) {
             that.evilNodeElement(undefined);
             return;
         }
-        console.log("node type "+ node.getElementType());
-        console.log("WUT?")
         var selId;
         var i,items;
         if (node.getElementType()==="NodeElement"|| node.getElementType()==="sfdNode") {
@@ -517,7 +515,6 @@ function SimpleSFDControls(parentWidget) {
             // console.log("controls handle node operation" + node);
             this.selectedNode = node;
             that.evilNodeElement(node);
-            console.log("???oO ");
 
             nodeGroup.expandBody();
 
