@@ -287,7 +287,7 @@ function CLDControls(parentWidget) {
                 }
                 console.log("///////////////////////////////////////////////////////////////////");
                 console.log(that.selectedNode.libElement);
-                if (that.selectedNode.libElement.length===0) {
+                if (that.selectedNode.libElement.length===0 && sC.length>0) {
                     console.log("------------------");
                     mapsToLib.node().options[0].selected="selected";
                     that.selectedNode.setLibMapping(mapsToLib.node().value);
