@@ -363,12 +363,21 @@ function SimpleSFDControls(parentWidget) {
         for (i = 0; i < numEntries; i++){
             htmlCollection[0].remove();
         }
+        var fullgcmIndex=-1;
         for ( i=0;i<optsArray.length;i++){
             var optA=document.createElement('option');
             optA.innerHTML=optsArray[i];
+            if (optsArray[i]==="fullgcm")
+                fullgcmIndex=i;
             librarySelection.node().appendChild(optA);
         }
         librarySelection.node().options[0].hidden = true;
+        // hardCoded;
+        if (fullgcmIndex>=0) {
+            librarySelection.node().options[fullgcmIndex].selected="selected";
+            selectedLibraryName="fullgcm";
+            loadedLibName=selectedLibraryName;
+        }
 
 
     };
@@ -402,8 +411,8 @@ function SimpleSFDControls(parentWidget) {
 
           controlsMenuLibrary=that.createAccordionGroup(that.divControlsGroupNode, "Graph Controls");
           controlsMenu= that.createAccordionGroup(that.divControlsGroupNode, "Model Controls");
-         solverLineEdit=that.addLineEdit(controlsMenu,"Server Address","http://localhost:4000",true,that.changeSolverAddress);
-//        solverLineEdit=that.addLineEdit(controlsMenu,"Server Address","http://vocol.iais.fraunhofer.de/graceful-rat",true,that.changeSolverAddress);
+         // solverLineEdit=that.addLineEdit(controlsMenu,"Server Address","http://localhost:4000",true,that.changeSolverAddress);
+       solverLineEdit=that.addLineEdit(controlsMenu,"Server Address","http://vocol.iais.fraunhofer.de/graceful-rat",true,that.changeSolverAddress);
 
 
           librarySelection=that.addSelectionOpts(controlsMenu, "Library", ["Select Library"], that.onSelectLibrary);
