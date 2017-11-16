@@ -77,7 +77,7 @@ function SimpleSFDGraph(){
         globalNode.setNodePos(that,grPos);
         globalNode.setGlobalName(inputClasses[that.selectedOverlayId].name);
         that.clearRendering();
-        that.redrawGraphContent();
+
 
         // add friendly nodes;
         console.log("-------------SFD NAME "+inputClasses[that.selectedOverlayId].name);
@@ -159,6 +159,7 @@ function SimpleSFDGraph(){
       //   that.redrawGraphContent();
       //
       //   aNode.editInitialText();
+        gHandlerObj.redrawAllWidgets();
         that.selectNode(undefined);
     };
 
@@ -1069,8 +1070,8 @@ function SimpleSFDGraph(){
                     that.parentWidget.cldGraphObj.createShadowLink(d.parentNode(), targetNode);
 
                 }
-
-                that.forceRedrawContent();
+                gHandlerObj.redrawAllWidgets();
+                // that.forceRedrawContent();
 
             }
 
@@ -1149,7 +1150,8 @@ function SimpleSFDGraph(){
                     targetPort.isUsed(true);
                     d.parentNode().isUsed(true);
                     // force draw of link;
-                    that.forceRedrawContent();
+                    // that.forceRedrawContent();
+                    handler.redrawAllWidgets();
                 }
             }
             if (newLibType===true){
@@ -1219,7 +1221,7 @@ function SimpleSFDGraph(){
                     repR.setPosition(x,y);
                     // that.nodeElementArray.push(interLinkNode);
                     // force a redraw so the port elements of this node are generated
-                    that.forceRedrawContent();
+                    handler.redrawAllWidgets();
                     console.log("this things should be redrawns;'")
                     // figure out the interlink port candiates;
                     var IL_InPort;
@@ -1289,7 +1291,7 @@ function SimpleSFDGraph(){
                         d.parentNode().isUsed(true);
                     }
                     // force a redraw : updates the new links
-                    that.forceRedrawContent();
+                    handler.redrawAllWidgets();
 
 
 
@@ -1325,7 +1327,7 @@ function SimpleSFDGraph(){
                     targetPort.isUsed(true);
                     d.parentNode().isUsed(true);
                     // force draw of link;
-                    that.forceRedrawContent();
+                    handler.redrawAllWidgets();
                 }
 
 

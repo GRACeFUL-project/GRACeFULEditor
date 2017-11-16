@@ -136,7 +136,6 @@ var globalElementIdentifier=2;
                 // console.log("the index of links are: "+l.id());
                 globalLinkArray.splice(globalLinkArray.indexOf(l), 1);
             });
-
             that.redrawAllWidgets();
         };
 
@@ -151,7 +150,6 @@ var globalElementIdentifier=2;
 
         this.addGlobalNode = function (gNode) {
             globalNodeArray.push(gNode);
-            that.redrawAllWidgets();
         };
 
         this.removeGlobalNode = function (gNode) {
@@ -183,8 +181,6 @@ var globalElementIdentifier=2;
 
         this.addGlobalLink = function (gLink) {
             globalLinkArray.push(gLink);
-            for (var i=0;i<graphObjectList.length;i++)
-                graphObjectList[i].forceRedrawContent();
         };
 
         this.removeGlobalLink = function (gLink) {
@@ -222,6 +218,7 @@ var globalElementIdentifier=2;
         };
 
         this.redrawAllWidgets=function(){
+            console.log("Forcing all widgets to be redrawn");
             for (var i=0;i<graphObjectList.length;i++){
                 graphObjectList[i].forceRedrawContent();
             }

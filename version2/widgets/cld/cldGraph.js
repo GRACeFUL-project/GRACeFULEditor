@@ -52,7 +52,7 @@ function CLDGraph(){
 
 
         that.clearRendering();
-        that.redrawGraphContent();
+        handler.redrawAllWidgets();
         that.selectNode(undefined);
     };
 
@@ -294,6 +294,7 @@ function CLDGraph(){
             newLink.setCLDTypeString(jsonLink.linkTypeId, jsonLink.linkType);
             that.pathElementArray.push(newLink);
             that.needsRedraw(true);
+            handler.redrawAllWidgets();
         }
     };
 
@@ -328,7 +329,7 @@ function CLDGraph(){
         console.log("newNode  "+newNode);
         that.nodeElementArray.push(newNode);
         that.needsRedraw(true);
-
+        gHandlerObj.redrawAllWidgets();
     };
 
     this.clearCriteria = function() {
@@ -351,7 +352,7 @@ function CLDGraph(){
             });
         }
         //redraw the graph
-        that.forceRedrawContent();
+        gHandlerObj.redrawAllWidgets();
         that.removeDeletedElements();
     };
 
@@ -446,8 +447,7 @@ function CLDGraph(){
 
 
 
-
-            that.forceRedrawContent();
+            gHandlerObj.redrawAllWidgets();
             that.selectNode(undefined);
 
 
@@ -501,6 +501,8 @@ function CLDGraph(){
 
     };
     this.addLinkFormSFD=function(source,target){
+
+        console.log("----------------Adding lINK from sFD");
         var srcRen=source.getGlobalNodePtr().filterInformation(that);
         var tarRen=target.getGlobalNodePtr().filterInformation(that);
 
@@ -552,7 +554,7 @@ function CLDGraph(){
         globalLink.setLinkGenerator(friendlyWidget,friendlyLink);
         console.log("okay2");
         friendlyLink.setGlobalLinkPtr(globalLink);
-        that.forceRedrawContent();
+        gHandlerObj.redrawAllWidgets();
         that.selectNode(undefined);
 
     };
@@ -627,8 +629,8 @@ function CLDGraph(){
         handler.deleteGlobalLink(link);
 
         //that.pathElementArray.splice(that.pathElementArray.indexOf(link), 1);
-        that.forceRedrawContent();
-        that.parentWidget.sfdGraphObj.forceRedrawContent();// redrawing content of the sdf map
+        gHandlerObj.redrawAllWidgets();
+        //that.parentWidget.sfdGraphObj.forceRedrawContent();// redrawing content of the sdf map
         //that.removeDeletedElements();
     };
 
