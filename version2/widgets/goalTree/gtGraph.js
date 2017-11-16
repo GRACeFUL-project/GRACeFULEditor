@@ -76,11 +76,7 @@ function GTGraph(){
 
 
             // add the global pointers for the connection;
-
-
-
-
-            that.forceRedrawContent();
+            gHandlerObj.redrawAllWidgets();
 
     };
 
@@ -116,7 +112,7 @@ function GTGraph(){
 
         }
         that.clearRendering();
-        that.redrawGraphContent();
+        gHandlerObj.redrawAllWidgets();
         that.selectNode(undefined);
     };
 
@@ -192,6 +188,7 @@ function GTGraph(){
             that.pathElementArray.push(newLink);
             that.needsRedraw(true);
         }
+        gHandlerObj.redrawAllWidgets();
     };
 
     this.addNodeFromJSON=function(jsonNode){
@@ -220,6 +217,7 @@ function GTGraph(){
         console.log("newNode  "+newNode);
         that.nodeElementArray.push(newNode);
         that.needsRedraw(true);
+        gHandlerObj.redrawAllWidgets();
 
     };
 
@@ -285,6 +283,7 @@ function GTGraph(){
 
 
             that.needsRedraw(true);
+            gHandlerObj.redrawAllWidgets();
         }        
     };
 
