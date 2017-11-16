@@ -277,6 +277,7 @@ function GlobalLink() {
         this.setLinkGenerator=function(widget, createdLinkInWidget){
             console.log("adding thigns");
         var indexOfWidget=that.findWidgetId(widget);
+        that.setVisibleInWidget(widget);
         if (indexOfWidget<0){return; } // we return nothing
         linkRepresenter[indexOfWidget]=createdLinkInWidget;
         // add the corresponding elements to the represented links;
