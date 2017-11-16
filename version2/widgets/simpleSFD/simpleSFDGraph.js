@@ -1065,8 +1065,10 @@ function SimpleSFDGraph(){
             if (d.parentNode().getElementType()==="sfdNode" && targetNode.getElementType()==="sfdNode"){
                 console.log("create the connection in CLD please");
                 if(targetNode.getGlobalNodePtr().getKind() && d.parentNode().getGlobalNodePtr().getKind()) {
+                    console.log("ADDING LINK FROM SFD");
                     that.parentWidget.cldGraphObj.addLinkFormSFD(d.parentNode(), targetNode);
                 }else{
+                    console.log("ADDING SHADOW LINK");
                     that.parentWidget.cldGraphObj.createShadowLink(d.parentNode(), targetNode);
 
                 }

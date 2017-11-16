@@ -469,6 +469,15 @@ function CLDGraph(){
     this.createShadowLink=function(source,target){
         // crreate a global links
         var sfdGraph=that.parentWidget.sfdGraphObj;
+        var handler=that.parentWidget.getHandler();
+        var globalLink=handler.createGlobalLink(sfdGraph);
+
+        globalLink.setSource(source.getGlobalNodePtr());
+        globalLink.setTarget(target.getGlobalNodePtr());
+
+        console.log("global LInk obj");
+        console.log(globalLink);
+
         var srcRen=source.getGlobalNodePtr().filterInformation(sfdGraph);
         var tarRen=target.getGlobalNodePtr().filterInformation(sfdGraph);
 
@@ -477,24 +486,24 @@ function CLDGraph(){
             return;
         }
 
-        var handler=that.parentWidget.getHandler();
-        var globalLink=handler.createGlobalLink(sfdGraph);
-
-        console.log("global LInk obj");
-        console.log(globalLink);
 
         globalLink.setLinkGenerator(sfdGraph,that.createLink(that));
         handler.addGlobalLink(globalLink);
         var repR=globalLink.filterInformation(sfdGraph);
         repR.setGlobalLinkPtr(globalLink);
-
-
-
         repR.source(srcRen);
         repR.target(tarRen);
 
-        globalLink.setSource(srcRen.getGlobalNodePtr());
-        globalLink.setTarget(tarRen.getGlobalNodePtr());
+        // cld LinkRep=
+        globalLink.setLinkGenerator(that,that.createLink(that));
+        var repRCLD=globalLink.filterInformation(that);
+        repRCLD.setGlobalLinkPtr(globalLink);
+        repRCLD.source(source.getGlobalNodePtr().filterInformation(that));
+        repRCLD.target(target.getGlobalNodePtr().filterInformation(that));
+
+
+
+
 
 
         console.log("This should be it ")

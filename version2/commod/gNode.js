@@ -101,7 +101,7 @@ function GlobalNode() {
           if (nodeConstructors[i]) {
 
               nodeConstructors[i].id(this.nodeId);
-              console.log("Setting Node Id"+nodeConstructors[i].id());
+              // console.log("Setting Node Id"+nodeConstructors[i].id());
           }
         }
 
