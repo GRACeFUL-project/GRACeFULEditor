@@ -36,6 +36,7 @@ function SimpleSFDNode(graph,nodeDescriptions) {
 
     this.findTypeId=function(name){
         console.log("searching for "+name);
+        console.log(labelTags);
       for (var i=0;i<labelTags.length;i++){
           if (labelTags[i]===name)
               return i;

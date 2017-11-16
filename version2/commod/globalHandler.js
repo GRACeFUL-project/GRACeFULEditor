@@ -23,8 +23,7 @@ var globalElementIdentifier=2;
         this.emptyGraphStructure = function () {
             globalLinkArray = [];
             globalNodeArray = [];
-            // tada
-
+            that.redrawAllWidgets();
         };
 
         this.getAllGlobalNodes=function(){
@@ -121,6 +120,7 @@ var globalElementIdentifier=2;
         this.deleteGlobalLink = function (linkElement) {
             var correspondingGlobalLink = linkElement.getGlobalLinkPtr();
             globalLinkArray.splice(globalLinkArray.indexOf(correspondingGlobalLink), 1);
+            that.redrawAllWidgets();
         };
 
 
@@ -137,6 +137,7 @@ var globalElementIdentifier=2;
                 globalLinkArray.splice(globalLinkArray.indexOf(l), 1);
             });
 
+            that.redrawAllWidgets();
         };
 
 
@@ -144,11 +145,13 @@ var globalElementIdentifier=2;
         this.createGlobalNode = function (widgetOrGraphObject) {
             var gNode = new GlobalNode();
             gNode.setVisibleInWidget(widgetOrGraphObject, true);
+
             return gNode;
         };
 
         this.addGlobalNode = function (gNode) {
-            globalNodeArray.push(gNode)
+            globalNodeArray.push(gNode);
+            that.redrawAllWidgets();
         };
 
         this.removeGlobalNode = function (gNode) {
@@ -156,7 +159,7 @@ var globalElementIdentifier=2;
             globalNodeArray.splice(globalNodeArray.indexOf(gNode), 1);
             // remove all associated links of gNode;
             // TODO:!
-
+            that.redrawAllWidgets();
 
         };
         this.collectNodesForWidget = function (widget) {
@@ -179,12 +182,16 @@ var globalElementIdentifier=2;
         };
 
         this.addGlobalLink = function (gLink) {
-            globalLinkArray.push(gLink)
+            globalLinkArray.push(gLink);
+            for (var i=0;i<graphObjectList.length;i++)
+                graphObjectList[i].forceRedrawContent();
         };
 
         this.removeGlobalLink = function (gLink) {
             // splice that thing;
             globalLinkArray.splice(globalLinkArray.indexOf(gLink), 1);
+            for (var i=0;i<graphObjectList.length;i++)
+                graphObjectList[i].forceRedrawContent();
         };
         this.collectLinkForWidget = function (widget) {
             var linksArray = [];

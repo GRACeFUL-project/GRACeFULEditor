@@ -854,6 +854,7 @@ function SimpleSFDGraph(){
 
     this.paseLoadedLibrary=function(jsonObj){
         // clear the input classes
+        console.log(jsonObj);
         inputClasses=[];
         if (!jsonObj){
             console.log("Error while parsing json");
@@ -898,7 +899,13 @@ function SimpleSFDGraph(){
             // console.log("img URL " + imgURL );
             // console.log("hover Text " + description);
             // console.log("params " + params);
+            console.log("------------------------node " + nodeName );
+            if (nodeName==="stakeholder"){
+                console.log("/////////////////////////////////////////////////");
+                console.log("FOUND STAKEHOLDER NODE");
+                console.log("/////////////////////////////////////////////////");
 
+            }
             nodeDescription.name=nodeName;
             nodeDescription.imgUrl=imgURL;
             nodeDescription.hoverText=description;

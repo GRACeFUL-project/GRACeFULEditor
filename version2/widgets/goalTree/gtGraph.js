@@ -277,7 +277,7 @@ function GTGraph(){
             var sfdWdiget=that.parentWidget.sfdGraphObj;
             globalNode.setVisibleInWidget(sfdWdiget,true);
             friendlyNode=sfdWdiget.createFriendlyNode();
-            var mappedId=friendlyNode.findTypeId("Stakeholder");
+            var mappedId=friendlyNode.findTypeId("stakeholder");
             console.log("+6++++++++++++++++++++++"+mappedId);
             globalNode.setNodeType(sfdWdiget,mappedId,friendlyNode);
             friendlyNode.setGlobalNodePtr(globalNode);

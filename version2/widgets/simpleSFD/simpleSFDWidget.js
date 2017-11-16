@@ -96,8 +96,13 @@ function SimpleSFDWidget(){
 
             console.log ('----------------------');
             console.log(currentElement);
-            if (currentElement.layer === "problem" )
+            if (currentElement.layer === "problem" && currentElement.name!=="stakeholder")
                 continue;
+
+            if (currentElement.name==="stakeholder" && currentElement.imgURL==="/dev/null"){
+                // pathching the image
+                currentElement.imgURL="./data/img/stakeholder.png";
+            }
             if (currentElement.name === "edge") continue; // skipping the edge representation
 
 
