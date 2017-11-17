@@ -414,6 +414,18 @@ function qGraph(parentWidget) {
     };
 
     this.callStakeholderResults = function() {
+        //clear all the stakeholder links first
+        var widgetHandler = gHandlerObj.getGraphObjects();
+        var cldG = widgetHandler[1];
+        var cldLinks = widgetHandler[1].pathElementArray;        
+        for(var i=0;i<cldLinks.length; i++) {
+            console.log("CLD Links List: "+cldLinks[i].id()+ " superlink type:"+cldLinks[i].superLinkType);
+            if(cldLinks[i].superLinkType === 100) {
+                console.log("yes its a stakeholder link. Delete it!!");
+                cldG.handleLinkDeletion(cldLinks[i]);
+            }
+        }
+        //now redraw stakeholder links
         for(var i=0; i<that.completeQuestionnaire.length; i++) {
             var stakeObject = that.completeQuestionnaire[i];
             that.integrateStakeHolderResults(JSON.stringify(stakeObject));
