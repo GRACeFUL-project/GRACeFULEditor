@@ -21,7 +21,7 @@ function QWControls(parentWidget) {
         additionalSettings = that.createAccordionGroup(that.divControlsGroupNode, "Model Controls");
         // loadcld= that.addButton(additionalSettings, "LOAD GRAPH", "gtLOAD", that.loadFunction, "flat", true, "cloud_upload" );
         that.addButton(additionalSettings, "IMPORT MODEL", "gtLOAD", that.importModelFkt, "flat", true, "cloud_upload" );
-        that.addButton(additionalSettings, "LOAD MODEL", "gtLOAD", that.loadGlobalFunction, "flat", true, "get_app" );
+        // that.addButton(additionalSettings, "LOAD MODEL", "gtLOAD", that.loadGlobalFunction, "flat", true, "get_app" );
 
 
         resultIntegration= that.createAccordionGroup(that.divControlsGroupNode, "Survey Results");
@@ -169,27 +169,39 @@ function QWControls(parentWidget) {
         loaderSolutionPathNode.on("change",function(){
             // console.log("hidden thing is clicked");
             var files= loaderSolutionPathNode.property("files");
-            if (files.length>0){
-                // console.log("file?"+files[0].name);
-                for (var i=0;i<files.length;i++){
-                    var i_fileElement=files[i];
-                    var i_fileName=i_fileElement.name;
-                    console.log("reading FileName "+i_fileName);
-                    var i_reader = new FileReader();
-                    i_reader.readAsText(i_fileElement);
-                    i_reader.onload = function () {
-                        console.log("the reader inLoad function "+i_reader);
-                        console.log(i_reader);
-                        var i_text= i_reader.result;
+            // if (files.length>0){
+            //     // console.log("file?"+files[0].name);
+            //     for (var i=0;i<files.length;i++){
+            //         var i_fileElement=files[i];
+            //         var i_fileName=i_fileElement.name;
+            //         console.log("reading FileName "+i_fileName);
+            //         var i_reader = new FileReader();
+            //         i_reader.readAsText(i_fileElement);
+            //         i_reader.onload = function () {
+            //             console.log("the reader inLoad function "+i_reader);
+            //             console.log(i_reader);
+            //             var i_text= i_reader.result;
 
-                        that.parent.graphObject.integrateStakeHolderResults(i_text);
-                    }
+            //             that.parent.graphObject.integrateStakeHolderResults(i_text);
+            //         }
 
 
+            //     }
+            //     loaderSolutionPathNode.remove();
+
+
+            // }
+            console.log("No of files is:"+files.length);
+            for(var i=0; i<files.length; i++) {
+                var eachFile = files[i];
+                console.log(eachFile);
+                var reader = new FileReader();
+                reader.readAsText(eachFile);
+                reader.onload = function(event) {
+                    var contents = event.target.result;                    
+                    console.log("The contents are: "+contents);
+                    that.parent.graphObject.integrateStakeHolderResults(contents);
                 }
-                loaderSolutionPathNode.remove();
-
-
             }
         });
 
