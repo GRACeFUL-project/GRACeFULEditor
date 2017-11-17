@@ -27,6 +27,8 @@ function CLDNode(graph) {
     this.parameters = [];
 
     this.actionPairs = {"plusAction":false, "plusActionCost":undefined, "minusAction":false, "minusActionCost":undefined, "zeroAction":false, "zeroActionCost": undefined};
+    this.actionCostSolver = undefined;
+    this.stakeholderHappiness = undefined;
 
     this.incomingPortId = 0;
     this.outgoingPortId = 0;
@@ -50,6 +52,14 @@ function CLDNode(graph) {
 
         that.getGlobalNodePtr().getSfdNode().setSubClassTypeFromText(text);
 
+    };
+
+    this.setActionCostFromSolver = function(val) {
+        this.actionCostSolver = val;
+    };
+
+    this.setStakeholderHappiness = function(val) {
+        this.stakeholderHappiness = val;
     };
 
     this.getTypeId=function(){
