@@ -110,7 +110,7 @@ var globalElementIdentifier=2;
                 friendlyLink.setGlobalLinkPtr(globalLink);
 
             }
-
+            gHandlerObj.redrawAllWidgets();
 
 
 
