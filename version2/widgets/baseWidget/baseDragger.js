@@ -38,6 +38,7 @@ function BaseDragger(graph) {
         }
         this.y=that.parent.y;
         this.updateElement();
+        this.nodeElement.classed("hidden",false);
     };
 
     /** BASE HANDLING FUNCTIONS ------------------------------------------------- **/
@@ -59,7 +60,10 @@ function BaseDragger(graph) {
 
     /** DRAWING FUNCTIONS ------------------------------------------------- **/
     this.drawNode=function(){
+
         if (that.nodeElement===undefined) {
+            console.log("drawing Dragger Node");
+
             that.pathElement = that.rootNodeLayer.append('line')
                 .classed("baseDragPath",true);
             that.pathElement.attr("x1", 0)
@@ -78,9 +82,11 @@ function BaseDragger(graph) {
                           .interpolate("linear");
 
             that.nodeElement = that.rootNodeLayer.append('path').attr("d", lineFunction(lineData))
+                .attr("id", that.nodeId)
                                                                 .attr("stroke", "white")
                                                                 .attr("stroke-width", 0.5)
                                                                 .attr("fill", "#616161");
+            that.nodeElement.classed("hidden",true);
         }
 
     };
