@@ -62,8 +62,6 @@ function BaseDragger(graph) {
     this.drawNode=function(){
 
         if (that.nodeElement===undefined) {
-            console.log("drawing Dragger Node");
-
             that.pathElement = that.rootNodeLayer.append('line')
                 .classed("baseDragPath",true);
             that.pathElement.attr("x1", 0)
