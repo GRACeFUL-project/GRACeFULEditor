@@ -496,6 +496,8 @@ function BaseControls(parentWidget) {
         return evilElement;
     }
 
+
+
     function generateAccordion(parentElement,title){
         var group={};
         var accordionClass="panel panel-default";
@@ -503,6 +505,8 @@ function BaseControls(parentWidget) {
         var titleClass="group-title";
         var bodyClass="panel-body";
         var that=this;
+
+
         group.generateElements=function(parent){
             var pDOM;
             if (parent.node && parent.node()) {
@@ -526,14 +530,15 @@ function BaseControls(parentWidget) {
             heading.appendChild(titlePlace);
             group.titleNode=d3.select(titlePlace);
             group.titleNode.on("click",function () {
-                console.log(getEvilNode());
-                if (getEvilNode()===undefined) {
-                    group.bodyNode.classed("hidden", true);
-                }
-                else {
+                // console.log(getEvilNode());
+                // if (getEvilNode()===undefined) {
+                //
+                //     group.bodyNode.classed("hidden", true);
+                // }
+                // else {
                     var current = group.bodyNode.classed("hidden");
                     group.bodyNode.classed("hidden", !current);
-                }
+                // }
 
             });
             // create body;
@@ -543,7 +548,19 @@ function BaseControls(parentWidget) {
             group.bodyNode.classed("hidden",false);
         };
 
+        this.overWriteAccordionClickToNodeLinkElement=function() {
+            group.titleNode.on("click",function () {
+                console.log(getEvilNode());
+                if (getEvilNode()===undefined) {
 
+                    group.bodyNode.classed("hidden", true);
+                }
+                else {
+                    var current = group.bodyNode.classed("hidden");
+                    group.bodyNode.classed("hidden", !current);
+                }
+            });
+        };
         this.collapseBody=function(){
             group.bodyNode.classed("hidden",true);
         };

@@ -387,8 +387,11 @@ function SimpleSFDControls(parentWidget) {
         nodeGroup=that.createAccordionGroup(that.divControlsGroupNode,"Concept");
         mapsToLib = that.addSelectionOpts(nodeGroup, "Library Mapping", ["a1","a2"], that.onChangeMapLib,"libMapLabelSFD");
         linksGroup = that.createAccordionGroup(that.divControlsGroupNode, "Links");
+        nodeGroup.collapseBody();
+        linksGroup.collapseBody();
 
-
+        linksGroup.overWriteAccordionClickToNodeLinkElement();
+        nodeGroup.overWriteAccordionClickToNodeLinkElement();
         linkClass = that.addSelectionOpts(linksGroup, "Link type", ["Undefined", "Causal Relation"], that.onChangeLinkClass);
            linkClass.node().options[0].hidden = true;
         linkClass.node().options[1].selected=true;
@@ -409,8 +412,8 @@ function SimpleSFDControls(parentWidget) {
           // var tempIcon = document.createElement('i');
           nodeGroup.collapseBody();
 
-          controlsMenuLibrary=that.createAccordionGroup(that.divControlsGroupNode, "Graph Controls");
-          controlsMenu= that.createAccordionGroup(that.divControlsGroupNode, "Model Controls");
+          controlsMenuLibrary=that.createAccordionGroup(that.divControlsGroupNode, "Model Controls");
+          controlsMenu= that.createAccordionGroup(that.divControlsGroupNode, "Server Controls");
          // solverLineEdit=that.addLineEdit(controlsMenu,"Server Address","http://localhost:4000",true,that.changeSolverAddress);
        solverLineEdit=that.addLineEdit(controlsMenu,"Server Address","http://vocol.iais.fraunhofer.de/graceful-rat",true,that.changeSolverAddress);
 

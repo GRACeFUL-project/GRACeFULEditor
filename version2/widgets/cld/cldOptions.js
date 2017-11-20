@@ -100,7 +100,7 @@ function CLDControls(parentWidget) {
 
     this.generateControls=function() {
         // testing stuff,
-        nodesGroup = that.createAccordionGroup(that.divControlsGroupNode, "Nodes");
+        nodesGroup = that.createAccordionGroup(that.divControlsGroupNode, "Node");
 
         // lineEditNode = that.addLineEdit(nodesGroup, "Name", "", true, that.onChangeNodeName);
           cldChipNode=that.addNodeTypeChip(nodesGroup,"empty","#fafafa",that.deleteNodes,"cldChipField",false,"undefined","cld","./images/nodes/factor.png");
@@ -140,7 +140,14 @@ function CLDControls(parentWidget) {
         // delNodeBtn = that.addButtons(nodesGroup, "Delete", "nodeDelete", that.deleteNodes);
 
 
-        linksGroup = that.createAccordionGroup(that.divControlsGroupNode, "Links");
+        linksGroup = that.createAccordionGroup(that.divControlsGroupNode, "Link");
+        linksGroup.collapseBody();
+
+        nodesGroup.collapseBody();
+        linksGroup.collapseBody();
+
+        linksGroup.overWriteAccordionClickToNodeLinkElement();
+        nodesGroup.overWriteAccordionClickToNodeLinkElement();
 
         // linkNode=that.addNodeTypeChip(linksGroup,"Undefined","#fafafa",that.deleteLinks,"cldLinkChipField",false,"undefined","cld","./images/nodes/factor.png");
         // cldChip = cldChipNode[0];
