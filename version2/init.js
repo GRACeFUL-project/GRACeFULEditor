@@ -149,7 +149,7 @@ var gHandlerObj=handler.create();
                 obj.library.push(libElement);
             }
         }
-        console.log(obj);
+      //  console.log(obj);
         return obj;
 
 
@@ -235,7 +235,7 @@ var gHandlerObj=handler.create();
         // create communication module;
         var com=commod.create();
                 com.setInitPtr(initializer);
-        console.log(com);
+        // console.log(com);
 
 
         // create an example widget;
@@ -345,10 +345,10 @@ var gHandlerObj=handler.create();
 
     initializer.initializeWidgets();
     cld.connectGt(gtw);
-    console.log("Initializing things");
-    console.log(gtw);
-    console.log(cld);
-    console.log(sfd);
+    // console.log("Initializing things");
+    // console.log(gtw);
+    // console.log(cld);
+    // console.log(sfd);
     gHandlerObj.setWidgetList(gtw,cld,sfd);
 
 

@@ -354,7 +354,7 @@ function SimpleSFDControls(parentWidget) {
         var optsArray = ["Select Library"];
         optsArray = optsArray.concat(array);
         // go to options and add them ;
-        console.log(librarySelection.node().children);
+        // console.log(librarySelection.node().children);
         // clear them ;
         // clear possible pre searched entries
         var htmlCollection = librarySelection.node().children;
@@ -433,11 +433,8 @@ function SimpleSFDControls(parentWidget) {
     this.start();
 
     this.handleSelectionForOptions=function(node){
-        console.log("777777777777777777777777777777777777777777777777777");
-        console.log(node)
         var i;
 
-            console.log("888888888888888888888888888888888888888888888888888888");
             // kill libraryMapping
             mapsToLib.classed("hidden", true);
             d3.select("#libMapLabel").classed("hidden", true);
@@ -445,13 +442,13 @@ function SimpleSFDControls(parentWidget) {
             // check if node has subClass;
             if (node.getGlobalNodePtr().getSfdNode().getSubClasses) {
                 var sC = node.getGlobalNodePtr().getSfdNode().getSubClasses();
-                console.log("testing subClasses"+sC);
+                // console.log("testing subClasses"+sC);
                 if (sC.length > 0) {
                     mapsToLib.classed("hidden", false);
                     d3.select("#libMapLabel").classed("hidden", false);
                 } else {
                     sC = node.getGlobalNodePtr().getSfdNode().getSuperClassChildren();
-                    console.log("testing superClasses"+sC);
+                    // console.log("testing superClasses"+sC);
                     if (sC.length > 0) {
                         mapsToLib.classed("hidden", false);
                         d3.select("#libMapLabel").classed("hidden", false);
@@ -465,10 +462,9 @@ function SimpleSFDControls(parentWidget) {
                 // clear possible pre searched entries
                 var htmlCollection = mapsToLib.node().children;
                 var numEntries = htmlCollection.length;
-                console.log("numEntries" + numEntries);
-                for (i = 0; i < numEntries; i++)
+                for (i = 0; i < numEntries; i++) {
                     htmlCollection[0].remove();
-
+                }
 
                 for (i = 0; i < sC.length; i++) {
                     var optA = document.createElement('option');
@@ -477,15 +473,14 @@ function SimpleSFDControls(parentWidget) {
                 }
             }
             mapsToLib.node().value = node.libElement;
-            console.log("1111111111111111111111111111   11111111111   "+node.libElement);
 
 
     };
 
     this.handleNodeSelection=function(node){
         // should be overwritten by the real options thing
-        console.log("hello node Selection");
-        console.log(node);
+        // console.log("hello node Selection");
+        // console.log(node);
         if (node === undefined || node === null) {
             nodeGroup.collapseBody();
             that.evilNodeElement(undefined);
@@ -507,26 +502,20 @@ function SimpleSFDControls(parentWidget) {
             // check if node has subClass;
             if (node.getGlobalNodePtr().getSfdNode().getSubClasses) {
                 var sC = node.getGlobalNodePtr().getSfdNode().getSubClasses();
-                console.log("testing subClasses"+sC);
+                // console.log("testing subClasses"+sC);
                 if (sC.length > 0) {
                     mapsToLib.classed("hidden", false);
                     d3.select("#libMapLabel").classed("hidden", false);
                 } else {
                     sC = node.getGlobalNodePtr().getSfdNode().getSuperClassChildren();
-                    console.log("testing superClasses"+sC);
+                    // console.log("testing superClasses"+sC);
                     if (sC.length > 0) {
                         mapsToLib.classed("hidden", false);
                         d3.select("#libMapLabel").classed("hidden", false);
                     }
                 }
-                // assume it has some subClasses
-
-                // clear options menu
-
-                // clear possible pre searched entries
                 var htmlCollection = mapsToLib.node().children;
                 var numEntries = htmlCollection.length;
-                console.log("numEntries"+numEntries);
                 for ( i = 0; i < numEntries; i++)
                     htmlCollection[0].remove();
 
@@ -539,22 +528,15 @@ function SimpleSFDControls(parentWidget) {
 
 
                 if (that.selectedNode.libElement.length===0 && sC.length>0) {
-                    console.log("------------------");
                     mapsToLib.node().options[0].selected="selected";
                     that.selectedNode.getGlobalNodePtr().getSfdNode().setSubClassTypeFromText(mapsToLib.node().value);
                 }
                 mapsToLib.node().value=that.selectedNode.libElement;
 
             }
-            // set the proper parameters
-            // var pref=nodeClass.attr("prefix");
-            // nodeClass.node().innerHTML=pref+": "+node.getNodeName();
-            // nodeLabel.node().value = that.selectedNode.label;
-            // nodeLabel.node().disabled = false;
             sfdChip.innerHTML=that.selectedNode.label;
             sfdChipImage.setAttribute('src',that.selectedNode.getImageURL());
 
-            // parameter table createtion
             var rows=parameterTable.node().rows;
             if (rows.length>1){
                 // clear the rows;
@@ -576,8 +558,8 @@ function SimpleSFDControls(parentWidget) {
 
             // get node parameters
             var nodeParams=node.getParameterElements();
-            console.log("nodeParams");
-            console.log(nodeParams);
+            // console.log("nodeParams");
+            // console.log(nodeParams);
             for (i=0;i<nodeParams.length;i++){
                 var name=nodeParams[i].name;
                 //var type=nodeParams[i].type;
@@ -602,7 +584,7 @@ function SimpleSFDControls(parentWidget) {
         if (node.getElementType()==="LinkElement") {
 
             // should be overwritten by the real options thing
-            console.log("controls handle zort zort node operation" + node);
+            // console.log("controls handle zort zort node operation" + node);
             this.selectedNode = node;
             nodeGroup.collapseBody();
             linksGroup.expandBody();

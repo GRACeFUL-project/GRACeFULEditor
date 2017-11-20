@@ -98,7 +98,7 @@ function QuestionerWidget(parentElement) {
 
     this.setupControls=function(){
         that.controlsObject=new QWControls(that);
-        console.log("generating graph");
+        // console.log("generating graph");
         this.graphObject=new qGraph(that);
         that.graphObject.initializeGraph();
     };

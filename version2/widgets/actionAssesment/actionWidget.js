@@ -85,7 +85,6 @@ function ActionWidget(parentElement) {
 
     this.setupControls=function(){
         that.controlsObject=new actionControls(that);
-        console.log("generating graph");
         this.graphObject=new actionGraph(that);
         that.graphObject.initializeGraph();
     };

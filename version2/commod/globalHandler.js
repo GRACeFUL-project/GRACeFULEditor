@@ -36,7 +36,7 @@ var globalElementIdentifier=2;
             widgetList.push(cld);
             widgetList.push(sfd);
             for (var i=0;i<widgetList.length;i++){
-                console.log("adding graph Obejct to global list"+i);
+                // console.log("adding graph Obejct to global list"+i);
                 graphObjectList.push(widgetList[i].graphObject);
 
             }
@@ -52,25 +52,25 @@ var globalElementIdentifier=2;
 
         this.createStakeholderLink=function(src,tar,weight,value, index){
 
-            console.log("globalHelder generates a link;");
-
-            console.log("Adding Normalized weights and values");
-
-            console.log("n_weight="+weight);
-            console.log("value_str="+value);
+            // console.log("globalHelder generates a link;");
+            //
+            // console.log("Adding Normalized weights and values");
+            //
+            // console.log("n_weight="+weight);
+            // console.log("value_str="+value);
 
             // assume we are goalTree
             var globalLink=that.createGlobalLink(graphObjectList[0]);
 
-            console.log("global LInk obj");
-            console.log(globalLink);
+            // console.log("global LInk obj");
+            // console.log(globalLink);
 
             globalLink.setLinkGenerator(graphObjectList[0],graphObjectList[0].createLink(graphObjectList[0]));
             that.addGlobalLink(globalLink);
             var repR=globalLink.filterInformation(graphObjectList[0]);
             repR.setGlobalLinkPtr(globalLink);
-            console.log(repR);
-            console.log(repR.setLinkTypus);
+            // console.log(repR);
+            // console.log(repR.setLinkTypus);
             repR.setLinkTypus(100);
 
             var srcRep=src.filterInformation(graphObjectList[0]);
@@ -84,7 +84,7 @@ var globalElementIdentifier=2;
             if ((srcRep.getTypeId()===3 || srcRep.getTypeId()===100)
                 && (tarRep.getTypeId()===3 || tarRep.getTypeId()===100)
             ){
-                console.log("this should also be visible in CLD ");
+                // console.log("this should also be visible in CLD ");
                 //
                 var friendlyWidget=graphObjectList[0].parentWidget.cldGraphObj;
                 globalLink.setVisibleInWidget(friendlyWidget,true);
@@ -218,7 +218,7 @@ var globalElementIdentifier=2;
         };
 
         this.redrawAllWidgets=function(){
-            console.log("Forcing all widgets to be redrawn");
+            // console.log("Forcing all widgets to be redrawn");
             for (var i=0;i<graphObjectList.length;i++){
                 graphObjectList[i].forceRedrawContent();
             }
@@ -299,7 +299,7 @@ var globalElementIdentifier=2;
         };
 
         this.requestSaveDataAsJson = function () {
-            console.log("We should return the global structure of that model");
+            // console.log("We should return the global structure of that model");
             // THIS SHOULD BE OVERWRITTEN BY ALL GRAPHS!
             var retObj = {};
 
@@ -349,10 +349,10 @@ var globalElementIdentifier=2;
                 linkObj.visibleInWidgets=link.getVisibleInWidget();
                 linkObj.controlPointsStatus=link.getControlPointStatus();
                 linkObj.controlPointsPosition=link.getControlPointPosition();
-                console.log(link);
-                console.log("isSFD "+link.isSFDLink());
+                // console.log(link);
+                // console.log("isSFD "+link.isSFDLink());
                 if (link.isSFDLink()){
-                    console.log("found SFD LINK!!!");
+                    // console.log("found SFD LINK!!!");
                     linkObj.sfdPortConnections=link.getSfdPortConnections();
                     // if this function exists then we have an sfd link;
 

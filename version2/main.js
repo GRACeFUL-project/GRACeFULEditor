@@ -134,10 +134,11 @@ function setLoadedLibName(name){
 
 
 function reloadWidgetItems(jsonOBJ){
-    console.log("hey you, kill all the perv elements please");
-    console.log(jsonOBJ);
+    // console.log("--------------------------- JSon Object for widgtet Items ----------------------");
+    // console.log(jsonOBJ);
+    // console.log("--------------------------------------------------------------------------------");
     var domElement = document.getElementById('widgetList') ;
-    console.log(domElement);
+    // console.log(domElement);
     var htmlCollection = domElement.children;
     var numEntries = htmlCollection.length;
     var i,temp;
@@ -170,8 +171,8 @@ function reloadWidgetItems(jsonOBJ){
             label = temp.name ;
             if (label==="Stakeholder")
                 continue;
-            if (temp.superClass!=undefined)
-                continue;
+            // if (temp.superClass!=undefined)
+            //     continue;
             srcToImg = temp.icon;
             // sanity check
             if (srcToImg===undefined) { // try img url
@@ -179,7 +180,7 @@ function reloadWidgetItems(jsonOBJ){
             }
             // srcToImg = "./data/svg/test.svg";
             //srcToImg = item.icon ;
-            console.log(label);
+
             widgetItemDiv = document.createElement("div");
             widgetItemDiv.setAttribute("class","widgetItem");
             widgetItemDiv.setAttribute("id","sfd"+i);
@@ -194,7 +195,6 @@ function reloadWidgetItems(jsonOBJ){
             // widgetItemDiv.innerHTML = label;
             widgetItemDiv.appendChild(imgItem);
             widgetItemDiv.appendChild(document.createElement("br"));
-
 
 
             nameDiv = document.createElement("div");
@@ -441,7 +441,7 @@ function setDivActive(id){
     clearAllDiv();
     if (document.getElementById("sfd"+id)) {
         document.getElementById("sfd" + id).style.backgroundColor = "yellow";
-        console.log("Active SFD Node TYPE " + id);
+        // console.log("Active SFD Node TYPE " + id);
         sfdRef.setupNode(id);
     }
 }

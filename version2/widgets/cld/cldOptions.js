@@ -180,11 +180,7 @@ function CLDControls(parentWidget) {
     };
 
     this.handleSelectionForOptions=function(node){
-        console.log("777777777777777777777777777777777777777777777777777");
-        console.log(node)
         var i;
-
-        console.log("888888888888888888888888888888888888888888888888888888");
         // kill libraryMapping
         mapsToLib.classed("hidden", true);
         d3.select("#libMapLabel").classed("hidden", true);
@@ -192,13 +188,13 @@ function CLDControls(parentWidget) {
         // check if node has subClass;
         if (node.getGlobalNodePtr().getSfdNode().getSubClasses) {
             var sC = node.getGlobalNodePtr().getSfdNode().getSubClasses();
-            console.log("testing subClasses"+sC);
+            // console.log("testing subClasses"+sC);
             if (sC.length > 0) {
                 mapsToLib.classed("hidden", false);
                 d3.select("#libMapLabel").classed("hidden", false);
             } else {
                 sC = node.getGlobalNodePtr().getSfdNode().getSuperClassChildren();
-                console.log("testing superClasses"+sC);
+                // console.log("testing superClasses"+sC);
                 if (sC.length > 0) {
                     mapsToLib.classed("hidden", false);
                     d3.select("#libMapLabel").classed("hidden", false);
@@ -212,7 +208,7 @@ function CLDControls(parentWidget) {
             // clear possible pre searched entries
             var htmlCollection = mapsToLib.node().children;
             var numEntries = htmlCollection.length;
-            console.log("numEntries" + numEntries);
+            // console.log("numEntries" + numEntries);
             for (i = 0; i < numEntries; i++)
                 htmlCollection[0].remove();
 
@@ -224,7 +220,6 @@ function CLDControls(parentWidget) {
             }
         }
         mapsToLib.node().value = node.libElement;
-        console.log("1111111111111111111111111111   11111111111   "+node.libElement);
     };
 
     this.handleNodeSelection=function(node){
@@ -242,8 +237,8 @@ function CLDControls(parentWidget) {
             return;
         }
 
-        console.log("node type "+ node.getElementType());
-        var defaultName="zort";
+        // console.log("node type "+ node.getElementType());
+
         if (node.getElementType()==="NodeElement") {
 
             // should be overwritten by the real options thing
@@ -275,7 +270,6 @@ function CLDControls(parentWidget) {
                 // clear possible pre searched entries
                 var htmlCollection = mapsToLib.node().children;
                 var numEntries = htmlCollection.length;
-                console.log("numEntries"+numEntries);
                 for ( i = 0; i < numEntries; i++)
                     htmlCollection[0].remove();
 
@@ -285,17 +279,11 @@ function CLDControls(parentWidget) {
                     optA.innerHTML=sC[i];
                     mapsToLib.node().appendChild(optA);
                 }
-                console.log("///////////////////////////////////////////////////////////////////");
-                console.log(that.selectedNode.libElement);
                 if (that.selectedNode.libElement.length===0 && sC.length>0) {
-                    console.log("------------------");
                     mapsToLib.node().options[0].selected="selected";
                     that.selectedNode.setLibMapping(mapsToLib.node().value);
                 }
-
-
                 mapsToLib.node().value=that.selectedNode.libElement;
-
             }
 
 
@@ -321,7 +309,7 @@ function CLDControls(parentWidget) {
                 else
                     d3.select(nodeTrend.node().parentNode).classed("hidden", true);
 
-                console.log("the trend is: "+that.selectedNode.trendName);
+                // console.log("the trend is: "+that.selectedNode.trendName);
 
                 commentNode.node().disabled = false;
                 commentNode.node().value = that.selectedNode.hoverText;
@@ -330,7 +318,7 @@ function CLDControls(parentWidget) {
                 var selId = that.selectedNode.getTypeId();
                 selectionNode.node().disabled=false;
                 selectionNode.node().options[selId].selected = "selected";
-                console.log("The Selection Id is "+selId);
+                // console.log("The Selection Id is "+selId);
                 if(selId === 5) {
                     commentNode.node().innerHTML = that.selectedNode.hoverText;
                     selectionNode.node().disabled=true;
@@ -341,9 +329,6 @@ function CLDControls(parentWidget) {
 
                // check for stakeholder node in cld;
                 d3.select('#chipElementId2').classed('hidden',false);
-                console.log("----------------------------");
-                console.log("Node selecte and has Type"+node.getTypeId());
-                console.log("----------------------------");
                 if (node.getTypeId()===5){
                     console.log("exisits"+d3.select('#chipElementId2'));
                     d3.select('#chipElementId2').classed('hidden',true);
@@ -388,9 +373,8 @@ function CLDControls(parentWidget) {
         }
 
         if (node.getElementType()==="LinkElement") {
-
             // should be overwritten by the real options thing
-            console.log("controls moep moep handle node operation" + node);
+
 
             // friendly widgets;
             that.parent.sfdGraphObj.selectNode(node.getGlobalLinkPtr().getsfdLINK());
@@ -516,7 +500,7 @@ function CLDControls(parentWidget) {
         console.log(selectionContainer.selectedIndex+" the user string is "+strUser);
         that.selectedNode.setCLDTypeString(selectionContainer.selectedIndex, strUser);
         var sfdLink=that.selectedNode.getGlobalLinkPtr().getsfdLINK();
-        console.log("Setting that thing to "+strUser);
+        // console.log("Setting that thing to "+strUser);
         sfdLink.setCLDLinkTypeFromOutside(selectionContainer.selectedIndex,selectionContainer.selectedIndex);
         that.selectedNode.getGlobalLinkPtr().filterInformation();
 
@@ -527,7 +511,7 @@ function CLDControls(parentWidget) {
     this.onChangeNodeType=function(selectionContainer){
 
         var strUser = selectionContainer.options[selectionContainer.selectedIndex].value;
-        console.log(selectionContainer.selectedIndex+" the user string is "+strUser);
+        // console.log(selectionContainer.selectedIndex+" the user string is "+strUser);
         that.selectedNode.setType(selectionContainer.selectedIndex, strUser);
         // if(strUser === "Criterion") {
         //     d3.select(criteriaUnit.node().parentNode).classed("hidden", false);
@@ -578,7 +562,7 @@ function CLDControls(parentWidget) {
 
     this.trendFunc = function(selectionContainer) {
         var strUser = selectionContainer.options[selectionContainer.selectedIndex].value;
-        console.log(selectionContainer.selectedIndex+" the user string is "+strUser);
+        // console.log(selectionContainer.selectedIndex+" the user string is "+strUser);
         that.selectedNode.setTrend(selectionContainer.selectedIndex);
     };
 
@@ -661,7 +645,7 @@ function CLDControls(parentWidget) {
         var fileName;
         var readText;
         // simulate click event;
-        console.log("hidden thing is clicked");
+        // console.log("hidden thing is clicked");
         hidden_solutionInput.click();
         loaderSolutionPathNode.remove(loaderSolutionPathNode);
         // tell what to do when clicked

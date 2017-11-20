@@ -110,7 +110,7 @@ function BaseControls(parentWidget) {
       text.setAttribute('contentEditable',editStatus);
       text.setAttribute('id',id);
       d3.select(text).classed("mdl-chip__text nodeChipField",true);
-      console.log("widgetType"+widgetType);
+      // console.log("widgetType"+widgetType);
 
       $("#"+id).bind('click',function() {
         text.setAttribute('contentEditable','true');

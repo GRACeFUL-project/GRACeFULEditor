@@ -63,21 +63,13 @@ function SimpleSFDWidget(){
     };
 
     this.loadLibrary=function(jsonData, invalidLibFormat){
-        // loading library;
-        console.log("HALLOOOOO000000000000000000000000000000000000000000000000000");
-        // read the text as json
-     // console.log("Parsing Json obj"+jsonData);
         var jsonObj=JSON.parse(jsonData);
-
-        // prepare the loaded lib
-
-        // sofar the only special Case is the factor node;
         var obj={};
         obj.name="FULL GCM MODEL";
         obj.library=[]; // array of objects
 
         var libArray=jsonObj.library;
-        console.log(libArray);
+        // console.log(libArray);
         for (var i=0;i<libArray.length;i++) {
             var currentElement = libArray[i];
             if (currentElement.graphElement)
@@ -94,8 +86,8 @@ function SimpleSFDWidget(){
                 }
             }
 
-            console.log ('----------------------');
-            console.log(currentElement);
+            // console.log ('----------------------');
+            // console.log(currentElement);
             if (currentElement.layer === "problem" && currentElement.name!=="stakeholder")
                 continue;
 
@@ -106,7 +98,7 @@ function SimpleSFDWidget(){
             if (currentElement.name === "edge") continue; // skipping the edge representation
 
 
-            console.log ('----------------------');
+            // console.log ('----------------------');
 
 
 
@@ -128,278 +120,6 @@ function SimpleSFDWidget(){
             // TODO: clean it up
             //that.graphObject.redrawHUD();
         }
-
-
-            //
-            //
-            //
-            //
-            //
-            // // creating forloop style;
-            // // skipping the first 2 elements // currently dont know how to add them;
-            //
-            // for (var i=0;i<libArray.length;i++){
-            //     var currentElement=libArray[i];
-            //     // create an object;
-            //     var libElement={};
-            //     libElement.name=currentElement.name;
-            //     libElement.description=currentElement.comment;
-            //     libElement.parameters=[];
-            //     libElement.type="NODAL";
-            //     if (libElement.name ==="budget"){
-            //         // has no interface -.-
-            //         libElement.imgURL="./images/budget.png";
-            //         libElement.type="NODAL";
-            //         continue;
-            //     }
-            //     if (libElement.name ==="node"){
-            //         // has no interface -.-
-            //         libElement.imgURL="./images/factorNode.png";
-            //         libElement.type="CAUSAL";
-            //         libElement.name="Factor";
-            //     }
-            //
-            //     if (libElement.name ==="edge"){
-            //         // has no interface -.-
-            //         libElement.imgURL="./images/edgeElement.png";
-            //         libElement.type="RELATIONAL";
-            //         libElement.name="relation";
-            //         continue;
-            //     }
-            //
-            //
-            //     if (libElement.name ==="optimise"){
-            //         // has no interface -.-
-            //         libElement.imgURL="./images/optimize.png";
-            //         libElement.type="NODAL";
-            //         continue;
-            //     }
-            //
-            //
-            //     if (libElement.name==="evaluate"){
-            //         libElement.imgURL="./images/evaluate.png";
-            //         libElement.type="NODAL";
-            //         continue;
-            //     }
-            //
-            //     if (libElement.name==="action"){
-            //         libElement.imgURL="./images/adaptation_action.png";
-            //         libElement.type="CAUSAL"
-            //     }
-            //
-            //
-            //     if (libElement.name==="increaseAction"){
-            //         libElement.imgURL="./images/increaseAction.png";
-            //         libElement.type="NODAL"
-            //     }
-            //     if (libElement.name==="flooding"){
-            //         libElement.imgURL="./images/flooding.png";
-            //         libElement.type="NODAL"
-            //     }
-            //
-            //     if (libElement.name==="sink"){
-            //         libElement.imgURL="./images/sink.png";
-            //         libElement.type="NODAL"
-            //     }
-            //     if (libElement.name==="runoff area"){
-            //         libElement.imgURL="./data/img/runOffArea.png";
-            //         libElement.type="NODAL"
-            //     }
-            //
-            //     if (libElement.name==="criterion"){
-            //         libElement.imgURL="./images/criterion.png";
-            //         libElement.type="CAUSAL"
-            //     }
-            //
-            //     if (libElement.name==="rain"){
-            //         libElement.imgURL="./data/svg/rain.svg";
-            //     }
-            //
-            //     if (libElement.name==="pump"){
-            //         libElement.imgURL="./data/svg/pump.svg";
-            //         libElement.type="RELATIONAL"
-            //     }
-            //
-            //
-            //
-            //     // clean up params;
-            //     for (var p=0;p<currentElement.parameters.length;p++){
-            //         var aParam=currentElement.parameters[p];
-            //         var pObj={};
-            //         pObj.name=aParam.name;
-            //         pObj.type=aParam.type;
-            //         libElement.parameters.push(pObj);
-            //     }
-            //     // add interfaces;
-            //     var currInterfaces=currentElement.interface;
-            //
-            //     if (currInterfaces.length===0){
-            //         libElement.interface=currInterfaces;
-            //     }else{
-            //         libElement.interface=[];
-            //         console.log(currInterfaces);
-            //
-            //         for (var iA=0;iA<currInterfaces.length;iA++){
-            //             if (libElement.name==="criterion") continue;
-            //             if (libElement.name==="Factor") continue;
-            //
-            //             // cleaning up the interfaces;
-            //             var anInterface=currInterfaces[iA];
-            //             var iObj={};
-            //
-            //             // expecting;
-            //             // retLib+='                    "name" : "rainfall",';
-            //             // retLib+='                    "type" : "Port (Float)",';
-            //             // retLib+='                    "description": "Amount Of Rain",';
-            //             // retLib+='                    "imgURL": "./data/interfaces/rainfall.png",';
-            //             // retLib+='                    "rotation" : false,';
-            //             // retLib+='                    "outgoingType" :"MULTIPLE",';
-            //             // retLib+='                    "incomingType" :"NONE"';
-            //
-            //             // default MULTIPLE CONNECTIONS
-            //             iObj.outgoingType="MULTIPLE";
-            //             iObj.incomingType="MULTIPLE";
-            //             iObj.description=anInterface.hoverText;
-            //             // lets make the incoming fully;
-            //             iObj.name=anInterface.name;
-            //             iObj.type=anInterface.type;
-            //             iObj.imgURL=anInterface.imgURL;
-            //             if(iObj.name==="atPort"){
-            //                 iObj.rotation=true;
-            //                 iObj.outgoingType="MULTIPLE";
-            //                 iObj.incomingType="MULTIPLE";
-            //             }
-            //             if(iObj.name==="benefit"){
-            //                 iObj.rotation=false;
-            //                 iObj.outgoingType="MULTIPLE";
-            //                 iObj.incomingType="MULTIPLE";
-            //             }
-            //
-            //             if(iObj.name==="cost"){
-            //                 iObj.rotation=false;
-            //                 iObj.outgoingType="MULTIPLE";
-            //                 iObj.incomingType="NONE";
-            //             }
-            //
-            //             if(iObj.name==="value") {
-            //                 iObj.rotation = false;
-            //             }
-            //
-            //
-            //             //if (libElement.name==="pump")
-            //             if (iObj.name==="inflow"){
-            //                 iObj.rotation=true;
-            //                 iObj.outgoingType="NONE";
-            //                 iObj.incomingType="SINGLE";
-            //                 if (libElement.name==="sink"){iObj.incomingType="ARBITRARY";}
-            //             }
-            //
-            //             if (iObj.name==="outflow"){
-            //                 iObj.rotation=true;
-            //                 iObj.outgoingType="SINGLE";
-            //                 iObj.incomingType="NONE";
-            //             }
-            //
-            //
-            //             if(iObj.name==="increase"){
-            //                     iObj.rotation=false;
-            //                     iObj.outgoingType="NONE";
-            //                     iObj.incomingType="SINGLE";
-            //             }
-            //             libElement.interface.push(iObj);
-            //         }
-            //     }
-            //     obj.library.push(libElement);
-            // }
-            // var stakeElement={};
-            // stakeElement.name="Stakeholder";
-            // stakeElement.description="Stakeholder Nodes'";
-            // stakeElement.imgURL="./images/stakeholder.png";
-            // stakeElement.parameters=[];
-            // stakeElement.interface=[];
-            // obj.library.push(stakeElement);
-
-            // var firstElement=jsonObj.library[0]; // is scipped;
-            // var secondElement=jsonObj.library[1]; // is scipped;
-            // var Element2=jsonObj.library[2];
-            // console.log(Element2);
-            // console.log();
-            //
-            // var el2Obj={};
-            // el2Obj.name="budget";
-            // el2Obj.imgURL="./images/budget.png";
-            // el2Obj.type="NODAL";
-            // el2Obj.description= "Set a maximum budget";
-            // var p1={name:"numberOfPorts", type:"Int"};
-            // var p2={name:"maximumBudget", type:"Int"};
-            //
-            // el2Obj.parameters=[p1,p2];
-            // el2Obj.interface = [];
-            //
-            // obj.library.push(el2Obj);
-
-
-
-            // first element
-            /*
-            "relational":false,
-                "icon":"pathToNodeImage",
-                "name":"node",
-                "parameters":[
-                {
-                    "hoverText":"obsSign",
-                    "name":"obsSign",
-                    "imgURL":"./data/interfaces/obsSign.png",
-                    "type":"Int | ()"
-                },
-                {
-                    "hoverText":"numIn",
-                    "name":"numIn",
-                    "imgURL":"./data/interfaces/numIn.png",
-                    "type":"Int"
-                },
-                {
-                    "hoverText":"numOut",
-                    "name":"numOut",
-                    "imgURL":"./data/interfaces/numOut.png",
-                    "type":"Int"
-                }
-            ],
-                "interface":[
-                {
-                    "hoverText":"value",
-                    "name":"value",
-                    "imgURL":"./data/interfaces/value.png",
-                    "type":"Port (Int)"
-                }
-            ],
-                "comment":"Generic node"
-            */
-
-
-
-
-            // console.log(libArray);
-            // console.log(jsonObj);
-
-
-
-        //
-        // }
-        //
-        //
-        // else{
-        // var success=that.graphObject.paseLoadedLibrary(jsonObj);
-        // if (success) {
-        //     that.clearGraph();
-        //     reloadWidgetItems(jsonObj);
-        //     that.graphObject.libraryLoaded(true);
-        //     // redraw the hud;
-        //     // TODO: clean it up
-        //     //that.graphObject.redrawHUD();
-        // }
-        // }
-
 
     };
 

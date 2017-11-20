@@ -286,7 +286,7 @@ function BaseNode(graph) {
         that.mouseEnteredFunc(false);
     };
     this.selectThisNode=function(node){
-        console.log("selecting this node element99999999999999999");
+        // console.log("selecting this node element99999999999999999");
        graph.selectNodeForOptions(node);
     };
 

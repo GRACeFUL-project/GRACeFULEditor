@@ -52,10 +52,10 @@ function SimpleSFDGraph(){
     this.dblClick=function() {
            that.deselectLastLink();
            that.deselectLastNode();
-            console.log(that.selectedOverlayId);
-            console.log(inputClasses[that.selectedOverlayId]);
+            // console.log(that.selectedOverlayId);
+            // console.log(inputClasses[that.selectedOverlayId]);
            if (inputClasses[that.selectedOverlayId].name==="relation"){
-               console.log("this is an edge");
+               // console.log("this is an edge");
                return;
            }
 
@@ -78,87 +78,51 @@ function SimpleSFDGraph(){
         globalNode.setGlobalName(inputClasses[that.selectedOverlayId].name);
         that.clearRendering();
 
+        var friendlyWidget,friendlyNode;
 
         // add friendly nodes;
-        console.log("-------------SFD NAME "+inputClasses[that.selectedOverlayId].name);
+        // console.log("-------------SFD NAME "+inputClasses[that.selectedOverlayId].name);
         if (inputClasses[that.selectedOverlayId].name==="Factor" || inputClasses[that.selectedOverlayId].name==="node"){
-            console.log("yeas'");
-            var friendlyWidget=that.parentWidget.cldGraphObj;
+            friendlyWidget=that.parentWidget.cldGraphObj;
             globalNode.setVisibleInWidget(friendlyWidget,true);
-            var friendlyNode=friendlyWidget.createNode(that.parentWidget.cldGraphObj);
+            friendlyNode=friendlyWidget.createNode(that.parentWidget.cldGraphObj);
             globalNode.setNodeType(friendlyWidget,1,friendlyNode);
             friendlyNode.setGlobalNodePtr(globalNode);
-            globalNode.setKind("CLD_NODE")
+            globalNode.setKind("CLD_NODE");
+
         }
 
-        if (inputClasses[that.selectedOverlayId].name==="action"){
-            var friendlyWidget=that.parentWidget.cldGraphObj;
+        if (inputClasses[that.selectedOverlayId].name==="action" || inputClasses[that.selectedOverlayId].superClass==="action"){
+            friendlyWidget=that.parentWidget.cldGraphObj;
             globalNode.setVisibleInWidget(friendlyWidget,true);
-            var friendlyNode=friendlyWidget.createNode(that.parentWidget.cldGraphObj);
+            friendlyNode=friendlyWidget.createNode(that.parentWidget.cldGraphObj);
             globalNode.setNodeType(friendlyWidget,2,friendlyNode);
             friendlyNode.setGlobalNodePtr(globalNode);
-            globalNode.setKind("CLD_NODE")
+            globalNode.setKind("CLD_NODE");
+            globalNode.getSfdNode().setSubClassTypeFromText(inputClasses[that.selectedOverlayId].name);
         }
 
-        if (inputClasses[that.selectedOverlayId].name==="criterion"){
-            var friendlyWidget=that.parentWidget.cldGraphObj;
+        if (inputClasses[that.selectedOverlayId].name==="criterion" || inputClasses[that.selectedOverlayId].superClass==="criterion"){
+            friendlyWidget=that.parentWidget.cldGraphObj;
             globalNode.setVisibleInWidget(friendlyWidget,true);
-            var friendlyNode=friendlyWidget.createNode(that.parentWidget.cldGraphObj);
+            friendlyNode=friendlyWidget.createNode(that.parentWidget.cldGraphObj);
+            globalNode.setNodeType(friendlyWidget,3,friendlyNode);
+            friendlyNode.setGlobalNodePtr(globalNode);
+            globalNode.setKind("CLD_NODE");
+            globalNode.getSfdNode().setSubClassTypeFromText(inputClasses[that.selectedOverlayId].name);
+        }
+
+        if (inputClasses[that.selectedOverlayId].name==="criterion" || inputClasses[that.selectedOverlayId].superClass==="criterion"){
+            friendlyWidget=that.parentWidget.gtwGraphObj;
+            globalNode.setVisibleInWidget(friendlyWidget,true);
+            friendlyNode=friendlyWidget.createNode(that.parentWidget.gtwGraphObj);
             globalNode.setNodeType(friendlyWidget,3,friendlyNode);
             friendlyNode.setGlobalNodePtr(globalNode);
             globalNode.setKind("CLD_NODE")
         }
 
-        if (inputClasses[that.selectedOverlayId].name==="criterion"){
-            var friendlyWidget=that.parentWidget.gtwGraphObj;
-            globalNode.setVisibleInWidget(friendlyWidget,true);
-            var friendlyNode=friendlyWidget.createNode(that.parentWidget.gtwGraphObj);
-            globalNode.setNodeType(friendlyWidget,3,friendlyNode);
-            friendlyNode.setGlobalNodePtr(globalNode);
-            globalNode.setKind("CLD_NODE")
-        }
 
 
-
-        // if the selected thing is createria
-        // if (that.nodeTypeGraph===3){
-        //     var friendlyWidget=that.parentWidget.gtGraphObj;
-        //     globalNode.setVisibleInWidget(friendlyWidget,true);
-        //     var friendlyNode=friendlyWidget.createNode(that.parentWidget.gtGraphObj);
-        //     globalNode.setNodeType(friendlyWidget,3,friendlyNode);
-        //     friendlyNode.setGlobalNodePtr(globalNode);
-        // }
-        //
-        //
-        // // generate in sfd;
-        // // all node types are added to the sdf
-        // var friendlyWidget=that.parentWidget.gtGraphObj;
-        // var sfdWdiget=that.parentWidget.sfdGraphObj;
-        // globalNode.setVisibleInWidget(sfdWdiget,true);
-        // friendlyNode=sfdWdiget.createFriendlyNode();
-        // globalNode.setNodeType(sfdWdiget,that.nodeTypeGraph-1,friendlyNode);
-        // friendlyNode.setGlobalNodePtr(globalNode);
-
-
-        // console.log("A Double Click "+d3.event);
-      //   // console.log("BaseGraph does not implement this");
-      //   // console.log("Debugging ");
-      // //  console.log("overwritten dblClick");
-      //   that.deselectLastLink();
-      //   that.deselectLastNode();
-      //   var coordinatesRelativeToCanvasArea=[0,0];
-      //   coordinatesRelativeToCanvasArea=d3.mouse(this);
-      //   var aNode = that.createNode(that, inputClasses);
-      //   var grPos = getScreenCoords(coordinatesRelativeToCanvasArea[0], coordinatesRelativeToCanvasArea[1], that.translation, that.zoomFactor);
-      //   aNode.x = grPos.x;
-      //   aNode.y = grPos.y;
-      //
-      //
-      //   that.nodeElementArray.push(aNode);
-      //   that.clearRendering();
-      //   that.redrawGraphContent();
-      //
-      //   aNode.editInitialText();
         gHandlerObj.redrawAllWidgets();
         that.selectNode(undefined);
     };
@@ -855,7 +819,7 @@ function SimpleSFDGraph(){
 
     this.paseLoadedLibrary=function(jsonObj){
         // clear the input classes
-        console.log(jsonObj);
+        // console.log(jsonObj);
         inputClasses=[];
         if (!jsonObj){
             console.log("Error while parsing json");
@@ -900,11 +864,11 @@ function SimpleSFDGraph(){
             // console.log("img URL " + imgURL );
             // console.log("hover Text " + description);
             // console.log("params " + params);
-            console.log("------------------------node " + nodeName );
+            // console.log("------------------------node " + nodeName );
             if (nodeName==="stakeholder"){
-                console.log("/////////////////////////////////////////////////");
-                console.log("FOUND STAKEHOLDER NODE");
-                console.log("/////////////////////////////////////////////////");
+                // console.log("/////////////////////////////////////////////////");
+                // console.log("FOUND STAKEHOLDER NODE");
+                // console.log("/////////////////////////////////////////////////");
 
             }
             nodeDescription.name=nodeName;
@@ -921,9 +885,9 @@ function SimpleSFDGraph(){
 
             inputClasses.push(nodeDescription);
         }
-        console.log("seen SuperClasses");
-        console.log(seenSuperClasses);
-        console.log("-------------------------");
+        // console.log("seen SuperClasses");
+        // console.log(seenSuperClasses);
+        // console.log("-------------------------");
         // based on the inputClasses create Additional Node SubTypes;
 
 
@@ -934,7 +898,7 @@ function SimpleSFDGraph(){
                 for (var j=0;j<inputClasses.length;j++){
                        var testElement=inputClasses[j];
                        if (testElement.superClass===currentElement.name){
-                           console.log(currentElement.name+"  adding subclass "+testElement.name);
+                           // console.log(currentElement.name+"  adding subclass "+testElement.name);
                            currentElement.subClass.push(testElement.name);
                        }
                 }
@@ -985,11 +949,11 @@ function SimpleSFDGraph(){
             var hoverText = libDisc.hoverText;
             var params = libDisc.parameters; // TODO: parse them and add them to the node object;
 
-            console.log("-------------------------------------");
-            console.log("node " + nodeName );
-            console.log("img URL " + imgURL );
-            console.log("hover Text " + hoverText);
-            console.log("params " + params);
+            // console.log("-------------------------------------");
+            // console.log("node " + nodeName );
+            // console.log("img URL " + imgURL );
+            // console.log("hover Text " + hoverText);
+            // console.log("params " + params);
 
             nodeDescription.name=nodeName;
             nodeDescription.imgUrl=imgURL;
@@ -1019,7 +983,7 @@ function SimpleSFDGraph(){
         // computes the nearest node center to the given position;
         // todo : use kd-tree for node positions and optimizations;
         // todo: do we really need this;
-        console.log("Searching for Traget Node")
+        // console.log("Searching for Traget Node")
         var dx=position[0];
         var dy=position[1];
         var tN=undefined;
@@ -1032,7 +996,7 @@ function SimpleSFDGraph(){
             if (cDist<minDist){
                 minDist=cDist;
                 tN=el;
-                console.log("Found target node")
+                // console.log("Found target node")
             }
         });
         //     console.log("minDist="+minDist);
@@ -1052,23 +1016,23 @@ function SimpleSFDGraph(){
 
         // what type is d;
         console.log(d.parentNode().getElementType());
-        console.log("------------------");
+        // console.log("------------------");
         var targetNode=undefined;
         var draggeEndPos=[that.draggerElement.x, that.draggerElement.y];
         that.draggingObject=false;
         if (d.parentNode().getElementType()==="sfdNode"){
             // find the closes NODE!
             targetNode=that.getTargetNode(draggeEndPos);
-            console.log("targetNode");
-            console.log(targetNode);
+            // console.log("targetNode");
+            // console.log(targetNode);
             // some fancy stuff;
             if (d.parentNode().getElementType()==="sfdNode" && targetNode.getElementType()==="sfdNode"){
-                console.log("create the connection in CLD please");
+                // console.log("create the connection in CLD please");
                 if(targetNode.getGlobalNodePtr().getKind() && d.parentNode().getGlobalNodePtr().getKind()) {
-                    console.log("ADDING LINK FROM SFD");
+                    // console.log("ADDING LINK FROM SFD");
                     that.parentWidget.cldGraphObj.addLinkFormSFD(d.parentNode(), targetNode);
                 }else{
-                    console.log("ADDING SHADOW LINK");
+                    // console.log("ADDING SHADOW LINK");
                     that.parentWidget.cldGraphObj.createShadowLink(d.parentNode(), targetNode);
 
                 }
@@ -1091,11 +1055,11 @@ function SimpleSFDGraph(){
 
         // console.log("dragger End pos"+draggeEndPos);
         if (targetPort && d.parentNode().getParentId()!==targetPort.getParentId()) {
-            console.log("Target node name: " + targetPort.getName());
+            // console.log("Target node name: " + targetPort.getName());
             // create a link between these;
 
             var newLibType=(targetPort.getProvidedPortConnectionTypes() || d.parentNode().getProvidedPortConnectionTypes()); // atleast one of the ports should tell me something;
-            console.log("Hey ho, are we a new lib format? "+newLibType);
+            // console.log("Hey ho, are we a new lib format? "+newLibType);
             // check if you are allow to connect these ports;
             var sourcePort=d.parentNode();
             var t_portIT=targetPort.getIncomingConnectionType();

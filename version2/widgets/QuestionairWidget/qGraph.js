@@ -45,7 +45,7 @@ function qGraph(parentWidget) {
         var w = drawArea.node().getBoundingClientRect().width;
         //var h= drawArea.node().getBoundingClientRect().height;
         var h= window.innerHeight ;
-        console.log("HEEEEEEELLLLLOOOOOOOO ---------------------------");
+        // console.log("HEEEEEEELLLLLOOOOOOOO ---------------------------");
         this.svgElement= parentWidget.getCanvasArea().append("div");
         that.svgElement.node().innerHTML=" ----- Import the Model Please --";
         // classing the graph is a particular graph thing so we dont do this here
@@ -60,8 +60,8 @@ function qGraph(parentWidget) {
 
         var stakeHolders=gHandlerObj.requestDataForQuestionair();
 
-        console.log("Stakeholders");
-        console.log(stakeHolders);
+        // console.log("Stakeholders");
+        // console.log(stakeHolders);
 
         // craetea fancy table;
         var table=document.createElement('table');
@@ -126,7 +126,7 @@ function qGraph(parentWidget) {
     };
 
     this.integrateStakeHolderResults=function(string){
-        console.log("intigrating a String "+string);
+        // console.log("intigrating a String "+string);
 
         // MAKE A json OBJ
 
@@ -135,7 +135,7 @@ function qGraph(parentWidget) {
         // get a name of the stakeHolder
         var name=jOb.stakeholderName;
         var globalNodeId=undefined;
-        console.log("stakeHolder Name"+name);
+        // console.log("stakeHolder Name"+name);
 
 
         var globalNodes=gHandlerObj.getAllGlobalNodes();
@@ -148,7 +148,7 @@ function qGraph(parentWidget) {
                 cellResults[i].innerHTML='RECEIVED';
                 if (globalNodeId===undefined) {
                     // find the corresponding node;
-                    console.log("searching for corresponding stakeholder node");
+                    // console.log("searching for corresponding stakeholder node");
                     for (var g=0;g<globalNodes.length;g++){
                         if (globalNodes[g].getNodeName()===name){
                             st_node=globalNodes[g];
@@ -172,8 +172,8 @@ function qGraph(parentWidget) {
 
             // get the criteria elements
             var critElements=jOb.criteria;
-            console.log("crit elements are");
-            console.log(critElements);
+            // console.log("crit elements are");
+            // console.log(critElements);
 
             // compute normalization factor;
             for (var w=0;w<critElements.length;w++){
@@ -192,9 +192,9 @@ function qGraph(parentWidget) {
             for (i=0;i<critElements.length;i++){
                 var targetNodeId=critElements[i].id;
                 var tarNode=gHandlerObj.getNodeById(targetNodeId);
-                console.log("Getting tarNode: "+tarNode.id());
+                // console.log("Getting tarNode: "+tarNode.id());
                 if (tarNode){
-                    console.log("found target Node");
+                    // console.log("found target Node");
                     gHandlerObj.createStakeholderLink(st_node,tarNode,normalizedWeights[i],values_str[i], i);
                 }
             }
