@@ -261,7 +261,7 @@ function qGraph(parentWidget) {
         le.multiple = true;
 
         var optsArray = ["much less", "less", "about equal", "more", "much more"];
-        var optsVals = [-1, -1, 0, 1, 1];
+        var optsVals = [-2, -1, 0, 1, 2];
         for (var i=0;i<optsArray.length;i++){
             var optA=document.createElement('option');
             optA.innerHTML=optsArray[i];

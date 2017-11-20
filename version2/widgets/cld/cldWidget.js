@@ -229,6 +229,7 @@ function CLDWidget(){
         }
         else {
             that.graphObject.deliverResultsForNodes(parsedResult);
+            that.graphObject.createResultsTable();
         }        
     };
 

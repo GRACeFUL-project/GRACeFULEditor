@@ -1,0 +1,16 @@
+#mainQuestionnaire {  
+    height: 97vh;
+    overflow: auto;
+    margin-left: 5px;
+    text-align: left;
+    padding: 25px;
+    padding-bottom: 50px;
+}
+
+p {
+    text-align: left;
+}
+
+#updateButton {
+    margin: 10px 0px 80px 80px;
+}

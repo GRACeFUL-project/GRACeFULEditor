@@ -7,7 +7,7 @@ git pull origin master
 cd /
 cd webapp
 cp -rd /gitEditor/version2/*  ./
-cp /webapp/libraries/*.* gitGrace/libraries/
+#cp /webapp/libraries/*.* gitGrace/libraries/
 ls -la libraries/
 
 

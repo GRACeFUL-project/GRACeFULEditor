@@ -11,6 +11,11 @@ function CLDGraph(){
     this.optimiseId = undefined;
     this.optimisePortIndex = undefined;
 
+    this.totalCost = undefined; //value obtained from solver
+    this.totalBenefits = undefined; //value obtained from solver
+
+    this.resultsTableData = [];
+
     // call the baseGraph init function
     // that.initializeGraph();
     that.setZoomExtent(0.1,6);
@@ -228,6 +233,7 @@ function CLDGraph(){
 
     this.deliverResultsForNodes = function(result) {
         var resultObject = result.result;
+        that.resultsTableData = [];
         console.log("CLDGraph result: "+JSON.stringify(result, null, ""));
         for(var key in resultObject) {
             if(resultObject.hasOwnProperty(key)) {
@@ -237,33 +243,123 @@ function CLDGraph(){
                     that.nodeElementArray.filter(function(temp) {
                         if(temp.id() == Number(outsign[1])) {
                             temp.setResult(resultObject[key]);
+                            that.addSolverResult(temp.label, outsign[0], resultObject[key]);
                         } 
                     });
                 }
                 else if(outsign[0] === "cost") {
-                    // that.nodeElementArray.filter(function(temp) {
-                    //     if(temp.id() == Number(outsign[1])) {
-                    //         temp.setResult(resultObject[key]);
-                    //     } 
-                    // });
-                }
-                else if(outsign[0] === "atPort") {
-                    that.pathElementArray.filter(function(temp) {
-                        if(temp.getEvaluateId() === Number(outsign[1])) {
-                            temp.setResultAtPort(resultObject[key]);
+                    console.log("Cost of node id "+outsign[1]+ " is:"+resultObject[key]);
+                    that.nodeElementArray.filter(function(temp) {
+                        if(temp.id() == Number(outsign[1])) {
+                            temp.setActionCostFromSolver(resultObject[key]);
+                            that.addSolverResult("Action Cost - "+temp.label, outsign[0], resultObject[key]);
                         } 
                     });
                 }
-                else if(outsign[0] === "benefit") {
-                    that.pathElementArray.filter(function(temp) {
-                        if(temp.getEvaluateId() === Number(outsign[1])) {
-                            temp.setResultBenefits(resultObject[key]);
+                else if(outsign[0] === "happiness") {
+                    console.log("Happiness of node id "+outsign[1]+ " is:"+resultObject[key]);
+                    that.nodeElementArray.filter(function(temp) {
+                        if(temp.id() == Number(outsign[1])) {
+                            temp.setStakeholderHappiness(resultObject[key]);
+                            that.addSolverResult("Stakeholder - "+temp.label, outsign[0], resultObject[key]);
                         } 
+                    });
+                }
+                else if(outsign[0] === "totalCost") {
+                    console.log("totalCost of node id "+outsign[1]+ " is:"+resultObject[key]);
+                    that.totalCost = resultObject[key];
+                    that.addSolverResult("budget", outsign[0], resultObject[key]);
+                }
+                else if(outsign[0] === "totalBenefits") {
+                    console.log("totalBenefits of node id "+outsign[1]+ " is:"+resultObject[key]);
+                    that.totalBenefits = resultObject[key];
+                    that.addSolverResult("optimise", outsign[0], resultObject[key]);
+                }
+                else if(outsign[0] === "inPort") {
+                    console.log("inPort of node id "+outsign[1]+ " is:"+resultObject[key]);
+                    that.pathElementArray.filter(function(temp) {
+                        if(temp.id() == Number(outsign[1])) {
+                            temp.setResultAtPort(resultObject[key]);
+                            that.addSolverResult(temp.targetNode.label+"-->"+temp.sourceNode.label, outsign[0], resultObject[key]);
+                        }
+                    });
+                }
+                else if(outsign[0] === "outPort") {
+                    console.log("outPort of node id "+outsign[1]+ " is:"+resultObject[key]);
+                    that.pathElementArray.filter(function(temp) {
+                        if(temp.id() == Number(outsign[1])) {
+                            // temp.setResultAtPort(resultObject[key]);
+                            that.addSolverResult(temp.targetNode.label+"-->"+temp.sourceNode.label, outsign[0], resultObject[key]);
+                        }
                     });
                 }
             }
         }
     };
+
+    this.createResultsTable = function() {
+        console.log("RESULTS TABLE DATA: "+JSON.stringify(that.resultsTableData));
+        var checkDiv = document.getElementById("resultDiv");
+        if(checkDiv)
+            checkDiv.innerHTML = "";
+
+        //create a div and append the results table
+        var mainDiv = document.getElementById("mainQuestionnaire");
+        mainDiv.appendChild(document.createElement('br'));
+        var resultDiv = document.createElement('div');
+        resultDiv.id = "resultDiv";
+        mainDiv.appendChild(resultDiv);
+        d3.select("#resultDiv").classed("hidden", false);
+
+        var tableName = document.createElement('h5');
+        tableName.innerHTML = "Solver Results";
+        resultDiv.appendChild(tableName);
+
+        var table=document.createElement('table');
+        d3.select(table).classed("mdl-data-table mdl-js-data-table mdl-shadow--0dp", true);
+        var percentage=50;
+        d3.select(table).style("width",percentage+"%");
+        d3.select(table).attr("id", "resultsTable");
+        resultDiv.appendChild(table);        
+
+        var row = table.insertRow(0);
+        var head = table.createTHead();
+        var tablerow=head.insertRow(0);
+
+        // create the header names;
+        var column1= tablerow.insertCell(0);
+        var column2 = tablerow.insertCell(1);
+        var column3 = tablerow.insertCell(2);
+        
+
+        column1.innerHTML="Name";
+        column2.innerHTML = "Representation";
+        column3.innerHTML = "Result";
+
+        d3.select(tablerow).classed("headerTable",true);
+
+        for (var i=0; i<that.resultsTableData.length;i++){
+            var eachResult = that.resultsTableData[i];
+            // create a new table row;
+            var iR=i+1;
+            var st_row=table.insertRow(iR);
+
+            var cell_one = st_row.insertCell(0);
+            cell_one.innerHTML= eachResult.nodeLabel;
+            var cell_two = st_row.insertCell(1);
+            cell_two.innerHTML = eachResult.solverKey;
+            var cell_three = st_row.insertCell(2);
+            cell_three.innerHTML = eachResult.solverResult;
+        }
+    };
+
+    this.addSolverResult = function(nodeName, sKey, sRes) {
+        var res = {};
+        res.nodeLabel = nodeName;
+        res.solverKey = sKey;
+        res.solverResult = sRes;
+        that.resultsTableData.push(res);
+    }
 
     this.addLinkFromJSON=function(jsonLink){
         var s_t =jsonLink.source_target;
