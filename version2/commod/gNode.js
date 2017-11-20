@@ -31,7 +31,7 @@ function GlobalNode() {
     var nodePosInWidget=[];
     var nodeConstructors=[];
     var nodeMetaData=[{},{},{}]; // three empty objects for the metadata;
-    var nodeName="empty"; // should be consistent
+    var nodeName="enter label"; // should be consistent
     var criteriaUnit = "";
     var globalHoverText="";
     var nodeEmail; // per default undefined;
