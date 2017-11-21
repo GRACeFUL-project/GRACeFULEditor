@@ -163,7 +163,7 @@ function CLDControls(parentWidget) {
         // delLinkBtn = that.addButtons(linksGroup, "Delete", "linkDelete", that.deleteLinks);
 
         additionalSettings = that.createAccordionGroup(that.divControlsGroupNode, "Model Controls");
-        graphControls = that.createAccordionGroup(that.divControlsGroupNode, "Graph Controls");
+        graphControls = that.createAccordionGroup(that.divControlsGroupNode, "Server Controls");
 
         // adding load global and save global graph things;
         that.addButton(additionalSettings, "LOAD MODEL", "cldGetLibrary", that.loadGlobalFunction, "flat", true, "cloud_upload" );
@@ -175,9 +175,9 @@ function CLDControls(parentWidget) {
 
         sendCld= that.addButton(graphControls, "SEND MODEL", "cldSendModel", that.sendModel, "flat", true, "send" );
 
-        extFactorBtn = that.addButton(graphControls, "MARK EXTERNAL FACTORS", "cldIdentifyExtFactors", that.identifyExtFact, "flat", true, "explicit" );
+        extFactorBtn = that.addButton(additionalSettings, "MARK EXTERNAL FACTORS", "cldIdentifyExtFactors", that.identifyExtFact, "flat", true, "explicit" );
 
-        loopBtn = that.addButton(graphControls, "DETECT FEEDBACK LOOPS", "cldIdentifyFeedbacks", that.feedbackLoop, "flat", true, "loop" );
+        loopBtn = that.addButton(additionalSettings, "DETECT FEEDBACK LOOPS", "cldIdentifyFeedbacks", that.feedbackLoop, "flat", true, "loop" );
         loopBtn.setAttribute("data-toggle", "modal");
         loopBtn.setAttribute("data-target", "#loopModal");    
 
