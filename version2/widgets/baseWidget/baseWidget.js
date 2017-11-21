@@ -234,6 +234,7 @@ function BaseWidget(parentElement) {
         // validation;
 
         var modelType=jObj.type;
+        var budget = jObj.budget;
         var globalNodeElements=jObj.nodes;
         var globalLinkElements=jObj.links;
         var v;
@@ -248,6 +249,8 @@ function BaseWidget(parentElement) {
             // get a handler for creation
             var handler=that.getHandler();
             var reprGraphObjects=handler.getGraphObjects();
+            //set the budget in CLD
+            reprGraphObjects[1].loadSavedBudget(budget);
             for (var i=0;i<globalNodeElements.length;i++){
 
                 // stored data;

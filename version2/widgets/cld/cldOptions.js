@@ -184,6 +184,9 @@ function CLDControls(parentWidget) {
         budgetBtn = that.addButton(additionalSettings, "ENTER BUDGET", "budget", that.enterBudget, "flat", true, "input");
         budgetBtn.setAttribute("data-toggle", "modal");
         budgetBtn.setAttribute("data-target", "#budgetModal");
+
+        var bud = "<input type=\"number\" id=\"budgetVal\">";        
+        that.createModal("budgetModal", "Enter Budget", bud);
     };
 
     this.handleSelectionForOptions=function(node){
@@ -620,8 +623,7 @@ function CLDControls(parentWidget) {
     };
 
     this.enterBudget = function() {
-        var bud = "<input type=\"number\" id=\"budgetVal\">";        
-        that.createModal("budgetModal", "Enter Budget", bud);
+        
         d3.select("#budgetVal").on("change", function() {
             var c1 = document.getElementById("budgetVal");
             that.parent.cldBudget(c1.value);

@@ -240,7 +240,8 @@ function GlobalNode() {
             metaObject.trend = repNode.getTrend();
             // metadata for actions;
             metaObject.actions=repNode.getAction();
-
+            metaObject.libMapping = repNode.getLibMapping();
+            metaObject.criteriaUnit = repNode.getCriteriaUnit();
         }
 
 

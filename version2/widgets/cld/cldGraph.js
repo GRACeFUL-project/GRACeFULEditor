@@ -82,6 +82,12 @@ function CLDGraph(){
         console.log("New budget is: "+that.budget);
     };
 
+    this.loadSavedBudget = function(val) {
+        that.budget = val;
+        document.getElementById("budgetVal").value = val;
+        console.log("Previously saved budget is: "+that.budget);
+    };
+
     this.requestSaveDataAsJson=function(){
         // THIS SHOULD BE OVERWRITTEN BY ALL GRAPHS!
         var retObj={};

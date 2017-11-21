@@ -45,14 +45,21 @@ function CLDNode(graph) {
         console.log("the unit is:"+ text);
     };
 
+    this.getCriteriaUnit = function() {
+        return that.criteriaUnit;
+    };
+
     this.setLibMapping = function(text) {
         that.libElement = text;
         console.log("the element is mapped to lib: "+text);
         // update the element in sfd;
-
         that.getGlobalNodePtr().getSfdNode().setSubClassTypeFromText(text);
 
     };
+
+    this.getLibMapping = function() {
+        return that.libElement;
+    }
 
     this.setActionCostFromSolver = function(val) {
         this.actionCostSolver = val;
@@ -506,9 +513,20 @@ function CLDNode(graph) {
         this.setObserve(metaObject.observe);
         this.setTrend(metaObject.trend);
 
+        // if(metaObject.libMapping)
+            // this.setLibMapping(metaObject.libMapping);
+        that.libElement = metaObject.libMapping;
+        if(that.getGlobalNodePtr().getSfdNode() !== undefined) {
+            console.log("testing global ptr: "+that.getGlobalNodePtr().getSfdNode());
+            that.getGlobalNodePtr().getSfdNode().setSubClassTypeFromText(metaObject.libMapping);
+        }
+
         if (metaObject.actions){
             that.setMetaActions(metaObject.actions);
         }
+
+        if(metaObject.criteriaUnit)
+            that.setCriteriaUnit(metaObject.criteriaUnit);
     };
 
     this.setMetaActions=function(actionPairs){

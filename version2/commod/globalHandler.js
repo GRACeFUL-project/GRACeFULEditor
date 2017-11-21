@@ -305,6 +305,7 @@ var globalElementIdentifier=2;
 
             retObj.type = "GLOBAL_MODEL";
             retObj.graphSchema = "NO_SCHEMA";
+            retObj.budget = graphObjectList[1].budget;
             retObj.nodes = [];
             retObj.links = [];
             var i, obj;
