@@ -179,6 +179,7 @@ function CLDNode(graph) {
     };
 
     this.setPortDetails = function(type, id) {
+        console.log("Setting PortDetail of that Node type"+type + "   id:"+id);
         var obj = {};
         obj.linkId = id;
         if(type === "outgoing") {
@@ -195,7 +196,10 @@ function CLDNode(graph) {
 
     this.getPortDetails = function(id) {
 
+        console.log("Getting Port Details, for node Id "+id);
         // console.log("id is: "+id+"Port details: "+JSON.stringify(that.ports, null, ''));
+        console.log("that Ports");
+        console.log(that.ports);
         var w = that.ports.find(function(temp) {
             return temp.linkId == id;
         });

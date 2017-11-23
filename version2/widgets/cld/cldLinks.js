@@ -105,9 +105,12 @@ function CLDLink(graph) {
         this.sourceNode = src;
       //  console.log("Source Add");
         src.addLink(that);
-        if (src.setPortDetails)
-            src.setPortDetails("outgoing", that.id());
+        console.log("wannt to set port Details on node"+ src.label);
 
+        if (src.setPortDetails) {
+            console.log("SRC HAS PORT DETAILS!!!----------------"+that.id()+" <<");
+            src.setPortDetails("outgoing", that.id());
+        }
     };
     this.target = function (target) {
       //  console.log("Target Add");

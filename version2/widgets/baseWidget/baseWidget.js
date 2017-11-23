@@ -352,6 +352,7 @@ function BaseWidget(parentElement) {
                         var correspondingLinkType=linkTypes[v];
                         var correspondingLinkValue=linkValues[v];
 
+
                         if (v===0){
                             globalLink.crateLinkFromOutside(correspondingGraphObject,
                                 correspondingGraphObject.createLink(correspondingGraphObject));
