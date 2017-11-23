@@ -258,8 +258,8 @@ function CLDControls(parentWidget) {
 
         if (node.getElementType()==="NodeElement") {
             happyNessLabel.classed("hidden",false);
-            console.log("Selecting node: what type?"+node.getGlobalNodePtr().getGTNode().getTypeId());
-            if (node.getGlobalNodePtr().getGTNode().getTypeId()===100){
+            // console.log("Selecting node: what type?"+node.getGlobalNodePtr().getGTNode().getTypeId());
+            if (node.getGlobalNodePtr().getGTNode()&& node.getGlobalNodePtr().getGTNode().getTypeId()===100){
                 console.log("Selecting Stakeholder Node?");
                 happyNessLabel.node().innerHTML= "Happiness: "+node.setStakeholderHappiness();
             }
