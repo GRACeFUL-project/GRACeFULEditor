@@ -169,8 +169,10 @@ function reloadWidgetItems(jsonOBJ){
         for( i=0; i < object.length ; i++ ) {
             temp = object[i];
             label = temp.name ;
-            if (label==="Stakeholder")
+            if (label==="Stakeholder") {
+                console.log("------------------------------------ StakeHolder Id is "+i );
                 continue;
+            }
             // if (temp.superClass!=undefined)
             //     continue;
             srcToImg = temp.icon;

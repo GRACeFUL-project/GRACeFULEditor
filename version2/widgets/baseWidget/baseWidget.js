@@ -245,7 +245,7 @@ function BaseWidget(parentElement) {
         console.log(globalLinkElements);
         if (modelType==="GLOBAL_MODEL"){
             // nice we have a global model
-
+            console.log("<<<<<<<<<<<<<<<<<<<<<<<LOADING MODEL!!!!");
             // get a handler for creation
             var handler=that.getHandler();
             var reprGraphObjects=handler.getGraphObjects();
@@ -302,12 +302,18 @@ function BaseWidget(parentElement) {
                             repNode.y=correspondingPosition.y;
 
                         }
+
                         if (globalHoverText && globalHoverText.length>0) {
                             globalNode.setGlobalHoverText(globalHoverText);
                         }
                         globalNode.setGlobalName(storedName);
                     }
                 }// end of for loop that handles information
+
+                console.log("<<<<<<<<<<<<<<<<<<<<<<<Created GLOBAL NODE!!!!");
+                if (globalNode.getNodesEmail()!==undefined) {
+                    globalNode.getSfdNode().setType(100);
+                }
                 handler.addGlobalNode(globalNode);
             }
             // force the sfdgraph to redraw;
@@ -435,6 +441,7 @@ function BaseWidget(parentElement) {
             handler.redrawAllWidgets();
         }
 
+        console.log("<<<<<<<<<<<<<<<<<<<<<<< DONE LOADING >>>>>>!!!!");
 
 
     };

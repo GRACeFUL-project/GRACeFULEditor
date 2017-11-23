@@ -194,6 +194,28 @@ function SimpleSFDNode(graph,nodeDescriptions) {
 
     this.setType=function(typeId) {
         that.hoverTextEnabled=true;
+
+        // check for stakeholderthings;
+        if (typeId===100){
+            console.log("we have a stakehoder");
+
+            var rageId=that.findTypeId("stakeholder");
+            that.hoverText=nodeHoverDescriptions[rageId];
+            that.setTypeId(rageId);
+            that.label=labelTags[that.getTypeId()];
+            nodeName=labelTags[that.getTypeId()];
+            that.nodeClass=typesArray[that.getTypeId()];
+            that.parameters=createParameterObjects();
+            if (that.nodeElement) {
+                for (var i = 0; i < typesArray.length; i++) {
+                    // console.log("disabling :" + typesArray[i]);
+                    that.nodeElement.classed(typesArray[i], false);
+                }
+                that.nodeElement.classed(that.nodeClass, true);
+            }
+            return;
+        }
+
         that.hoverText=nodeHoverDescriptions[typeId];
         that.setTypeId(typeId);
         that.label=labelTags[that.getTypeId()];

@@ -270,8 +270,8 @@ function GlobalLink() {
             console.log("having the source and target from an other widget");
             var sourceNode = that.getSource().filterInformation(widget);
             var targetNode = that.getTarget().filterInformation(widget);
-           console.log(sourceNode);
-           console.log("------------------------------------------")
+            console.log(sourceNode);
+            console.log("------------------------------------------");
             console.log("CreatedLink ID=" + createdLinkInWidget.id());
             createdLinkInWidget.id(that.id());
             console.log("UPDATED ID=" + createdLinkInWidget.id());
