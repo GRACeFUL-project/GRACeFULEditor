@@ -99,7 +99,10 @@ function BaseGraph(parentWidget) {
     this.activateGraph=function(val){
         if (val===true){
             this.svgElement.classed("hidden",false);
-            this.forceRedrawContent();
+            console.log("A tab was Activated");
+            that.forceRedrawContent();
+            console.log("Forcing Redrawing of this graph!");
+
             if (that.parentWidget.redeliverResultToWidget)
                 that.parentWidget.redeliverResultToWidget();
         }
