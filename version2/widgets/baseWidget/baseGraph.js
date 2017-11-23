@@ -460,7 +460,7 @@ function BaseGraph(parentWidget) {
 
 
     this.redrawGraphContent=function(){
-        var gHandler=that.parentWidget.getHandler();
+        var gHandler=gHandlerObj;
         that.nodeElementArray=gHandler.collectNodesForWidget(that);
         that.pathElementArray=gHandler.collectLinkForWidget(that);
 
