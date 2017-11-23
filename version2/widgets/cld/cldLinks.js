@@ -351,6 +351,7 @@ function CLDLink(graph) {
 
         if (that.superLinkType===100){
             pathHoverElement.text("Weight: "+that.getNormalizedWeight()+"\nConstraint: "+that.getEvaluationValue());
+
         }else {
         that.rootElement.append("image")
                         .attr("id", "linkDeleteIcon")
@@ -365,6 +366,7 @@ function CLDLink(graph) {
                             console.log("this link has to be deleted: "+that.id());
                             graph.handleLinkDeletion(that);
                         });
+
         }
 
         addTypeString();

@@ -8,7 +8,7 @@ function CLDWidget(){
 
     this.gtGraphObj=undefined;
     this.sfdGraphObj=undefined;
-
+    this.savedModelResult=undefined;
 
     this.setPtrToGoalTreeGraphObject=function(gtGraphObj){
         this.gtGraphObj=gtGraphObj;
@@ -97,7 +97,7 @@ function CLDWidget(){
 
     this.merger = function() {
         this.graphObject.mergeTheNodes();
-    }
+    };
 
     this.loadJSON=function(jsonData){
         // LOAD JSON ACTION
@@ -219,6 +219,13 @@ function CLDWidget(){
 
     };
 
+    this.redeliverResultToWidget=function(){
+        if (gHandlerObj.getSavedModelResult()!==undefined) {
+            console.log("Redelivering THE RESULTS OF THE MODEL ---------------------");
+            that.graphObject.deliverResultsForNodes(gHandlerObj.getSavedModelResult());
+            that.graphObject.createResultsTable();
+        }
+    };
     this.parseResult = function(result) {
         //TODO        
         var parsedResult = JSON.parse(result);
@@ -228,6 +235,7 @@ function CLDWidget(){
             alert("Invalid Model");
         }
         else {
+            gHandlerObj.saveModelResult(parsedResult);
             that.graphObject.deliverResultsForNodes(parsedResult);
             that.graphObject.createResultsTable();
         }        

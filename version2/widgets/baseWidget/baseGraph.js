@@ -99,7 +99,9 @@ function BaseGraph(parentWidget) {
     this.activateGraph=function(val){
         if (val===true){
             this.svgElement.classed("hidden",false);
-            // this.forceRedrawContent();
+            this.forceRedrawContent();
+            if (that.parentWidget.redeliverResultToWidget)
+                that.parentWidget.redeliverResultToWidget();
         }
         else
             this.svgElement.classed("hidden",true);

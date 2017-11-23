@@ -15,6 +15,9 @@ var globalElementIdentifier=2;
     var globalLinkArray=[];
 
 
+    var savedResults=undefined;
+
+
 
     function new_object() {
         // some variables
@@ -24,6 +27,16 @@ var globalElementIdentifier=2;
             globalLinkArray = [];
             globalNodeArray = [];
             that.redrawAllWidgets();
+        };
+
+        this.saveModelResult=function(mr){
+            savedResults=mr;
+        };
+        this.getSavedModelResult=function(){
+            return savedResults;
+        };
+        this.clearModelResult=function () {
+            savedResults=undefined;
         };
 
         this.getAllGlobalNodes=function(){
