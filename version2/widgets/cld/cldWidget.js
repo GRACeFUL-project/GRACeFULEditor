@@ -220,10 +220,12 @@ function CLDWidget(){
     };
 
     this.redeliverResultToWidget=function(){
-        if (gHandlerObj.getSavedModelResult()!==undefined) {
-            console.log("Redelivering THE RESULTS OF THE MODEL ---------------------");
-            that.graphObject.deliverResultsForNodes(gHandlerObj.getSavedModelResult());
-            that.graphObject.createResultsTable();
+        if (gHandlerObj) {
+            if (gHandlerObj.getSavedModelResult() !== undefined) {
+                console.log("Redelivering THE RESULTS OF THE MODEL ---------------------");
+                that.graphObject.deliverResultsForNodes(gHandlerObj.getSavedModelResult());
+                that.graphObject.createResultsTable();
+            }
         }
     };
     this.parseResult = function(result) {
