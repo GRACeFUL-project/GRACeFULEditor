@@ -481,7 +481,7 @@ function CLDControls(parentWidget) {
 
     this.onValueChange = function(id, val) {
         gHandlerObj.saveModelResult(undefined);
-        that.parentWidget().forceRedrawContent();
+        that.parentWidget().graphObject.forceRedrawContent();
 
         console.log("Value change. ID:"+id+" boolean: "+val);
         that.selectedNode.setActionValues(id, val);
@@ -498,7 +498,7 @@ function CLDControls(parentWidget) {
 
     this.onCostChange = function(id) {
         gHandlerObj.saveModelResult(undefined);
-        that.parentWidget().forceRedrawContent();
+        that.parentWidget().graphObject.forceRedrawContent();
 
         console.log("Cost change:"+id);
         var c1 = document.getElementById(id);
@@ -522,7 +522,7 @@ function CLDControls(parentWidget) {
 
     this.onChangeLinkType=function (selectionContainer) {
         gHandlerObj.saveModelResult(undefined);
-        that.parentWidget().forceRedrawContent();
+        that.parentWidget().graphObject.forceRedrawContent();
 
         var strUser = selectionContainer.options[selectionContainer.selectedIndex].value;
         console.log(selectionContainer.selectedIndex+" the user string is "+strUser);
@@ -538,7 +538,7 @@ function CLDControls(parentWidget) {
 
     this.onChangeNodeType=function(selectionContainer){
         gHandlerObj.saveModelResult(undefined);
-        that.parentWidget().redeliverResultToWidget();
+        that.parentWidget().graphObject.redeliverResultToWidget();
         var strUser = selectionContainer.options[selectionContainer.selectedIndex].value;
         // console.log(selectionContainer.selectedIndex+" the user string is "+strUser);
         that.selectedNode.setType(selectionContainer.selectedIndex, strUser);
@@ -569,7 +569,7 @@ function CLDControls(parentWidget) {
 
     this.onChangeMapLib = function() {
         gHandlerObj.saveModelResult(undefined);
-        that.parentWidget().forceRedrawContent();
+        that.parentWidget().graphObject.forceRedrawContent();
 
 
         that.selectedNode.setLibMapping(mapsToLib.node().value);        
@@ -582,7 +582,7 @@ function CLDControls(parentWidget) {
 
     this.observeNode = function(val) {
         gHandlerObj.saveModelResult(undefined);
-        that.parentWidget().forceRedrawContent();
+        that.parentWidget().graphObject.forceRedrawContent();
 
 
         that.selectedNode.setObserve(val);
@@ -600,7 +600,7 @@ function CLDControls(parentWidget) {
 
     this.trendFunc = function(selectionContainer) {
         gHandlerObj.saveModelResult(undefined);
-        that.parentWidget().forceRedrawContent();
+        that.parentWidget().graphObject.forceRedrawContent();
 
         var strUser = selectionContainer.options[selectionContainer.selectedIndex].value;
         // console.log(selectionContainer.selectedIndex+" the user string is "+strUser);
@@ -613,7 +613,7 @@ function CLDControls(parentWidget) {
 
     this.onChangeUnit =function() {
         gHandlerObj.saveModelResult(undefined);
-        that.parentWidget().forceRedrawContent();
+        that.parentWidget().graphObject.forceRedrawContent();
 
         that.selectedNode.setCriteriaUnit(criteriaUnit.node().value);
     };
@@ -660,7 +660,7 @@ function CLDControls(parentWidget) {
         
         d3.select("#budgetVal").on("change", function() {
             gHandlerObj.saveModelResult(undefined);
-            that.parentWidget().forceRedrawContent();
+            that.parentWidget().graphObject.forceRedrawContent();
 
             var c1 = document.getElementById("budgetVal");
             that.parent.cldBudget(c1.value);
