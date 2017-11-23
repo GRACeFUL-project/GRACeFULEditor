@@ -245,7 +245,7 @@ function BaseWidget(parentElement) {
         console.log(globalLinkElements);
         if (modelType==="GLOBAL_MODEL"){
             // nice we have a global model
-            console.log("<<<<<<<<<<<<<<<<<<<<<<<LOADING MODEL!!!!");
+            // console.log("<<<<<<<<<<<<<<<<<<<<<<<LOADING MODEL!!!!");
             // get a handler for creation
             var handler=that.getHandler();
             var reprGraphObjects=handler.getGraphObjects();
@@ -317,7 +317,7 @@ function BaseWidget(parentElement) {
                     }
                 }// end of for loop that handles information
 
-                console.log("<<<<<<<<<<<<<<<<<<<<<<<Created GLOBAL NODE!!!!");
+                // console.log("<<<<<<<<<<<<<<<<<<<<<<<Created GLOBAL NODE!!!!");
                 if (globalNode.getNodesEmail()!==undefined) {
                     globalNode.getSfdNode().setType(100);
                 }
@@ -325,7 +325,7 @@ function BaseWidget(parentElement) {
             }
             // force the sfdgraph to redraw;
             reprGraphObjects[2].forceRedrawContent();
-            console.log("nodes should be visible and present now'");
+            // console.log("nodes should be visible and present now'");
             // LINK GENERATION; more complex but hey;
             for (i=0;i<globalLinkElements.length;i++){
                 // stored data;
@@ -434,7 +434,7 @@ function BaseWidget(parentElement) {
 
 
                    //     console.log("DONE");
-                        console.log(linkCpStatus);
+     //                   console.log(linkCpStatus);
                         if (linkCpStatus[v]===true){
                             // add the controlpoint position from the loaded json model
                             cLink.setControlPoint(linkCpPos[v]);
@@ -448,7 +448,7 @@ function BaseWidget(parentElement) {
             handler.redrawAllWidgets();
         }
 
-        console.log("<<<<<<<<<<<<<<<<<<<<<<< DONE LOADING >>>>>>!!!!");
+        // console.log("<<<<<<<<<<<<<<<<<<<<<<< DONE LOADING >>>>>>!!!!");
 
 
     };

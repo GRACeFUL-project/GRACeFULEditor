@@ -15,7 +15,7 @@ function GTNode(graph) {
     this.criteriaUnit = "";
 
     this.getTypeId=function(){
-        console.log("getting gtNodeType");
+        // console.log("getting gtNodeType");
       return that.goalTypeId;
     };
 
@@ -38,7 +38,7 @@ function GTNode(graph) {
     };
 
     this.setType=function(typeId, typeName){
-        console.log("creating new node Type"+typeId+" and type name"+ typeName);
+        // console.log("creating new node Type"+typeId+" and type name"+ typeName);
         that.goalTypeId=typeId;
         if (typeId===100){
             goalClass = allGoalClasses[4];
@@ -49,14 +49,14 @@ function GTNode(graph) {
         that.goalType = typeName;
         var friendlyWidget=graph.parentWidget.cldGraphObj;
         var globalNode=that.getGlobalNodePtr();
-       console.log("Goal class is"+goalClass);
+       // console.log("Goal class is"+goalClass);
         // apply the classes ;
         if (that.nodeElement){
             for (var i=0;i<allGoalClasses.length;i++){
               //  console.log("disabling :"+allGoalClasses[i]);
                 that.nodeElement.classed(allGoalClasses[i],false);
             }
-            console.log("Setting final class :"+goalClass);
+            // console.log("Setting final class :"+goalClass);
             that.nodeElement.classed(goalClass,true);
         }
         if (typeId===3 && that.getGlobalNodePtr()!=undefined){
@@ -214,7 +214,7 @@ function GTNode(graph) {
         }
 
         that.criteriaUnit = text;
-        console.log("the unit is:"+ text);
+        // console.log("the unit is:"+ text);
     };
 
 
@@ -235,7 +235,7 @@ function GTNode(graph) {
 
         // d3.event.stopPropagation();
         if(d3.event.ctrlKey) {
-            console.log("Controllll");
+            // console.log("Controllll");
             graph.hideDraggerElement();
             graph.selectMultiples(that);
             return;
@@ -248,11 +248,11 @@ function GTNode(graph) {
 
                 graph.selectNode(that);
                 if (that.goalTypeId!==100) {
-                    console.log("gt simple Selection"+that.selectedTypeId);
+                    // console.log("gt simple Selection"+that.selectedTypeId);
                     that.nodeElement.classed("focused", true);
                     graph.createDraggerElement(that);
                 }else{
-                    console.log("gt stake selection");
+                    // console.log("gt stake selection");
                     that.nodeElement.classed("focusedStakeHolder", true);
                 }
 
@@ -260,7 +260,7 @@ function GTNode(graph) {
                 return;
             }
             if (that.nodeIsFocused === true) {
-                console.log("removing focused classed");
+                // console.log("removing focused classed");
                 that.nodeIsFocused = false;
                 that.nodeElement.classed("focused", false);
                 that.nodeElement.classed("focusedStakeHolder", false);

@@ -42,7 +42,7 @@ function CLDNode(graph) {
             this.getGlobalNodePtr().setGlobalUnit(text);
         }
         that.criteriaUnit = text;
-        console.log("the unit is:"+ text);
+      //  console.log("the unit is:"+ text);
     };
 
     this.getCriteriaUnit = function() {
@@ -52,7 +52,7 @@ function CLDNode(graph) {
     this.setLibMapping = function(text, textDesc) {
         that.libElement = text;
         that.libElementDesc = textDesc;
-        console.log("the element is mapped to lib: "+text);
+       // console.log("the element is mapped to lib: "+text);
         // update the element in sfd;
         that.getGlobalNodePtr().getSfdNode().setSubClassTypeFromText(text);
 
@@ -183,7 +183,7 @@ function CLDNode(graph) {
     };
 
     this.setPortDetails = function(type, id) {
-        console.log("Setting PortDetail of that Node type"+type + "   id:"+id);
+      //  console.log("Setting PortDetail of that Node type"+type + "   id:"+id);
         var obj = {};
         obj.linkId = id;
         if(type === "outgoing") {
@@ -200,10 +200,10 @@ function CLDNode(graph) {
 
     this.getPortDetails = function(id) {
 
-        console.log("Getting Port Details, for node Id "+id);
+      //  console.log("Getting Port Details, for node Id "+id);
         // console.log("id is: "+id+"Port details: "+JSON.stringify(that.ports, null, ''));
-        console.log("that Ports");
-        console.log(that.ports);
+     //   console.log("that Ports");
+     //   console.log(that.ports);
         var w = that.ports.find(function(temp) {
             return temp.linkId == id;
         });
@@ -280,7 +280,7 @@ function CLDNode(graph) {
         for(var k=0; k<graph.pathElementArray.length; k++) {
             var sLink = graph.pathElementArray[k];
             if(sLink.superLinkType === 100 && sLink.sourceNode.id() === that.id()) {
-                console.log("sLinkkkk!!! "+sLink.id());
+          //      console.log("sLinkkkk!!! "+sLink.id());
                 values.push(sLink.getEvaluationValue());
                 weights.push(sLink.getNormalizedWeight());
             }
@@ -346,7 +346,7 @@ function CLDNode(graph) {
     this.setResult = function(rid) {
         that.result = rid;
         var rOffset = 0;
-        console.log("Result: "+rid);
+      //  console.log("Result: "+rid);
         if(rid == undefined)
             that.result = null;
         else if(rid == 2 || rid == -2) {
@@ -436,7 +436,7 @@ function CLDNode(graph) {
         that.setDisplayLabelText(that.label);
 
         if (that.selectedTypeId===5){
-            console.log("removed deletation element");
+            // console.log("removed deletation element");
         }else {
             //add delete image
             that.rootNodeLayer.append("image")
@@ -468,7 +468,7 @@ function CLDNode(graph) {
 
         // d3.event.stopPropagation();
         if(d3.event.ctrlKey) {
-            console.log("Controllll");
+           // console.log("Controllll");
             graph.hideDraggerElement();
             graph.selectMultiples(that);
             return;
@@ -481,11 +481,11 @@ function CLDNode(graph) {
 
                 graph.selectNode(that);
                 if (that.selectedTypeId!==5) {
-                    console.log("cld simple Selection"+that.selectedTypeId);
+               //     console.log("cld simple Selection"+that.selectedTypeId);
                     that.nodeElement.classed("focused", true);
                     graph.createDraggerElement(that);
                 }else{
-                    console.log("cld stake selection");
+                 //   console.log("cld stake selection");
                     that.nodeElement.classed("focusedStakeHolder", true);
                 }
 
@@ -493,7 +493,7 @@ function CLDNode(graph) {
                 return;
             }
             if (that.nodeIsFocused === true) {
-                console.log("removing focused classed");
+             //   console.log("removing focused classed");
                 that.nodeIsFocused = false;
                 that.nodeElement.classed("focused", false);
                 that.nodeElement.classed("focusedStakeHolder", false);
@@ -518,7 +518,7 @@ function CLDNode(graph) {
     };
 
     this.setMyMetaData=function(metaObject){
-        console.log("setting metaData");
+       // console.log("setting metaData");
         this.setObserve(metaObject.observe);
         this.setTrend(metaObject.trend);
 
@@ -526,7 +526,7 @@ function CLDNode(graph) {
             // this.setLibMapping(metaObject.libMapping);
         that.libElement = metaObject.libMapping;
         if(that.getGlobalNodePtr().getSfdNode() !== undefined) {
-            console.log("testing global ptr: "+that.getGlobalNodePtr().getSfdNode());            
+          //  console.log("testing global ptr: "+that.getGlobalNodePtr().getSfdNode());
             if(metaObject.libMapping === "" && that.selectedTypeId === 3) {
                 that.libElement = "criterion"; //hard coded
             }
@@ -639,7 +639,7 @@ function CLDNode(graph) {
                 //console.log("disabling :"+allPossibleClasses[i]);
                 that.nodeElement.classed(allPossibleClasses[i],false);
             }
-            console.log("Setting final class :"+nodeClass);
+          //  console.log("Setting final class :"+nodeClass);
             that.nodeElement.classed(nodeClass,true);
         }
         that.setTrendStyle(that.getTrend());

@@ -190,7 +190,7 @@ function GlobalNode() {
             var meta=array[i];
             var empty=jQuery.isEmptyObject(meta);
             if (empty===true) {
-                console.log("the meta object is empty");
+                // console.log("the meta object is empty");
                 continue;
             }
             else{

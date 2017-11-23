@@ -383,9 +383,9 @@ function qGraph(parentWidget) {
 
                     var w_no = Number(critElements[i].weight);
 
-                    if(normalizedWeights[i] !== "0.000" && w_no>0.5) {
+                    // if(normalizedWeights[i] !== "0.000" && w_no>0.5) {
                         gHandlerObj.createStakeholderLink(st_node,tarNode,normalizedWeights[i],values_str[i], i);
-                    }
+                    // }
                 }
             }
 
@@ -404,13 +404,13 @@ function qGraph(parentWidget) {
                     //update weights
                     crits[j].weight = resultsData.criteria[j].weight;
                     var this_cell = getWeighTable.rows[j+1].cells[i+2];
-                    console.log("WEIGHTS:"+crits[j].weight);
+                 //   console.log("WEIGHTS:"+crits[j].weight);
                     this_cell.childNodes[0].value = crits[j].weight;
 
                     //update values
                     crits[j].value = resultsData.criteria[j].value;
                     var val_cell = getValTable.rows[j+1].cells[i+2];
-                    console.log("VALS:"+crits[j].value);
+                 //   console.log("VALS:"+crits[j].value);
                     $(val_cell.childNodes[0]).val(crits[j].value);
                 }
             }

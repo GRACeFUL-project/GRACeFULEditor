@@ -39,7 +39,7 @@ function GlobalLink() {
             if (linkRepresenter[i]) {
 
                 linkRepresenter[i].id(that.id());
-                console.log("Setting LINK Id"+linkRepresenter[i].id());
+         //       console.log("Setting LINK Id"+linkRepresenter[i].id());
             }
         }
 
@@ -68,8 +68,8 @@ function GlobalLink() {
             var sL=subLinks[i];
             var srcPort=sL.src.id();
             var tarPort=sL.tar.id();
-            console.log("SRC-Port:"+srcPort);
-            console.log("TAR-Port:"+tarPort);
+          //  console.log("SRC-Port:"+srcPort);
+         //   console.log("TAR-Port:"+tarPort);
             connections.push({s:srcPort,t:tarPort});
         }
         return connections;
@@ -267,14 +267,14 @@ function GlobalLink() {
         if (that.getSource() && that.getTarget()) {
 
 
-            console.log("having the source and target from an other widget");
+          //  console.log("having the source and target from an other widget");
             var sourceNode = that.getSource().filterInformation(widget);
             var targetNode = that.getTarget().filterInformation(widget);
-            console.log(sourceNode);
-            console.log("------------------------------------------");
-            console.log("CreatedLink ID=" + createdLinkInWidget.id());
+        //    console.log(sourceNode);
+         //   console.log("------------------------------------------");
+          //  console.log("CreatedLink ID=" + createdLinkInWidget.id());
             createdLinkInWidget.id(that.id());
-            console.log("UPDATED ID=" + createdLinkInWidget.id());
+         //   console.log("UPDATED ID=" + createdLinkInWidget.id());
             createdLinkInWidget.source(sourceNode);
             createdLinkInWidget.target(targetNode);
 
@@ -283,23 +283,23 @@ function GlobalLink() {
 
 
         this.setLinkGenerator=function(widget, createdLinkInWidget){
-            console.log("adding thigns");
+          //  console.log("adding thigns");
         var indexOfWidget=that.findWidgetId(widget);
         that.setVisibleInWidget(widget, true);
         if (indexOfWidget<0){return; } // we return nothing
         linkRepresenter[indexOfWidget]=createdLinkInWidget;
         // add the corresponding elements to the represented links;
         if (that.getSource() && that.getTarget()) {
-            console.log("having the source and target from an other widget");
+          //  console.log("having the source and target from an other widget");
             var sourceNode = that.getSource().filterInformation(widget);
             var targetNode = that.getTarget().filterInformation(widget);
-            console.log("Filter not working ");
+          //  console.log("Filter not working ");
             createdLinkInWidget.source(sourceNode);
             createdLinkInWidget.target(targetNode);
-            console.log("Filter  working ");
+          //  console.log("Filter  working ");
             sourceNode.addLink(createdLinkInWidget);
             targetNode.addLink(createdLinkInWidget);
-            console.log("Done");
+          //  console.log("Done");
         }
 
 

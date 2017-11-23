@@ -36,7 +36,7 @@ function SimpleSFDNode(graph,nodeDescriptions) {
 
 
     this.findTypeId=function(name){
-        console.log("searching for "+name);
+        // console.log("searching for "+name);
         // console.log(labelTags);
       for (var i=0;i<labelTags.length;i++){
           if (labelTags[i]===name)
@@ -46,7 +46,7 @@ function SimpleSFDNode(graph,nodeDescriptions) {
 
     this.setSubClassTypeFromText=function(text){
             var SubClassIdInDescription = that.findTypeId(text);
-            console.log("Found SfdSubClass Id" + SubClassIdInDescription);
+            // console.log("Found SfdSubClass Id" + SubClassIdInDescription);
             that.setType(SubClassIdInDescription);
             graph_object.forceRedrawContent();
             that.getGlobalNodePtr().getCLDNODE().libElement = text;
@@ -197,7 +197,7 @@ function SimpleSFDNode(graph,nodeDescriptions) {
 
         // check for stakeholderthings;
         if (typeId===100){
-            console.log("we have a stakehoder");
+            // console.log("we have a stakehoder");
 
             var rageId=that.findTypeId("stakeholder");
             that.hoverText=nodeHoverDescriptions[rageId];
@@ -232,7 +232,7 @@ function SimpleSFDNode(graph,nodeDescriptions) {
     };
 
     this.getPortWithId=function(index){
-        console.log("Searching for Index"+index);
+        // console.log("Searching for Index"+index);
         return portElements[index];
     };
 

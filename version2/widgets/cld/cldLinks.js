@@ -44,7 +44,7 @@ function CLDLink(graph) {
     this.setEvaluationValue=function(str){this.evaluatonString=str;};
     this.setPortIndex = function(ind) {
         this.superLinkPortIndex = ind;
-        console.log("the super link port index is: "+this.superLinkPortIndex);
+       // console.log("the super link port index is: "+this.superLinkPortIndex);
     };
 
 
@@ -97,7 +97,7 @@ function CLDLink(graph) {
     };
 
     this.getTypeId=function() {
-        console.log("returning "+that.cldTypeId);
+        // console.log("returning "+that.cldTypeId);
         return that.cldTypeId;
     };
 
@@ -105,10 +105,10 @@ function CLDLink(graph) {
         this.sourceNode = src;
       //  console.log("Source Add");
         src.addLink(that);
-        console.log("wannt to set port Details on node"+ src.label);
+        // console.log("wannt to set port Details on node"+ src.label);
 
         if (src.setPortDetails) {
-            console.log("SRC HAS PORT DETAILS!!!----------------"+that.id()+" <<");
+            // console.log("SRC HAS PORT DETAILS!!!----------------"+that.id()+" <<");
             src.setPortDetails("outgoing", that.id());
         }
     };
@@ -174,8 +174,8 @@ function CLDLink(graph) {
     this.setCLDTypeString=function(typeId, typeName){
         that.cldTypeId = typeId;
         that.cldTypeString = typeName;
-        console.log("set elements"+that.cldTypeId+" "+that.cldTypeString);
-        console.log(that.getCLDLinkTypeFromOutside());
+        // console.log("set elements"+that.cldTypeId+" "+that.cldTypeString);
+        // console.log(that.getCLDLinkTypeFromOutside());
         // update textRendering element
         if (textRenderingElement)
             textRenderingElement.text(that.cldTypeString);
@@ -369,7 +369,7 @@ function CLDLink(graph) {
                         .attr("y", cpPoint.y - 10)
                         .on('click', function() {
                             d3.event.stopPropagation();
-                            console.log("this link has to be deleted: "+that.id());
+                           // console.log("this link has to be deleted: "+that.id());
                             graph.handleLinkDeletion(that);
                         });
 
@@ -445,7 +445,7 @@ function CLDLink(graph) {
     };
 
     this.onClicked = function () {
-        console.log("link click");
+       // console.log("link click");
         if (that.elementIsFocused===false) {
             that.elementIsFocused=true;
             if (!that.pathElement) return;

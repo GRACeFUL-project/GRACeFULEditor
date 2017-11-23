@@ -447,7 +447,7 @@ function SimpleSFDControls(parentWidget) {
                 var sC = node.getGlobalNodePtr().getSfdNode().getSubClasses();
                 // console.log("testing subClasses"+sC);
                 var sCDesc = node.getGlobalNodePtr().getSfdNode().getSubClassesDescriptions();
-                console.log("testing getSubClassesDescriptions"+sCDesc);
+              //  console.log("testing getSubClassesDescriptions"+sCDesc);
                 if (sC.length > 0) {
                     mapsToLib.classed("hidden", false);
                     d3.select("#libMapLabel").classed("hidden", false);

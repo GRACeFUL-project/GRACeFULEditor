@@ -16,11 +16,11 @@ function BaseLink(graph) {
     this.globalLinkPtr=undefined;
 
     this.setGlobalLinkPtr=function(ptr){
-        console.log("Setting global LINK ptr");
+      //  console.log("Setting global LINK ptr");
         this.globalLinkPtr=ptr;
     };
     this.getGlobalLinkPtr=function(){
-        console.log("wannting Link PTR");
+      //  console.log("wannting Link PTR");
         return that.globalLinkPtr;
     };
 

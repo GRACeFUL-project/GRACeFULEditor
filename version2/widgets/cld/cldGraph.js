@@ -73,8 +73,8 @@ function CLDGraph(){
         var aLink=new CLDLink(parent);
         aLink.setClassType(1);
         aLink.setCLDTypeString(1,"+");
-        console.log(aLink.getTypeId()+"<<< ");
-        return aLink
+        // console.log(aLink.getTypeId()+"<<< ");
+         return aLink
     };
 
     this.setBudget = function(val) {
