@@ -71,7 +71,7 @@ function qGraph(parentWidget) {
 
         // add table to div
         d3.select(table).classed("mdl-data-table mdl-js-data-table mdl-shadow--0dp", true);
-        var percentage=50;
+        var percentage=100;
 
         d3.select(table).style("width",percentage+"%");
         that.svgElement.node().appendChild(table);
@@ -155,7 +155,7 @@ function qGraph(parentWidget) {
 
         var table=document.createElement('table');
         d3.select(table).classed("mdl-data-table mdl-js-data-table mdl-shadow--0dp", true);
-        var percentage=50;
+        var percentage=100;
         d3.select(table).style("width",percentage+"%");
         d3.select(table).attr("id", "weightsTable");
         editingDiv.appendChild(table);        
@@ -241,7 +241,7 @@ function qGraph(parentWidget) {
 
         var table=document.createElement('table');
         d3.select(table).classed("mdl-data-table mdl-js-data-table mdl-shadow--0dp", true);
-        var percentage=50;
+        var percentage=100;
         d3.select(table).style("width",percentage+"%");
         d3.select(table).attr("id", "valsTable");
         editingDiv.appendChild(table);        

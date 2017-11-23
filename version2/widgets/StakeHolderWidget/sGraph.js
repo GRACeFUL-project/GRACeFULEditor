@@ -136,7 +136,7 @@ function qGraph(parentWidget) {
         // craete a table
         var table=document.createElement('table');
         d3.select(table).classed("mdl-data-table mdl-js-data-table mdl-shadow--0dp", true);
-        var percentage=50;
+        var percentage=100;
         d3.select(table).style("width",percentage+"%");
         d3.select(table).attr("id", tableId);
         // add table to div
@@ -177,8 +177,9 @@ function qGraph(parentWidget) {
         // craete a table
         var table=document.createElement('table');
         d3.select(table).classed("mdl-data-table mdl-js-data-table mdl-shadow--0dp", true);
-        var percentage=50;
+        var percentage=100;
         d3.select(table).style("width",percentage+"%");
+        d3.select(table).style("min-width",200+'px');
         d3.select(table).attr("id", tableId);
         // add table to div
         appendToDiv.appendChild(table);
@@ -194,7 +195,7 @@ function qGraph(parentWidget) {
 
 
         header_crit.innerHTML="Criteria";
-        header_unit.innerHTML = "Unit"
+        header_unit.innerHTML = "Unit";
         header_value.innerHTML="Constraint (Please hold ctrl to select more then one option)";
 
         d3.select(tablerow).classed("headerTable",true);
