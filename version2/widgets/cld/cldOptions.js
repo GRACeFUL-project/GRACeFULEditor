@@ -539,10 +539,13 @@ function CLDControls(parentWidget) {
 
     this.onChangeNodeType=function(selectionContainer){
         gHandlerObj.saveModelResult(undefined);
-        that.parentWidget().graphObject.redeliverResultToWidget();
+        if (that.parentWidget().graphObject.redeliverResultToWidget) {
+            that.parentWidget().graphObject.redeliverResultToWidget();
+        }
         var strUser = selectionContainer.options[selectionContainer.selectedIndex].value;
         // console.log(selectionContainer.selectedIndex+" the user string is "+strUser);
         that.selectedNode.setType(selectionContainer.selectedIndex, strUser);
+        that.parentWidget().graphObject.forceRedrawContent();
         // if(strUser === "Criterion") {
         //     d3.select(criteriaUnit.node().parentNode).classed("hidden", false);
         // }
