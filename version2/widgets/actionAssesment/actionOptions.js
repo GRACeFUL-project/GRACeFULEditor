@@ -67,7 +67,7 @@ function actionControls(parentWidget) {
         aElem = aElem.library;
         
         for(var i=0; i<aElem.length; i++) {
-            var actionName = aElem[i].name;
+            var actionName = aElem[i].description;
             var actionCrit = aElem[i].crit.split(",").map(Number);
             var c = {actionName, actionCrit};
             that.actionsList.push(c);
@@ -82,7 +82,7 @@ function actionControls(parentWidget) {
 
         for(var i=0; i<cElem.length; i++) {
             var c = Number(cElem[i].nr);
-            that.criteriaList[c-1] = cElem[i].name;
+            that.criteriaList[c-1] = cElem[i].description;
         }
         console.log(that.criteriaList);
     };

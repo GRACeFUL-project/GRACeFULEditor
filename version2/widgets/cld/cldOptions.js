@@ -198,12 +198,14 @@ function CLDControls(parentWidget) {
         // check if node has subClass;
         if (node.getGlobalNodePtr().getSfdNode().getSubClasses) {
             var sC = node.getGlobalNodePtr().getSfdNode().getSubClasses();
+            var sCDesc = node.getGlobalNodePtr().getSfdNode().getSubClassesDescriptions();
             // console.log("testing subClasses"+sC);
             if (sC.length > 0) {
                 mapsToLib.classed("hidden", false);
                 d3.select("#libMapLabel").classed("hidden", false);
             } else {
                 sC = node.getGlobalNodePtr().getSfdNode().getSuperClassChildren();
+                sCDesc = node.getGlobalNodePtr().getSfdNode().getSuperClassChildrenDesc();
                 // console.log("testing superClasses"+sC);
                 if (sC.length > 0) {
                     mapsToLib.classed("hidden", false);
@@ -225,7 +227,8 @@ function CLDControls(parentWidget) {
 
             for (i = 0; i < sC.length; i++) {
                 var optA = document.createElement('option');
-                optA.innerHTML = sC[i];
+                optA.value = sC[i];
+                optA.innerHTML=sCDesc[i];
                 mapsToLib.node().appendChild(optA);
             }
         }
@@ -262,11 +265,13 @@ function CLDControls(parentWidget) {
             // check if node has subClass;
             if (node.getGlobalNodePtr().getSfdNode().getSubClasses) {
                 var sC = node.getGlobalNodePtr().getSfdNode().getSubClasses();
+                var sCDesc = node.getGlobalNodePtr().getSfdNode().getSubClassesDescriptions();
                 if (sC.length>0) {
                     mapsToLib.classed("hidden", false);
                     d3.select("#libMapLabel").classed("hidden", false);
                 } else{
                         sC = node.getGlobalNodePtr().getSfdNode().getSuperClassChildren();
+                        sCDesc = node.getGlobalNodePtr().getSfdNode().getSuperClassChildrenDesc();
                         if (sC.length > 0) {
                             mapsToLib.classed("hidden", false);
                             d3.select("#libMapLabel").classed("hidden", false);
@@ -286,14 +291,15 @@ function CLDControls(parentWidget) {
 
                 for (i=0;i<sC.length;i++) {
                     var optA=document.createElement('option');
-                    optA.innerHTML=sC[i];
+                    optA.value=sC[i];
+                    optA.innerHTML=sCDesc[i];
                     mapsToLib.node().appendChild(optA);
                 }
                 if (that.selectedNode.libElement.length===0 && sC.length>0) {
                     mapsToLib.node().options[0].selected="selected";
                     that.selectedNode.setLibMapping(mapsToLib.node().value);
                 }
-                mapsToLib.node().value=that.selectedNode.libElement;
+                mapsToLib.node().value = that.selectedNode.libElement;
             }
 
 
@@ -392,6 +398,9 @@ function CLDControls(parentWidget) {
             this.selectedNode = node;
             nodesGroup.collapseBody();
             linksGroup.expandBody();
+
+            if(that.selectedNode.superLinkType === 100)
+                linksGroup.collapseBody();
 
             // todo overwrite the values;
             var selId_1 = that.selectedNode.getClassType();
@@ -548,7 +557,7 @@ function CLDControls(parentWidget) {
     };
 
     this.onChangeMapLib = function() {
-        that.selectedNode.setLibMapping(mapsToLib.node().value);
+        that.selectedNode.setLibMapping(mapsToLib.node().value);        
     };
 
     // that.oldClass=function(){

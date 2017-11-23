@@ -880,6 +880,7 @@ function SimpleSFDGraph(){
             nodeDescription.ports=libDisc.interface;
             nodeDescription.superClass=libDisc.superClass;
             nodeDescription.subClass=[];
+            nodeDescription.subClassDescription = [];
             if (libDisc.superClass && seenSuperClasses.indexOf(libDisc.superClass)<0)
                 seenSuperClasses.push(libDisc.superClass);
 
@@ -895,11 +896,13 @@ function SimpleSFDGraph(){
             var currentElement=inputClasses[i];
             if (seenSuperClasses.indexOf(currentElement.name)>=0){
                 currentElement.subClass.push(currentElement.name); // push the super Class For selection
+                currentElement.subClassDescription.push(currentElement.hoverText);
                 for (var j=0;j<inputClasses.length;j++){
                        var testElement=inputClasses[j];
                        if (testElement.superClass===currentElement.name){
                            // console.log(currentElement.name+"  adding subclass "+testElement.name);
                            currentElement.subClass.push(testElement.name);
+                           currentElement.subClassDescription.push(testElement.hoverText);
                        }
                 }
             }

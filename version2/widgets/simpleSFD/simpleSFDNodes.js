@@ -23,6 +23,7 @@ function SimpleSFDNode(graph,nodeDescriptions) {
     var m_nodeDescriptions=nodeDescriptions;
     var superClass=[];
     var subClasses=[];
+    var subClassDescription = [];
 
     var portSvgRoot=undefined;
     this.getGraphObject=function(){
@@ -67,6 +68,10 @@ function SimpleSFDNode(graph,nodeDescriptions) {
         return subClasses[that.getTypeId()];
     };
 
+    this.getSubClassesDescriptions=function(){
+        return subClassDescription[that.getTypeId()];
+    };
+
     this.getSuperClassChildren=function(){
         var superChiildren=[];
         if (superClass[that.getTypeId()]!=undefined){
@@ -75,6 +80,18 @@ function SimpleSFDNode(graph,nodeDescriptions) {
             var superClassId=that.findTypeId(sc);
             if (superChiildren>=0)
                 superChiildren=subClasses[superClassId];
+        }
+        return superChiildren;
+    };
+
+    this.getSuperClassChildrenDesc = function() {
+        var superChiildren=[];
+        if (superClass[that.getTypeId()]!=undefined){
+            var sc=superClass[that.getTypeId()];
+
+            var superClassId=that.findTypeId(sc);
+            if (superChiildren>=0)
+                superChiildren=subClassDescription[superClassId];
         }
         return superChiildren;
     };
@@ -92,6 +109,7 @@ function SimpleSFDNode(graph,nodeDescriptions) {
         // console.log("found node types "+m_nodeDescriptions.length);
         labelTags=[];
         typesArray=[];
+        subClassDescription = [];
         for (var i=0;i<m_nodeDescriptions.length;i++){
             labelTags.push(m_nodeDescriptions[i].name);
             typesArray.push("baseRoundNode");
@@ -101,6 +119,7 @@ function SimpleSFDNode(graph,nodeDescriptions) {
             parametersDescriptions.push(m_nodeDescriptions[i].params);
             superClass.push(m_nodeDescriptions[i].superClass);
             subClasses.push(m_nodeDescriptions[i].subClass);
+            subClassDescription.push(m_nodeDescriptions[i].subClassDescription);
             numTypes++; // increase if number of node types has increased
         }
     };

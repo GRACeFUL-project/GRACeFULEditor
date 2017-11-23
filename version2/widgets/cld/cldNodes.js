@@ -49,8 +49,9 @@ function CLDNode(graph) {
         return that.criteriaUnit;
     };
 
-    this.setLibMapping = function(text) {
+    this.setLibMapping = function(text, textDesc) {
         that.libElement = text;
+        that.libElementDesc = textDesc;
         console.log("the element is mapped to lib: "+text);
         // update the element in sfd;
         that.getGlobalNodePtr().getSfdNode().setSubClassTypeFromText(text);
@@ -517,8 +518,14 @@ function CLDNode(graph) {
             // this.setLibMapping(metaObject.libMapping);
         that.libElement = metaObject.libMapping;
         if(that.getGlobalNodePtr().getSfdNode() !== undefined) {
-            console.log("testing global ptr: "+that.getGlobalNodePtr().getSfdNode());
-            that.getGlobalNodePtr().getSfdNode().setSubClassTypeFromText(metaObject.libMapping);
+            console.log("testing global ptr: "+that.getGlobalNodePtr().getSfdNode());            
+            if(metaObject.libMapping === "" && that.selectedTypeId === 3) {
+                that.libElement = "criterion"; //hard coded
+            }
+            if(metaObject.libMapping === "" && that.selectedTypeId === 2) {
+                that.libElement = "action"; //hard coded
+            }
+            that.getGlobalNodePtr().getSfdNode().setSubClassTypeFromText(that.libElement);
         }
 
         if (metaObject.actions){

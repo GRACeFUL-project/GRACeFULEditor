@@ -446,11 +446,14 @@ function SimpleSFDControls(parentWidget) {
             if (node.getGlobalNodePtr().getSfdNode().getSubClasses) {
                 var sC = node.getGlobalNodePtr().getSfdNode().getSubClasses();
                 // console.log("testing subClasses"+sC);
+                var sCDesc = node.getGlobalNodePtr().getSfdNode().getSubClassesDescriptions();
+                console.log("testing getSubClassesDescriptions"+sCDesc);
                 if (sC.length > 0) {
                     mapsToLib.classed("hidden", false);
                     d3.select("#libMapLabel").classed("hidden", false);
                 } else {
                     sC = node.getGlobalNodePtr().getSfdNode().getSuperClassChildren();
+                    sCDesc = node.getGlobalNodePtr().getSfdNode().getSuperClassChildrenDesc();
                     // console.log("testing superClasses"+sC);
                     if (sC.length > 0) {
                         mapsToLib.classed("hidden", false);
@@ -471,7 +474,8 @@ function SimpleSFDControls(parentWidget) {
 
                 for (i = 0; i < sC.length; i++) {
                     var optA = document.createElement('option');
-                    optA.innerHTML = sC[i];
+                    optA.value = sC[i];
+                    optA.innerHTML=sCDesc[i];
                     mapsToLib.node().appendChild(optA);
                 }
             }
@@ -506,11 +510,14 @@ function SimpleSFDControls(parentWidget) {
             if (node.getGlobalNodePtr().getSfdNode().getSubClasses) {
                 var sC = node.getGlobalNodePtr().getSfdNode().getSubClasses();
                 // console.log("testing subClasses"+sC);
+                var sCDesc = node.getGlobalNodePtr().getSfdNode().getSubClassesDescriptions();
+                console.log("testing getSubClassesDescriptions"+sCDesc);
                 if (sC.length > 0) {
                     mapsToLib.classed("hidden", false);
                     d3.select("#libMapLabel").classed("hidden", false);
                 } else {
                     sC = node.getGlobalNodePtr().getSfdNode().getSuperClassChildren();
+                    sCDesc = node.getGlobalNodePtr().getSfdNode().getSuperClassChildrenDesc();
                     // console.log("testing superClasses"+sC);
                     if (sC.length > 0) {
                         mapsToLib.classed("hidden", false);
@@ -525,14 +532,16 @@ function SimpleSFDControls(parentWidget) {
 
                 for (i=0;i<sC.length;i++) {
                     var optA=document.createElement('option');
-                    optA.innerHTML=sC[i];
+                    optA.value = sC[i];
+                    optA.innerHTML=sCDesc[i];
                     mapsToLib.node().appendChild(optA);
                 }
 
 
                 if (that.selectedNode.libElement.length===0 && sC.length>0) {
                     mapsToLib.node().options[0].selected="selected";
-                    that.selectedNode.getGlobalNodePtr().getSfdNode().setSubClassTypeFromText(mapsToLib.node().value);
+                    console.log("value changed to: "+mapsToLib.node().value);
+                    that.selectedNode.getGlobalNodePtr().getSfdNode().setSubClassTypeFromText(mapsToLib.node().value, mapsToLib.node().innerHTML);
                 }
                 mapsToLib.node().value=that.selectedNode.libElement;
 
