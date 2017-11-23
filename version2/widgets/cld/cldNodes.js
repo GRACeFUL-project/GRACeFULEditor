@@ -67,7 +67,7 @@ function CLDNode(graph) {
     };
 
     this.getStakeholderHappiness = function(){
-        that.stakeholderHappiness;
+       return that.stakeholderHappiness;
     };
 
     this.setStakeholderHappiness = function(val) {
