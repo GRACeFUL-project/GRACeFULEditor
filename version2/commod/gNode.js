@@ -90,6 +90,8 @@ function GlobalNode() {
                 nodeTypeInWidget[i]=nodeConstructors[i].getTypeId();
             }
         }
+        if (nodeTypeInWidget[0]===100 || nodeTypeInWidget[1]===100 || nodeTypeInWidget[2]===100)
+            nodeTypeInWidget=[100,100,100];
 
         return nodeTypeInWidget;};
     this.getVisibleInWidget=function(){ return visibleInWidget;};
