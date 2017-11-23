@@ -238,8 +238,9 @@ function CLDWidget(){
         }
         else {
             gHandlerObj.saveModelResult(parsedResult);
-            that.graphObject.deliverResultsForNodes(parsedResult);
-            that.graphObject.createResultsTable();
+            that.graphObject.forceRedrawContent();
+            // that.graphObject.deliverResultsForNodes(parsedResult);
+            // that.graphObject.createResultsTable();
         }        
     };
 
