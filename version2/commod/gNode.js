@@ -75,10 +75,7 @@ function GlobalNode() {
                     positions.push(posNotW);
                 }
             }
-
-
         }
-
         return positions;
 
     };

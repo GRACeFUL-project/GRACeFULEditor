@@ -381,7 +381,11 @@ function qGraph(parentWidget) {
                 // console.log("Getting tarNode: "+tarNode.id());
                 if (tarNode){
                     // console.log("found target Node");
-                    if(normalizedWeights[i] !== "0.000") {
+
+                    var w_no = Number(critElements[i].weight);
+                    console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx- Criteria : Weight"+ w_no );
+
+                    if(normalizedWeights[i] !== "0.000" && w_no>0.5) {
                         gHandlerObj.createStakeholderLink(st_node,tarNode,normalizedWeights[i],values_str[i], i);
                     }
                 }
