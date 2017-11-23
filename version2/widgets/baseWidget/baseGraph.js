@@ -2,7 +2,7 @@
 
 function BaseGraph(parentWidget) {
     /** variable defs **/
-    var that = this;
+
     var transformAnimation=false;
     this.parentWidget=parentWidget; // tells the graph which widget it talks to
 
@@ -15,6 +15,7 @@ function BaseGraph(parentWidget) {
     this.translation=[0,0];
     this.minZoomFactor=0.1;
     this.maxZoomFactor=3;
+    this.last_touch_time;
 
 
     this.prevSelectedNode=undefined;
@@ -37,8 +38,9 @@ function BaseGraph(parentWidget) {
     this.needUpdateRedraw=false;
     this.multipleNodes = [];
     this.idInNumber = 0;
+    this.originalD3_touchZoomFunction=undefined;
 
-
+    var that = this;
     // some state of graph functionality
     this.needsRedraw=function(val){
         if (!arguments.length) return that.needUpdateRedraw;
@@ -120,6 +122,7 @@ function BaseGraph(parentWidget) {
         //var h= drawArea.node().getBoundingClientRect().height;
         var h= window.innerHeight ;
         this.svgElement= parentWidget.getCanvasArea().append("svg")
+
             .attr("width", w)
             .attr("height", h);
         // classing the graph is a particular graph thing so we dont do this here
@@ -146,10 +149,6 @@ function BaseGraph(parentWidget) {
 
         that.addMouseEvents();
 
-        // connect the mouse drag and zoom options
-
-      //  that.redrawGraph();
-        // that.redrawOverlay();
     };
 
     this.getTranslation=function(){
@@ -164,6 +163,32 @@ function BaseGraph(parentWidget) {
     };
     this.getD3Object=function(){
         return d3.behavior;
+    };
+
+    // hacking:
+    this.forceNotZooming=false;
+
+    this.touchzoomed=function(){
+        if (that.originalD3_touchZoomFunction)
+            that.originalD3_touchZoomFunction();
+        else return;
+        that.forceNotZooming=true;
+        if (d3.event === null ) return;
+        var touch_time = d3.event.timeStamp;
+
+        if (touch_time-that.last_touch_time < 500 && d3.event.touches.length===1) {
+            d3.event.stopPropagation();
+                d3.event.preventDefault();
+                that.zoom.translate(that.translation);
+                that.zoom.scale(that.zoomFactor);
+                that.dblClick("asTouch versiono");
+            return;
+        }
+
+        that.forceNotZooming=false;
+        that.last_touch_time = touch_time;
+        if (that.originalD3_touchZoomFunction)
+            that.originalD3_touchZoomFunction();
     };
 
 
@@ -315,11 +340,12 @@ function BaseGraph(parentWidget) {
 
 
 
-    this.dblClick=function(){
+    this.dblClick=function(asTouch){
          // console.log("A Double Click "+d3.event);
          // console.log("BaseGraph does not implement this");
          // console.log("Debugging ");
 
+        concole.log("This is a double TAB from Touch?"+asTouch);
         that.deselectLastLink();
         that.deselectLastNode();
         var coordinatesRelativeToCanvasArea= [0,0];
@@ -397,6 +423,10 @@ function BaseGraph(parentWidget) {
         that.draggerElement.svgRoot(that.draggerLayer);
         that.draggerLayer.classed("hidden",true);
         that.draggerObjectsArray.push(that.draggerElement);
+
+        this.originalD3_touchZoomFunction=that.svgElement.on("touchstart");
+
+        that.nodeLayer.on("touchstart",that.touchzoomed());
     };
 
     this.createDraggerItem=function(parent){
@@ -482,6 +512,7 @@ function BaseGraph(parentWidget) {
         });
         // hide the dragger layer;
         that.draggerLayer.classed("hidden",true);
+        this.originalD3_touchZoomFunction=that.svgElement.on("touchstart");
 
     };
 

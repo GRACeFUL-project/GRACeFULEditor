@@ -356,6 +356,8 @@ function BaseWidget(parentElement) {
                             globalLink.crateLinkFromOutside(correspondingGraphObject,
                                 correspondingGraphObject.createLink(correspondingGraphObject));
                         }
+
+
                         if (v===2){
                             if (visible[0]===false && visible[1]===false && visible[2]===true){
                                 // this should be an sdf link
