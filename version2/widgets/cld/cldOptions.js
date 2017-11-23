@@ -169,6 +169,7 @@ function CLDControls(parentWidget) {
         that.addButton(additionalSettings, "LOAD MODEL", "cldGetLibrary", that.loadGlobalFunction, "flat", true, "cloud_upload" );
         that.addButton(additionalSettings, "SAVE MODEL", "cldGetLibrary", that.saveGlobalFunction, "flat", true, "save" );
         that.addButton(additionalSettings, "CLEAR MODEL", "gtClearGraph", that.clearGraph, "flat", true, "clear_all" );
+        that.addButton(additionalSettings, "CLEAR SOLUTION", "cldClearSolution", that.clearSolution, "flat", true, "clear_all" );
 
         libCld = that.addButton(graphControls, "GET LIBRARY", "cldGetLibrary", that.getLibrary, "flat", true, "get_app" );
         libCld.disabled=true;
@@ -641,6 +642,12 @@ function CLDControls(parentWidget) {
         var snackbarContainer = document.querySelector('#demo-toast-example');
         var data = {message: 'The model has been cleared'};
         snackbarContainer.MaterialSnackbar.showSnackbar(data);
+    };
+
+    this.clearSolution=function(){
+        gHandlerObj.saveModelResult(undefined);
+        that.parentWidget().graphObject.forceRedrawContent();
+
     };
 
     this.onCriteriaImport = function() {
