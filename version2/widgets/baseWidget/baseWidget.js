@@ -260,6 +260,13 @@ function BaseWidget(parentElement) {
                 var visible=s_node.visibleInWidgets;
                 var nodeMetaData=s_node.metaData;
                 var nodeTypeId=s_node.nodeTypeId;
+
+                if (nodeTypeId[0]===100 || nodeTypeId[1]===100 || nodeTypeId[2]===100){
+                    nodeTypeId[0]=100;
+                    nodeTypeId[1]=100;
+                    nodeTypeId[2]=100;
+                }
+
                 var globalHoverText=s_node.comments;
                 var storedPositions=s_node.pos;
                 var storedEmail=s_node.email;
