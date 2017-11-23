@@ -213,7 +213,11 @@ function CLDGraph(){
                 obj.name = link.name;
                 obj.parameters = link.parameters;
                 obj.interface = link.interfaces;
-                obj.identity = link.id();
+                if(link.name==="critEdge"){
+                    obj.identity = link.id()+1000;
+                }else {
+                    obj.identity = link.id();
+                }
                 modelObj.nodes.push(obj);
             // }            
         }
