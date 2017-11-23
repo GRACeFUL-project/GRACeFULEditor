@@ -60,10 +60,14 @@ function CLDNode(graph) {
 
     this.getLibMapping = function() {
         return that.libElement;
-    }
+    };
 
     this.setActionCostFromSolver = function(val) {
         this.actionCostSolver = val;
+    };
+
+    this.getStakeholderHappiness = function(){
+        that.stakeholderHappiness;
     };
 
     this.setStakeholderHappiness = function(val) {

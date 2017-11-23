@@ -4,7 +4,7 @@ function CLDControls(parentWidget) {
     this.parent=parentWidget;
     this.optionsId=2;
     var nodesGroup,linksGroup, additionalSettings;
-
+    var happyNessLabel;
     var selectionNode,lineEditNode,commentNode, checkObserve, nodeTrend, actionDiv, actionTable, valApplied, criteriaUnit, mapsToLib;
     var linkClass, causalSelection,commentLink;
     var getClassValues = [undefined];
@@ -107,10 +107,13 @@ function CLDControls(parentWidget) {
           cldChip = cldChipNode[0];
           cldChipImage=cldChipNode[1];
 
+        happyNessLabel=that.addLabel(nodesGroup,"Happyness","notSolved");
+
         mapsToLib = that.addSelectionOpts(nodesGroup, "Library Mapping", ["a1","a2"], that.onChangeMapLib,"libMapLabel");
 
         selectionNode = that.addSelectionOpts(nodesGroup, "Node type", ["Factor", "Factor", "Action", "Criterion", "External Factor","Stake Holder"], that.onChangeNodeType);
         // hiding options
+
         selectionNode.node().options[0].hidden = true;
         selectionNode.node().options[selectionNode.node().length - 1].hidden = true;
         selectionNode.node().options[selectionNode.node().length - 2].hidden = true;
@@ -254,7 +257,15 @@ function CLDControls(parentWidget) {
         // console.log("node type "+ node.getElementType());
 
         if (node.getElementType()==="NodeElement") {
-
+            happyNessLabel.classed("hidden",false);
+            console.log("Selecting node: what type?"+node.getGlobalNodePtr().getGTNode().getTypeId());
+            if (node.getGlobalNodePtr().getGTNode().getTypeId()===100){
+                console.log("Selecting Stakeholder Node?");
+                happyNessLabel.node().innerHTML= "Happiness: "+node.setStakeholderHappiness();
+            }
+            else{
+                happyNessLabel.classed("hidden",true);
+            }
             // should be overwritten by the real options thing
             // console.log("controls handle node operation" + node);
             this.selectedNode = node;

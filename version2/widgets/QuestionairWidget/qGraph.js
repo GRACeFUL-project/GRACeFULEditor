@@ -45,7 +45,6 @@ function qGraph(parentWidget) {
         var w = drawArea.node().getBoundingClientRect().width;
         //var h= drawArea.node().getBoundingClientRect().height;
         var h= window.innerHeight ;
-        // console.log("HEEEEEEELLLLLOOOOOOOO ---------------------------");
         this.svgElement= parentWidget.getCanvasArea().append("div");
         that.svgElement.node().innerHTML=" ----- Import the Model Please --";
         // classing the graph is a particular graph thing so we dont do this here
@@ -222,10 +221,10 @@ function qGraph(parentWidget) {
             alert("Weight cannot be more then 100");
             newValue = cell.children[0].value = 100;
         }
-        console.log("new Value To Set "+ newValue);
+        // console.log("new Value To Set "+ newValue);
         paramObj.weight=newValue;
-        console.log("please show the full data");
-        console.log(JSON.stringify(that.completeQuestionnaire));
+        // console.log("please show the full data");
+        // console.log(JSON.stringify(that.completeQuestionnaire));
     };
 
     this.createValueEditingTable = function() {
@@ -305,6 +304,7 @@ function qGraph(parentWidget) {
 
     this.onValschange = function(paramObj,cell) {
         var res = $(cell.children[0]).val();
+        paramObj.value=[];
         paramObj.value = res.map(Number);
         console.log("paramObj value: "+paramObj.value);
         console.log(JSON.stringify(that.completeQuestionnaire));
@@ -383,7 +383,6 @@ function qGraph(parentWidget) {
                     // console.log("found target Node");
 
                     var w_no = Number(critElements[i].weight);
-                    console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx- Criteria : Weight"+ w_no );
 
                     if(normalizedWeights[i] !== "0.000" && w_no>0.5) {
                         gHandlerObj.createStakeholderLink(st_node,tarNode,normalizedWeights[i],values_str[i], i);
@@ -425,9 +424,9 @@ function qGraph(parentWidget) {
         var cldG = widgetHandler[1];
         var cldLinks = widgetHandler[1].pathElementArray;        
         for(var i=0;i<cldLinks.length; i++) {
-            console.log("CLD Links List: "+cldLinks[i].id()+ " superlink type:"+cldLinks[i].superLinkType);
+            // console.log("CLD Links List: "+cldLinks[i].id()+ " superlink type:"+cldLinks[i].superLinkType);
             if(cldLinks[i].superLinkType === 100) {
-                console.log("yes its a stakeholder link. Delete it!!");
+                // console.log("yes its a stakeholder link. Delete it!!");
                 cldG.handleLinkDeletion(cldLinks[i]);
             }
         }
@@ -450,12 +449,12 @@ function qGraph(parentWidget) {
 
 
     this.onLET_change=function(paramObj,cell){
-        console.log("something changed"+paramObj);
-        console.log(paramObj);
-        console.log(cell);
+        // console.log("something changed"+paramObj);
+        // console.log(paramObj);
+        // console.log(cell);
         var newValue=cell.children[0].value;
-        console.log("new Value To Set "+ newValue);
-        console.log("new Value To Set Type "+ typeof newValue);
+        // console.log("new Value To Set "+ newValue);
+        // console.log("new Value To Set Type "+ typeof newValue);
         paramObj.email=newValue;
 
     };
@@ -616,13 +615,8 @@ function qGraph(parentWidget) {
         modelData.stakeholderName=paramObj.objectName;
 
         var jsonModelStr=JSON.stringify(modelData);
-        console.log(jsonModelStr);
-
-        // download this to your default path;
-        console.log("Downloading things;")
 
         // create a hidden wrapper for saving files;
-
         var tempHref=document.createElement('a');
         tempHref.type="submit";
         tempHref.href="#";

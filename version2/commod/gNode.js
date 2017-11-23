@@ -112,6 +112,11 @@ function GlobalNode() {
         return nodeConstructors[2];
     };
 
+    this.getGTNode=function(){
+        that.updateNodeIds();
+        return nodeConstructors[0];
+    };
+
     var associatedGlobalLinks=[];
 
     this.setGlobalHoverText=function(text){globalHoverText=text};

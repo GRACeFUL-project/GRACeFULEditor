@@ -130,12 +130,15 @@ function CLDLink(graph) {
 
     this.setResultAtPort = function(val) {
         that.atPort = val;
-        if(val === -1)
-            that.pathElement.classed("setGreen", true);
-        else if(val === 1)
-            that.pathElement.classed("setRed", true);
-        else
-            that.pathElement.classed("setBlue", true);
+
+        that.pathElement
+
+        // if(val === -1)
+        //     that.pathElement.classed("setGreen", true);
+        // else if(val === 1)
+        //     that.pathElement.classed("setRed", true);
+        // else
+        //     that.pathElement.classed("setBlue", true);
     };
 
     this.setResultBenefits = function(val) {
