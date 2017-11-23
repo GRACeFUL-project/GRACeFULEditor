@@ -304,7 +304,6 @@ function qGraph(parentWidget) {
 
     this.onValschange = function(paramObj,cell) {
         var res = $(cell.children[0]).val();
-        paramObj.value=[];
         paramObj.value = res.map(Number);
         console.log("paramObj value: "+paramObj.value);
         console.log(JSON.stringify(that.completeQuestionnaire));
