@@ -458,6 +458,8 @@ function BaseGraph(parentWidget) {
     this.forceRedrawContent=function(){
         that.clearRendering();
         that.redrawGraphContent();
+        if (that.parentWidget.redeliverResultToWidget)
+            that.parentWidget.redeliverResultToWidget();
     };
 
 

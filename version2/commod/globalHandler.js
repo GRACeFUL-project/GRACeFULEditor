@@ -27,6 +27,7 @@ var globalElementIdentifier=2;
             globalLinkArray = [];
             globalNodeArray = [];
             that.redrawAllWidgets();
+            savedResults=undefined
         };
 
         this.saveModelResult=function(mr){
@@ -133,7 +134,9 @@ var globalElementIdentifier=2;
         this.deleteGlobalLink = function (linkElement) {
             var correspondingGlobalLink = linkElement.getGlobalLinkPtr();
             globalLinkArray.splice(globalLinkArray.indexOf(correspondingGlobalLink), 1);
+            savedResults=undefined;
             that.redrawAllWidgets();
+
         };
 
 
@@ -149,6 +152,7 @@ var globalElementIdentifier=2;
                 // console.log("the index of links are: "+l.id());
                 globalLinkArray.splice(globalLinkArray.indexOf(l), 1);
             });
+            savedResults=undefined;
             that.redrawAllWidgets();
         };
 
@@ -162,6 +166,7 @@ var globalElementIdentifier=2;
         };
 
         this.addGlobalNode = function (gNode) {
+            savedResults=undefined;
             globalNodeArray.push(gNode);
         };
 
@@ -170,6 +175,7 @@ var globalElementIdentifier=2;
             globalNodeArray.splice(globalNodeArray.indexOf(gNode), 1);
             // remove all associated links of gNode;
             // TODO:!
+            savedResults=undefined;
             that.redrawAllWidgets();
 
         };
@@ -189,15 +195,18 @@ var globalElementIdentifier=2;
         this.createGlobalLink = function (widgetOrGraphObject) {
             var gLink = new GlobalLink();
             gLink.setVisibleInWidget(widgetOrGraphObject, true);
+
             return gLink;
         };
 
         this.addGlobalLink = function (gLink) {
+            savedResults=undefined;
             globalLinkArray.push(gLink);
         };
 
         this.removeGlobalLink = function (gLink) {
             // splice that thing;
+            savedResults=undefined;
             globalLinkArray.splice(globalLinkArray.indexOf(gLink), 1);
             for (var i=0;i<graphObjectList.length;i++)
                 graphObjectList[i].forceRedrawContent();

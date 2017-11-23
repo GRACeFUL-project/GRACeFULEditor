@@ -480,6 +480,9 @@ function CLDControls(parentWidget) {
     }
 
     this.onValueChange = function(id, val) {
+        gHandlerObj.saveModelResult(undefined);
+        that.parentWidget().forceRedrawContent();
+
         console.log("Value change. ID:"+id+" boolean: "+val);
         that.selectedNode.setActionValues(id, val);
         var c1 = document.getElementById(id+"Cost");
@@ -494,6 +497,9 @@ function CLDControls(parentWidget) {
     };
 
     this.onCostChange = function(id) {
+        gHandlerObj.saveModelResult(undefined);
+        that.parentWidget().forceRedrawContent();
+
         console.log("Cost change:"+id);
         var c1 = document.getElementById(id);
         that.selectedNode.setActionCost(id, c1.value);
@@ -515,6 +521,9 @@ function CLDControls(parentWidget) {
     };
 
     this.onChangeLinkType=function (selectionContainer) {
+        gHandlerObj.saveModelResult(undefined);
+        that.parentWidget().forceRedrawContent();
+
         var strUser = selectionContainer.options[selectionContainer.selectedIndex].value;
         console.log(selectionContainer.selectedIndex+" the user string is "+strUser);
         that.selectedNode.setCLDTypeString(selectionContainer.selectedIndex, strUser);
@@ -528,7 +537,8 @@ function CLDControls(parentWidget) {
 
 
     this.onChangeNodeType=function(selectionContainer){
-
+        gHandlerObj.saveModelResult(undefined);
+        that.parentWidget().redeliverResultToWidget();
         var strUser = selectionContainer.options[selectionContainer.selectedIndex].value;
         // console.log(selectionContainer.selectedIndex+" the user string is "+strUser);
         that.selectedNode.setType(selectionContainer.selectedIndex, strUser);
@@ -540,6 +550,7 @@ function CLDControls(parentWidget) {
         // }
         that.selectedNode.libElement="";
         that.handleNodeSelection(that.selectedNode);
+
     };
     this.onChangeNodeName=function(){
       // change the value to be displayed on the node.
@@ -557,6 +568,10 @@ function CLDControls(parentWidget) {
     };
 
     this.onChangeMapLib = function() {
+        gHandlerObj.saveModelResult(undefined);
+        that.parentWidget().forceRedrawContent();
+
+
         that.selectedNode.setLibMapping(mapsToLib.node().value);        
     };
 
@@ -566,6 +581,10 @@ function CLDControls(parentWidget) {
     // };
 
     this.observeNode = function(val) {
+        gHandlerObj.saveModelResult(undefined);
+        that.parentWidget().forceRedrawContent();
+
+
         that.selectedNode.setObserve(val);
         var temp = that.selectedNode.getObserve();
         if(temp) {
@@ -580,6 +599,9 @@ function CLDControls(parentWidget) {
     };
 
     this.trendFunc = function(selectionContainer) {
+        gHandlerObj.saveModelResult(undefined);
+        that.parentWidget().forceRedrawContent();
+
         var strUser = selectionContainer.options[selectionContainer.selectedIndex].value;
         // console.log(selectionContainer.selectedIndex+" the user string is "+strUser);
         that.selectedNode.setTrend(selectionContainer.selectedIndex);
@@ -590,6 +612,9 @@ function CLDControls(parentWidget) {
     };
 
     this.onChangeUnit =function() {
+        gHandlerObj.saveModelResult(undefined);
+        that.parentWidget().forceRedrawContent();
+
         that.selectedNode.setCriteriaUnit(criteriaUnit.node().value);
     };
 
@@ -634,6 +659,9 @@ function CLDControls(parentWidget) {
     this.enterBudget = function() {
         
         d3.select("#budgetVal").on("change", function() {
+            gHandlerObj.saveModelResult(undefined);
+            that.parentWidget().forceRedrawContent();
+
             var c1 = document.getElementById("budgetVal");
             that.parent.cldBudget(c1.value);
         });
