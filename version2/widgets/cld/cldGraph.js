@@ -214,7 +214,7 @@ function CLDGraph(){
                 obj.parameters = link.parameters;
                 obj.interface = link.interfaces;
                 if(link.name==="critEdge"){
-                    obj.identity = link.id()+1000;
+                    obj.identity = link.id();
                 }else {
                     obj.identity = link.id();
                 }
