@@ -22,7 +22,9 @@ function actionControls(parentWidget) {
 
     this.assessActions = function() {
         console.log("Load the action assessment table");
-        that.serverRequest();        
+        that.actionsList = []; 
+        that.criteriaList = [];
+        that.serverRequest();
     };
 
     this.serverRequest=function(){
