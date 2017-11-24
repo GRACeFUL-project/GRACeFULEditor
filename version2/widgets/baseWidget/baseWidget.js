@@ -275,8 +275,8 @@ function BaseWidget(parentElement) {
                 // create the global node
                 var globalNode=handler.createGlobalNode(undefined);
                 globalNode.id(storedId);
-                if (storedEmail!==undefined)
-                    globalNode.id(storedId+2000);
+                // if (storedEmail!==undefined)
+                //     globalNode.id(storedId+2000);
               //  console.log("have global hover text"+globalHoverText);
                 globalNode.setGlobalHoverText(globalHoverText);
 
