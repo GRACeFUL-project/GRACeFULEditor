@@ -40,7 +40,9 @@ function CLDLink(graph) {
     this.getNormalizedWeight=function(){return Number(this.normalizedWeight);};
     this.getEvaluationValue=function(){return this.evaluatonString;};
 
-    this.setNormalizedWeight=function(val){this.normalizedWeight=val;};
+    this.setNormalizedWeight=function(val){this.normalizedWeight=val;
+
+    };
     this.setEvaluationValue=function(str){this.evaluatonString=str;};
     this.setPortIndex = function(ind) {
         this.superLinkPortIndex = ind;
@@ -374,6 +376,13 @@ function CLDLink(graph) {
                         });
 
         }
+
+        // if (that.normalizedWeight<0.001){
+        //     that.rootElement.selectAll("*").classed("hidden",true);
+        // }
+        // else{
+        //     that.rootElement.selectAll("*").classed("hidden",true);
+        // }
 
         addTypeString();
     };

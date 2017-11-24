@@ -73,6 +73,11 @@ var globalElementIdentifier=2;
             // console.log("n_weight="+weight);
             // console.log("value_str="+value);
 
+            if (weight>0.001){
+                // keep it visible
+            }else{
+
+            }
             // assume we are goalTree
             var globalLink=that.createGlobalLink(graphObjectList[0]);
 
