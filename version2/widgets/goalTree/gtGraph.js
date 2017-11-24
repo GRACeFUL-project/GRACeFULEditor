@@ -246,7 +246,6 @@ function GTGraph(){
             repR.setLabelText(key);
             repR.setType(100, "Stakeholder");
             globalNode.id(globalNode.id()+2000);
-
             // var newNode=that.createNode(that);
             // newNode.setLabelText(key);
             // newNode.setType(4, "Stakeholder");
@@ -280,6 +279,7 @@ function GTGraph(){
             console.log("+6++++++++++++++++++++++"+mappedId);
             globalNode.setNodeType(sfdWdiget,mappedId,friendlyNode);
             friendlyNode.setGlobalNodePtr(globalNode);
+// This line is different from prev commit @#$
             globalNode.updateNodeIds();
             that.needsRedraw(true);
             gHandlerObj.redrawAllWidgets();
