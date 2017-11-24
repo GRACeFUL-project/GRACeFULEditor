@@ -227,6 +227,7 @@ function BaseWidget(parentElement) {
         // get at
       //  console.log("read the data");
         //console.log(jsonData);
+        var getAllGNodeIds = [];
 
         that.getHandler().emptyGraphStructure();
 
@@ -251,6 +252,7 @@ function BaseWidget(parentElement) {
             var reprGraphObjects=handler.getGraphObjects();
             //set the budget in CLD
             reprGraphObjects[1].loadSavedBudget(budget);
+
             for (var i=0;i<globalNodeElements.length;i++){
 
                 // stored data;
@@ -271,7 +273,7 @@ function BaseWidget(parentElement) {
                 var storedPositions=s_node.pos;
                 var storedEmail=s_node.email;
 
-
+                getAllGNodeIds.push(globalNodeElements[i].id);
                 // create the global node
                 var globalNode=handler.createGlobalNode(undefined);
                  globalNode.id(storedId);
@@ -342,6 +344,7 @@ function BaseWidget(parentElement) {
                 var globalLink=handler.createGlobalLink(undefined);
                 globalLink.id(storedId);
 
+                getAllGNodeIds.push(globalLinkElements[i].id);
                 // set the global source and target ids;
               //  console.log("setting global source/target");
                 var g_srcId=storedSourceTargetIds[0];
@@ -446,6 +449,11 @@ function BaseWidget(parentElement) {
             }
             // force redraw
             handler.redrawAllWidgets();
+            //check for the max global id and set its value in global handler
+            console.log("BEFORE "+globalElementIdentifier);
+            var maxx = Math.max.apply(null, getAllGNodeIds);
+            globalElementIdentifier =maxx+1;
+            console.log("After "+globalElementIdentifier);
         }
 
         // console.log("<<<<<<<<<<<<<<<<<<<<<<< DONE LOADING >>>>>>!!!!");

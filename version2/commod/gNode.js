@@ -11,7 +11,7 @@ function GlobalNode() {
         }
         this.nodeId = index;
     };
-    //this.nodeId = globalNodeId++; // init value
+    // this.nodeId = globalNodeId++; // init value
   //  console.log(that);
     that.id(globalElementIdentifier++);
 

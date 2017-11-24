@@ -245,7 +245,8 @@ function GTGraph(){
             repR.setGlobalNodePtr(globalNode);
             repR.setLabelText(key);
             repR.setType(100, "Stakeholder");
-            globalNode.id(globalNode.id()+2000);
+            // globalNode.id(globalNode.id()+2000);
+            console.log("STAKEEEE "+globalNode.id());
             // var newNode=that.createNode(that);
             // newNode.setLabelText(key);
             // newNode.setType(4, "Stakeholder");
