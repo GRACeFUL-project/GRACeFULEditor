@@ -737,14 +737,14 @@ function CLDGraph(){
 
     };
 
-    this.handleLinkDeletion = function(link) {
+    this.handleLinkDeletion = function(link,forcedRedraw) {
 
         // handle the delete in the handler
         var handler=that.parentWidget.getHandler();
-        handler.deleteGlobalLink(link);
+        handler.deleteGlobalLink(link,forcedRedraw);
 
         //that.pathElementArray.splice(that.pathElementArray.indexOf(link), 1);
-        gHandlerObj.redrawAllWidgets();
+    //    gHandlerObj.redrawAllWidgets();
         //that.parentWidget.sfdGraphObj.forceRedrawContent();// redrawing content of the sdf map
         //that.removeDeletedElements();
     };

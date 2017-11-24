@@ -391,7 +391,8 @@ function qGraph(parentWidget) {
                     var w_no = Number(critElements[i].weight);
 
                     // if(normalizedWeights[i] !== "0.000" && w_no>0.5) {
-                        gHandlerObj.createStakeholderLink(st_node,tarNode,normalizedWeights[i],values_str[i], i);
+
+                    gHandlerObj.createStakeholderLink(st_node,tarNode,normalizedWeights[i],values_str[i], i);
                     // }
                 }
             }
@@ -426,21 +427,28 @@ function qGraph(parentWidget) {
 
     this.callStakeholderResults = function() {
         //clear all the stakeholder links first
+        console.log("---------------------UPDATE BUTTON PRESESD --------------------");
         var widgetHandler = gHandlerObj.getGraphObjects();
         var cldG = widgetHandler[1];
-        var cldLinks = widgetHandler[1].pathElementArray;        
+        var cldLinks = widgetHandler[1].pathElementArray;
+        console.log("UPDATING THE CLD LINKS ---------------------");
         for(var i=0;i<cldLinks.length; i++) {
             // console.log("CLD Links List: "+cldLinks[i].id()+ " superlink type:"+cldLinks[i].superLinkType);
             if(cldLinks[i].superLinkType === 100) {
                 // console.log("yes its a stakeholder link. Delete it!!");
-                cldG.handleLinkDeletion(cldLinks[i]);
+                cldG.handleLinkDeletion(cldLinks[i],false);
             }
         }
         //now redraw stakeholder links
+        console.log("---------------------INTEGRATING STAKEHOLDER RESULTS--------------------");
+
         for(var i=0; i<that.completeQuestionnaire.length; i++) {
             var stakeObject = that.completeQuestionnaire[i];
             that.integrateStakeHolderResults(JSON.stringify(stakeObject));
         }
+        console.log("---------------------CALLING REDRAW  --------------------");
+        gHandlerObj.redrawAllWidgets();
+        console.log("---------------------UPDATE BUTTON FINISHED --------------------");
     };
 
     this.createLETableEntry=function(cell,onChange,value,paramObj){

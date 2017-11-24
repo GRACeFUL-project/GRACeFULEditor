@@ -129,18 +129,17 @@ var globalElementIdentifier=2;
                 friendlyLink.setGlobalLinkPtr(globalLink);
 
             }
-            gHandlerObj.redrawAllWidgets();
-
-
-
+        //    gHandlerObj.redrawAllWidgets();
 
         };
 
-        this.deleteGlobalLink = function (linkElement) {
+        this.deleteGlobalLink = function (linkElement, forceRedraw) {
             var correspondingGlobalLink = linkElement.getGlobalLinkPtr();
             globalLinkArray.splice(globalLinkArray.indexOf(correspondingGlobalLink), 1);
             savedResults=undefined;
-            that.redrawAllWidgets();
+            if (forceRedraw===true || forceRedraw ===undefined) {
+                that.redrawAllWidgets();
+            }
 
         };
 
