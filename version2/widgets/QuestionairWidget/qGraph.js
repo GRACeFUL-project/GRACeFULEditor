@@ -368,12 +368,19 @@ function qGraph(parentWidget) {
                 sumOfWeights+=w_no;
             }
 
-            // normlize;
-            for ( w=0;w<critElements.length;w++){
-                normalizedWeights[w]/=sumOfWeights;
-                normalizedWeights[w] = normalizedWeights[w].toFixed(3);
+            if (sumOfWeights===0){
+                for ( w=0;w<critElements.length;w++){
+                    normalizedWeights[w]=0.0;
+                    normalizedWeights[w] =0.0;
+                }
             }
-
+            else {
+                // normlize;
+                for (w = 0; w < critElements.length; w++) {
+                    normalizedWeights[w] /= sumOfWeights;
+                    normalizedWeights[w] = normalizedWeights[w].toFixed(3);
+                }
+            }
             for (i=0;i<critElements.length;i++){
                 var targetNodeId=critElements[i].id;
                 var tarNode=gHandlerObj.getNodeById(targetNodeId);

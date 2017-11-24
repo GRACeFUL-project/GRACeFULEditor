@@ -245,6 +245,7 @@ function GTGraph(){
             repR.setGlobalNodePtr(globalNode);
             repR.setLabelText(key);
             repR.setType(100, "Stakeholder");
+            globalNode.id(globalNode.id()+2000);
 
             // var newNode=that.createNode(that);
             // newNode.setLabelText(key);
@@ -279,9 +280,7 @@ function GTGraph(){
             console.log("+6++++++++++++++++++++++"+mappedId);
             globalNode.setNodeType(sfdWdiget,mappedId,friendlyNode);
             friendlyNode.setGlobalNodePtr(globalNode);
-
-
-
+            globalNode.updateNodeIds();
             that.needsRedraw(true);
             gHandlerObj.redrawAllWidgets();
         }        

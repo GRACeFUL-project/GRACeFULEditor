@@ -40,9 +40,7 @@ function CLDLink(graph) {
     this.getNormalizedWeight=function(){return Number(this.normalizedWeight);};
     this.getEvaluationValue=function(){return this.evaluatonString;};
 
-    this.setNormalizedWeight=function(val){this.normalizedWeight=val;
-
-    };
+    this.setNormalizedWeight=function(val){this.normalizedWeight=val;};
     this.setEvaluationValue=function(str){this.evaluatonString=str;};
     this.setPortIndex = function(ind) {
         this.superLinkPortIndex = ind;
@@ -359,8 +357,7 @@ function CLDLink(graph) {
 
         if (that.superLinkType===100){
             pathHoverElement.text("Weight: "+that.getNormalizedWeight()+"\nConstraint: "+that.getEvaluationValue());
-
-        }else {
+         }else {
         that.rootElement.append("image")
                         .attr("id", "linkDeleteIcon")
                         .attr("xlink:href", "images/delete.svg")
@@ -377,12 +374,16 @@ function CLDLink(graph) {
 
         }
 
-        // if (that.normalizedWeight<0.001){
-        //     that.rootElement.selectAll("*").classed("hidden",true);
-        // }
-        // else{
-        //     that.rootElement.selectAll("*").classed("hidden",true);
-        // }
+        if (that.superLinkType===100){
+            console.log("Whats the weight "+that.normalizedWeight);
+            if (that.normalizedWeight<0.001){
+                console.log("hidding the Elements!");
+                that.rootElement.selectAll('*').classed("hidden",true);
+            }
+            else{
+                that.rootElement.selectAll('*').classed("hidden",false);
+            }
+        }
 
         addTypeString();
     };
