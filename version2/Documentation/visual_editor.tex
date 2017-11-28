@@ -2,6 +2,9 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage{subcaption}
+\usepackage{hyperref}
 
 \title{GRACeFUL Visual Editor}
 %\author{}
@@ -10,10 +13,12 @@
 \begin{document}
 
 \maketitle
-This document provides the usability and implementation details of the Graceful Visual Editor. The current prototype of the visual editor is a web-based application that is scalable and device independent. It supports stakeholder participation in visualizing different phases of a decision making process such as goal trees, CLDs, and SFD-like diagrams, by providing an interactive graphical interface in which the user can construct the model from building blocks available in a library (written in the GRACe DSL). 
+The Graceful Visual Editor is a web-based application that supports the decision-making process in Global Systems Science (GSS), specifically in Climate Resilient Urban Design (CRUD).
+The current prototype supports the stakeholder participation in visualizing different phases of a decision-making process by providing an interactive graphical interface in which the user can build a system model from building blocks provided by the library (written in the GRACe DSL). This document provides the usability of the Graceful Visual Editor in Section \ref{intro} and its implementation details in Section \ref{implementation}.
 
 \section{Introduction to Visual Editor}
-The main elements of the visual editor are the Navigation tab, Control tab, and the Graph area as shown in Figure \ref{fig:layout}. The current prototype provides a widget-based implementation, in which each diagram is available as a separate entry in the navigation tab at the top. Based on the selected diagram in the navigation tab, its respective controls are loaded in the controls tab to the right. The graph area at the center is the canvas area, where the user can draw nodes and links. Please note that the current implementation does not differentiate between a parking lot and the main graph area canvas as proposed in D3.2. The user creates nodes and links, and constructs the model diagram in the same canvas. I.e., there is a single canvas in the graph area as opposed to two in the initial design.
+\label{intro}
+The main elements of the visual editor are the Navigation tab, Tool bar, Graph area, and the Control tab as shown in Figure \ref{fig:layout}. The current prototype provides a widget-based implementation, where each option in the navigation tab represents a step in the decision-making process. The editor loads the tool bar, graph area, and control tab, based on the selected option in the navigation tab. The tool bar on the left provides the building blocks or elements from the library that is obtained from the server. It can be toggled to show and/or hide. The graph area at the center is the canvas area, where the user can draw nodes and links. Please note that the current implementation does not differentiate between a parking lot and the main graph area canvas as proposed in D3.2. i.e., There is a single canvas in the graph area as opposed to two in the initial design and the user would construct the model in this canvas. Finally, the Controls tab consists of a list of controls to assist in building the system model and to interact with the server.
 
 \begin{figure}
 \begin{center}
@@ -22,18 +27,48 @@ The main elements of the visual editor are the Navigation tab, Control tab, and 
 \end{center}
 \end{figure}
 
-A node can be created by double-clicking in the graph area. The label of the node is set either by double-clicking on the node or entering it in the field ‘Node name’ in the controls tab. To create a link between nodes, click the source node to get a dragger object and drag the dragger object to the target node as shown in the Figure \ref{fig:node_link}. The nodes and links can be deleted by selecting the respective node or link and click the delete button from the controls tab. Alternatively, a node or link can be deleted by hovering over it and clicking the delete icon. For every node and/or link, the editor provides the option to take notes by selecting the node and entering the content in the comments field in the control tab. The visual editor allows zooming in and out, as well as panning of the diagram. The nodes and links can also be dragged around in the graph area. 
+Some of the basic functionalities available in the editor are:
+\begin{enumerate}
+	\item Create Nodes and Links - A node is created by double-clicking in the graph area. The label of the node is set either by double-clicking on the node or entering it in the label field under the controls tab, after selecting the node. To create a link between nodes, click on the source node to get a dragger object and drag it to the target node as shown in the Figure \ref{fig:node_link}.
+		
+	\item Delete Nodes and Links - The node can be deleted by either hovering over the node and clicking on the delete icon or selecting the node and clicking on the delete icon in the controls tab as shown in the Figure \ref{fig:delete}. To delete a link, click on the delete icon after selecting the link. The white bubble on the link allows to bend them into curves.
+	
+	\item Load/Save/Clear - The editor provides the option to save an instance of a model and reuse it later by loading it into the editor. A model could also be cleared completely from the editor.
 
-\begin{figure}
-\begin{center}
-\includegraphics[height=0.75in,width=2in]{img/node_link.png}
-\caption{\small \sl Create Nodes and Links.\label{fig:node_link}}
-\end{center}
+	\item For every node/link, the editor provides the option to take notes by selecting the node/link and entering the content in the comments field in the control tab. 
+	
+	\item The visual editor allows zooming in and out, as well as panning of the diagram. The nodes and links can be dragged around in the graph area. 
+	
+\end{enumerate} 
+
+\begin{figure}[h]
+ 
+\begin{subfigure}{0.5\textwidth}
+\includegraphics[width=0.8\linewidth, height=2cm]{img/node_link.png} 
+\caption{Creation}
+\label{fig:node_link}
+\end{subfigure}
+\begin{subfigure}{0.5\textwidth}
+\includegraphics[width=1.2\linewidth, height=2cm]{img/delete_nodeLink.png}
+\caption{Deletion}
+\label{fig:delete}
+\end{subfigure}
+ 
+\caption{Nodes and Links.}
+%\label{fig:image2}
 \end{figure}
 
-The modeling of the GRACeFUL Concept Map (GCM) is a step-by-step process, in which the major steps are performed in separate tabs as discussed above. Currently, the goal tree, CLD, and GCM are available as separate tabs in the visual editor. 
+The GRACeFUL Concept Map (GCM) modeling is a step-by-step process, which involves Goal Tree, Causal Loop Diagram (CLD), Stakeholder preferences, and Stock Flow Diagram (SFD-like), as described in the deliverable D2.2, section 3.2. Currently these steps are available as separate tabs in the visual editor, but they are all interlinked via a single global model. To build a system model, the modeler would need the GRACeFUL components, which is referred to as \textit{library elements} in the rest of the document. The editor is connected to a backend solver called GRACE (domain specific language for GCM) to fetch the library elements. More technical information of this connection can be found in Section \ref{implementation}. Currently, on loading the editor, full GCM library is imported into the editor. Optionally, the sub-libraries could be selected and loaded, which is available under the tab GRACeFUL Concept Map. But, in order to construct a complete model, modeler would need a complete library. 
 
-A Goal Tree consists of a main goal as the root, which is decomposed into sub goals. The sub goals have a relation to certain criteria, which were identified by the participants. To start building a goal tree, select the goal tree tab and add nodes in the graph area with names agreed by the stakeholders. Select its respective type from the control tab to be as a main goal, sub goal or criteria, which is distinguished with different colors. Connect the nodes via links and arrange them hierarchically in the form of a tree as shown in Figure \ref{fig:goal_tree}.
+The GRACeFUL visual editor could be accessed under the link \url{http://vocol.iais.fraunhofer.de/graceful-rat/static/index.html}. A modern web browser such as Google Chrome or Mozilla Firefox could be used to load the editor. The following sections illustrate the steps of GCM along with its screenshots.
+
+\subsection{Goal Tree}
+
+The GMB process is initiated by establishing the main goal, which is a qualitative aim of the stakeholders. The main goal needs to be refined into sub-goals, which describe the goal for every stakeholder. Finally, the sub-goals are refined into measurable critera, which has measurable units. 
+
+On loading the visual editor in the browser, the toolbar consists of three elements, namely \textit{Goal}, \textit{Sub-Goal}, and \textit{Criterion}. Select the element in the tool bar and double click on the graph area to create a node of the respective type. Select the node to find its respective controls on the control tab. The controls tab consists of the node's label, its type which could be changed, and comments. However, for Criterion, an additional option to set its unit is provided in the control tab. Start building the goal tree by connecting the main goal, sub-goal, and criterion via links and arrange them hierarchically in the form of a tree as shown in Figure \ref{fig:goal_tree}. 
+
+Since stakeholders participation in the GMB process is essential, it would be ideal to visualize the stakeholder relationship with criteria. Hence, the \textit{Import Stakeholders} button in the controls tab would import the stakeholders file, which is prepared as a list and stored in a CSV (Comma Separated Values) file. Please use the template located at \url{https://github.com/GRACeFUL-project/GRACeFULEditor/blob/master/version2/data/stakeholders.csv} to prepare the list of participating stakeholders (Microsoft excel could be used to open the file) and import the file into the editor. Please note that one cannot draw a link from and to a stakeholder node and the stakeholder nodes cannot be edited/deleted.
 
 \begin{figure}
 \begin{center}
@@ -42,33 +77,168 @@ A Goal Tree consists of a main goal as the root, which is decomposed into sub go
 \end{center}
 \end{figure}
 
-The editor allows the option to save an instance of the goal tree as a JSON file and to load a previously saved instance. Once the goal tree is built, the next step is to start modeling the GCM. GCM is represented by two distinctive graph views, namely CLD and SFD-like. 
+\subsection{Causal Loop Diagram}
 
-We start modeling the GCM in the CLD view by selecting the Causal Loop Diagram tab in the editor. As a first step, the criteria that were defined in the goal tree have to be imported into the CLD editor, by clicking the button ‘Import Criteria’. Then the modeler asks the stakeholders to define the factors that influence the identified criteria. A directed link is drawn between the factors and/or criteria, to signify the relation between them as indicated by the stakeholders. For example, in the Figure \ref{fig:cld} the links with (+) sign signifies a positive causal influence, (-) signifies a negative causal relation, and (?) signifies an unknown influence. 
+Once the goal tree has been constructed, switch tab to the Causal Loop Diagram. The criteria and stakeholder nodes would automatically appear in the CLD editor (Figure \ref{fig:cld1}), as they are relevant to building the system model. The three causal elements, namely \textit{factor}, \textit{action}, and \textit{criterion} are available in the tool bar. The criterion is the same element as it is in goal tree. Creating a new criterion in the CLD editor would automatically appear in the goal tree editor. The controls tab on the right provides model controls, which assists in building the system model and server controls, which is used to communicate with the solver to get the library, sending the model and getting its results.
+
+\begin{figure}
+\begin{center}
+\includegraphics[height=3in,width=5in]{img/cld1.png}
+\caption{\small \sl Initial view of Causal Loop Diagram.\label{fig:cld1}}
+\end{center}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=0.75\linewidth, height=5cm]{img/criterion.png}
+\caption{\small \sl A Criterion Node.\label{fig:criterion}}
+\end{center}
+\end{figure}
+
+Figure \ref{fig:criterion} provides the attributes of a criterion node. During GMB, the stakeholders would suggest criteria and it is the responsibility of the modeler to map the criterion to the respective element in the library. The library mapping provides a list of standard criteria elements from the library for the modeler to choose the appropriate element for the criterion defined by the stakeholders.
+
+The causal loop diagram is built by defining the factors and how they influence the identified criteria and other elements in the model. Figure \ref{fig:factors} shows the attributes of a factor node. In building a system model, it is possible to observe the trend of a factor to either increasing, decreasing, ambiguous, and stable. Selecting one of the option will result in a thick border around the node and the color indicates the selection type. Red indicates increasing, green indicates decreasing, gray with discontinuous border indicates ambiguous, and blue indicates stable. The factors that cannot be influenced by any other causal elements are identified as External Factors. They act as input to the system and are a source of uncertainty. The editor supports to find the external factors, by clicking on the \textit{Mark External Factors} button from the controls tab. They are colored dark gray for better visualization.
+
+\begin{figure}[h]
+\begin{subfigure}{1.0\textwidth}
+\includegraphics[width=0.75\linewidth, height=6cm]{img/factor.png} 
+\caption{Without observe}
+\label{fig:factor}
+\end{subfigure}
+\begin{subfigure}{1.0\textwidth}
+\includegraphics[width=0.75\linewidth, height=6cm]{img/factor1.png}
+\caption{On observe}
+\label{fig:factor1}
+\end{subfigure}
+\caption{A Factor Node.}
+\label{fig:factors}
+\end{figure}
+
+In CLD, the factors and/or criteria are linked by causal relation links. The causal relation is represented by a directed link, annotated with a sign, which is plus or minus or question mark or zero. The sign plus signifies increasing causal relation, minus sign signifies decreasing causal relation, question mark sign signifies unknown/ambiguous causal relation, and zero sign signifies nothing, which is equivalent to being no link drawn at all. By default, the links have a causal relation sign plus annotated. Figure \ref{fig:links} shows the attributes of a causal relation link.
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=1.0\linewidth, height=5cm]{img/links.png}
+\caption{\small \sl Causal Relation.\label{fig:links}}
+\end{center}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=0.75\linewidth, height=6cm]{img/action.png}
+\caption{\small \sl An Action Node.\label{fig:action}}
+\end{center}
+\end{figure}
+
+The causal element Action helps the stakeholders to generate possible actions that can influence the criteria directly or through factors, based on the analysis of the system model. Again, the modeler has to map the action to the respective element in the library. The library mapping provides a list of standard action elements from the library for the modeler to choose the appropriate element for the action defined by the stakeholders. The attribute Action pairs indicates the cost associated in applying the action either positively (+), and/or negatively (-), and/or stable (0). An overall budget has to be defined first before applying the actions. To enter a budget in the editor, click on the button \textit{Enter Budget} from the controls tab and enter the maximum budget value as shown in the Figure \ref{fig:budget}. This is important as the solver would consider the maximum budget for applying the actions defined by the stakeholders.
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=0.75\linewidth, height=4cm]{img/budget.png}
+\caption{\small \sl Maximum Budget for the model.\label{fig:budget}}
+\end{center}
+\end{figure}
+
+Once a CLD is built, it has to be checked for the presence of loops in the model. It is important to avoid them, otherwise the model would be inconsistent. The \textit{Detect Feedback Loops} button from the controls tab helps in identifying the loops. If the causal relation links in the loop contain an even number of minus sign, then the loop has to be reinforced, otherwise the loop has to be balanced. Figure \ref{fig:loops} shows a simple graph with two loops. Right click on the link to add the feedback symbol. The editor identifies whether the symbol is either reinforce (R), if there are even number of minus signs or balance (B), if there are an odd number of minus signs.
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=0.75\linewidth, height=5cm]{img/loops.png}
+\caption{\small \sl Feedback loops in the model.\label{fig:loops}}
+\end{center}
+\end{figure}
+
+Figure \ref{fig:cld} provides the complete view of a CLD which includes factors and their causal relation to the criteria, actions and their direct and/or indirect relation to the criteria.
 
 \begin{figure}
 \begin{center}
 \includegraphics[height=3in,width=5in]{img/cld.png}
-\caption{\small \sl Causal Loop Diagram.\label{fig:cld}}
+\caption{\small \sl Causal Loop Diagram with factors, actions, and causal relations.\label{fig:cld}}
 \end{center}
 \end{figure}
 
-One important aspect in creating a CLD is that the modeler needs to match factors proposed by the participants with attributes of existing concepts in the library. The ‘Get Library’ button provides the desired functionality to fetch the library. For the communication with the library and the solver to work, the visual editor application needs to be deployed on the server. Similarly, the ‘Send Model’ sends a model to the solver for it to return feasible solutions.
+\subsection{Stakeholder Survey}
 
-The CLD editor can identify the factors that have no incoming relations. These are called external factors. The user must click the button ‘Identify External factors’ to find all the external factors in the model. For clarity, the nodes are represented by different colors to denote their type. In the Figure \ref{fig:cld}, the green nodes represent factors, the dark green node represents an external factor, and the yellow nodes represent criteria. The editor also provides a tool to find feedback loops in the model by clicking the button ‘Identify Feedback Loops’.
+As mentioned earlier, the stakeholder participation in GMB is very important and hence it is necessary to collect their preferences for various criteria defined in the model. Switch tab to the Stakeholder survey in the editor and click on import model on the controls tab to load the table Stakeholder list along with the summary tables of stakeholder weights and values. Figure \ref{fig:sList} shows the stakeholder list table.
+
+There are two ways to access the survey. The first option would be to click on the Create button in the table stakeholder list and save the file for every stakeholder. This file is sent to the stakeholder by email manually. The second option is to click on the MailTo button in the table stakeholder list and send the information by email. But, there are two problems associated with this. First, the mail client of the sender has to be configured in their system and second, the recipient has to store this information in a file manually before using it. Hence, it is advisable to use the first option.
 
 \begin{figure}
 \begin{center}
-\includegraphics[height=3in,width=5in]{img/sfd_like.png}
-\caption{\small \sl Graceful Concept Map.\label{fig:sfd_like}}
+\includegraphics[height=2in,width=5in]{img/sList.png}
+\caption{\small \sl Stakeholder Survey List.\label{fig:sList}}
 \end{center}
 \end{figure}
 
-The second model view is the entire GCM, including a SFD-like components and links. The latter can handle more quantitative stock-and-flow-like concepts. GCM components from the library are required to build it. On clicking the ‘Get Library’ button, the available library components are displayed on the left as shown in the Figure \ref{fig:sfd_like}. Currently, the library can be loaded on local installations, awaiting it to be deployed on the server. The SFD-like viewer from the initial prototype has been integrated into the current one. Additional features will be implemented.
+Once the stakeholder receives the file, the questionnaire page is opened using the url \url{http://vocol.iais.fraunhofer.de/graceful-rat/static/questioner.html}. Click on the button Load survey and select the respective file. Figure \ref{fig:weights} shows the table to weigh the criteria and follow the instructions to weigh them accordingly. Upon clicking the next button, Figure \ref{fig:values} shows the table to provide the constraints/values for every criteria. On complete, click on finish button and save the file. Send this saved file back to the facilitator by email manually.
 
-Whereas in the CLD and Goal Tree editors it is clear which library concepts are being manipulated (factors, goals, causal relations), the nodes and links in the overall GCM are created by selecting them from the available library components. The control tab provides the details of the concepts such as name, parameters, and connectivity information (ports).
+\begin{figure}
+\begin{center}
+\includegraphics[width=6in, height=3in]{img/weights.png}
+\caption{\small \sl Stakeholder providing weights.\label{fig:weights}}
+\end{center}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=6in, height=3in]{img/values.png}
+\caption{\small \sl Stakeholder providing constraints/values.\label{fig:values}}
+\end{center}
+\end{figure}
+
+Once the facilitator receives all the survey result files, click on the Load results button in the Stakeholder survey tab and select all the result files from the stakeholders and load them. The summary table shows the results of the stakeholder's weights and values as shown in the Figure \ref{fig:sSummary}. The stakeholder weights and values table is editable by the facilitator. If the weights and values has been edited, then the facilitator has to update it by clicking on the update button at the bottom.
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=6in, height=5in]{img/sSummary.png}
+\caption{\small \sl Summary of Stakeholder Survey.\label{fig:sSummary}}
+\end{center}
+\end{figure}
+
+The resultant of the stakeholder survey can be visualized in the CLD editor. Switch tabs to the CLD editor and a yellow link will be drawn between the stakeholder node and criteria, which they have weighed more than 0. On hovering over the stakeholder links, the normalized weight and its value can be viewed as shown in the Figure \ref{fig:cld2}. The normalized weight is the respective weight of a criterion divided by the sum of weights for all criteria assigned by a stakeholder and 0 represents about equal, 1 represents more, 2 represents much more, -1 represents less, and -2 represents much less. This completes the CLD model and it could be sent to the solver by clicking on the \textit{Send model} in the controls tab to get the results.
+
+\begin{figure}
+\begin{center}
+\includegraphics[height=3in,width=5in]{img/cld2.png}
+\caption{\small \sl Causal Loop Diagram with Stakeholder links.\label{fig:cld2}}
+\end{center}
+\end{figure}
+
+Figure \ref{fig:result} shows the result obtained from the solver for the CLD model. For every causal node, a color dot signifies its result. Red indicates its result is increasing, green indicates its result is decreasing, gray indicates its result is unknown/ambiguous, and blue indicates stable. The happiness of every stakeholder is found out by clicking on the stakeholder node and finding the happiness in the controls tab, which is expressed in a decimal form between 0 to 1. If required, the result can be cleared by clicking on the clear solution button in the controls tab.
+
+\begin{figure}
+\begin{center}
+\includegraphics[height=3in,width=5in]{img/result.png}
+\caption{\small \sl Result of the Causal Loop Diagram Model.\label{fig:result}}
+\end{center}
+\end{figure}
+
+\subsection{Action Assessment}
+
+The action assessment tab contains the table (Figure \ref{fig:assess}) with Actions as rows and Criteria as columns and its respective value is set by the solver. It has one of the possible five values: much better, better, none/unknown, worse, and much worse. This table would assist the facilitator in filtering the actions out of all possible actions obtained from the solver in the Graceful Concept Map.
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=6in, height=3in]{img/assess.png}
+\caption{\small \sl Action Assessment.\label{fig:assess}}
+\end{center}
+\end{figure}
+
+\subsection{Graceful Concept Map}
+
+The Graceful Concept map is also synced with the goal tree and causal loop diagram and the model created in CLD would appear automatically as shown in the Figure \ref{fig:gcm}. Addtionally, more elements from the library can be used to add quantitative information to the model.
+
+\begin{figure}
+\begin{center}
+\includegraphics[height=3in,width=5in]{img/gcm.png}
+\caption{\small \sl Graceful Concept Map.\label{fig:gcm}}
+\end{center}
+\end{figure}
+
+\newpage
 
 \section{Design and Implementation}
+\label{implementation}
 
 In this section, we provide the technical design and working of the visual editor. As introduced, it is a web-based application, which is implemented using HTML, CSS and JavaScript.  
 
