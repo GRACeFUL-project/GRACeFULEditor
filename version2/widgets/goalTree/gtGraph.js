@@ -84,50 +84,16 @@ function GTGraph(){
     var last_touch_time;
     var originalD3_touchZoomFunction;
 
+    function touch() {
+        d3.select("#locateButton").node().innerHTML = "Calling Touch Function !";
+        d3.event.preventDefault();
+    }
 
     function bindTouch() {
-        originalD3_touchZoomFunction=that.svgElement.on("touchstart.zoom");
-        that.svgElement.on("touchstart.zoom",touchzoomed);
-        that.svgElement.on("touchstart",touchStart);
-        d3.select("#locateButton").node().innerHTML="Bound TOUCHTEST2 ZOOM";
-
-
-
-        this.color = d3.scale.category10();
-        this.circle = that.svgElement.selectAll("circle.touch");
-
-
+        d3.select("#locateButton").node().innerHTML="Bound TOUCHTEST3 ZOOM";
         that.svgElement.on("touchstart", touch);
         that.svgElement.on("touchmove", touch);
         that.svgElement.on("touchend", touch);
-
-        function touch() {
-            d3.select("#locateButton").node().innerHTML="Calling Touch Function !";
-            d3.event.preventDefault();
-
-            that.circle = that.circle
-                .data(d3.touches(that.svgElement.node()), function(d) { return d.identifier; });
-
-            that.circle.exit()
-                .attr("class", null)
-                .transition()
-                .attr("r", 1e-6)
-                .remove();
-
-            that.circle.enter().append("circle")
-                .attr("class", "touch")
-                .attr("r", 1e-6)
-                .style("fill", function(d) { return that.color(d.identifier); })
-                .transition()
-                .duration(500)
-                .ease("elastic")
-                .attr("r", 48);
-
-            that.circle
-                .attr("cx", function(d) { return d[0]; })
-                .attr("cy", function(d) { return d[1]; });
-        }
-
     }
     bindTouch();
 
