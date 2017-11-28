@@ -1,94 +1,11 @@
 {
   "type": "GLOBAL_MODEL",
   "graphSchema": "NO_SCHEMA",
+  "budget": 0,
   "nodes": [
     {
-      "id": 0,
-      "name": "Removing dikes around Zeeuws Vlaanderen",
-      "visibleInWidgets": [
-        false,
-        true,
-        true
-      ],
-      "nodeTypeId": [
-        -1,
-        1,
-        0
-      ],
-      "comments": "",
-      "pos": [
-        {
-          "x": 0,
-          "y": 0
-        },
-        {
-          "x": 613.5833129882812,
-          "y": 262
-        },
-        {
-          "x": 674.5833129882812,
-          "y": 261
-        }
-      ],
-      "metaData": [
-        {},
-        {
-          "observe": false,
-          "trend": 0,
-          "actions": {
-            "plusAction": false,
-            "minusAction": false,
-            "zeroAction": false
-          }
-        },
-        {}
-      ]
-    },
-    {
-      "id": 1,
-      "name": "Natural Sedimentation",
-      "visibleInWidgets": [
-        false,
-        true,
-        true
-      ],
-      "nodeTypeId": [
-        -1,
-        1,
-        0
-      ],
-      "comments": "",
-      "pos": [
-        {
-          "x": 0,
-          "y": 0
-        },
-        {
-          "x": 664.5833129882812,
-          "y": 538
-        },
-        {
-          "x": 664.5833129882812,
-          "y": 538
-        }
-      ],
-      "metaData": [
-        {},
-        {
-          "observe": false,
-          "trend": 0,
-          "actions": {
-            "plusAction": false,
-            "minusAction": false,
-            "zeroAction": false
-          }
-        },
-        {}
-      ]
-    },
-    {
       "id": 2,
-      "name": "Raising of dikes around Scheldt",
+      "name": "Natural flooding of nature area",
       "visibleInWidgets": [
         false,
         true,
@@ -106,12 +23,12 @@
           "y": 0
         },
         {
-          "x": 1086.5833740234375,
-          "y": 250
+          "x": 331.91668701171875,
+          "y": 258
         },
         {
-          "x": 1086.5833740234375,
-          "y": 250
+          "x": 331.91668701171875,
+          "y": 258
         }
       ],
       "metaData": [
@@ -123,14 +40,16 @@
             "plusAction": false,
             "minusAction": false,
             "zeroAction": false
-          }
+          },
+          "libMapping": "",
+          "criteriaUnit": ""
         },
         {}
       ]
     },
     {
       "id": 3,
-      "name": "Sustainable safety Scheldt area",
+      "name": "Natural dynamics in nature area",
       "visibleInWidgets": [
         false,
         true,
@@ -148,12 +67,12 @@
           "y": 0
         },
         {
-          "x": 1082.5833740234375,
-          "y": 534
+          "x": 104.91667175292969,
+          "y": 465
         },
         {
-          "x": 1082.5833740234375,
-          "y": 534
+          "x": 104.91667175292969,
+          "y": 465
         }
       ],
       "metaData": [
@@ -165,55 +84,15 @@
             "plusAction": false,
             "minusAction": false,
             "zeroAction": false
-          }
+          },
+          "libMapping": "",
+          "criteriaUnit": ""
         },
         {}
       ]
     },
     {
       "id": 4,
-      "name": "Natural flooding of nature areas",
-      "visibleInWidgets": [
-        false,
-        true,
-        true
-      ],
-      "nodeTypeId": [
-        -1,
-        1,
-        0
-      ],
-      "comments": "",
-      "pos": [
-        {
-          "x": 0,
-          "y": 0
-        },
-        {
-          "x": 273.58331298828125,
-          "y": 254
-        },
-        {
-          "x": 273.58331298828125,
-          "y": 254
-        }
-      ],
-      "metaData": [
-        {},
-        {
-          "observe": false,
-          "trend": 0,
-          "actions": {
-            "plusAction": false,
-            "minusAction": false,
-            "zeroAction": false
-          }
-        },
-        {}
-      ]
-    },
-    {
-      "id": 5,
       "name": "Biodiversity of ecosystems",
       "visibleInWidgets": [
         false,
@@ -232,12 +111,12 @@
           "y": 0
         },
         {
-          "x": 274.58331298828125,
-          "y": 533
+          "x": 319.91668701171875,
+          "y": 643
         },
         {
-          "x": 274.58331298828125,
-          "y": 533
+          "x": 319.91668701171875,
+          "y": 643
         }
       ],
       "metaData": [
@@ -249,14 +128,16 @@
             "plusAction": false,
             "minusAction": false,
             "zeroAction": false
-          }
+          },
+          "libMapping": "",
+          "criteriaUnit": ""
         },
         {}
       ]
     },
     {
-      "id": 6,
-      "name": "Natural dynamics in nature areas",
+      "id": 5,
+      "name": "Removing dikes around Zeeuws",
       "visibleInWidgets": [
         false,
         true,
@@ -274,12 +155,12 @@
           "y": 0
         },
         {
-          "x": -16.416671752929688,
-          "y": 392
+          "x": 662.9166870117188,
+          "y": 248
         },
         {
-          "x": -16.416671752929688,
-          "y": 392
+          "x": 662.9166870117188,
+          "y": 248
         }
       ],
       "metaData": [
@@ -291,7 +172,141 @@
             "plusAction": false,
             "minusAction": false,
             "zeroAction": false
-          }
+          },
+          "libMapping": "",
+          "criteriaUnit": ""
+        },
+        {}
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Natural sedimentation",
+      "visibleInWidgets": [
+        false,
+        true,
+        true
+      ],
+      "nodeTypeId": [
+        -1,
+        1,
+        0
+      ],
+      "comments": "",
+      "pos": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 661.9166870117188,
+          "y": 646
+        },
+        {
+          "x": 662.9166870117188,
+          "y": 646
+        }
+      ],
+      "metaData": [
+        {},
+        {
+          "observe": false,
+          "trend": 0,
+          "actions": {
+            "plusAction": false,
+            "minusAction": false,
+            "zeroAction": false
+          },
+          "libMapping": "",
+          "criteriaUnit": ""
+        },
+        {}
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Raising of dikes around Scheldt",
+      "visibleInWidgets": [
+        false,
+        true,
+        true
+      ],
+      "nodeTypeId": [
+        -1,
+        1,
+        0
+      ],
+      "comments": "",
+      "pos": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1027.9166259765625,
+          "y": 236
+        },
+        {
+          "x": 1027.9166259765625,
+          "y": 237
+        }
+      ],
+      "metaData": [
+        {},
+        {
+          "observe": false,
+          "trend": 0,
+          "actions": {
+            "plusAction": false,
+            "minusAction": false,
+            "zeroAction": false
+          },
+          "libMapping": "",
+          "criteriaUnit": ""
+        },
+        {}
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Sustainable safety Scheldt area",
+      "visibleInWidgets": [
+        false,
+        true,
+        true
+      ],
+      "nodeTypeId": [
+        -1,
+        1,
+        0
+      ],
+      "comments": "",
+      "pos": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1020.9166870117188,
+          "y": 644
+        },
+        {
+          "x": 1020.9166870117188,
+          "y": 644
+        }
+      ],
+      "metaData": [
+        {},
+        {
+          "observe": false,
+          "trend": 0,
+          "actions": {
+            "plusAction": false,
+            "minusAction": false,
+            "zeroAction": false
+          },
+          "libMapping": "",
+          "criteriaUnit": ""
         },
         {}
       ]
@@ -299,20 +314,61 @@
   ],
   "links": [
     {
-      "id": 0,
+      "id": 9,
       "source_target": [
-        4,
+        2,
+        3
+      ],
+      "linkTypesInWidgets": [
+        0,
+        1,
+        1
+      ],
+      "linkValuesInWidgets": [
+        -1,
+        1,
+        1
+      ],
+      "visibleInWidgets": [
+        false,
+        true,
+        true
+      ],
+      "controlPointsStatus": [
+        false,
+        false,
+        false
+      ],
+      "controlPointsPosition": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 218.41667938232422,
+          "y": 361.5
+        },
+        {
+          "x": 218.41667938232422,
+          "y": 361.5
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "source_target": [
+        2,
         6
       ],
       "linkTypesInWidgets": [
         0,
-        0,
-        0
+        1,
+        1
       ],
       "linkValuesInWidgets": [
         -1,
         1,
-        0
+        1
       ],
       "visibleInWidgets": [
         false,
@@ -330,141 +386,112 @@
           "y": 0
         },
         {
-          "x": 128.58332061767578,
-          "y": 323
+          "x": 496.91668701171875,
+          "y": 452
         },
-        null
+        {
+          "x": 497.41668701171875,
+          "y": 452
+        }
       ]
     },
     {
-      "id": 1,
+      "id": 11,
+      "source_target": [
+        3,
+        4
+      ],
+      "linkTypesInWidgets": [
+        0,
+        1,
+        1
+      ],
+      "linkValuesInWidgets": [
+        -1,
+        1,
+        1
+      ],
+      "visibleInWidgets": [
+        false,
+        true,
+        true
+      ],
+      "controlPointsStatus": [
+        false,
+        false,
+        false
+      ],
+      "controlPointsPosition": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 212.41667938232422,
+          "y": 554
+        },
+        {
+          "x": 212.41667938232422,
+          "y": 554
+        }
+      ]
+    },
+    {
+      "id": 12,
       "source_target": [
         6,
-        5
+        4
       ],
       "linkTypesInWidgets": [
         0,
-        0,
-        0
-      ],
-      "linkValuesInWidgets": [
-        -1,
         1,
-        0
-      ],
-      "visibleInWidgets": [
-        false,
-        true,
-        true
-      ],
-      "controlPointsStatus": [
-        false,
-        false,
-        false
-      ],
-      "controlPointsPosition": [
-        {
-          "x": 0,
-          "y": 0
-        },
-        {
-          "x": 129.08332061767578,
-          "y": 462.5
-        },
-        null
-      ]
-    },
-    {
-      "id": 2,
-      "source_target": [
-        4,
         1
       ],
-      "linkTypesInWidgets": [
-        0,
-        0,
-        0
-      ],
       "linkValuesInWidgets": [
         -1,
         1,
-        0
-      ],
-      "visibleInWidgets": [
-        false,
-        true,
-        true
-      ],
-      "controlPointsStatus": [
-        false,
-        false,
-        false
-      ],
-      "controlPointsPosition": [
-        {
-          "x": 0,
-          "y": 0
-        },
-        {
-          "x": 469.08331298828125,
-          "y": 396
-        },
-        null
-      ]
-    },
-    {
-      "id": 3,
-      "source_target": [
-        1,
-        5
-      ],
-      "linkTypesInWidgets": [
-        0,
-        0,
-        0
-      ],
-      "linkValuesInWidgets": [
-        -1,
-        1,
-        0
-      ],
-      "visibleInWidgets": [
-        false,
-        true,
-        true
-      ],
-      "controlPointsStatus": [
-        false,
-        false,
-        false
-      ],
-      "controlPointsPosition": [
-        {
-          "x": 0,
-          "y": 0
-        },
-        {
-          "x": 469.58331298828125,
-          "y": 535.5
-        },
-        null
-      ]
-    },
-    {
-      "id": 4,
-      "source_target": [
-        0,
         1
       ],
+      "visibleInWidgets": [
+        false,
+        true,
+        true
+      ],
+      "controlPointsStatus": [
+        false,
+        false,
+        false
+      ],
+      "controlPointsPosition": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 490.91668701171875,
+          "y": 644.5
+        },
+        {
+          "x": 491.41668701171875,
+          "y": 644.5
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "source_target": [
+        7,
+        8
+      ],
       "linkTypesInWidgets": [
         0,
-        0,
-        0
+        1,
+        1
       ],
       "linkValuesInWidgets": [
         -1,
         1,
-        0
+        1
       ],
       "visibleInWidgets": [
         false,
@@ -482,27 +509,30 @@
           "y": 0
         },
         {
-          "x": 783.9736938476562,
-          "y": 378.2828369140625
+          "x": 1094.9166259765625,
+          "y": 441
         },
-        null
+        {
+          "x": 1024.4166564941406,
+          "y": 440.5
+        }
       ]
     },
     {
-      "id": 5,
+      "id": 14,
       "source_target": [
-        2,
-        1
+        7,
+        6
       ],
       "linkTypesInWidgets": [
         0,
-        0,
-        0
+        1,
+        1
       ],
       "linkValuesInWidgets": [
         -1,
         2,
-        0
+        1
       ],
       "visibleInWidgets": [
         false,
@@ -520,27 +550,30 @@
           "y": 0
         },
         {
-          "x": 875.5833435058594,
-          "y": 394
+          "x": 844.9166564941406,
+          "y": 441
         },
-        null
+        {
+          "x": 845.4166564941406,
+          "y": 441.5
+        }
       ]
     },
     {
-      "id": 6,
+      "id": 15,
       "source_target": [
-        1,
-        3
+        6,
+        8
       ],
       "linkTypesInWidgets": [
         0,
-        0,
-        0
+        1,
+        1
       ],
       "linkValuesInWidgets": [
         -1,
         1,
-        0
+        1
       ],
       "visibleInWidgets": [
         false,
@@ -558,27 +591,30 @@
           "y": 0
         },
         {
-          "x": 873.5833435058594,
-          "y": 536
+          "x": 841.4166870117188,
+          "y": 645
         },
-        null
+        {
+          "x": 841.9166870117188,
+          "y": 645
+        }
       ]
     },
     {
-      "id": 7,
+      "id": 16,
       "source_target": [
-        2,
-        3
+        5,
+        6
       ],
       "linkTypesInWidgets": [
         0,
-        0,
-        0
+        1,
+        1
       ],
       "linkValuesInWidgets": [
         -1,
         1,
-        0
+        1
       ],
       "visibleInWidgets": [
         false,
@@ -596,10 +632,13 @@
           "y": 0
         },
         {
-          "x": 1084.5833740234375,
-          "y": 392
+          "x": 662.4166870117188,
+          "y": 447
         },
-        null
+        {
+          "x": 662.9166870117188,
+          "y": 447
+        }
       ]
     }
   ]

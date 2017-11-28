@@ -1,51 +1,10 @@
 {
   "type": "GLOBAL_MODEL",
   "graphSchema": "NO_SCHEMA",
+  "budget": 0,
   "nodes": [
     {
-      "id": 0,
-      "name": "Resuspended sedimentation",
-      "visibleInWidgets": [
-        false,
-        true,
-        true
-      ],
-      "nodeTypeId": [
-        -1,
-        1,
-        0
-      ],
-      "comments": "",
-      "pos": [
-        {
-          "x": 0,
-          "y": 0
-        },
-        {
-          "x": 287.58331298828125,
-          "y": 428
-        },
-        {
-          "x": 287.58331298828125,
-          "y": 428
-        }
-      ],
-      "metaData": [
-        {},
-        {
-          "observe": false,
-          "trend": 0,
-          "actions": {
-            "plusAction": false,
-            "minusAction": false,
-            "zeroAction": false
-          }
-        },
-        {}
-      ]
-    },
-    {
-      "id": 1,
+      "id": 2,
       "name": "Turbidity",
       "visibleInWidgets": [
         false,
@@ -64,12 +23,12 @@
           "y": 0
         },
         {
-          "x": 773.5833129882812,
-          "y": 273
+          "x": 555.9166870117188,
+          "y": 73
         },
         {
-          "x": 773.5833129882812,
-          "y": 273
+          "x": 555.9166870117188,
+          "y": 73
         }
       ],
       "metaData": [
@@ -81,13 +40,59 @@
             "plusAction": false,
             "minusAction": false,
             "zeroAction": false
-          }
+          },
+          "libMapping": "",
+          "criteriaUnit": ""
         },
         {}
       ]
     },
     {
-      "id": 2,
+      "id": 3,
+      "name": "Resuspended sedimentation",
+      "visibleInWidgets": [
+        false,
+        true,
+        true
+      ],
+      "nodeTypeId": [
+        -1,
+        1,
+        0
+      ],
+      "comments": "",
+      "pos": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 173.9166717529297,
+          "y": 336
+        },
+        {
+          "x": 129.9166717529297,
+          "y": 383
+        }
+      ],
+      "metaData": [
+        {},
+        {
+          "observe": false,
+          "trend": 0,
+          "actions": {
+            "plusAction": false,
+            "minusAction": false,
+            "zeroAction": false
+          },
+          "libMapping": "",
+          "criteriaUnit": ""
+        },
+        {}
+      ]
+    },
+    {
+      "id": 4,
       "name": "Algae",
       "visibleInWidgets": [
         false,
@@ -106,12 +111,12 @@
           "y": 0
         },
         {
-          "x": 1226.5833740234375,
-          "y": 443
+          "x": 1096.9166259765625,
+          "y": 402
         },
         {
-          "x": 1226.5833740234375,
-          "y": 443
+          "x": 1096.9166259765625,
+          "y": 402
         }
       ],
       "metaData": [
@@ -123,13 +128,15 @@
             "plusAction": false,
             "minusAction": false,
             "zeroAction": false
-          }
+          },
+          "libMapping": "",
+          "criteriaUnit": ""
         },
         {}
       ]
     },
     {
-      "id": 3,
+      "id": 5,
       "name": "Water depth",
       "visibleInWidgets": [
         false,
@@ -148,12 +155,12 @@
           "y": 0
         },
         {
-          "x": 575.5833129882812,
-          "y": 541
+          "x": 431.91668701171875,
+          "y": 444
         },
         {
-          "x": 575.5833129882812,
-          "y": 541
+          "x": 431.91668701171875,
+          "y": 444
         }
       ],
       "metaData": [
@@ -165,13 +172,15 @@
             "plusAction": false,
             "minusAction": false,
             "zeroAction": false
-          }
+          },
+          "libMapping": "",
+          "criteriaUnit": ""
         },
         {}
       ]
     },
     {
-      "id": 4,
+      "id": 6,
       "name": "Nutrients",
       "visibleInWidgets": [
         false,
@@ -190,12 +199,12 @@
           "y": 0
         },
         {
-          "x": 865.5833129882812,
-          "y": 534
+          "x": 768.9166870117188,
+          "y": 399
         },
         {
-          "x": 865.5833129882812,
-          "y": 534
+          "x": 768.9166870117188,
+          "y": 399
         }
       ],
       "metaData": [
@@ -207,13 +216,15 @@
             "plusAction": false,
             "minusAction": false,
             "zeroAction": false
-          }
+          },
+          "libMapping": "",
+          "criteriaUnit": ""
         },
         {}
       ]
     },
     {
-      "id": 5,
+      "id": 7,
       "name": "Vegetation",
       "visibleInWidgets": [
         false,
@@ -232,12 +243,12 @@
           "y": 0
         },
         {
-          "x": 750.5833129882812,
-          "y": 698
+          "x": 620.9166870117188,
+          "y": 607
         },
         {
-          "x": 750.5833129882812,
-          "y": 698
+          "x": 620.9166870117188,
+          "y": 607
         }
       ],
       "metaData": [
@@ -249,13 +260,15 @@
             "plusAction": false,
             "minusAction": false,
             "zeroAction": false
-          }
+          },
+          "libMapping": "",
+          "criteriaUnit": ""
         },
         {}
       ]
     },
     {
-      "id": 6,
+      "id": 8,
       "name": "Waves",
       "visibleInWidgets": [
         false,
@@ -274,12 +287,12 @@
           "y": 0
         },
         {
-          "x": 526.5833129882812,
-          "y": 838
+          "x": 414.91668701171875,
+          "y": 738
         },
         {
-          "x": 526.5833129882812,
-          "y": 838
+          "x": 414.91668701171875,
+          "y": 738
         }
       ],
       "metaData": [
@@ -291,14 +304,16 @@
             "plusAction": false,
             "minusAction": false,
             "zeroAction": false
-          }
+          },
+          "libMapping": "",
+          "criteriaUnit": ""
         },
         {}
       ]
     },
     {
-      "id": 7,
-      "name": "Allelopathic subs.",
+      "id": 9,
+      "name": "Allelopathic subs",
       "visibleInWidgets": [
         false,
         true,
@@ -316,12 +331,12 @@
           "y": 0
         },
         {
-          "x": 968.5833740234375,
-          "y": 858
+          "x": 940.9166870117188,
+          "y": 676
         },
         {
-          "x": 870.5833129882812,
-          "y": 879
+          "x": 857.9166870117188,
+          "y": 725
         }
       ],
       "metaData": [
@@ -333,13 +348,15 @@
             "plusAction": false,
             "minusAction": false,
             "zeroAction": false
-          }
+          },
+          "libMapping": "",
+          "criteriaUnit": ""
         },
         {}
       ]
     },
     {
-      "id": 8,
+      "id": 10,
       "name": "Fish",
       "visibleInWidgets": [
         false,
@@ -358,12 +375,12 @@
           "y": 0
         },
         {
-          "x": 344.58331298828125,
-          "y": 923
+          "x": 227.9166717529297,
+          "y": 852
         },
         {
-          "x": 306.58331298828125,
-          "y": 1004
+          "x": 227.9166717529297,
+          "y": 852
         }
       ],
       "metaData": [
@@ -375,13 +392,15 @@
             "plusAction": false,
             "minusAction": false,
             "zeroAction": false
-          }
+          },
+          "libMapping": "",
+          "criteriaUnit": ""
         },
         {}
       ]
     },
     {
-      "id": 9,
+      "id": 11,
       "name": "Zooplankton",
       "visibleInWidgets": [
         false,
@@ -400,12 +419,12 @@
           "y": 0
         },
         {
-          "x": 1041.5833740234375,
-          "y": 1003
+          "x": 1058.9166259765625,
+          "y": 869
         },
         {
-          "x": 1235.5833740234375,
-          "y": 996
+          "x": 1058.9166259765625,
+          "y": 869
         }
       ],
       "metaData": [
@@ -417,7 +436,9 @@
             "plusAction": false,
             "minusAction": false,
             "zeroAction": false
-          }
+          },
+          "libMapping": "",
+          "criteriaUnit": ""
         },
         {}
       ]
@@ -425,438 +446,20 @@
   ],
   "links": [
     {
-      "id": 0,
-      "source_target": [
-        1,
-        5
-      ],
-      "linkTypesInWidgets": [
-        0,
-        0,
-        0
-      ],
-      "linkValuesInWidgets": [
-        -1,
-        2,
-        0
-      ],
-      "visibleInWidgets": [
-        false,
-        true,
-        true
-      ],
-      "controlPointsStatus": [
-        false,
-        false,
-        false
-      ],
-      "controlPointsPosition": [
-        {
-          "x": 0,
-          "y": 0
-        },
-        {
-          "x": 762.0833129882812,
-          "y": 485.5
-        },
-        null
-      ]
-    },
-    {
-      "id": 1,
+      "id": 12,
       "source_target": [
         2,
-        1
-      ],
-      "linkTypesInWidgets": [
-        0,
-        0,
-        0
-      ],
-      "linkValuesInWidgets": [
-        -1,
-        1,
-        0
-      ],
-      "visibleInWidgets": [
-        false,
-        true,
-        true
-      ],
-      "controlPointsStatus": [
-        false,
-        false,
-        false
-      ],
-      "controlPointsPosition": [
-        {
-          "x": 0,
-          "y": 0
-        },
-        {
-          "x": 1000.0833435058594,
-          "y": 358
-        },
-        null
-      ]
-    },
-    {
-      "id": 2,
-      "source_target": [
-        0,
-        1
-      ],
-      "linkTypesInWidgets": [
-        0,
-        0,
-        0
-      ],
-      "linkValuesInWidgets": [
-        -1,
-        1,
-        0
-      ],
-      "visibleInWidgets": [
-        false,
-        true,
-        true
-      ],
-      "controlPointsStatus": [
-        false,
-        false,
-        false
-      ],
-      "controlPointsPosition": [
-        {
-          "x": 0,
-          "y": 0
-        },
-        {
-          "x": 530.5833129882812,
-          "y": 350.5
-        },
-        null
-      ]
-    },
-    {
-      "id": 3,
-      "source_target": [
-        3,
-        5
-      ],
-      "linkTypesInWidgets": [
-        0,
-        0,
-        0
-      ],
-      "linkValuesInWidgets": [
-        -1,
-        2,
-        0
-      ],
-      "visibleInWidgets": [
-        false,
-        true,
-        true
-      ],
-      "controlPointsStatus": [
-        false,
-        false,
-        false
-      ],
-      "controlPointsPosition": [
-        {
-          "x": 0,
-          "y": 0
-        },
-        {
-          "x": 663.0833129882812,
-          "y": 619.5
-        },
-        null
-      ]
-    },
-    {
-      "id": 4,
-      "source_target": [
-        5,
-        4
-      ],
-      "linkTypesInWidgets": [
-        0,
-        0,
-        0
-      ],
-      "linkValuesInWidgets": [
-        -1,
-        2,
-        0
-      ],
-      "visibleInWidgets": [
-        false,
-        true,
-        true
-      ],
-      "controlPointsStatus": [
-        false,
-        false,
-        false
-      ],
-      "controlPointsPosition": [
-        {
-          "x": 0,
-          "y": 0
-        },
-        {
-          "x": 808.0833129882812,
-          "y": 616
-        },
-        null
-      ]
-    },
-    {
-      "id": 5,
-      "source_target": [
-        6,
-        0
-      ],
-      "linkTypesInWidgets": [
-        0,
-        0,
-        0
-      ],
-      "linkValuesInWidgets": [
-        -1,
-        1,
-        0
-      ],
-      "visibleInWidgets": [
-        false,
-        true,
-        true
-      ],
-      "controlPointsStatus": [
-        false,
-        false,
-        false
-      ],
-      "controlPointsPosition": [
-        {
-          "x": 0,
-          "y": 0
-        },
-        {
-          "x": 407.08331298828125,
-          "y": 633
-        },
-        null
-      ]
-    },
-    {
-      "id": 6,
-      "source_target": [
-        8,
-        0
-      ],
-      "linkTypesInWidgets": [
-        0,
-        0,
-        0
-      ],
-      "linkValuesInWidgets": [
-        -1,
-        1,
-        0
-      ],
-      "visibleInWidgets": [
-        false,
-        true,
-        true
-      ],
-      "controlPointsStatus": [
-        false,
-        true,
-        false
-      ],
-      "controlPointsPosition": [
-        {
-          "x": 0,
-          "y": 0
-        },
-        {
-          "x": 277.229736328125,
-          "y": 697.496826171875
-        },
-        null
-      ]
-    },
-    {
-      "id": 7,
-      "source_target": [
-        8,
-        9
-      ],
-      "linkTypesInWidgets": [
-        0,
-        0,
-        0
-      ],
-      "linkValuesInWidgets": [
-        -1,
-        2,
-        0
-      ],
-      "visibleInWidgets": [
-        false,
-        true,
-        true
-      ],
-      "controlPointsStatus": [
-        false,
-        false,
-        false
-      ],
-      "controlPointsPosition": [
-        {
-          "x": 0,
-          "y": 0
-        },
-        {
-          "x": 693.0833435058594,
-          "y": 963
-        },
-        null
-      ]
-    },
-    {
-      "id": 8,
-      "source_target": [
-        9,
-        4
-      ],
-      "linkTypesInWidgets": [
-        0,
-        0,
-        0
-      ],
-      "linkValuesInWidgets": [
-        -1,
-        2,
-        0
-      ],
-      "visibleInWidgets": [
-        false,
-        true,
-        true
-      ],
-      "controlPointsStatus": [
-        false,
-        true,
-        false
-      ],
-      "controlPointsPosition": [
-        {
-          "x": 0,
-          "y": 0
-        },
-        {
-          "x": 1084.5833740234375,
-          "y": 715
-        },
-        null
-      ]
-    },
-    {
-      "id": 9,
-      "source_target": [
-        5,
-        9
-      ],
-      "linkTypesInWidgets": [
-        0,
-        0,
-        0
-      ],
-      "linkValuesInWidgets": [
-        -1,
-        1,
-        0
-      ],
-      "visibleInWidgets": [
-        false,
-        true,
-        true
-      ],
-      "controlPointsStatus": [
-        false,
-        true,
-        false
-      ],
-      "controlPointsPosition": [
-        {
-          "x": 0,
-          "y": 0
-        },
-        {
-          "x": 868.5833129882812,
-          "y": 900
-        },
-        null
-      ]
-    },
-    {
-      "id": 10,
-      "source_target": [
-        5,
         7
       ],
       "linkTypesInWidgets": [
         0,
-        0,
-        0
-      ],
-      "linkValuesInWidgets": [
-        -1,
         1,
-        0
-      ],
-      "visibleInWidgets": [
-        false,
-        true,
-        true
-      ],
-      "controlPointsStatus": [
-        false,
-        true,
-        false
-      ],
-      "controlPointsPosition": [
-        {
-          "x": 0,
-          "y": 0
-        },
-        {
-          "x": 869.6226196289062,
-          "y": 788.675537109375
-        },
-        null
-      ]
-    },
-    {
-      "id": 11,
-      "source_target": [
-        7,
-        4
-      ],
-      "linkTypesInWidgets": [
-        0,
-        0,
-        0
+        1
       ],
       "linkValuesInWidgets": [
         -1,
         2,
-        0
+        1
       ],
       "visibleInWidgets": [
         false,
@@ -874,65 +477,71 @@
           "y": 0
         },
         {
-          "x": 965.5440063476562,
-          "y": 746.7858276367188
-        },
-        null
-      ]
-    },
-    {
-      "id": 12,
-      "source_target": [
-        5,
-        6
-      ],
-      "linkTypesInWidgets": [
-        0,
-        0,
-        0
-      ],
-      "linkValuesInWidgets": [
-        -1,
-        2,
-        0
-      ],
-      "visibleInWidgets": [
-        false,
-        true,
-        true
-      ],
-      "controlPointsStatus": [
-        false,
-        false,
-        false
-      ],
-      "controlPointsPosition": [
-        {
-          "x": 0,
-          "y": 0
+          "x": 670.9166870117188,
+          "y": 326
         },
         {
-          "x": 638.5833129882812,
-          "y": 768
-        },
-        null
+          "x": 588.4166870117188,
+          "y": 340
+        }
       ]
     },
     {
       "id": 13,
+      "source_target": [
+        3,
+        2
+      ],
+      "linkTypesInWidgets": [
+        0,
+        1,
+        1
+      ],
+      "linkValuesInWidgets": [
+        -1,
+        1,
+        1
+      ],
+      "visibleInWidgets": [
+        false,
+        true,
+        true
+      ],
+      "controlPointsStatus": [
+        false,
+        false,
+        false
+      ],
+      "controlPointsPosition": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 364.9166793823242,
+          "y": 204.5
+        },
+        {
+          "x": 342.9166793823242,
+          "y": 228
+        }
+      ]
+    },
+    {
+      "id": 14,
       "source_target": [
         4,
         2
       ],
       "linkTypesInWidgets": [
         0,
-        0,
-        0
+        1,
+        1
       ],
       "linkValuesInWidgets": [
         -1,
         1,
-        0
+        1
       ],
       "visibleInWidgets": [
         false,
@@ -950,10 +559,464 @@
           "y": 0
         },
         {
-          "x": 1046.0833435058594,
-          "y": 488.5
+          "x": 826.4166564941406,
+          "y": 237.5
         },
-        null
+        {
+          "x": 826.4166564941406,
+          "y": 237.5
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "source_target": [
+        5,
+        7
+      ],
+      "linkTypesInWidgets": [
+        0,
+        1,
+        1
+      ],
+      "linkValuesInWidgets": [
+        -1,
+        2,
+        1
+      ],
+      "visibleInWidgets": [
+        false,
+        true,
+        true
+      ],
+      "controlPointsStatus": [
+        false,
+        false,
+        false
+      ],
+      "controlPointsPosition": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 526.4166870117188,
+          "y": 525.5
+        },
+        {
+          "x": 526.4166870117188,
+          "y": 525.5
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "source_target": [
+        7,
+        6
+      ],
+      "linkTypesInWidgets": [
+        0,
+        1,
+        1
+      ],
+      "linkValuesInWidgets": [
+        -1,
+        2,
+        1
+      ],
+      "visibleInWidgets": [
+        false,
+        true,
+        true
+      ],
+      "controlPointsStatus": [
+        false,
+        false,
+        false
+      ],
+      "controlPointsPosition": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 694.9166870117188,
+          "y": 503
+        },
+        {
+          "x": 694.9166870117188,
+          "y": 503
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "source_target": [
+        6,
+        4
+      ],
+      "linkTypesInWidgets": [
+        0,
+        1,
+        1
+      ],
+      "linkValuesInWidgets": [
+        -1,
+        1,
+        1
+      ],
+      "visibleInWidgets": [
+        false,
+        true,
+        true
+      ],
+      "controlPointsStatus": [
+        false,
+        false,
+        false
+      ],
+      "controlPointsPosition": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 932.9166564941406,
+          "y": 400.5
+        },
+        {
+          "x": 932.9166564941406,
+          "y": 400.5
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "source_target": [
+        8,
+        3
+      ],
+      "linkTypesInWidgets": [
+        0,
+        1,
+        1
+      ],
+      "linkValuesInWidgets": [
+        -1,
+        1,
+        1
+      ],
+      "visibleInWidgets": [
+        false,
+        true,
+        true
+      ],
+      "controlPointsStatus": [
+        false,
+        false,
+        false
+      ],
+      "controlPointsPosition": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 294.4166793823242,
+          "y": 537
+        },
+        {
+          "x": 272.4166793823242,
+          "y": 560.5
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "source_target": [
+        10,
+        3
+      ],
+      "linkTypesInWidgets": [
+        0,
+        1,
+        1
+      ],
+      "linkValuesInWidgets": [
+        -1,
+        1,
+        1
+      ],
+      "visibleInWidgets": [
+        false,
+        true,
+        true
+      ],
+      "controlPointsStatus": [
+        false,
+        true,
+        false
+      ],
+      "controlPointsPosition": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 127.91667175292969,
+          "y": 633
+        },
+        {
+          "x": 178.9166717529297,
+          "y": 617.5
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "source_target": [
+        10,
+        11
+      ],
+      "linkTypesInWidgets": [
+        0,
+        1,
+        1
+      ],
+      "linkValuesInWidgets": [
+        -1,
+        2,
+        1
+      ],
+      "visibleInWidgets": [
+        false,
+        true,
+        true
+      ],
+      "controlPointsStatus": [
+        false,
+        false,
+        false
+      ],
+      "controlPointsPosition": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 643.4166488647461,
+          "y": 860.5
+        },
+        {
+          "x": 643.4166488647461,
+          "y": 860.5
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "source_target": [
+        7,
+        9
+      ],
+      "linkTypesInWidgets": [
+        0,
+        1,
+        1
+      ],
+      "linkValuesInWidgets": [
+        -1,
+        1,
+        1
+      ],
+      "visibleInWidgets": [
+        false,
+        true,
+        true
+      ],
+      "controlPointsStatus": [
+        false,
+        false,
+        false
+      ],
+      "controlPointsPosition": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 780.9166870117188,
+          "y": 641.5
+        },
+        {
+          "x": 739.4166870117188,
+          "y": 666
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "source_target": [
+        7,
+        11
+      ],
+      "linkTypesInWidgets": [
+        0,
+        1,
+        1
+      ],
+      "linkValuesInWidgets": [
+        -1,
+        1,
+        1
+      ],
+      "visibleInWidgets": [
+        false,
+        true,
+        true
+      ],
+      "controlPointsStatus": [
+        false,
+        false,
+        false
+      ],
+      "controlPointsPosition": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 839.9166564941406,
+          "y": 738
+        },
+        {
+          "x": 839.9166564941406,
+          "y": 738
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "source_target": [
+        7,
+        8
+      ],
+      "linkTypesInWidgets": [
+        0,
+        1,
+        1
+      ],
+      "linkValuesInWidgets": [
+        -1,
+        2,
+        1
+      ],
+      "visibleInWidgets": [
+        false,
+        true,
+        true
+      ],
+      "controlPointsStatus": [
+        false,
+        false,
+        false
+      ],
+      "controlPointsPosition": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 517.9166870117188,
+          "y": 672.5
+        },
+        {
+          "x": 517.9166870117188,
+          "y": 672.5
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "source_target": [
+        9,
+        6
+      ],
+      "linkTypesInWidgets": [
+        0,
+        1,
+        1
+      ],
+      "linkValuesInWidgets": [
+        -1,
+        2,
+        1
+      ],
+      "visibleInWidgets": [
+        false,
+        true,
+        true
+      ],
+      "controlPointsStatus": [
+        false,
+        false,
+        false
+      ],
+      "controlPointsPosition": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 854.9166870117188,
+          "y": 537.5
+        },
+        {
+          "x": 813.4166870117188,
+          "y": 562
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "source_target": [
+        11,
+        6
+      ],
+      "linkTypesInWidgets": [
+        0,
+        1,
+        1
+      ],
+      "linkValuesInWidgets": [
+        -1,
+        2,
+        1
+      ],
+      "visibleInWidgets": [
+        false,
+        true,
+        true
+      ],
+      "controlPointsStatus": [
+        false,
+        true,
+        false
+      ],
+      "controlPointsPosition": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1079.9166259765625,
+          "y": 592
+        },
+        {
+          "x": 913.9166564941406,
+          "y": 634
+        }
       ]
     }
   ]
