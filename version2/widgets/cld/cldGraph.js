@@ -257,7 +257,7 @@ function CLDGraph(){
         console.log("CLDGraph result: "+JSON.stringify(result, null, ""));
         for(var key in resultObject) {
             if(resultObject.hasOwnProperty(key)) {
-                console.log(key + "-->" +resultObject[key]);
+                // console.log(key + "-->" +resultObject[key]);
                 var outsign = key.split(/(\d+)/).filter(Boolean);
                 if(outsign[0] === "value") {
                     that.nodeElementArray.filter(function(temp) {
@@ -268,7 +268,7 @@ function CLDGraph(){
                     });
                 }
                 else if(outsign[0] === "cost") {
-                    console.log("Cost of node id "+outsign[1]+ " is:"+resultObject[key]);
+                    // console.log("Cost of node id "+outsign[1]+ " is:"+resultObject[key]);
                     that.nodeElementArray.filter(function(temp) {
                         if(temp.id() == Number(outsign[1])) {
                             temp.setActionCostFromSolver(resultObject[key]);
@@ -277,7 +277,7 @@ function CLDGraph(){
                     });
                 }
                 else if(outsign[0] === "happiness") {
-                    console.log("Happiness of node id "+outsign[1]+ " is:"+resultObject[key]);
+                    // console.log("Happiness of node id "+outsign[1]+ " is:"+resultObject[key]);
                     that.nodeElementArray.filter(function(temp) {
                         if(temp.id() == Number(outsign[1])) {
                             temp.setStakeholderHappiness(resultObject[key]);
@@ -286,17 +286,17 @@ function CLDGraph(){
                     });
                 }
                 else if(outsign[0] === "totalCost") {
-                    console.log("totalCost of node id "+outsign[1]+ " is:"+resultObject[key]);
+                    // console.log("totalCost of node id "+outsign[1]+ " is:"+resultObject[key]);
                     that.totalCost = resultObject[key];
                     that.addSolverResult("budget", outsign[0], resultObject[key]);
                 }
                 else if(outsign[0] === "totalBenefits") {
-                    console.log("totalBenefits of node id "+outsign[1]+ " is:"+resultObject[key]);
+                    // console.log("totalBenefits of node id "+outsign[1]+ " is:"+resultObject[key]);
                     that.totalBenefits = resultObject[key];
                     that.addSolverResult("optimise", outsign[0], resultObject[key]);
                 }
                 else if(outsign[0] === "inPort") {
-                    console.log("inPort of node id "+outsign[1]+ " is:"+resultObject[key]);
+                    // console.log("inPort of node id "+outsign[1]+ " is:"+resultObject[key]);
                     that.pathElementArray.filter(function(temp) {
                         if(temp.id() == Number(outsign[1])) {
                             temp.setResultAtPort(resultObject[key]);
@@ -305,10 +305,19 @@ function CLDGraph(){
                     });
                 }
                 else if(outsign[0] === "outPort") {
-                    console.log("outPort of node id "+outsign[1]+ " is:"+resultObject[key]);
+                    // console.log("outPort of node id "+outsign[1]+ " is:"+resultObject[key]);
                     that.pathElementArray.filter(function(temp) {
                         if(temp.id() == Number(outsign[1])) {
                             // temp.setResultAtPort(resultObject[key]);
+                            that.addSolverResult(temp.targetNode.label+"-->"+temp.sourceNode.label, outsign[0], resultObject[key]);
+                        }
+                    });
+                }
+                else if(outsign[0] === "color") {
+                    // console.log("color of link id "+outsign[1]+ " is:"+resultObject[key]);
+                    that.pathElementArray.filter(function(temp) {
+                        if(temp.id() == Number(outsign[1])) {
+                            temp.stakeLinksResult(resultObject[key]);
                             that.addSolverResult(temp.targetNode.label+"-->"+temp.sourceNode.label, outsign[0], resultObject[key]);
                         }
                     });

@@ -131,15 +131,17 @@ function CLDLink(graph) {
     this.setResultAtPort = function(val) {
         that.atPort = val;
 
-        that.pathElement
-
-        // if(val === -1)
-        //     that.pathElement.classed("setGreen", true);
-        // else if(val === 1)
-        //     that.pathElement.classed("setRed", true);
-        // else
-        //     that.pathElement.classed("setBlue", true);
+        that.pathElement        
     };
+
+    this.stakeLinksResult = function(val) {
+        if(val === 0 || val=== 0.0) {
+            that.pathElement.classed("setRed", true);
+        }
+        else {
+            that.pathElement.classed("setGreen", true);
+        }            
+    }
 
     this.setResultBenefits = function(val) {
         that.benefits = val.toFixed(2);
@@ -220,7 +222,8 @@ function CLDLink(graph) {
             that.parameters = [];
             //update superlink's interface
             that.interfaces = [ {"connection": [that.targetNode.id(), "value", null], "name":"inPort", "type": "Sign"}, 
-                                {"connection": [that.sourceNode.id(), "criteria", that.superLinkPortIndex], "name":"outPort", "type": "Sign"}];
+                                {"connection": [that.sourceNode.id(), "criteria", that.superLinkPortIndex], "name":"outPort", "type": "Sign"},
+                                {"connection": [that.sourceNode.id(), "colors", that.superLinkPortIndex], "name":"color", "type": "Float"}];
         } else {
             //update link's parameters
             that.parameters = [{ "name": "sign",  "value": that.sign, "type": "Sign"}];
