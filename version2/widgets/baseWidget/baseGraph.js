@@ -87,8 +87,8 @@ function BaseGraph(parentWidget) {
 
 
     this.touchzoomed=function(){
-        console.log("TouchZoomed Called");
-        d3.select("#locateButton").node().innerHTML="Calling Touch Zoomed";
+        // console.log("TouchZoomed Called");
+        // d3.select("#locateButton").node().innerHTML="Calling Touch Zoomed";
         that.forceNotZooming=true;
         var touch_time = d3.event.timeStamp;
         if (touch_time-that.last_touch_time < 500 && d3.event.touches.length===1) {
