@@ -4,7 +4,7 @@ function GTGraph(){
     var that=this;
     this.nodeTypeGraph=1;
     // call the baseGraph init function
-    // that.initializeGraph();
+    that.initializeGraph();
 
 
     // this.initializeGraph=function(){

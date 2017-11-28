@@ -30,6 +30,14 @@ var globalElementIdentifier=2;
             savedResults=undefined
         };
 
+        this.forcedReloaction=function(){
+
+            for (var i=0;i<graphObjectList.length;i++){
+                graphObjectList[i].forceRelocationEvent();
+            }
+
+        };
+
         this.saveModelResult=function(mr){
             savedResults=mr;
         };

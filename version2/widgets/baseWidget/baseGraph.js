@@ -134,6 +134,8 @@ function BaseGraph(parentWidget) {
         // per default hidden
         that.svgElement.classed("hidden",true);
 
+        console.log("Calling BASE GRAPHH INITI");
+
         // layer generations;
 
         // generate the graph rendering layer
@@ -215,6 +217,13 @@ function BaseGraph(parentWidget) {
             that.svgElement.on("dblclick.zoom",that.dblClick);
 
 
+        var dblTap=that.svgElement.on("touchstart");
+
+        if (dblTap===undefined){
+            d3.select("#locateButton").node().innerHTML="NO TOUCH";
+        }else{
+            d3.select("#locateButton").node().innerHTML="TOCH";
+        }
         // add node drag behavior
         this.dragBehaviour = d3.behavior.drag()
             .origin(function (d) {
@@ -454,6 +463,125 @@ function BaseGraph(parentWidget) {
     };
 
     // now add some node functionallity
+
+    function getWorldPosFromScreen(x,y,translate,scale){
+        var temp=scale[0];
+        var xn,yn;
+        if (temp) {
+            xn = (x - translate[0]) / temp;
+            yn = (y - translate[1]) / temp;
+        }else{
+            xn = (x - translate[0]) / scale;
+            yn = (y - translate[1]) / scale;
+        }
+        return {x: xn, y: yn};
+    }
+
+    function transform(p,cx,cy) {
+        var h= window.innerHeight;
+        // one iteration step for the lacate target animation
+        that.zoomFactor=h/ p[2];
+        that.translation=[(cx - p[0] * that.zoomFactor),(cy - p[1] * that.zoomFactor)];
+        // update the values in case the user wants to break the animation
+        that.zoom.translate(that.translation);
+        that.zoom.scale(that.zoomFactor);
+        return "translate(" + that.translation[0] + "," +  that.translation[1] + ")scale(" + that.zoomFactor + ")";
+    }
+
+    this.forceRelocationEvent=function(){
+        if (that.svgElement.classed("hidden")===true) return;
+        var minx=10000000000;
+        var miny=10000000000;
+        var maxx=-10000000000;
+        var maxy=-10000000000;
+        if (that.nodeElementArray.length===0){
+            return;
+        }
+        if (that.nodeElementArray.length>0) {
+            for (var i = 0; i < that.nodeElementArray.length; i++) {
+                var node = that.nodeElementArray[i];
+                if(minx>node.x) minx=node.x;
+                if(maxx<node.x) maxx=node.x;
+                if(miny>node.y) miny=node.y;
+                if(maxy<node.y) maxy=node.y;
+            }
+        }
+        var bb_lX=minx;
+        var bb_lY=maxy; // coordinate flip int the viewport y is showing down not up
+        var bb_tX=maxx;
+        var bb_tY=miny; // coordinate flip int the viewport y is showing down not up
+
+        var g_w=maxx-minx;
+        var g_h=maxy-miny;
+        // compute the center of the bounding box
+        var dirX=bb_tX-bb_lX;
+        var dirY=bb_tY-bb_lY;
+
+        var len=Math.sqrt(dirX*dirX+dirY*dirY);
+        var normedX=dirX/len;
+        var normedY=dirY/len;
+
+        var posX=bb_lX+0.5*len*normedX;
+        var posY=bb_lY+0.5*len*normedY;
+
+        var drawArea=that.parentWidget.getCanvasArea();
+        var w = drawArea.node().getBoundingClientRect().width;
+        var h= window.innerHeight;
+
+        var cx=0.5*w;
+        var cy=0.5*h;
+        var cp=getWorldPosFromScreen(cx,cy,that.translation,that.zoomFactor);
+        // zoom factor height vs width
+        var zH=h/g_h;
+        var zW=w/g_w;
+        var nZ=Math.min(zH,zW);
+        var ddx=posX-bb_lX;
+        var ddy=posY-bb_lY;
+        var cenLen=Math.sqrt(ddx*ddx+ddy*ddy);
+        var newZoomFactor=0.85*nZ; // simple heuristic
+
+        // failsafes
+        if (cenLen<0.0001){
+            newZoomFactor=2;
+        }
+        if (cenLen===0){// empty bounding box
+            newZoomFactor=2;
+        }
+
+        if (newZoomFactor>that.zoom.scaleExtent()[1]){
+            newZoomFactor=that.zoom.scaleExtent()[1];
+        }
+
+        if (that.nodeElementArray.length===1){
+            posX=that.nodeElementArray[0].x;
+            posY=that.nodeElementArray[0].y;
+            newZoomFactor=2;
+        }
+
+        // apply Zooming
+        var sP=[cp.x,cp.y,h/that.zoomFactor];
+        var eP=[posX,posY,h/newZoomFactor];
+        var pos_intp=d3.interpolateZoom(sP,eP);
+        var lenAnimation=pos_intp.duration;
+        if (lenAnimation>2500){
+            lenAnimation=2500;
+        }
+
+
+
+        that.graphRenderingSvg.attr("transform", transform(sP,cx,cy))
+            .transition()
+            .duration(lenAnimation)
+            .attrTween("transform", function() { return function(t) {
+                return transform(pos_intp(t),cx,cy); }; })
+            .each("end", function() {
+                that.graphRenderingSvg.attr("transform", "translate(" + that.translation + ")scale(" + that.zoomFactor + ")");
+                that.zoom.translate(that.translation);
+                that.zoom.scale(that.zoomFactor);
+
+            });
+
+    };
 
     this.forceRedrawContent=function(){
         that.clearRendering();
