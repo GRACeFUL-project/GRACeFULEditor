@@ -83,7 +83,11 @@ function GTGraph(){
     var forceNotZooming=false;
     var last_touch_time;
 
-
+    function bindTouch() {
+        that.svgElement.on("touchstart.zoom", touchzoomed);
+        d3.select("#locateButton").node().innerHTML="Bound TOUCH ZOOM";
+    }
+    bindTouch();
 
 
     function modified_dblTouchFunction(){
