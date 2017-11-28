@@ -91,6 +91,8 @@ function BaseDragger(graph) {
 
 
     this.updateElement=function(){
+        console.log("updating BaseDrager ELEMENT");
+
         that.rootElement.attr("transform", "translate(" + that.x + "," + that.y + ")");
         if (that.pathElement) {
             that.pathElement.attr("x1", 0)

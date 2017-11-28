@@ -3,22 +3,6 @@ function GTGraph(){
     BaseGraph.apply(this,arguments);
     var that=this;
     this.nodeTypeGraph=1;
-    // call the baseGraph init function
-    that.initializeGraph();
-
-
-    // this.initializeGraph=function(){
-    //
-    //     // modify to you needs
-    //     this.specialLayer= this.svgElement.append("g");
-    //     // setting the extent default(0.1,3)
-    //     //that.setZoomExtent(0.5,2);
-    //
-    //
-    //     // det a double click event if needed
-    //     //that.setDoubleClickEvent(that.dblClick);
-    // };
-    // have to overwrite this one
     this.draggerElementReleaseFunction=function(d){
         // overwrite if needed;
 
@@ -110,7 +94,6 @@ function GTGraph(){
             friendlyNode.setGlobalNodePtr(globalNode);
 
             // all node types are added to the sdf
-            console.log("creating sdf Node")
             var sfdWdiget=that.parentWidget.sfdGraphObj;
             globalNode.setVisibleInWidget(sfdWdiget,true);
             friendlyNode=sfdWdiget.createFriendlyNode();

@@ -81,9 +81,6 @@ function BaseGraph(parentWidget) {
         var eventString="";
         var svgGraph=that.graphRenderingSvg;
         var xy=d3.touches(svgGraph.node());
-
-        // setting the text of xy pos where double tabed
-        d3.select("#locateButton").node().innerHTML="["+xy[0][0]+" "+xy[0][1]+"]";
         // create a node at this position;
         that.dblClick(xy[0][0],xy[0][1]); // << this is where the magic happens!
     };
@@ -629,7 +626,6 @@ function BaseGraph(parentWidget) {
             that.parentWidget.redeliverResultToWidget();
 
          if (that.bindTouch){
-             console.log("forcing touch Bind");
              that.bindTouch();
          }
     };
@@ -698,9 +694,10 @@ function BaseGraph(parentWidget) {
     this.createDraggerElement=function(parentNode){
         // this should be cleared now;
         console.log("parent node calls createor of drager element");
-        this.draggerElement.setParentNode(parentNode);
-        this.draggerLayer.classed("hidden",false);
-        this.draggerElement.setAdditionalClassForDragger("draggerNode",false);
+        console.log("Do we have dragger Element? "+that.draggerElement);
+        that.draggerElement.setParentNode(parentNode);
+        that.draggerLayer.classed("hidden",false);
+        that.draggerElement.setAdditionalClassForDragger("draggerNode",false);
     };
 
     // this is for node dragger

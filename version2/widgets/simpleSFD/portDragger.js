@@ -16,6 +16,7 @@ function PortDragger(graph) {
         }
         this.y=that.parent.y;
         this.updateElement();
+        this.nodeElement.classed("hidden",false);
     };
 
     /** BASE HANDLING FUNCTIONS ------------------------------------------------- **/
