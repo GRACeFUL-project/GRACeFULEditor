@@ -170,10 +170,10 @@ function qGraph(parentWidget) {
         var totalStakeholders = that.completeQuestionnaire.length;
 
         header_crit.innerHTML="Criteria";
-        header_unit.innerHTML = "Unit"
+        // header_unit.innerHTML = "Unit";
 
         for(var i=0; i<totalStakeholders; i++) {
-            var header_sh = tablerow.insertCell(i+2);
+            var header_sh = tablerow.insertCell(i+1);
             header_sh.innerHTML = that.completeQuestionnaire[i].stakeholderName;
         }
 
@@ -189,10 +189,10 @@ function qGraph(parentWidget) {
 
             var cell_name = st_row.insertCell(0);
             cell_name.innerHTML=criteriaNodes[i].name;
-            var cell_unit = st_row.insertCell(1);
-            cell_unit.innerHTML = criteriaNodes[i].unit;
+            // var cell_unit = st_row.insertCell(1);
+            // cell_unit.innerHTML = criteriaNodes[i].unit;
             for(var j=0; j<totalStakeholders; j++) {
-                var cell_weight = st_row.insertCell(j+2);
+                var cell_weight = st_row.insertCell(j+1);
                 var criteriaStakeholders = that.completeQuestionnaire[j].criteria;
                 that.createWeightEntry(cell_weight,that.onWeightchange,criteriaStakeholders[i].weight,criteriaStakeholders[i]);
             }            
@@ -412,7 +412,7 @@ function qGraph(parentWidget) {
                 for(var j=0; j<crits.length; j++) {                    
                     //update weights
                     crits[j].weight = resultsData.criteria[j].weight;
-                    var this_cell = getWeighTable.rows[j+1].cells[i+2];
+                    var this_cell = getWeighTable.rows[j+1].cells[i+1];
                  //   console.log("WEIGHTS:"+crits[j].weight);
                     this_cell.childNodes[0].value = crits[j].weight;
 

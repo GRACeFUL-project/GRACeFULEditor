@@ -137,7 +137,7 @@ function qGraph(parentWidget) {
         // craete a table
         var table=document.createElement('table');
         d3.select(table).classed("mdl-data-table mdl-js-data-table mdl-shadow--0dp", true);
-        var percentage=100;
+        var percentage=50;
         d3.select(table).style("width",percentage+"%");
         d3.select(table).attr("id", tableId);
         // add table to div
@@ -149,12 +149,12 @@ function qGraph(parentWidget) {
 
         // create the header names;
         var header_crit= tablerow.insertCell(0);
-        var header_unit = tablerow.insertCell(1);        
-        var header_weightNum= tablerow.insertCell(2);
+        // var header_unit = tablerow.insertCell(1);        
+        var header_weightNum= tablerow.insertCell(1);
 
         header_crit.innerHTML="Criteria";
-        header_unit.innerHTML = "Unit"
-        header_weightNum.innerHTML="Weight";
+        // header_unit.innerHTML = "Unit"
+        header_weightNum.innerHTML="Importance";
 
         d3.select(tablerow).classed("headerTable",true);
 
@@ -167,9 +167,9 @@ function qGraph(parentWidget) {
 
             var cell_name = st_row.insertCell(0);
             cell_name.innerHTML=criteriaNodes[i].name;
-            var cell_unit = st_row.insertCell(1);
-            cell_unit.innerHTML = criteriaNodes[i].unit;
-            var cell_weight = st_row.insertCell(2);
+            // var cell_unit = st_row.insertCell(1);
+            // cell_unit.innerHTML = criteriaNodes[i].unit;
+            var cell_weight = st_row.insertCell(1);
             that.createLETableEntry(cell_weight,that.onLET_change,criteriaNodes[i].weight,criteriaNodes[i]);
         }
     };
