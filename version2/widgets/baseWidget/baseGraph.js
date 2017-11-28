@@ -196,11 +196,7 @@ function BaseGraph(parentWidget) {
 
         that.dblTap=that.svgElement.on("touchstart.zoom");
 
-        if (that.dblTap===undefined){
-            d3.select("#locateButton").node().innerHTML="NO TOUCH";
-        }else{
-            d3.select("#locateButton").node().innerHTML="TOCH";
-        }
+
         // add node drag behavior
         this.dragBehaviour = d3.behavior.drag()
             .origin(function (d) {
