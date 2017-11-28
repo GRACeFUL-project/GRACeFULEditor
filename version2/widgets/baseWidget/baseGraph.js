@@ -15,8 +15,7 @@ function BaseGraph(parentWidget) {
     this.translation=[0,0];
     this.minZoomFactor=0.1;
     this.maxZoomFactor=3;
-    this.dblTap=null;
-    this.forceNotZooming=false;
+
 
 
     this.prevSelectedNode=undefined;
@@ -39,7 +38,13 @@ function BaseGraph(parentWidget) {
     this.needUpdateRedraw=false;
     this.multipleNodes = [];
     this.idInNumber = 0;
+
+
+    // touch related things;
     this.originalD3_touchZoomFunction=undefined;
+    this.forceNotZooming=false;
+    this.touch_time;
+    this.last_touch_time;
 
     var that = this;
     // some state of graph functionality
@@ -56,6 +61,57 @@ function BaseGraph(parentWidget) {
           that.zoom.scaleExtent([that.minZoomFactor,that.maxZoomFactor])
       }
     };
+
+
+
+
+    this.bindTouch=function() {
+        // d3.select("#locateButton").node().innerHTML="Bound ZOOM";
+        that.originalD3_touchZoomFunction=that.svgElement.on("touchstart");
+        that.svgElement.on("touchstart", that.touchzoomed);
+
+
+
+    };
+
+
+    this.modified_dblTouchFunction=function(){
+        d3.event.stopPropagation();
+        d3.event.preventDefault();
+        var eventString="";
+        var svgGraph=that.graphRenderingSvg;
+        var xy=d3.touches(svgGraph.node());
+
+        // setting the text of xy pos where double tabed
+        d3.select("#locateButton").node().innerHTML="["+xy[0][0]+" "+xy[0][1]+"]";
+        // create a node at this position;
+        that.dblClick(xy[0][0],xy[0][1]); // << this is where the magic happens!
+    };
+
+
+    this.touchzoomed=function(){
+        console.log("TouchZoomed Called");
+        d3.select("#locateButton").node().innerHTML="Calling Touch Zoomed";
+        that.forceNotZooming=true;
+        var touch_time = d3.event.timeStamp;
+        if (touch_time-that.last_touch_time < 500 && d3.event.touches.length===1) {
+            d3.event.stopPropagation();
+            that.modified_dblTouchFunction();
+            d3.event.preventDefault();
+            d3.event.stopPropagation();
+            that.zoom.translate(that.translation);
+            that.zoom.scale(that.zoomFactor);
+            return;
+        }
+        that.forceNotZooming=false;
+        that.last_touch_time = touch_time;
+        that.zoom.translate(that.translation);
+        that.zoom.scale(that.zoomFactor);
+        // that.originalD3_touchZoomFunction();
+    };
+
+
+
 
     this.requestSaveDataAsJson=function(){
       // THIS SHOULD BE OVERWRITTEN BY ALL GRAPHS!
@@ -155,7 +211,9 @@ function BaseGraph(parentWidget) {
 
 
 
+
         that.addMouseEvents();
+
 
     };
 
@@ -172,6 +230,7 @@ function BaseGraph(parentWidget) {
     this.getD3Object=function(){
         return d3.behavior;
     };
+
 
 
 

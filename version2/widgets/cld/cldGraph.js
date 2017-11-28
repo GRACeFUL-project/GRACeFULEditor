@@ -19,7 +19,7 @@ function CLDGraph(){
     // call the baseGraph init function
     // that.initializeGraph();
     that.setZoomExtent(0.1,6);
-    this.dblClick=function(){
+    this.dblClick=function(px,py){
         var handler=that.parentWidget.getHandler();
         var globalNode=handler.createGlobalNode(that);
         globalNode.setNodeType(that,that.nodeTypeGraph,that.createNode(that));
@@ -27,9 +27,19 @@ function CLDGraph(){
         var repR=globalNode.filterInformation(that);
         repR.setGlobalNodePtr(globalNode);
 
-        var coordinatesRelativeToCanvasArea;
-        coordinatesRelativeToCanvasArea=d3.mouse(this);
-        var grPos=getScreenCoords(coordinatesRelativeToCanvasArea[0],coordinatesRelativeToCanvasArea[1],that.translation,that.zoomFactor);
+        var grPos={};
+        if (px!==undefined && py!==undefined) {
+            grPos.x = px;
+            grPos.y = py;
+        }else{
+            var coordinatesRelativeToCanvasArea;
+            coordinatesRelativeToCanvasArea=d3.mouse(this);
+            grPos=getScreenCoords(coordinatesRelativeToCanvasArea[0],coordinatesRelativeToCanvasArea[1],that.translation,that.zoomFactor);
+        }
+
+        // var coordinatesRelativeToCanvasArea;
+        // coordinatesRelativeToCanvasArea=d3.mouse(this);
+        // var grPos=getScreenCoords(coordinatesRelativeToCanvasArea[0],coordinatesRelativeToCanvasArea[1],that.translation,that.zoomFactor);
         globalNode.setNodePos(that,grPos);
 
         // if the selected thing is createria
@@ -369,7 +379,7 @@ function CLDGraph(){
         res.solverKey = sKey;
         res.solverResult = sRes;
         that.resultsTableData.push(res);
-    }
+    };
 
     this.addLinkFromJSON=function(jsonLink){
         var s_t =jsonLink.source_target;

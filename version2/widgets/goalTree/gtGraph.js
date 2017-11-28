@@ -80,60 +80,7 @@ function GTGraph(){
 
     };
 
-    var forceNotZooming=false;
-    var last_touch_time;
-    var originalD3_touchZoomFunction;
 
-    function touch() {
-        d3.select("#locateButton").node().innerHTML = "Calling Touch Function !";
-        d3.event.preventDefault();
-    }
-
-    this.bindTouch=function() {
-        // d3.select("#locateButton").node().innerHTML="Bound ZOOM";
-        that.originalD3_touchZoomFunction=that.svgElement.on("touchstart");
-            that.svgElement.on("touchstart", touchzoomed);
-
-
-
-    };
-    that.bindTouch();
-
-
-    function modified_dblTouchFunction(){
-        d3.event.stopPropagation();
-        d3.event.preventDefault();
-        var eventString="";
-        var svgGraph=that.graphRenderingSvg;
-        var xy=d3.touches(svgGraph.node());
-
-        // setting the text of xy pos where double tabed
-        d3.select("#locateButton").node().innerHTML="["+xy[0][0]+" "+xy[0][1]+"]";
-        // create a node at this position;
-
-        that.dblClick(xy[0][0],xy[0][1]);
-
-    }
-
-
-    function touchzoomed(){
-        console.log("TouchZoomed Called");
-        d3.select("#locateButton").node().innerHTML="Calling Touch Zoomed";
-        that.forceNotZooming=true;
-        var touch_time = d3.event.timeStamp;
-        if (touch_time-last_touch_time < 500 && d3.event.touches.length===1) {
-            d3.event.stopPropagation();
-            modified_dblTouchFunction();
-            d3.event.preventDefault();
-            d3.event.stopPropagation();
-            that.zoom.translate(that.translation);
-            that.zoom.scale(that.zoomFactor);
-            return;
-        }
-        that.forceNotZooming=false;
-        last_touch_time = touch_time;
-        // that.dblTap();
-    }
 
     this.dblClick=function(px,py){
         var handler=that.parentWidget.getHandler();
