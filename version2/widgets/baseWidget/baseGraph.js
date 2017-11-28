@@ -361,13 +361,14 @@ function BaseGraph(parentWidget) {
 
         if (that.forceNotZooming===true){
             //fix zoom event
+            console.log("This should not zoom anything!");
             that.zoom.translate(that.translation);
             that.zoom.scale(that.zoomFactor);
             // now you are allowd to to create a node;
             //     graph.modified_dblClickFunction();
             return;
         }
-
+        console.log("This zooms something");
         var zoomEventByMWheel=false;
         if (d3.event.sourceEvent) {
             if (d3.event.sourceEvent.deltaY)
@@ -567,6 +568,11 @@ function BaseGraph(parentWidget) {
         that.redrawGraphContent();
         if (that.parentWidget.redeliverResultToWidget)
             that.parentWidget.redeliverResultToWidget();
+
+         if (that.bindTouch){
+             console.log("forcing touch Bind");
+             that.bindTouch();
+         }
     };
 
 

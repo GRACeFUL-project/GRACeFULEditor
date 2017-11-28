@@ -89,63 +89,72 @@ function GTGraph(){
         d3.event.preventDefault();
     }
 
-    function bindTouch() {
-        d3.select("#locateButton").node().innerHTML="Bound TOUCHTEST3 ZOOM";
-        that.svgElement.on("touchstart", touch);
-        that.svgElement.on("touchmove", touch);
-        that.svgElement.on("touchend", touch);
-    }
-    bindTouch();
+    this.bindTouch=function() {
+        // d3.select("#locateButton").node().innerHTML="Bound ZOOM";
+        that.originalD3_touchZoomFunction=that.svgElement.on("touchstart");
+            that.svgElement.on("touchstart", touchzoomed);
+
+
+
+    };
+    that.bindTouch();
 
 
     function modified_dblTouchFunction(){
         d3.event.stopPropagation();
         d3.event.preventDefault();
         var eventString="";
-        var svgGraph=that.svgElement;
+        var svgGraph=that.graphRenderingSvg;
         var xy=d3.touches(svgGraph.node());
 
         // setting the text of xy pos where double tabed
-        // d3.select("#locateButton").node().innerHTML="["+xy[0][0]+" "+xy[0][1]+"]";
+        d3.select("#locateButton").node().innerHTML="["+xy[0][0]+" "+xy[0][1]+"]";
+        // create a node at this position;
+
+        that.dblClick(xy[0][0],xy[0][1]);
 
     }
 
-    function touchStart(){
-        d3.select("#locateButton").node().innerHTML="Touch Start Called";
-    }
+
     function touchzoomed(){
+        console.log("TouchZoomed Called");
         d3.select("#locateButton").node().innerHTML="Calling Touch Zoomed";
         that.forceNotZooming=true;
         var touch_time = d3.event.timeStamp;
         if (touch_time-last_touch_time < 500 && d3.event.touches.length===1) {
             d3.event.stopPropagation();
-                //graph.modified_dblClickFunction();
+            modified_dblTouchFunction();
             d3.event.preventDefault();
             d3.event.stopPropagation();
-            zoom.translate(that.translation);
-            zoom.scale(that.zoomFactor);
-            modified_dblTouchFunction();
+            that.zoom.translate(that.translation);
+            that.zoom.scale(that.zoomFactor);
             return;
         }
         that.forceNotZooming=false;
         last_touch_time = touch_time;
-        that.dblTap();
+        // that.dblTap();
     }
 
-    this.dblClick=function(){
+    this.dblClick=function(px,py){
         var handler=that.parentWidget.getHandler();
         var globalNode=handler.createGlobalNode(that);
-        console.log("Double Click in GT GRAPH With node type "+that.nodeTypeGraph);
         globalNode.setNodeType(that,that.nodeTypeGraph,that.createNode(that));
         handler.addGlobalNode(globalNode);
         var repR=globalNode.filterInformation(that);
         repR.setGlobalNodePtr(globalNode);
 
-        var coordinatesRelativeToCanvasArea;
-        coordinatesRelativeToCanvasArea=d3.mouse(this);
-        var grPos=getScreenCoords(coordinatesRelativeToCanvasArea[0],coordinatesRelativeToCanvasArea[1],that.translation,that.zoomFactor);
+        var grPos={};
+        if (px!==undefined && py!==undefined) {
+            grPos.x = px;
+            grPos.y = py;
+        }else{
+            var coordinatesRelativeToCanvasArea;
+            coordinatesRelativeToCanvasArea=d3.mouse(this);
+            grPos=getScreenCoords(coordinatesRelativeToCanvasArea[0],coordinatesRelativeToCanvasArea[1],that.translation,that.zoomFactor);
+        }
+
+
         globalNode.setNodePos(that,grPos);
-        console.log("waht is my type"+that.nodeTypeGraph);
         if (that.nodeTypeGraph===3){
             var friendlyWidget=that.parentWidget.cldGraphObj;
             globalNode.setVisibleInWidget(friendlyWidget,true);
