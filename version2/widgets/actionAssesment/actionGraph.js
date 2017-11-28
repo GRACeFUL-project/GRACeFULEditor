@@ -23,7 +23,10 @@ function actionGraph(parentWidget) {
     };
 
     this.activateGraph=function(val){
+
         if (val===true){
+
+            d3.select("#locateButton").classed("hidden",true);
             that.svgElement.classed("hidden",false);
         }
         else {

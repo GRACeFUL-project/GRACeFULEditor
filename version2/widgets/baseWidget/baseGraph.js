@@ -66,7 +66,7 @@ function BaseGraph(parentWidget) {
 
 
     this.bindTouch=function() {
-        // d3.select("#locateButton").node().innerHTML="Bound ZOOM";
+
         that.originalD3_touchZoomFunction=that.svgElement.on("touchstart");
         that.svgElement.on("touchstart", that.touchzoomed);
 
@@ -151,7 +151,9 @@ function BaseGraph(parentWidget) {
     };
 
     this.activateGraph=function(val){
+
         if (val===true){
+            d3.select("#locateButton").classed("hidden",false);
             this.svgElement.classed("hidden",false);
             console.log("A tab was Activated");
             that.forceRedrawContent();

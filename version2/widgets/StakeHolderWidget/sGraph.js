@@ -22,6 +22,7 @@ function qGraph(parentWidget) {
     this.activateGraph=function(val){
          console.log("A QGraph wants to be rendered "+ val);
         if (val===true){
+            d3.select("#locateButton").classed("hidden",true);
             that.svgElement.classed("hidden",false);
             console.log("activated draw are for qWidget");
             console.log(that.svgElement);
