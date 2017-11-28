@@ -89,19 +89,20 @@ function GTGraph(){
         originalD3_touchZoomFunction=that.svgElement.on("touchstart.zoom");
         that.svgElement.on("touchstart.zoom",touchzoomed);
         that.svgElement.on("touchstart",touchStart);
-        d3.select("#locateButton").node().innerHTML="Bound TOUCHTEST ZOOM";
+        d3.select("#locateButton").node().innerHTML="Bound TOUCHTEST2 ZOOM";
 
 
 
         this.color = d3.scale.category10();
         this.circle = that.svgElement.selectAll("circle.touch");
 
-        d3.select("body")
-            .on("touchstart", touch)
-            .on("touchmove", touch)
-            .on("touchend", touch);
+
+        that.svgElement.on("touchstart", touch);
+        that.svgElement.on("touchmove", touch);
+        that.svgElement.on("touchend", touch);
 
         function touch() {
+            d3.select("#locateButton").node().innerHTML="Calling Touch Function !";
             d3.event.preventDefault();
 
             that.circle = that.circle
