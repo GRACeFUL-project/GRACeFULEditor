@@ -80,6 +80,41 @@ function GTGraph(){
 
     };
 
+    var forceNotZooming=false;
+    var last_touch_time;
+
+
+
+
+    function modified_dblTouchFunction(){
+        d3.event.stopPropagation();
+        d3.event.preventDefault();
+        var eventString="";
+        var svgGraph=that.svgElement;
+        var xy=d3.touches(svgGraph.node());
+
+        // setting the text of xy pos where double tabed
+        d3.select("#locateButton").node().innerHTML="["+xy[0][0]+" "+xy[0][1]+"]";
+
+    }
+
+    function touchzoomed(){
+        that.forceNotZooming=true;
+        var touch_time = d3.event.timeStamp;
+        if (touch_time-last_touch_time < 500 && d3.event.touches.length===1) {
+            d3.event.stopPropagation();
+                //graph.modified_dblClickFunction();
+            d3.event.preventDefault();
+            d3.event.stopPropagation();
+            zoom.translate(that.translation);
+            zoom.scale(that.zoomFactor);
+            modified_dblTouchFunction();
+            return;
+        }
+        that.forceNotZooming=false;
+        last_touch_time = touch_time;
+        that.dblTap();
+    }
 
     this.dblClick=function(){
         var handler=that.parentWidget.getHandler();

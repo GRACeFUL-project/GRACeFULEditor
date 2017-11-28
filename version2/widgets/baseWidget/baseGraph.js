@@ -15,7 +15,8 @@ function BaseGraph(parentWidget) {
     this.translation=[0,0];
     this.minZoomFactor=0.1;
     this.maxZoomFactor=3;
-    this.last_touch_time;
+    this.dblTap=null;
+    this.forceNotZooming=false;
 
 
     this.prevSelectedNode=undefined;
@@ -172,31 +173,7 @@ function BaseGraph(parentWidget) {
         return d3.behavior;
     };
 
-    // hacking:
-    this.forceNotZooming=false;
 
-    this.touchzoomed=function(){
-        if (that.originalD3_touchZoomFunction)
-            that.originalD3_touchZoomFunction();
-        else return;
-        that.forceNotZooming=true;
-        if (d3.event === null ) return;
-        var touch_time = d3.event.timeStamp;
-
-        if (touch_time-that.last_touch_time < 500 && d3.event.touches.length===1) {
-            d3.event.stopPropagation();
-                d3.event.preventDefault();
-                that.zoom.translate(that.translation);
-                that.zoom.scale(that.zoomFactor);
-                that.dblClick("asTouch versiono");
-            return;
-        }
-
-        that.forceNotZooming=false;
-        that.last_touch_time = touch_time;
-        if (that.originalD3_touchZoomFunction)
-            that.originalD3_touchZoomFunction();
-    };
 
 
     this.addMouseEvents=function(){
@@ -217,9 +194,9 @@ function BaseGraph(parentWidget) {
             that.svgElement.on("dblclick.zoom",that.dblClick);
 
 
-        var dblTap=that.svgElement.on("touchstart");
+        that.dblTap=that.svgElement.on("touchstart.zoom");
 
-        if (dblTap===undefined){
+        if (that.dblTap===undefined){
             d3.select("#locateButton").node().innerHTML="NO TOUCH";
         }else{
             d3.select("#locateButton").node().innerHTML="TOCH";
@@ -386,6 +363,15 @@ function BaseGraph(parentWidget) {
         // that.zoomFactor=d3.event.scale;
         // that.translation=d3.event.translate;
 
+        if (that.forceNotZooming===true){
+            //fix zoom event
+            that.zoom.translate(that.translation);
+            that.zoom.scale(that.zoomFactor);
+            // now you are allowd to to create a node;
+            //     graph.modified_dblClickFunction();
+            return;
+        }
+
         var zoomEventByMWheel=false;
         if (d3.event.sourceEvent) {
             if (d3.event.sourceEvent.deltaY)
@@ -438,9 +424,6 @@ function BaseGraph(parentWidget) {
         that.draggerLayer.classed("hidden",true);
         that.draggerObjectsArray.push(that.draggerElement);
 
-        this.originalD3_touchZoomFunction=that.svgElement.on("touchstart");
-
-        that.nodeLayer.on("touchstart",that.touchzoomed());
     };
 
     this.createDraggerItem=function(parent){
