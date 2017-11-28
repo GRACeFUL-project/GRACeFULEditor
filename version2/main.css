@@ -1,4 +1,16 @@
 
+#locateButton{
+	box-sizing: border-box;
+	top: 10px;
+	color: #000000;
+	float:right;
+	position:absolute;
+	right:0;
+	padding:5px 10px;
+	border: 1px solid #000000;
+	background-color: #ecf0f1;
+	cursor: pointer;
+}
 
 .hidden {
 	display: none !important;

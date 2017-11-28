@@ -355,22 +355,13 @@ function SimpleSFDNode(graph,nodeDescriptions) {
 
     // owverwrite the onClick function
     this.onClicked=function(){
-        // console.log("single click: prevented by drag?"+d3.event.defaultPrevented);
-        if (d3.event.defaultPrevented) return;
-        //
-        // that.updateAssisiatedLinks();
-        // console.log("--------------------------number of assosiated links "+assosiatedLinks.length);
-
-
-
-        if (that.getNodeObjectType()===that.GRAPH_OBJECT_NODE) {
+      if (that.getNodeObjectType()===that.GRAPH_OBJECT_NODE) {
             graph.multipleNodes = [];
             if (that.nodeIsFocused === false) {
                 that.nodeIsFocused = true;
                 that.nodeElement.classed("focused", true);
                 graph.selectNode(that);
                 graph.createDraggerElement(that);
-                //       console.log("this node is focused?" + that.nodeIsFocused);
                 return;
             }
             if (that.nodeIsFocused === true) {

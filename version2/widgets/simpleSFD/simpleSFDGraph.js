@@ -49,7 +49,7 @@ function SimpleSFDGraph(){
 
 
     // overwrite the doublClick action
-    this.dblClick=function() {
+    this.dblClick=function(px,py) {
            that.deselectLastLink();
            that.deselectLastNode();
             // console.log(that.selectedOverlayId);
@@ -71,9 +71,18 @@ function SimpleSFDGraph(){
         var repR=globalNode.filterInformation(that);
         repR.setGlobalNodePtr(globalNode);
 
-        var coordinatesRelativeToCanvasArea;
-        coordinatesRelativeToCanvasArea=d3.mouse(this);
-        var grPos=getScreenCoords(coordinatesRelativeToCanvasArea[0],coordinatesRelativeToCanvasArea[1],that.translation,that.zoomFactor);
+        var grPos={};
+        if (px!==undefined && py!==undefined) {
+            grPos.x = px;
+            grPos.y = py;
+        }else{
+            var coordinatesRelativeToCanvasArea;
+            coordinatesRelativeToCanvasArea=d3.mouse(this);
+            grPos=getScreenCoords(coordinatesRelativeToCanvasArea[0],coordinatesRelativeToCanvasArea[1],that.translation,that.zoomFactor);
+        }
+        // var coordinatesRelativeToCanvasArea;
+        // coordinatesRelativeToCanvasArea=d3.mouse(this);
+        // var grPos=getScreenCoords(coordinatesRelativeToCanvasArea[0],coordinatesRelativeToCanvasArea[1],that.translation,that.zoomFactor);
         globalNode.setNodePos(that,grPos);
         globalNode.setGlobalName(inputClasses[that.selectedOverlayId].name);
         that.clearRendering();
@@ -1309,6 +1318,10 @@ function SimpleSFDGraph(){
     this.forceRedrawContent=function(){
         that.clearRendering();
         that.redrawGraphContent();
+        if (that.bindTouch){
+            console.log("forcing touch Bind");
+            that.bindTouch();
+        }
     };
 
     this.getTargetPort=function(position) {

@@ -344,6 +344,12 @@ var gHandlerObj=handler.create();
     };
 
     initializer.initializeWidgets();
+    d3.select("#locateButton").on("click",function(){
+        console.log("requesting relocation !");
+        gHandlerObj.forcedReloaction();
+
+
+    });
     cld.connectGt(gtw);
     // console.log("Initializing things");
     // console.log(gtw);

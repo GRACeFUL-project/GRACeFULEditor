@@ -15,7 +15,7 @@ function BaseGraph(parentWidget) {
     this.translation=[0,0];
     this.minZoomFactor=0.1;
     this.maxZoomFactor=3;
-    this.last_touch_time;
+
 
 
     this.prevSelectedNode=undefined;
@@ -38,7 +38,13 @@ function BaseGraph(parentWidget) {
     this.needUpdateRedraw=false;
     this.multipleNodes = [];
     this.idInNumber = 0;
+
+
+    // touch related things;
     this.originalD3_touchZoomFunction=undefined;
+    this.forceNotZooming=false;
+    this.touch_time;
+    this.last_touch_time;
 
     var that = this;
     // some state of graph functionality
@@ -55,6 +61,54 @@ function BaseGraph(parentWidget) {
           that.zoom.scaleExtent([that.minZoomFactor,that.maxZoomFactor])
       }
     };
+
+
+
+
+    this.bindTouch=function() {
+        // d3.select("#locateButton").node().innerHTML="Bound ZOOM";
+        that.originalD3_touchZoomFunction=that.svgElement.on("touchstart");
+        that.svgElement.on("touchstart", that.touchzoomed);
+
+
+
+    };
+
+
+    this.modified_dblTouchFunction=function(){
+        d3.event.stopPropagation();
+        d3.event.preventDefault();
+        var eventString="";
+        var svgGraph=that.graphRenderingSvg;
+        var xy=d3.touches(svgGraph.node());
+        // create a node at this position;
+        that.dblClick(xy[0][0],xy[0][1]); // << this is where the magic happens!
+    };
+
+
+    this.touchzoomed=function(){
+        // console.log("TouchZoomed Called");
+        // d3.select("#locateButton").node().innerHTML="Calling Touch Zoomed";
+        that.forceNotZooming=true;
+        var touch_time = d3.event.timeStamp;
+        if (touch_time-that.last_touch_time < 500 && d3.event.touches.length===1) {
+            d3.event.stopPropagation();
+            that.modified_dblTouchFunction();
+            d3.event.preventDefault();
+            d3.event.stopPropagation();
+            that.zoom.translate(that.translation);
+            that.zoom.scale(that.zoomFactor);
+            return;
+        }
+        that.forceNotZooming=false;
+        that.last_touch_time = touch_time;
+        that.zoom.translate(that.translation);
+        that.zoom.scale(that.zoomFactor);
+        // that.originalD3_touchZoomFunction();
+    };
+
+
+
 
     this.requestSaveDataAsJson=function(){
       // THIS SHOULD BE OVERWRITTEN BY ALL GRAPHS!
@@ -134,6 +188,8 @@ function BaseGraph(parentWidget) {
         // per default hidden
         that.svgElement.classed("hidden",true);
 
+        console.log("Calling BASE GRAPHH INITI");
+
         // layer generations;
 
         // generate the graph rendering layer
@@ -152,7 +208,9 @@ function BaseGraph(parentWidget) {
 
 
 
+
         that.addMouseEvents();
+
 
     };
 
@@ -170,31 +228,8 @@ function BaseGraph(parentWidget) {
         return d3.behavior;
     };
 
-    // hacking:
-    this.forceNotZooming=false;
 
-    this.touchzoomed=function(){
-        if (that.originalD3_touchZoomFunction)
-            that.originalD3_touchZoomFunction();
-        else return;
-        that.forceNotZooming=true;
-        if (d3.event === null ) return;
-        var touch_time = d3.event.timeStamp;
 
-        if (touch_time-that.last_touch_time < 500 && d3.event.touches.length===1) {
-            d3.event.stopPropagation();
-                d3.event.preventDefault();
-                that.zoom.translate(that.translation);
-                that.zoom.scale(that.zoomFactor);
-                that.dblClick("asTouch versiono");
-            return;
-        }
-
-        that.forceNotZooming=false;
-        that.last_touch_time = touch_time;
-        if (that.originalD3_touchZoomFunction)
-            that.originalD3_touchZoomFunction();
-    };
 
 
     this.addMouseEvents=function(){
@@ -213,6 +248,9 @@ function BaseGraph(parentWidget) {
         // add double click function;
         if (that.hasDoubleClickEvent===true)
             that.svgElement.on("dblclick.zoom",that.dblClick);
+
+
+        that.dblTap=that.svgElement.on("touchstart.zoom");
 
 
         // add node drag behavior
@@ -377,6 +415,16 @@ function BaseGraph(parentWidget) {
         // that.zoomFactor=d3.event.scale;
         // that.translation=d3.event.translate;
 
+        if (that.forceNotZooming===true){
+            //fix zoom event
+            console.log("This should not zoom anything!");
+            that.zoom.translate(that.translation);
+            that.zoom.scale(that.zoomFactor);
+            // now you are allowd to to create a node;
+            //     graph.modified_dblClickFunction();
+            return;
+        }
+        console.log("This zooms something");
         var zoomEventByMWheel=false;
         if (d3.event.sourceEvent) {
             if (d3.event.sourceEvent.deltaY)
@@ -429,9 +477,6 @@ function BaseGraph(parentWidget) {
         that.draggerLayer.classed("hidden",true);
         that.draggerObjectsArray.push(that.draggerElement);
 
-        this.originalD3_touchZoomFunction=that.svgElement.on("touchstart");
-
-        that.nodeLayer.on("touchstart",that.touchzoomed());
     };
 
     this.createDraggerItem=function(parent){
@@ -455,11 +500,134 @@ function BaseGraph(parentWidget) {
 
     // now add some node functionallity
 
+    function getWorldPosFromScreen(x,y,translate,scale){
+        var temp=scale[0];
+        var xn,yn;
+        if (temp) {
+            xn = (x - translate[0]) / temp;
+            yn = (y - translate[1]) / temp;
+        }else{
+            xn = (x - translate[0]) / scale;
+            yn = (y - translate[1]) / scale;
+        }
+        return {x: xn, y: yn};
+    }
+
+    function transform(p,cx,cy) {
+        var h= window.innerHeight;
+        // one iteration step for the lacate target animation
+        that.zoomFactor=h/ p[2];
+        that.translation=[(cx - p[0] * that.zoomFactor),(cy - p[1] * that.zoomFactor)];
+        // update the values in case the user wants to break the animation
+        that.zoom.translate(that.translation);
+        that.zoom.scale(that.zoomFactor);
+        return "translate(" + that.translation[0] + "," +  that.translation[1] + ")scale(" + that.zoomFactor + ")";
+    }
+
+    this.forceRelocationEvent=function(){
+        if (that.svgElement.classed("hidden")===true) return;
+        var minx=10000000000;
+        var miny=10000000000;
+        var maxx=-10000000000;
+        var maxy=-10000000000;
+        if (that.nodeElementArray.length===0){
+            return;
+        }
+        if (that.nodeElementArray.length>0) {
+            for (var i = 0; i < that.nodeElementArray.length; i++) {
+                var node = that.nodeElementArray[i];
+                if(minx>node.x) minx=node.x;
+                if(maxx<node.x) maxx=node.x;
+                if(miny>node.y) miny=node.y;
+                if(maxy<node.y) maxy=node.y;
+            }
+        }
+        var bb_lX=minx;
+        var bb_lY=maxy; // coordinate flip int the viewport y is showing down not up
+        var bb_tX=maxx;
+        var bb_tY=miny; // coordinate flip int the viewport y is showing down not up
+
+        var g_w=maxx-minx;
+        var g_h=maxy-miny;
+        // compute the center of the bounding box
+        var dirX=bb_tX-bb_lX;
+        var dirY=bb_tY-bb_lY;
+
+        var len=Math.sqrt(dirX*dirX+dirY*dirY);
+        var normedX=dirX/len;
+        var normedY=dirY/len;
+
+        var posX=bb_lX+0.5*len*normedX;
+        var posY=bb_lY+0.5*len*normedY;
+
+        var drawArea=that.parentWidget.getCanvasArea();
+        var w = drawArea.node().getBoundingClientRect().width;
+        var h= window.innerHeight;
+
+        var cx=0.5*w;
+        var cy=0.5*h;
+        var cp=getWorldPosFromScreen(cx,cy,that.translation,that.zoomFactor);
+        // zoom factor height vs width
+        var zH=h/g_h;
+        var zW=w/g_w;
+        var nZ=Math.min(zH,zW);
+        var ddx=posX-bb_lX;
+        var ddy=posY-bb_lY;
+        var cenLen=Math.sqrt(ddx*ddx+ddy*ddy);
+        var newZoomFactor=0.85*nZ; // simple heuristic
+
+        // failsafes
+        if (cenLen<0.0001){
+            newZoomFactor=2;
+        }
+        if (cenLen===0){// empty bounding box
+            newZoomFactor=2;
+        }
+
+        if (newZoomFactor>that.zoom.scaleExtent()[1]){
+            newZoomFactor=that.zoom.scaleExtent()[1];
+        }
+
+        if (that.nodeElementArray.length===1){
+            posX=that.nodeElementArray[0].x;
+            posY=that.nodeElementArray[0].y;
+            newZoomFactor=2;
+        }
+
+        // apply Zooming
+        var sP=[cp.x,cp.y,h/that.zoomFactor];
+        var eP=[posX,posY,h/newZoomFactor];
+        var pos_intp=d3.interpolateZoom(sP,eP);
+        var lenAnimation=pos_intp.duration;
+        if (lenAnimation>2500){
+            lenAnimation=2500;
+        }
+
+
+
+        that.graphRenderingSvg.attr("transform", transform(sP,cx,cy))
+            .transition()
+            .duration(lenAnimation)
+            .attrTween("transform", function() { return function(t) {
+                return transform(pos_intp(t),cx,cy); }; })
+            .each("end", function() {
+                that.graphRenderingSvg.attr("transform", "translate(" + that.translation + ")scale(" + that.zoomFactor + ")");
+                that.zoom.translate(that.translation);
+                that.zoom.scale(that.zoomFactor);
+
+            });
+
+    };
+
     this.forceRedrawContent=function(){
         that.clearRendering();
         that.redrawGraphContent();
         if (that.parentWidget.redeliverResultToWidget)
             that.parentWidget.redeliverResultToWidget();
+
+         if (that.bindTouch){
+             that.bindTouch();
+         }
     };
 
 
@@ -526,9 +694,10 @@ function BaseGraph(parentWidget) {
     this.createDraggerElement=function(parentNode){
         // this should be cleared now;
         console.log("parent node calls createor of drager element");
-        this.draggerElement.setParentNode(parentNode);
-        this.draggerLayer.classed("hidden",false);
-        this.draggerElement.setAdditionalClassForDragger("draggerNode",false);
+        console.log("Do we have dragger Element? "+that.draggerElement);
+        that.draggerElement.setParentNode(parentNode);
+        that.draggerLayer.classed("hidden",false);
+        that.draggerElement.setAdditionalClassForDragger("draggerNode",false);
     };
 
     // this is for node dragger
