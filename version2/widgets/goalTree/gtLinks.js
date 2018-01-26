@@ -96,8 +96,8 @@ function GTLink(graph) {
         wX*=-1.0*signX;
         wY*=-1.0*signY;
 
-        var friendX =eX +qdx*wX;
-        var friendY =eY +qdy*wY;
+        var friendX =eX;
+        var friendY =eY;
 
         var fixPoint1 = {"x": start.x, "y": start.y},
             fixPoint2 = {"x": friendX,    "y": friendY};
@@ -138,7 +138,7 @@ function GTLink(graph) {
             .attr("x2", controlPoints[1].x)
             .attr("y2", controlPoints[1].y);
 
-        addArrowHead();
+        // addArrowHead();
         that.addMouseEvents();
 
         if (that.getLinkTypus()===100){
