@@ -21,8 +21,8 @@ Fraunhofer IAIS has mainly worked on T3.3 and T3.4 of the VISUALIZATION & INTERA
 This resulted in one deliverable which was handed in on time:
 * D3.3 VA EDA Tool Prototype (RAT components)
 
-The source code of the Graceful Visual Editor is available under the [link] (https://github.com/GRACeFUL-project/GRACeFULEditor/). 
-The tool demo is available online under the [link] (http://vocol.iais.fraunhofer.de/graceful-rat/static/index.html)
+The source code of the Graceful Visual Editor is available under the [link](https://github.com/GRACeFUL-project/GRACeFULEditor/). 
+The tool demo is available online under the [link](http://vocol.iais.fraunhofer.de/graceful-rat/static/index.html)
 
 ## Progress beyond state of the art
 
