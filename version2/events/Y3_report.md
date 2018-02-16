@@ -29,15 +29,15 @@ A tool demo is available online running on a [demo server](http://vocol.iais.fra
 
 The visual editing approach that has been developed in WP3 integrates a number of innovative visualization and interaction methods that advance beyond the state of the art. In particular, it can be run on different computing devices and is designed to allow for touch interaction. These and other advancements of the state of the art are described in detail in a paper we submitted to ESWC 2018 in January (listed below as Paper B). 
 
-Based on the visual editing approach, we developed a novel form of semantic zooming for ontology graph visualizatations that is described in detail in a paper that was presented at K-CAP 2017 (listed below as Paper A).
+Based on the visual editing approach, we developed a novel form of semantic zooming for ontology graph visualizations that is described in detail in a paper that was presented at K-CAP 2017 (listed below as Paper A).
 
 ## Problems and issues encountered
 
-Due to changes of the organizational structure and reassignments of staff at Fraunhofer IAIS at the beginning of the third project year, the activities and developments in WP3 were behind schedule. With the allocation of additional personnel and resources, this delay could be compensated in the turn of the third project year.
+Due to changes of the organizational structure and reassignments of staff at Fraunhofer IAIS at the beginning of the third project year, the activities and developments in WP3 were behind schedule. With the allocation of additional personnel and resources, this delay was compensated in the turn of the third project year.
 
 ## Justification for delays
 
-We had some delays at the beginning of the third project year due to an organizational restructuring and staff changes at Fraunhofer IAIS (see above). However, this delay could be compensated in the turn of the third project year with the allocation of additional personnel and resources.
+We had some delays at the beginning of the third project year due to an organizational restructuring and staff changes at Fraunhofer IAIS (see above). However, this delay was compensated in the turn of the third project year with the allocation of additional personnel and resources.
 
 ## Organizational issues
 
