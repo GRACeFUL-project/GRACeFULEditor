@@ -67,7 +67,7 @@ Title: Semantic Zooming for Ontology Graph Visualizations
 
 Authors: Vitalis Wiens, Steffen Lohmann, Sören Auer
 
-Published in: Proceedings of the Knowledge Capture Conference (K-CAP 2017)
+Published in: Proceedings of the Knowledge Capture Conference (K-CAP 2017) [PDF](http://steffen-lohmann.de/publications/2017_K-CAP_Semantic_Zooming.pdf)
 
 "This work has been supported by European Union’s Horizon 2020 research and innovation programme (H2020 FET) to Fraunhofer IAIS for the GRACeFUL project under grant agreement no. 640954."
 
