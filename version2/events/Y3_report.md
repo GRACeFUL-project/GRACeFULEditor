@@ -53,4 +53,24 @@ The tool demo is available online running on a [demo server](http://vocol.iais.f
 
 ## Publications
 
+Semantic Zooming for Ontology Graph Visualizations
+Authors: Vitalis Wiens, Steffen Lohmann, Sören Auer
 
+Published in: Proceedings of the Knowledge Capture Conference (K-CAP 2017)
+
+"This work has been supported by European Union’s Horizon 2020 research and innovation programme (H2020 FET) to Fraunhofer IAIS for the GRACeFUL project under grant agreement no. 640954."
+
+```
+@inproceedings{DBLP:conf/kcap/WiensLA17,
+  author    = {Vitalis Wiens and
+               Steffen Lohmann and
+               S{\"{o}}ren Auer},
+  title     = {Semantic Zooming for Ontology Graph Visualizations},
+  booktitle = {Proceedings of the Knowledge Capture Conference, {K-CAP} 2017},
+  pages     = {4:1--4:8},
+  publisher = {{ACM}},
+  year      = {2017},
+  url       = {http://doi.acm.org/10.1145/3148011.3148015},
+  doi       = {10.1145/3148011.3148015},
+}
+```
