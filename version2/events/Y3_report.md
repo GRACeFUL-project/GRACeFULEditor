@@ -23,9 +23,13 @@ This resulted in one deliverable which was handed in on time:
 * D3.3 VA EDA Tool Prototype (RAT components)
 
 The source code of the Graceful Visual Editor is available on [GitHub](https://github.com/GRACeFUL-project/GRACeFULEditor/). 
-The tool demo is available online running on a [demo server](http://vocol.iais.fraunhofer.de/graceful-rat/static/index.html)
+A tool demo is available online running on a [demo server](http://vocol.iais.fraunhofer.de/graceful-rat/static/index.html) of Fraunhofer IAIS.
 
 ## Progress beyond state of the art
+
+The visual editing approach that has been developed in WP3 integrates a number of innovative visualization and interaction methods that advance beyond the state of the art. In particular, it can be run on different computing devices and is designed to allow for touch interaction. These and other advancements of the state of the art are described in detail in a paper we submitted to ESWC 2018 in January (listed below as Paper B). 
+
+Based on the visual editing approach, we developed a novel form of semantic zooming for ontology graph visualizatations that is described in detail in a paper that was presented at K-CAP 2017 (listed below as Paper A).
 
 ## Problems and issues encountered
 
@@ -53,7 +57,10 @@ The tool demo is available online running on a [demo server](http://vocol.iais.f
 
 ## Publications
 
-Semantic Zooming for Ontology Graph Visualizations
+### Paper A:
+
+Title: Semantic Zooming for Ontology Graph Visualizations
+
 Authors: Vitalis Wiens, Steffen Lohmann, Sören Auer
 
 Published in: Proceedings of the Knowledge Capture Conference (K-CAP 2017)
@@ -74,3 +81,13 @@ Published in: Proceedings of the Knowledge Capture Conference (K-CAP 2017)
   doi       = {10.1145/3148011.3148015},
 }
 ```
+
+### Paper B:
+
+Title: Device-Independent Visual Ontology Modeling
+
+Authors: Vitalis Wiens, Steffen Lohmann, Sören Auer
+
+Submitted to: 15th Extended Semantic Web Conference (ESWC 2018)
+
+"This work has partly been funded by the EU project GRACeFUL (grant no. 640954) as well as a scholarship from the German National Library of Science and Technology (TIB)."
