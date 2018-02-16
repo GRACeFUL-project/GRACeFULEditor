@@ -33,7 +33,11 @@ Based on the visual editing approach, we developed a novel form of semantic zoom
 
 ## Problems and issues encountered
 
+Due to changes of the organizational structure and reassignments of staff at Fraunhofer IAIS at the beginning of the third project year, the activities and developments in WP3 were behind schedule. With the allocation of additional personnel and resources, this delay could be compensated in the turn of the third project year.
+
 ## Justification for delays
+
+We had some delays at the beginning of the third project year due to an organizational restructuring and staff changes at Fraunhofer IAIS (see above). However, this delay could be compensated in the turn of the third project year with the allocation of additional personnel and resources.
 
 ## Organizational issues
 
