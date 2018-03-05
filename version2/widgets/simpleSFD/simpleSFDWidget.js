@@ -64,8 +64,6 @@ function SimpleSFDWidget(){
 
     this.loadLibrary=function(jsonData, invalidLibFormat){
         var jsonObj=JSON.parse(jsonData);
-        console.log("Hosadu library: ");
-        console.log(jsonObj);
         var obj={};
         obj.name="FULL GCM MODEL";
         obj.library=[]; // array of objects
