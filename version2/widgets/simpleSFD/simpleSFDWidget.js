@@ -64,6 +64,8 @@ function SimpleSFDWidget(){
 
     this.loadLibrary=function(jsonData, invalidLibFormat){
         var jsonObj=JSON.parse(jsonData);
+        console.log("Hosadu library: ");
+        console.log(jsonObj);
         var obj={};
         obj.name="FULL GCM MODEL";
         obj.library=[]; // array of objects
@@ -81,15 +83,24 @@ function SimpleSFDWidget(){
                         currentElement.interface[x].incomingType=currentElement.interface[x].incomingType.toUpperCase();
                     if (currentElement.interface[x].outgoingType)
                         currentElement.interface[x].outgoingType=currentElement.interface[x].outgoingType.toUpperCase();
-
-
                 }
             }
 
             // console.log ('----------------------');
             // console.log(currentElement);
-            if (currentElement.layer === "problem" && currentElement.name!=="stakeholder")
+            if(currentElement.name === "quantify") {
+                currentElement.imgURL="./data/img/quantify.png";
+                for(var m=0; m<currentElement.interface.length; m++) {
+                    if(currentElement.interface[m].incomingType === "SINGLE")
+                        currentElement.interface[m].imgURL = "./data/interfaces/incoming.png";
+                    if(currentElement.interface[m].outgoingType === "SINGLE")
+                        currentElement.interface[m].imgURL = "./data/interfaces/outgoing.png";
+                }
+            }
+
+            if (currentElement.layer === "problem" && currentElement.name!=="stakeholder" && currentElement.name !== "quantify") {
                 continue;
+            }
 
             if (currentElement.name==="stakeholder" && currentElement.imgURL==="/dev/null"){
                 // pathching the image
